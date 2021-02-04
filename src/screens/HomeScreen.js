@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   actualAddress: {
-    fontWeight: "100",
+    fontWeight: "300",
   },
   learnMore: {
     textAlign: "center",

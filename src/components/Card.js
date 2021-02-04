@@ -23,14 +23,19 @@ export default function Card({
     <View style={styles.container}>
       <View style={styles.cardImage}>
         <Image source={imgUrl} style={{ width: "100%", height: "100%" }} />
-        <Text style={styles.category}>{category}</Text>
+        <View style={styles.category}>
+          <Text>{category}</Text>
+        </View>
       </View>
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <Text>From {from}</Text>
         <Text style={styles.desc}>{desc}</Text>
-        <TouchableOpacity onPress={() => Alert.alert( propziImpact )}>
-          <Text style={styles.propziImpact}>
+        <TouchableOpacity
+          onPress={() => Alert.alert(propziImpact)}
+          style={styles.propziImpact}
+        >
+          <Text>
             Propzi Impact:
             <Text style={styles.propziImpactInner}> {propziImpact}</Text>
           </Text>
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
   propziImpact: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 60,
     width: "60%",

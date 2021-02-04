@@ -23,8 +23,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   logo: {
-    width: "100%",
-    height: 30,
-    aspectRatio: 4 / 2,
+    width: 56,
+    height: 33,
+    // padding:40,
+    // aspectRatio: 4 / 2,
+    // borderWidth:2,
   },
 });
