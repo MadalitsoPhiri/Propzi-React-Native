@@ -7,18 +7,18 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import Header from "../components/Header";
-import Card from "../components/HomeCard";
+import Card from "../components/Card";
+import HomeCard from "../components/HomeCard";
 import Button from "../components/Button";
 import SmallCard from "../components/SmallCard";
 import { colors } from "../styles";
+import tryImage from "../../assets/propzi-img/tryImg.jpg";
 
 export default function Home() {
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView>
         <View>
-          <Header />
           <View style={styles.todayContainer}>
             <Text style={styles.today}>Today</Text>
             <Text style={styles.date}>3 Feb 2021</Text>
@@ -27,7 +27,7 @@ export default function Home() {
               45,Briston,Hurontario,Pell,Mississauga
             </Text>
           </View>
-          <Card />
+          <HomeCard />
           <Button title={"See Your Report"} />
           <TouchableOpacity>
             <Text style={styles.learnMore}>
@@ -37,9 +37,41 @@ export default function Home() {
           <View>
             <Text style={styles.homeHeading}>From the marketplace</Text>
             <View style={styles.smallCardContainer}>
-              <SmallCard color={colors.PRIMARY_COLOR} title={'Home Insurance'} />
-              <SmallCard color={colors.WARNING_COLOR} title={'LandLord Insurance'}/>
+              <SmallCard
+                color={colors.PRIMARY_COLOR}
+                title={"Home Insurance"}
+              />
+              <SmallCard
+                color={colors.WARNING_COLOR}
+                title={"LandLord Insurance"}
+              />
             </View>
+          </View>
+
+          <Card
+            imgUrl={tryImage}
+            from={"Town of Ajax"}
+            desc={
+              "Plans for a public Chocolate Fountain have been approved for 2022"
+            }
+            title={"Public Chocolate Fountain"}
+            category={"Local Economics"}
+            propziImpact={"$12.00"}
+          />
+
+          <Card
+            imgUrl={tryImage}
+            from={"Town of Ajax"}
+            desc={
+              "Plans for a public Chocolate Fountain have been approved for 2022"
+            }
+            title={"Public Chocolate Fountain"}
+            category={"Local Economics"}
+            propziImpact={"$12"}
+          />
+          <View style={styles.homeOffers}>
+            <Text style={styles.homeHeading}>Your home finance offers</Text>
+            <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
           </View>
         </View>
       </SafeAreaView>
@@ -83,13 +115,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  homeHeading:{
-    fontSize:21,
-    fontWeight:'bold'
+  homeHeading: {
+    fontSize: 21,
+    fontWeight: "bold",
   },
-  smallCardContainer:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    marginTop:20
-  }
+  smallCardContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+
+  homeOffers: {
+    marginBottom: 400,
+  },
+
+  homeSubHeading: {
+    fontSize: 17,
+    fontWeight: "600",
+    color: colors.PRIMARY_COLOR,
+  },
 });

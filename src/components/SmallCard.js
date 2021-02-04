@@ -1,11 +1,13 @@
 import React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
 // TODO:// Configure the title
 export default function SmallCard({ image, color, title }) {
   return (
-    <View style={[styles.container, { backgroundColor: color }]}>
-      <Image source={image} style={styles.image} />
+    <View style={{}}>
+      <TouchableOpacity style={[styles.container, { backgroundColor: color }]}>
+        <Image source={image} style={styles.image} />
+      </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
     </View>
   );
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     height: 85,
-    width: "48%",
+    width: 177,
   },
   image: {
     aspectRatio: 3 / 3,
@@ -27,6 +29,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 15,
-    marginTop:0,
+    marginTop: 10,
   },
 });
