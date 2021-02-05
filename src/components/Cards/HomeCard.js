@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import homeIcon from "../../assets/propzi-img/home.png";
+import homeIcon from "../../../assets/propzi-img/home.png";
 
 export default function HomeCard() {
   return (

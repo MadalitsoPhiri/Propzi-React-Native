@@ -2,10 +2,21 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { colors } from "../styles";
 
-export default function Button({ title, onPress }) {
+export default function Button({
+  title,
+  onPress,
+  width,
+  marginTop,
+  borderRadius,
+}) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.btnContainer}>
-      <View style={styles.btn}>
+      <View
+        style={[
+          styles.btn,
+          { width: width, marginTop: marginTop, borderRadius: borderRadius },
+        ]}
+      >
         <Text style={styles.btnText}>{title}</Text>
       </View>
     </TouchableOpacity>
@@ -18,11 +29,9 @@ const styles = StyleSheet.create({
   },
 
   btn: {
-    paddingVertical: 13,
+    paddingVertical: 15,
     paddingHorizontal: 30,
     backgroundColor: colors.PRIMARY_COLOR,
-    borderRadius: 25,
-    width: "90%",
   },
 
   btnText: {

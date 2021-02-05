@@ -10,7 +10,7 @@ import GlobalCard from "../components/Cards/GlobalCard";
 import HomeCard from "../components/Cards/HomeCard";
 import Button from "../components/Button";
 import SmallCard from "../components/Cards/SmallCard";
-import { colors } from "../styles";
+import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
 
 export default function Home() {
@@ -25,13 +25,20 @@ export default function Home() {
             45,Briston,Hurontario,Pell,Mississauga
           </Text>
         </View>
+
         <HomeCard />
-        <Button title={"See Your Report"} />
+        <Button
+          title={"See Your Report"}
+          width={btnSize.LARGE_WIDTH}
+          borderRadius={20}
+        />
+
         <TouchableOpacity>
           <Text style={styles.learnMore}>
             Learn more about your propzi price
           </Text>
         </TouchableOpacity>
+
         <View>
           <Text style={styles.homeHeading}>From the marketplace</Text>
           <View style={styles.smallCardContainer}>
@@ -68,7 +75,6 @@ export default function Home() {
         <View style={styles.homeOffers}>
           <Text style={styles.homeHeading}>Your home finance offers</Text>
           <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
-          
         </View>
       </View>
     </ScrollView>

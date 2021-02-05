@@ -3,13 +3,17 @@ import React from "react";
 import { SafeAreaView, StyleSheet, View, Platform } from "react-native";
 import Header from "./src/components/Header";
 import HomeScreen from "./src/screens/HomeScreen";
+import NotFoundHome from "./src/screens/NotFoundHome";
+import SearchHome from "./src/screens/SearchHome";
 
 export default function App() {
   return (
     <SafeAreaView style={{ backgroundColor: "#f9f9f9" }}>
       <View style={styles.container}>
         <Header />
-        <HomeScreen />
+        {/* <HomeScreen /> */}
+        {/* <NotFoundHome /> */}
+        <SearchHome />
       </View>
     </SafeAreaView>
   );
@@ -17,8 +21,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Platform.OS == "android" ? 25 : 0,
-    width: "90%",
+    // flex: 1,
+    height: "100%",
+    paddingVertical: Platform.OS == "android" ? 25 : 0,
+    width: "91%",
     marginLeft: "auto",
     marginRight: "auto",
   },
