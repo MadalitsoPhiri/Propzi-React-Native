@@ -8,10 +8,10 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { colors } from "../styles";
+import { colors } from "../../styles";
 import PropTypes from "prop-types";
 
-export default function Card({
+export default function GlobalCard({
   imgUrl,
   category,
   title,
