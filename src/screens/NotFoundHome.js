@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import SearchInput from "../components/Input";
 import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
+import { EvilIcons } from "@expo/vector-icons";
 
 export default function NotFoundHome() {
   return (
     <View style={{ marginTop: 30 }}>
-      <SearchInput />
+      <SearchInput placeholder={"Search Address..."} searchIcon={<EvilIcons name="search" size={30} color={colors.BORDER_COLOR} />} />
       <Text style={styles.title}>Home Details</Text>
 
       <View style={styles.tabContainer}>

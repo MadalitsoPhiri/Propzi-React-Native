@@ -5,6 +5,7 @@ import Header from "./src/components/Header";
 import HomeScreen from "./src/screens/HomeScreen";
 import NotFoundHome from "./src/screens/NotFoundHome";
 import SearchHome from "./src/screens/SearchHome";
+import ManualAddHome from "./src/screens/ManualAddHome";
 
 export default function App() {
   return (
@@ -12,8 +13,9 @@ export default function App() {
       <View style={styles.container}>
         <Header />
         {/* <HomeScreen /> */}
-        {/* <NotFoundHome /> */}
-        <SearchHome />
+        <NotFoundHome />
+        {/* <SearchHome /> */}
+        {/* <ManualAddHome /> */}
       </View>
     </SafeAreaView>
   );

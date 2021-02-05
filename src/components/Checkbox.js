@@ -8,15 +8,10 @@ import {
 } from "react-native";
 import { colors } from "../styles";
 
-export default function Input({ width, placeholder, searchIcon }) {
+export default function Checkbox({ width, Icon }) {
   return (
     <View style={[styles.input, { width: width }]}>
-      <TextInput
-        autoCompleteType={"street-address"}
-        placeholder={placeholder}
-        autoCorrect={true}
-      />
-      <TouchableOpacity style={styles.icon}>{searchIcon}</TouchableOpacity>
+      <TouchableOpacity style={styles.icon}>{Icon}</TouchableOpacity>
     </View>
   );
 }
@@ -25,13 +20,9 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: colors.BORDER_COLOR,
-    padding: 16,
+    padding: 11,
     borderRadius: 5,
     backgroundColor: colors.LIGHT_COLOR,
-  },
-  icon: {
-    position: "absolute",
-    right: 10,
-    bottom: "90%",
+    alignItems: "center",
   },
 });
