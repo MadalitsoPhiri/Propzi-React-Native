@@ -21,7 +21,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    paddingVertical: Platform.OS == "android" ? 25 : 0,
+    paddingTop: Platform.OS == "android" ? 25 : 0,
   },
 
   logo: {
