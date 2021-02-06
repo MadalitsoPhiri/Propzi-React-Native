@@ -15,6 +15,11 @@ export default function Input({ width, placeholder, searchIcon }) {
         autoCompleteType={"street-address"}
         placeholder={placeholder}
         autoCorrect={true}
+        style={{
+          fontSize: 17,
+          fontWeight: "500",
+          color: colors.SECONDARY_COLOR,
+        }}
       />
       <TouchableOpacity style={styles.icon}>{searchIcon}</TouchableOpacity>
     </View>
@@ -25,7 +30,8 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: colors.BORDER_COLOR,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
     borderRadius: 5,
     backgroundColor: colors.LIGHT_COLOR,
   },

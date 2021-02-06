@@ -10,7 +10,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function ManualAddHome() {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={{ flexDirection: "row", flex: 1, marginBottom: 10 }}>
         <View style={{ flex: 1 }}>
           <Text style={styles.title}>Unit/Suite</Text>
@@ -314,7 +314,7 @@ export default function ManualAddHome() {
         <Button
           title={"Book a Propzi Visit"}
           borderRadius={5}
-          width={btnSize.MEDIUM_WIDTH}
+          width={btnSize.LARGE_WIDTH}
         />
       </View>
     </ScrollView>
@@ -322,8 +322,14 @@ export default function ManualAddHome() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
   title: {
-    fontSize: 17,
+    fontSize: 15,
     marginBottom: 10,
     marginTop: 10,
     fontWeight: "500",

@@ -13,9 +13,10 @@ import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
 
-export default function Home() {
+export default function HomeScreen({ navigation }) {
+  console.warn(navigation);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
         <View style={styles.todayContainer}>
           <Text style={styles.today}>Today</Text>
@@ -30,7 +31,7 @@ export default function Home() {
         <Button
           title={"See Your Report"}
           width={btnSize.LARGE_WIDTH}
-          borderRadius={20}
+          borderRadius={50}
         />
 
         <TouchableOpacity>
@@ -83,14 +84,10 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "row",
-    marginTop: 20,
-    backgroundColor: "#999",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 20,
+    flex: 1,
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   todayContainer: {
     marginTop: 20,

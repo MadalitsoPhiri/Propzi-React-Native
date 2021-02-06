@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity,Platform } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 
 // TODO:// Configure the title
 export default function SmallCard({ image, color, title }) {
@@ -12,7 +19,7 @@ export default function SmallCard({ image, color, title }) {
     </View>
   );
 }
-
+// TODO:// Add responsiveness to small card
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
@@ -20,7 +27,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     height: 85,
-    width: Platform.OS =='ios'? 160:177,
+    width: Platform.OS == "ios" ? 160 : 177,
   },
 
   image: {

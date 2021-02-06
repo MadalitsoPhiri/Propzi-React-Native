@@ -52,8 +52,7 @@ const propTypes = {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f3f3f3",
-    marginTop: 30,
-    marginBottom: 40,
+    marginTop: 50,
     height: 400,
     borderRadius: 10,
     overflow: "hidden",
