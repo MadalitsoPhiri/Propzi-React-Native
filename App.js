@@ -3,6 +3,7 @@ import React from "react";
 import { SafeAreaView, StyleSheet, View, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import TabNavigator from "./src/utils/navigation/TabNavigator";
+import DrawerNavigator from "./src/utils/navigation/DrawerNavigator";
 
 // TODO://Refactor Navigation Setup
 export default function App() {

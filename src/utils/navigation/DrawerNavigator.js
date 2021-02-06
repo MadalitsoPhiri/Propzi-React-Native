@@ -1,16 +1,9 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "../../screens/HomeScreen";
-import {
-  MainStackNavigation,
-  OffersStackNavigation,
-  ReportStackNavigation,
-} from "./StackNavigator";
-import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../../styles";
-
-const Tabs = createBottomTabNavigator();
+import { OffersStackNavigator } from "./StackNavigator";
+import TabNavigator from "./TabNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,17 +11,9 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={TabNavigator} />
-      <Drawer.Screen name="Contact" component={ContactStackNavigator} />
+      <Drawer.Screen name="Offers" component={OffersStackNavigator} />
     </Drawer.Navigator>
   );
-}
-
-
-const styles = StyleSheet.create({
-  logo: {
-    width: 56,
-    height: 33,
-  },
-});
+};
 
 export default DrawerNavigator;
