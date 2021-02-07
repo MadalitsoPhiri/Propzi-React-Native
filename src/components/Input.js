@@ -1,20 +1,21 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import { colors } from "../styles";
 
-export default function Input({ width, placeholder, searchIcon }) {
+export default function Input({ width, placeholder, searchIcon, onChangeText,value }) {
   return (
     <View style={[styles.input, { width: width }]}>
       <TextInput
         autoCompleteType={"street-address"}
         placeholder={placeholder}
         autoCorrect={true}
+        onChangeText={onChangeText}
+        value={value}
         style={{
           fontSize: 17,
           fontWeight: "500",
@@ -38,6 +39,6 @@ const styles = StyleSheet.create({
   icon: {
     position: "absolute",
     right: 10,
-    bottom: "90%",
+    bottom: "75%",
   },
 });

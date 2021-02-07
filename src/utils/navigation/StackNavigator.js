@@ -4,6 +4,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../../screens/HomeScreen";
+import ManualAddHomeScreen from "../../screens/ManualAddHomeScreen";
+import SearchHomeScreen from "../../screens/SearchHomeScreen";
+import NotFoundHomeScreen from "../../screens/NotFoundHomeScreen";
 import ReportScreen from "../../screens/ReportScreen";
 import OffersScreen from "../../screens/OffersScreen";
 
@@ -17,7 +20,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={HomeScreen}
+        component={SearchHomeScreen}
         options={{
           headerTitle: () => <Text></Text>,
           headerRight: () => (
