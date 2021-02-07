@@ -14,7 +14,6 @@ import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
 
 export default function HomeScreen({ navigation }) {
-  console.warn(navigation);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
@@ -32,6 +31,7 @@ export default function HomeScreen({ navigation }) {
           title={"See Your Report"}
           width={btnSize.LARGE_WIDTH}
           borderRadius={50}
+          onPress={() => navigation.navigate("Report")}
         />
 
         <TouchableOpacity>
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   smallCardContainer: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
 
   homeOffers: {
     marginBottom: 400,
+    marginTop: 30,
   },
 
   homeSubHeading: {

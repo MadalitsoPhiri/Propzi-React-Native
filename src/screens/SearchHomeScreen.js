@@ -7,10 +7,10 @@ import SearchInput from "../components/Input";
 import { colors } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
 
-export default function SearchHome({ nagivation }) {
+export default function SearchHomeScreen({ navigation }) {
   const [state, setState] = useState("");
   const [address, setAddress] = useState([]);
-  console.warn(nagivation);
+
   const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
   const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${state}&countryFilter=CA`;
 
@@ -52,7 +52,6 @@ export default function SearchHome({ nagivation }) {
 
       const response = await address.json();
       data = response;
-      console.log(data.listings.length);
 
       if (data.listings.length == 0) {
         const address = await fetch(
@@ -62,7 +61,6 @@ export default function SearchHome({ nagivation }) {
 
         const response = await address.json();
         data = response;
-        console.log(data.listings.length, "000");
       } else if (data.listings.length == 0) {
         const address = await fetch(ACHEIVED_LISTING_URL, REPLIERS_OPTIONS);
 
@@ -70,10 +68,10 @@ export default function SearchHome({ nagivation }) {
         data = response;
       }
     } catch (error) {
-      console.warn(error.message);
+      console.log(error.message);
     }
 
-    return data;
+    return navigation.navigate("Report", { data: "data" });
   };
 
   useEffect(() => {
@@ -87,7 +85,11 @@ export default function SearchHome({ nagivation }) {
   }, [END_POINT]);
 
   const renderItem = ({ item }) => (
-    <DropDownCard title={item.preview.address} onPress={handlePress} />
+    <DropDownCard
+      title={item.preview.address}
+      key={item.preview.address}
+      onPress={handlePress}
+    />
   );
 
   return (

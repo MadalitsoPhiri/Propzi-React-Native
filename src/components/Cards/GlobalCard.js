@@ -51,7 +51,7 @@ const propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f3f3f3",
+    backgroundColor: colors.LIGHT_COLOR,
     marginTop: 50,
     height: 400,
     borderRadius: 10,

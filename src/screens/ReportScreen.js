@@ -2,7 +2,9 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { colors } from "../styles";
 
-export default function ReportScreen() {
+export default function ReportScreen({ route, navigation }) {
+  // const { data } = route.params;
+  // console.warn(route);
   return (
     <View style={styles.container}>
       <Text>ReportScreen</Text>

@@ -5,10 +5,16 @@ import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
 
-export default function NotFoundHome() {
+export default function NotFoundHomeScreen({ nagivation }) {
+  console.warn(nagivation);
   return (
-    <View style={{ marginTop: 30 }}>
-      <SearchInput placeholder={"Search Address..."} searchIcon={<EvilIcons name="search" size={30} color={colors.BORDER_COLOR} />} />
+    <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
+      <SearchInput
+        placeholder={"Search Address..."}
+        searchIcon={
+          <EvilIcons name="search" size={30} color={colors.BORDER_COLOR} />
+        }
+      />
       <Text style={styles.title}>Home Details</Text>
 
       <View style={styles.tabContainer}>
@@ -32,12 +38,13 @@ export default function NotFoundHome() {
           If you're not able to find your home please continue below
         </Text>
       </View>
+
       <View>
         <Button
           title={"Add Your Home"}
           borderRadius={6}
           width={btnSize.MEDIUM_WIDTH}
-          marginTop={20}
+          marginTop={30}
         />
       </View>
     </View>
@@ -51,12 +58,15 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "90%",
   },
+
   tabs: {
     borderRadius: 30,
     overflow: "hidden",
     backgroundColor: colors.SECONDARY_COLOR,
   },
+
   text: {
     fontSize: 16,
     fontWeight: "600",

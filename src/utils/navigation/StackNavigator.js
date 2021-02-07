@@ -20,14 +20,14 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={SearchHomeScreen}
+        component={HomeScreen}
         options={{
           headerTitle: () => <Text></Text>,
           headerRight: () => (
             <TouchableOpacity>
               <FontAwesome5
                 name="bars"
-                size={27}
+                size={25}
                 color={colors.SECONDARY_COLOR}
               />
             </TouchableOpacity>

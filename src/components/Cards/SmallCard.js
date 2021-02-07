@@ -6,8 +6,9 @@ import {
   Text,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from "react-native";
-
+// const { height, width } = Dimensions.get(window);
 // TODO:// Configure the title
 export default function SmallCard({ image, color, title }) {
   return (
@@ -26,8 +27,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     borderRadius: 10,
-    height: 85,
-    width: Platform.OS == "ios" ? 160 : 177,
+    height: 95,
+    width: Platform.OS == "ios" ? 180 : 177,
   },
 
   image: {
