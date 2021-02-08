@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 
 import DropDownCard from "../components/Cards/DropDownCard";
 import SearchInput from "../components/Input";
@@ -12,8 +12,9 @@ import NotFoundHomeScreen from "../screens/NotFoundHomeScreen";
 export default function SearchHomeScreen({ navigation }) {
   const [state, setState] = useState("");
   const [address, setAddress] = useState([]);
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const [hasData, setHasData] = useState(false);
+  const [LoadingFlatList, setLoadingFlatList] = useState(false);
 
   const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
   const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${state}&countryFilter=CA`;
@@ -32,6 +33,9 @@ export default function SearchHomeScreen({ navigation }) {
 
   const handleChange = (e) => {
     setState(e);
+    if (data) {
+      setLoadingFlatList(true);
+    }
   };
 
   // TODO://Query repliers
@@ -116,18 +120,14 @@ export default function SearchHomeScreen({ navigation }) {
       {hasData ? (
         <PropertyConfirmationScreen data={data} />
       ) : (
-        <NotFoundHomeScreen />
-      )}
-
-      {hasData ? (
-        ""
-      ) : (
+        // <Text>I am Here</Text>
         <FlatList
           data={address}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           key={(item) => item.id}
         />
+        // <NotFoundHomeScreen />
       )}
     </View>
   );

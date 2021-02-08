@@ -9,6 +9,7 @@ import SearchHomeScreen from "../../screens/SearchHomeScreen";
 import NotFoundHomeScreen from "../../screens/NotFoundHomeScreen";
 import ReportScreen from "../../screens/ReportScreen";
 import OffersScreen from "../../screens/OffersScreen";
+import PropertyConfirmationScreen from "../../screens/PropertyConfirmationScreen";
 import SignUpScreen from "../../screens/SignUpScreen";
 
 import logo from "../../../assets/propzi-img/propzi-logo.webp";
@@ -21,7 +22,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={SignUpScreen}
+        component={ManualAddHomeScreen}
         options={{
           headerTitle: () => <Text></Text>,
           headerRight: () => (
@@ -45,6 +46,34 @@ const MainStackNavigator = () => {
             paddingHorizontal: 20,
           },
         }}
+      />
+
+      <Stack.Screen
+        name="Confirmation"
+        component={PropertyConfirmationScreen}
+        // options={{
+        //   headerTitle: () => <Text></Text>,
+        //   headerRight: () => (
+        //     <TouchableOpacity>
+        //       <FontAwesome5
+        //         name="bars"
+        //         size={25}
+        //         color={colors.SECONDARY_COLOR}
+        //       />
+        //     </TouchableOpacity>
+        //   ),
+        //   headerLeft: () => (
+        //     <View>
+        //       <Image source={logo} style={styles.logo} />
+        //     </View>
+        //   ),
+        //   headerLeftContainerStyle: {
+        //     paddingHorizontal: 20,
+        //   },
+        //   headerRightContainerStyle: {
+        //     paddingHorizontal: 20,
+        //   },
+        // }}
       />
     </Stack.Navigator>
   );

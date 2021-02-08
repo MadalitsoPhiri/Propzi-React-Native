@@ -6,7 +6,6 @@ import { colors, btnSize } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
 
 export default function NotFoundHomeScreen({ navigation }) {
-  console.warn(navigation);
   return (
     <View style={styles.container}>
       {/* <Text style={styles.title}>Home Details</Text> */}
