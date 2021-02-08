@@ -5,18 +5,12 @@ import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
 
-export default function NotFoundHomeScreen({ nagivation }) {
-  console.warn(nagivation);
+export default function NotFoundHomeScreen({ navigation }) {
+  console.warn(navigation);
   return (
-    <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
-      <SearchInput
-        placeholder={"Search Address..."}
-        searchIcon={
-          <EvilIcons name="search" size={30} color={colors.BORDER_COLOR} />
-        }
-      />
-      <Text style={styles.title}>Home Details</Text>
-
+    <View style={styles.container}>
+      {/* <Text style={styles.title}>Home Details</Text> */}
+      {/* 
       <View style={styles.tabContainer}>
         <TouchableOpacity style={styles.tabs}>
           <Text style={styles.text}>MLS</Text>
@@ -27,10 +21,10 @@ export default function NotFoundHomeScreen({ nagivation }) {
         <TouchableOpacity style={styles.tabs}>
           <Text style={styles.text}>Propzi</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View style={{ alignItems: "center" }}>
-        <Text style={[styles.title, { fontSize: 26 }]}>
+        <Text style={[styles.title, { fontSize: 26, textAlign: "center" }]}>
           Oops! We can't find your home
         </Text>
 
@@ -53,12 +47,13 @@ export default function NotFoundHomeScreen({ nagivation }) {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    justifyContent: "center",
+    height: "85%",
   },
+
   tabContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "90%",
   },
 
   tabs: {
@@ -75,6 +70,7 @@ const styles = StyleSheet.create({
     width: "100%",
     color: colors.WHITE_COLOR,
   },
+
   title: {
     fontSize: 28,
     marginBottom: 20,

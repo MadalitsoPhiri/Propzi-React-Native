@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 
 import DropDownCard from "../components/Cards/DropDownCard";
 import SearchInput from "../components/Input";
 
 import { colors } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
+import PropertyConfirmationScreen from "../screens/PropertyConfirmationScreen";
+import NotFoundHomeScreen from "../screens/NotFoundHomeScreen";
 
 export default function SearchHomeScreen({ navigation }) {
   const [state, setState] = useState("");
   const [address, setAddress] = useState([]);
+  const [data, setData] = useState({});
+  const [hasData, setHasData] = useState(false);
 
   const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
   const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${state}&countryFilter=CA`;
@@ -32,7 +36,6 @@ export default function SearchHomeScreen({ navigation }) {
 
   // TODO://Query repliers
   const handlePress = async (e) => {
-    let data;
     const postGridAddress = e._dispatchInstances.memoizedProps.children[0].props.children.props.children.toLowerCase();
     const streetName = postGridAddress.split(" ");
     const streetNumber = postGridAddress.split(" ");
@@ -51,7 +54,11 @@ export default function SearchHomeScreen({ navigation }) {
       );
 
       const response = await address.json();
-      data = response;
+
+      if (response.count > 0) {
+        setData(response.listings[0]);
+        setHasData(true);
+      }
 
       if (data.listings.length == 0) {
         const address = await fetch(
@@ -60,18 +67,22 @@ export default function SearchHomeScreen({ navigation }) {
         );
 
         const response = await address.json();
-        data = response;
+        if (response.count > 0) {
+          setData(response.listings[0]);
+          setHasData(true);
+        }
       } else if (data.listings.length == 0) {
         const address = await fetch(ACHEIVED_LISTING_URL, REPLIERS_OPTIONS);
 
         const response = await address.json();
-        data = response;
+        if (response.count > 0) {
+          setData(response.listings[0]);
+          setHasData(true);
+        }
       }
     } catch (error) {
       console.log(error.message);
     }
-
-    return navigation.navigate("Report", { data: "data" });
   };
 
   useEffect(() => {
@@ -99,14 +110,25 @@ export default function SearchHomeScreen({ navigation }) {
         value={state}
         placeholder={"Search Address..."}
         searchIcon={
-          <EvilIcons name="search" size={30} color={colors.BORDER_COLOR} />
+          <EvilIcons name="search" size={30} color={colors.SECONDARY_COLOR} />
         }
       />
-      <FlatList
-        data={address}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      {hasData ? (
+        <PropertyConfirmationScreen data={data} />
+      ) : (
+        <NotFoundHomeScreen />
+      )}
+
+      {hasData ? (
+        ""
+      ) : (
+        <FlatList
+          data={address}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          key={(item) => item.id}
+        />
+      )}
     </View>
   );
 }

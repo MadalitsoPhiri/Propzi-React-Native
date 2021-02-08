@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { colors } from "../../styles";
 
-export default function DropDownCard({ title,onPress }) {
+export default function DropDownCard({ title, onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.cardContainer}>

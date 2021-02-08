@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     height: 95,
-    width: Platform.OS == "ios" ? 180 : 177,
+    width: Platform.OS == "ios" ? 160 : 177,
   },
 
   image: {

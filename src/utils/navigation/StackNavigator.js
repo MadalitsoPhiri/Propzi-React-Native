@@ -9,6 +9,7 @@ import SearchHomeScreen from "../../screens/SearchHomeScreen";
 import NotFoundHomeScreen from "../../screens/NotFoundHomeScreen";
 import ReportScreen from "../../screens/ReportScreen";
 import OffersScreen from "../../screens/OffersScreen";
+import SignUpScreen from "../../screens/SignUpScreen";
 
 import logo from "../../../assets/propzi-img/propzi-logo.webp";
 import { colors } from "../../styles";
@@ -20,7 +21,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={HomeScreen}
+        component={SignUpScreen}
         options={{
           headerTitle: () => <Text></Text>,
           headerRight: () => (

@@ -40,15 +40,13 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-        <View>
-          <Text style={styles.homeHeading}>From the marketplace</Text>
-          <View style={styles.smallCardContainer}>
-            <SmallCard color={colors.PRIMARY_COLOR} title={"Home Insurance"} />
-            <SmallCard
-              color={colors.WARNING_COLOR}
-              title={"LandLord Insurance"}
-            />
-          </View>
+        <Text style={styles.homeHeading}>From the marketplace</Text>
+        <View style={styles.smallCardContainer}>
+          <SmallCard color={colors.PRIMARY_COLOR} title={"Home Insurance"} />
+          <SmallCard
+            color={colors.WARNING_COLOR}
+            title={"LandLord Insurance"}
+          />
         </View>
 
         <GlobalCard
@@ -114,10 +112,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+
   homeHeading: {
     fontSize: 21,
     fontWeight: "bold",
+    marginTop: 30,
   },
+
   smallCardContainer: {
     flex: 1,
     flexDirection: "row",
@@ -127,7 +128,6 @@ const styles = StyleSheet.create({
 
   homeOffers: {
     marginBottom: 400,
-    marginTop: 30,
   },
 
   homeSubHeading: {
