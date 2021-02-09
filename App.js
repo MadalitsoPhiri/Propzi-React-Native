@@ -38,19 +38,23 @@ export default function App() {
 
   return isFirstLaunch ? (
     <Intro setAppLaunched={isFirstLaunch} />
-  ) : isLoggedIn ? (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <NavigationContainer>
-          <TabNavigator />
-        </NavigationContainer>
-      </View>
-    </SafeAreaView>
   ) : (
-    <SafeAreaView>
-      <LoginScreen setLoggedIn={setLoggedIn} />
-    </SafeAreaView>
+    <Intro setAppLaunched={isFirstLaunch} />
   );
+
+  // ) : isLoggedIn ? (
+  //   <SafeAreaView>
+  //     <View style={styles.container}>
+  //       <NavigationContainer>
+  //         <TabNavigator />
+  //       </NavigationContainer>
+  //     </View>
+  //   </SafeAreaView>
+  // ) : (
+  //   <SafeAreaView>
+  //     <LoginScreen setLoggedIn={setLoggedIn} />
+  //   </SafeAreaView>
+  // );
 }
 
 const styles = StyleSheet.create({

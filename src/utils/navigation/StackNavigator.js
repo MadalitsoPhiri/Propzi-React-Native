@@ -54,8 +54,8 @@ const MainStackNavigator = () => {
         component={PropertyConfirmationScreen}
       />
       <Stack.Screen name="Intro" component={Intro} />
-      <Stack.Screen name="LOGIN" component={LoginScreen} />
-      <Stack.Screen name="SIGNUP" component={SignUpScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Signup" component={SignUpScreen} />
     </Stack.Navigator>
   );
 };
