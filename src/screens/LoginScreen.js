@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   Text,
   TouchableOpacity,
   ScrollView,
@@ -10,16 +9,34 @@ import {
 import AuthInput from "../components/AuthInput";
 import Button from "../components/Button";
 import { btnSize, colors } from "../styles";
+import { dbh, firebase } from "../../firebase";
 
 // TODO:// Configure the title
-export default function SignUpScreen() {
-  const [fullName, setFullName] = useState("");
+export default function LoginScreen({ setLoggedIn }) {
   const [email, setEmail] = useState("");
-  const [phoneNumber, setphoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
 
-  const handleOnFullNameChange = () => {};
+  const handleOnEmailChange = (e) => {
+    setEmail(e.toLowerCase());
+    console.log(e);
+  };
+
+  const handleOnPasswordChange = (e) => {
+    setPassword(e.toLowerCase());
+    console.log(e);
+  };
+
+  const handleLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        (user) => {
+          setLoggedIn(true);
+        },
+        (err) => console.log(err)
+      );
+  };
 
   return (
     <ScrollView style={styles.authContainer}>
@@ -39,40 +56,37 @@ export default function SignUpScreen() {
           marginVertical: 15,
         }}
       ></View>
-      <Text style={styles.title}>Sign Up</Text>
-      <View>
-        <Text style={styles.label}>Full name</Text>
-        <AuthInput value={fullName} onChangeText={handleOnFullNameChange} />
-      </View>
-      <View>
-        <Text style={styles.label}>Phone Number</Text>
-        <AuthInput value={phoneNumber} />
-      </View>
+      <Text style={styles.title}>Log In</Text>
+
       <View>
         <Text style={styles.label}>Email Address</Text>
-        <AuthInput value={email} />
+        <AuthInput value={email} onChangeText={handleOnEmailChange} />
       </View>
       <View>
-        <Text style={styles.label}>Create Password</Text>
-        <AuthInput value={password} />
-      </View>
-      <View>
-        <Text style={styles.label}>Confirm Passowrd</Text>
-        <AuthInput value={confirmPassword} />
+        <Text style={styles.label}>Password</Text>
+        <AuthInput value={password} onChangeText={handleOnPasswordChange} />
       </View>
       <View style={styles.authBtn}>
-        <Button title={"Create"} borderRadius={6} width={btnSize.SMALL_WIDTH} />
+        <Button
+          onPress={handleLogin}
+          title={"Login"}
+          borderRadius={6}
+          width={btnSize.SMALL_WIDTH}
+        />
       </View>
       <View style={{ alignItems: "center" }}>
         <Text>Already have an account?</Text>
-        <Text
-          style={{
-            color: colors.PRIMARY_COLOR,
-            marginVertical: 13,
-          }}
-        >
-          Login
-        </Text>
+        <TouchableOpacity onPress={() => firebase.auth().signOut()}>
+          <Text
+            style={{
+              color: colors.PRIMARY_COLOR,
+              marginVertical: 13,
+            }}
+          >
+            SignOut
+          </Text>
+        </TouchableOpacity>
+
         <Text style={{ textAlign: "center", color: colors.SECONDARY_COLOR }}>
           By clicking on "Create account" you agree to Propzi's Teams of
           Service,Including the Privacy Policy
