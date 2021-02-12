@@ -6,8 +6,12 @@ import {
   OffersStackNavigator,
   ReportStackNavigator,
 } from "./StackNavigator";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 import { colors } from "../../styles";
+
+import FileIcon from "../../../assets/file-alt-regular.svg"
+import HomeIcon from "../../../assets/home-solid.svg"
+import CartIcon from "../../../assets/shopping-cart-solid.svg"
 
 const Tabs = createBottomTabNavigator();
 
@@ -23,15 +27,14 @@ const TabNavigator = () => {
           let iconName;
 
           if (route.name === "Home") {
-            iconName = "ios-home-outline";
+            return (<HomeIcon width={size.width} height={size.height}/>);
           } else if (route.name === "Report") {
-            iconName = "ios-document-outline";
+            return (<FileIcon width={size.width} height={size.height}/>);
           } else if (route.name === "Offers") {
-            iconName = "ios-pricetag-outline";
+            return (<CartIcon width={size.width} height={size.height}/>);
           }
 
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return null;
         },
       })}
     >

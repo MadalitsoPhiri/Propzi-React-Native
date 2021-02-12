@@ -17,7 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "com.propzi.propzi-mobile-app",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.520048464069-fp3fgl8lfp7b1q9unqiq94cugv74km72"
+        }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {

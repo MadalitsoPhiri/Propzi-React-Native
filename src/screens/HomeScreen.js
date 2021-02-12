@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
+import {firebase} from "../../firebase";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -24,6 +25,9 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.actualAddress}>
             45,Briston,Hurontario,Pell,Mississauga
           </Text>
+          <Button title="Logout" onPress={() =>{
+               firebase.auth().signOut();
+          }}></Button>
         </View>
 
         <HomeCard />

@@ -1,6 +1,9 @@
 import React from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import { colors } from "../styles";
+import { Ionicons } from '@expo/vector-icons';
+
+
 
 export default function Input({
   width,
@@ -22,7 +25,7 @@ export default function Input({
           color: colors.SECONDARY_COLOR,
         }}
       />
-      <TouchableOpacity style={styles.icon}>{authIcon}</TouchableOpacity>
+      
     </View>
   );
 }
@@ -30,11 +33,13 @@ export default function Input({
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderColor: colors.BORDER_COLOR,
+    borderColor: "#BDBDBD",
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderRadius: 5,
     backgroundColor: colors.LIGHT_COLOR,
+    flexDirection:"row",
+    alignItems: "center",
   },
   icon: {
     position: "absolute",

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext,AsyncStorage}from "react";
 import {
   View,
   StyleSheet,
@@ -11,6 +11,7 @@ import {
   Image,
 } from "react-native";
 import Slide from "../components/Slide";
+import {AuthContext} from "../components/AuthProvider";
 
 const styles = StyleSheet.create({
   container: {
@@ -76,6 +77,8 @@ const slides = [
 var scrollX;
 
 export default function Intro({ navigation }) {
+
+  const {isFirstLaunch, setisFirstLaunch} = useContext(AuthContext)
   scrollX = new Animated.Value(0);
   let position = Animated.divide(scrollX, width);
   return (
@@ -143,7 +146,7 @@ export default function Intro({ navigation }) {
         </View>
         <View style={{ marginTop: "10%" }}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("SIGNUP")}
+            onPress={() => { setisFirstLaunch(false)}}
             style={{ padding: 5 }}
           >
             <View style={styles.btnContainer}>
@@ -161,7 +164,9 @@ export default function Intro({ navigation }) {
           >
             <Text style={{ fontSize: 16 }}>Already a member?</Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate("LOGIN")}
+              onPress={() => {
+                setisFirstLaunch(false)
+              }}
               style={{ padding: 5 }}
             >
               <Text
