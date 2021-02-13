@@ -11,18 +11,19 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import AuthInput from "../components/AuthInput";
-import { firebase } from "../../firebase";
+import { firebase,dbh} from "../../firebase";
 import GoogleIcon from "../../assets/google-icon.svg"
 import EmailIcon from "../../assets/envelope-regular.svg"
 import LockIcon from "../../assets/lock-solid.svg"
 import { useFonts } from 'expo-font';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { Ionicons } from '@expo/vector-icons';
-import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-google-app-auth';
 
 
 const {width,height} = Dimensions.get("window")
+
+var provider = new firebase.auth.GoogleAuthProvider();
 
 // TODO:// Configure the title
 export default function LoginScreen({navigation}) {
@@ -33,11 +34,66 @@ export default function LoginScreen({navigation}) {
   const [Error,setError] = useState(null)
   const [isHidden, setHidden] = useState(true)
 
-
-  
-
-
  
+  
+  signInWithGoogleAsync = async()=> {
+    setLoading(true)
+    try {
+      const result = await Google.logInAsync({
+        // androidClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
+        iosClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
+        scopes: ['profile', 'email'],
+      });
+  
+      if (result.type === 'success') {
+
+        var cred = firebase.auth.GoogleAuthProvider.credential(result);
+
+        firebase.auth().signInWithCredential(cred).then((credential)=>{
+            //User Succsessfully signed in
+            dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
+    if (docSnapshot.size == 0) {
+      dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
+        fullName:credential.user.displayName,phone:credential.user.phoneNumber,email:credential.user.email,clientIsMobile:true
+    }).then((obj)=>{
+        
+    },(err)=>{
+   setLoading(false)
+   setError(err)
+    })
+    
+    }
+
+  });
+
+
+        }).catch((error) => {
+          setLoading(false)
+          setError(error)
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
+
+        return result.accessToken;
+      } else {
+        setLoading(false)
+        return { cancelled: true };
+        
+      }
+    } catch (e) {
+      setLoading(false)
+      setError(e)
+      return { error: true };
+    }
+  }
+
+
 
 
 
@@ -188,7 +244,7 @@ export default function LoginScreen({navigation}) {
         
         {/* For the google sing in */}
         <View style={{justifyContent: 'center',alignItems: 'center',marginBottom:"5%",marginTop:"5%"}}>
-        <TouchableOpacity style={{justifyContent:"center",height:height* 0.1,alignItems: 'center'}}>
+        <TouchableOpacity style={{justifyContent:"center",height:height* 0.1,alignItems: 'center'}} onPress={signInWithGoogleAsync}>
       <GoogleIcon height={height* 0.08} width={width*0.1} />
       <Text style={{color:"#4F4F4F",}}>Sign in with Google</Text>
       </TouchableOpacity>
@@ -204,7 +260,7 @@ export default function LoginScreen({navigation}) {
       style={{ width: "80%", height: 44 }}
       onPress={async () => {
         try {
-          const credential = await AppleAuthentication.signInAsync({
+          const cred = await AppleAuthentication.signInAsync({
             requestedScopes: [
               AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
               AppleAuthentication.AppleAuthenticationScope.EMAIL,
@@ -212,13 +268,38 @@ export default function LoginScreen({navigation}) {
           });
           // signed in
           setLoading(true)
-          firebase.auth().signInWithCredential(credential).then((user)=>{
-              // signed in
-          },(err)=>{
-            //handle firebase Error
-            setLoading(false)
-            setError(err)
-          })
+
+          
+          firebase.auth().signInWithCredential(cred).then((credential)=>{
+            //User Succsessfully signed in
+            dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
+    if (docSnapshot.size == 0) {
+      dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
+        fullName:credential.user.displayName,phone:credential.user.phoneNumber,email:credential.user.email,clientIsMobile:true
+    }).then((obj)=>{
+        
+    },(err)=>{
+   setLoading(false)
+   setError(err)
+    })
+    
+    }
+
+  });
+
+
+        }).catch((error) => {
+          setLoading(false)
+          setError(error)
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
         } catch (e) {
           if (e.code === 'ERR_CANCELED') {
             // handle that the user canceled the sign-in flow

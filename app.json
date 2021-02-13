@@ -19,7 +19,8 @@
     "ios": {
       "supportsTablet": true,
       "usesAppleSignIn": true,
-      "bundleIdentifier": "com.propzi.propzi-mobile-app",
+      "bundleIdentifier": "propzi.com.Propzi-Mobile-App",
+      "buildNumber": "1.0.5",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.520048464069-fp3fgl8lfp7b1q9unqiq94cugv74km72"
@@ -28,10 +29,14 @@
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
+
+      "package": "propzi.com.PropziMobileApp",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
+     
     },
     "web": {
       "favicon": "./assets/favicon.png"

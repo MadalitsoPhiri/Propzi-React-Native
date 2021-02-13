@@ -1,14 +1,12 @@
 import React,{useState,useEffect,useContext} from 'react';
-
-import {NavigationContainer} from "@react-navigation/native"
-
-import {ActivityIndicator,View,AsyncStorage} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {ActivityIndicator,View} from "react-native";
 import {AuthContext} from "./AuthProvider";
 import {firebase} from "../../firebase";
 import AuthStack from "../screens/AuthStack.js"
 import MainAppStack from "../screens/MainAppStack.js";
-import checkIfFirstLaunch from "../utils/navigation/checkFirstRun.js"
-import Intro from "../screens/Intro.js"
+import checkIfFirstLaunch from "../utils/navigation/checkFirstRun.js";
+import IntroStack from "../screens/IntroStack";
 
 
 
@@ -21,14 +19,9 @@ export const Routes = () => {
     const {user,setUser} = useContext(AuthContext)
 const [isFirstLaunch, setisFirstLaunch] = useState(false);
   
-  const [hasCheckedAsyncStorage, sethasCheckedAsyncStorage] = useState(false);
   
-  const check = async () => {
-    const checked = await checkIfFirstLaunch();
-    sethasCheckedAsyncStorage(true);
-    setisFirstLaunch(checked);
-  };
-   
+  
+
 
 
    
@@ -44,8 +37,17 @@ const [isFirstLaunch, setisFirstLaunch] = useState(false);
             setUser(null)
              
           }
-          
-          setLoading(false)
+    //       const hasLaunched = AsyncStorage.getItem("hasLaunched");
+    //      if (hasLaunched === null) {
+    //  setisFirstLaunch(true)
+    //  setLoading(false)
+    // }else{
+    //   setisFirstLaunch(false)
+    //   setLoading(false)
+    // }
+
+    setLoading(false)
+        
           
         });
         
