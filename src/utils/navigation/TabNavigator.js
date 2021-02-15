@@ -24,14 +24,14 @@ const TabNavigator = () => {
       }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName;
+         
 
           if (route.name === "Home") {
-            return (<HomeIcon width={size.width} height={size.height}/>);
+            return (<HomeIcon color={color} width={25} height={25}/>);
           } else if (route.name === "Report") {
-            return (<FileIcon width={size.width} height={size.height}/>);
+            return (<FileIcon  color={color} width={25} height={25}/>);
           } else if (route.name === "Offers") {
-            return (<CartIcon width={size.width} height={size.height}/>);
+            return (<CartIcon width={25} height={25} color={color}/>);
           }
 
           return null;

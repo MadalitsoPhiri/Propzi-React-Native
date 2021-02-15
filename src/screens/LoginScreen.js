@@ -154,7 +154,7 @@ export default function LoginScreen({navigation}) {
           fontSize:15,
           marginBottom:"8%",
          
-        }} numberOfLines="0"  
+        }} 
       >
         Get your value for free whenever you want
       </Text>

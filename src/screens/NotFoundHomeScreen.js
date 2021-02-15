@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
 
+
 export default function NotFoundHomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
@@ -38,6 +39,7 @@ export default function NotFoundHomeScreen({ navigation }) {
           borderRadius={6}
           width={btnSize.MEDIUM_WIDTH}
           marginTop={30}
+          onPress={()=>navigation.replace("search")}
         />
       </View>
     </View>

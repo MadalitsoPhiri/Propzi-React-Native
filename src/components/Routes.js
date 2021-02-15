@@ -5,6 +5,7 @@ import {AuthContext} from "./AuthProvider";
 import {firebase} from "../../firebase";
 import AuthStack from "../screens/AuthStack.js"
 import MainAppStack from "../screens/MainAppStack.js";
+import MainAppDrawerNavigator from "../utils/navigation/MainAppDrawerNavigator";
 import checkIfFirstLaunch from "../utils/navigation/checkFirstRun.js";
 import IntroStack from "../screens/IntroStack";
 
@@ -64,7 +65,7 @@ const [isFirstLaunch, setisFirstLaunch] = useState(false);
     return(
 <NavigationContainer>
 
-{ user ? <MainAppStack/>:<AuthStack/>}
+{ user ? <MainAppDrawerNavigator/>:<AuthStack/>}
 
  
 </NavigationContainer>

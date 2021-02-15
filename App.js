@@ -5,7 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import TabNavigator from "./src/utils/navigation/TabNavigator";
 import LoginScreen from "./src/screens/LoginScreen";
 import Intro from "./src/screens/Intro";
-import DrawerNavigator from "./src/utils/navigation/DrawerNavigator";
 import { firebase } from "./firebase";
 import checkIfFirstLaunch from "./src/utils/navigation/checkFirstRun.js";
 import {Providers} from "./src/components/Providers";

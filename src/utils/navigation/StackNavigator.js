@@ -21,22 +21,12 @@ const Stack = createStackNavigator();
 const {width,height} = Dimensions.get("window")
 const MainStackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode={false}>
       <Stack.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          headerTitle: () => <Text></Text>,
-          headerRight: () => (
-            <TouchableOpacity>
-              <BarsIcon width={20} height={20}/>
-            </TouchableOpacity>
-          ),
-          headerLeft: () => (
-            <View>
-              <Image source={logo} style={styles.logo} />
-            </View>
-          ),
+          headerTitle: () => null,
           headerLeftContainerStyle: {
             paddingHorizontal: 20,
           },
@@ -58,22 +48,12 @@ const MainStackNavigator = () => {
 
 const ReportStackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode={false}>
       <Stack.Screen
         name="Report"
         component={ReportScreen}
         options={{
-          headerTitle: () => <Text></Text>,
-          headerRight: () => (
-            <TouchableOpacity>
-               <BarsIcon width={20} height={20}/>
-            </TouchableOpacity>
-          ),
-          headerLeft: () => (
-            <View>
-              <Image source={logo} style={styles.logo} />
-            </View>
-          ),
+          headerTitle: () =>null,
           headerLeftContainerStyle: {
             paddingHorizontal: 20,
           },
@@ -88,22 +68,12 @@ const ReportStackNavigator = () => {
 
 const OffersStackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode={false}>
       <Stack.Screen
         name="Offers"
         component={OffersScreen}
         options={{
-          headerTitle: () => <Text></Text>,
-          headerRight: () => (
-            <TouchableOpacity>
-               <BarsIcon width={20} height={20}/>
-            </TouchableOpacity>
-          ),
-          headerLeft: () => (
-            <View>
-              <Image source={logo} style={styles.logo} />
-            </View>
-          ),
+          headerTitle: () => null,
           headerLeftContainerStyle: {
             paddingHorizontal: 20,
           },

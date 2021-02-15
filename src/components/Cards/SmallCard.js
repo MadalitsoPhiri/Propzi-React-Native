@@ -10,13 +10,33 @@ import {
 } from "react-native";
 // const { height, width } = Dimensions.get(window);
 // TODO:// Configure the title
-export default function SmallCard({ image, color, title }) {
+export default function SmallCard() {
   return (
     <View>
-      <TouchableOpacity style={[styles.container, { backgroundColor: color }]}>
-        <Image source={image} style={styles.image} />
-      </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={[
+              styles.container,
+              { backgroundColor: "#34D1B6", marginRight: 10 },
+            ]}
+          >
+            <Image style={styles.image} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Home Insurance</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={[
+              styles.container,
+              { backgroundColor: "#F6B23E", marginLeft: 10 },
+            ]}
+          >
+            <Image style={styles.image} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Mortgages</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -28,7 +48,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     height: 95,
-    width: Platform.OS == "ios" ? 160 : 177,
   },
 
   image: {

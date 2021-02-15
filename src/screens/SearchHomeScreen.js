@@ -87,6 +87,8 @@ export default function SearchHomeScreen({ navigation }) {
     } catch (error) {
       console.log(error.message);
     }
+
+    console.log(data)
   };
 
   useEffect(() => {
