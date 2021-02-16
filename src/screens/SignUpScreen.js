@@ -49,7 +49,7 @@ export default function SignUpScreen({navigation}) {
 
   const LoadingScreen = (navigation) => {
   
-    return(<View style={{justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large"/><Text style={{marginTop:"5%"}}>Signing up...</Text></View>);
+    
     }
 
   

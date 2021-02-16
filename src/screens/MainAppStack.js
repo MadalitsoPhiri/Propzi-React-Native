@@ -61,6 +61,12 @@ return<LoadingScreen/>
 
 />
 
+
+<Stack.Screen name="Main" component={TabNavigator} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
+           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
+          ) }}
+/>
+
 <Stack.Screen name="manual" component={ManualAddHomeScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
            <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
           ) }}
@@ -72,11 +78,7 @@ return<LoadingScreen/>
           ) }}
           
 />
-<Stack.Screen name="confirm" component={PropertyConfirmationScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
-           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
-          ) }}
-          
-/>
+
 
     </Stack.Navigator>);
 }

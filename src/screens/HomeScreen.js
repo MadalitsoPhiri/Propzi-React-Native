@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,21 +12,24 @@ import Button from "../components/Button";
 import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
+import { AuthContext } from "../components/AuthProvider";
 
 export default function HomeScreen({ navigation }) {
+  const { homeState } = useContext(AuthContext);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
         <View style={styles.todayContainer}>
           <Text style={styles.today}>Today</Text>
-          <Text style={styles.date}>3 Feb 2021</Text>
-          <Text style={styles.address}>Address</Text>
-          <Text style={styles.actualAddress}>
-            45,Briston,Hurontario,Pell,Mississauga
+          <Text style={styles.date}>
+            {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
+          <Text style={styles.address}>Address</Text>
+          <Text style={styles.actualAddress}>{homeState.address}</Text>
         </View>
 
-        <HomeCard />
+        <HomeCard data={homeState.propertyData} />
         <Button
           title={"See Your Report"}
           width={btnSize.LARGE_WIDTH}
@@ -46,18 +49,24 @@ export default function HomeScreen({ navigation }) {
           <SmallCard />
         </View>
 
-        <GlobalCard
-          imgUrl={tryImage}
-          from={"Town of Ajax"}
-          desc={
-            "Plans for a public Chocolate Fountain have been approved for 2022"
-          }
-          title={"Public Chocolate Fountain"}
-          category={"Local Economics"}
-          propziImpact={"$12.00"}
-        />
+        {homeState.communityData.length > 0
+          ? homeState.communityData.map((communityData, i) => {
+              return (
+                <GlobalCard
+                  imgUrl={tryImage}
+                  from={communityData.dataSource}
+                  desc={communityData.description}
+                  title={communityData.heading}
+                  category={communityData.category}
+                  propziImpact={communityData.propziImpact}
+                  key={i}
+                  to={navigation}
+                />
+              );
+            })
+          : null}
 
-        <GlobalCard
+        {/* <GlobalCard
           imgUrl={tryImage}
           from={"Town of Ajax"}
           desc={
@@ -66,12 +75,12 @@ export default function HomeScreen({ navigation }) {
           title={"Public Chocolate Fountain"}
           category={"Local Economics"}
           propziImpact={"$12"}
-        />
+        /> */}
 
-        <View style={styles.homeOffers}>
+        {/* <View style={styles.homeOffers}>
           <Text style={styles.homeHeading}>Your home finance offers</Text>
           <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );
