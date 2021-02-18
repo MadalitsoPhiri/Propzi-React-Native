@@ -219,7 +219,7 @@ export default function SignUpScreen({navigation}) {
         onBlur={props.handleBlur("password")}
       />
       <TouchableOpacity onPress={setHiddenValue}>
-      { isHidden ? <Text style={{alignSelf: "right",flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Show</Text>:<Text style={{alignSelf: "right",flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Hide</Text>}
+      { isHidden ? <Text style={{flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Show</Text>:<Text style={{flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Hide</Text>}
       </TouchableOpacity>
     </View>
         
@@ -250,7 +250,7 @@ export default function SignUpScreen({navigation}) {
         onBlur={props.handleBlur("confirmPassword")}
       />
       <TouchableOpacity onPress={setHiddenValue}>
-      { isHidden ? <Text style={{alignSelf: "end",flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Show</Text>:<Text style={{alignSelf: "right",flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Hide</Text>}
+      { isHidden ? <Text style={{flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Show</Text>:<Text style={{flex:0.2,textAlign: "right",color:"#4F4F4F",paddingBottom:10}}>Hide</Text>}
       </TouchableOpacity>
     </View>
         

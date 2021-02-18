@@ -139,7 +139,7 @@ export default function SearchHomeScreen({navigation}) {
         fetch(REPLIERS_ENDPOINT_WITH_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
           if(obj.listings.length == 0){
           // try yet another end point
-           fetch(ACHEIVED_LISTING_URL.REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
+           fetch(ACHEIVED_LISTING_URL,REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
              if(obj.listings.length == 0){
                setpropertyNotFound(true)
              }else{
@@ -234,7 +234,7 @@ export default function SearchHomeScreen({navigation}) {
         (info) => {
           info.get().then((ds) => {
             if (ds.data()) {
-               navigation.navigate("Main");
+               navigation.replace("Main");
              
             }
           });

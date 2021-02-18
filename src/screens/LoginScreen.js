@@ -40,7 +40,7 @@ export default function LoginScreen({navigation}) {
     setLoading(true)
     try {
       const result = await Google.logInAsync({
-        // androidClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
+        //androidClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
         iosClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
         scopes: ['profile', 'email'],
       });
@@ -204,7 +204,7 @@ export default function LoginScreen({navigation}) {
       />
 
       <TouchableOpacity onPress={setHiddenValue}>
-      { isHidden ? <Text style={{alignSelf: "right",flex:0.2,textAlign: "right",color:"#4F4F4F"}}>Show</Text>:<Text style={{alignSelf: "right",flex:0.2,textAlign: "right",color:"#4F4F4F"}}>Hide</Text>}
+      { isHidden ? <Text style={{flex:0.2,textAlign: "right",color:"#4F4F4F"}}>Show</Text>:<Text style={{flex:0.2,textAlign: "right",color:"#4F4F4F"}}>Hide</Text>}
       </TouchableOpacity>
       
       

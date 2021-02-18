@@ -24,7 +24,7 @@ export default function NotFoundHomeScreen({ navigation }) {
       </View> */}
 
       <View style={{ alignItems: "center" }}>
-        <Text style={[styles.title, { fontSize: 26, textAlign: "center" }]}>
+        <Text style={styles.title}>
           Oops! We can't find your home
         </Text>
 
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 28,
+    textAlign: "center",
     marginBottom: 20,
     marginTop: 40,
     fontWeight: "500",

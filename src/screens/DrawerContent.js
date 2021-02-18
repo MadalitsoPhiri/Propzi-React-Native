@@ -30,7 +30,7 @@ export const DrawerContent = ({navigation}) =>{
            {/*Settings section*/}
            <View style={{marginBottom:"20%"}}>
            <View>
-               <Text style={{fontSize:"12",fontWeight:"bold",marginLeft:"8%",marginBottom:"5%"}}>SETTINGS</Text>
+               <Text style={{fontSize:12,fontWeight:"bold",marginLeft:"8%",marginBottom:"5%"}}>SETTINGS</Text>
            </View>
            <DrawerItem label="Profile" />
            <DrawerItem label="Change Pin" style={{marginBottom:"5%"}}/>
@@ -47,7 +47,7 @@ export const DrawerContent = ({navigation}) =>{
            {/*Resources Section */}
            <View>
            <View>
-               <Text style={{fontSize:"12",fontWeight:"bold",marginLeft:"8%",marginBottom:"5%"}}>RESOURCES</Text>
+               <Text style={{fontSize:12,fontWeight:"bold",marginLeft:"8%",marginBottom:"5%"}}>RESOURCES</Text>
            </View>
            <DrawerItem label="Help Centre"/>
            <DrawerItem label="Education" style={{marginBottom:"5%"}}/>
