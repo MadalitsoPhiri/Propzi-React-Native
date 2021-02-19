@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  Platform,
-  Dimensions,
-} from "react-native";
-// const { height, width } = Dimensions.get(window);
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import LandLordInsurance from "../../../assets/LandlordInsurance.svg";
+import FinanceHome from "../../../assets/Hazard-Insurance.svg";
 // TODO:// Configure the title
+
 export default function SmallCard() {
   return (
     <View>
@@ -21,7 +15,7 @@ export default function SmallCard() {
               { backgroundColor: "#34D1B6", marginRight: 10 },
             ]}
           >
-            <Image style={styles.image} />
+            <FinanceHome style={styles.image} />
           </TouchableOpacity>
           <Text style={styles.title}>Home Insurance</Text>
         </View>
@@ -32,9 +26,9 @@ export default function SmallCard() {
               { backgroundColor: "#F6B23E", marginLeft: 10 },
             ]}
           >
-            <Image style={styles.image} />
+            <LandLordInsurance style={styles.image} />
           </TouchableOpacity>
-          <Text style={styles.title}>Mortgages</Text>
+          <Text style={[styles.title, { marginLeft: 10 }]}>Mortgages</Text>
         </View>
       </View>
     </View>
@@ -51,8 +45,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    aspectRatio: 3 / 3,
-    height: 60,
+    width: "100%",
+    height: "100%",
   },
 
   title: {

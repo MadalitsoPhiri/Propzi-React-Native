@@ -30,6 +30,7 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         <HomeCard data={homeState.propertyData} />
+        {/* {console.warn(homeState.address)} */}
         <Button
           title={"See Your Report"}
           width={btnSize.LARGE_WIDTH}
@@ -66,17 +67,6 @@ export default function HomeScreen({ navigation }) {
             })
           : null}
 
-        {/* <GlobalCard
-          imgUrl={tryImage}
-          from={"Town of Ajax"}
-          desc={
-            "Plans for a public Chocolate Fountain have been approved for 2022"
-          }
-          title={"Public Chocolate Fountain"}
-          category={"Local Economics"}
-          propziImpact={"$12"}
-        /> */}
-
         {/* <View style={styles.homeOffers}>
           <Text style={styles.homeHeading}>Your home finance offers</Text>
           <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
@@ -89,9 +79,9 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
+    width: "100%",
+    paddingHorizontal:16,
+    backgroundColor:"white",
   },
   todayContainer: {
     marginTop: 20,

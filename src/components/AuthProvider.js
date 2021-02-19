@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { firebase, dbh } from "../../firebase";
 
 export const AuthContext = React.createContext({});
@@ -11,11 +11,10 @@ export const AuthProvider = ({ children }) => {
   const [propertyData, setPropertyData] = useState([]);
   const [address, setAddress] = useState("");
 
-  let newArray = [];
-  let newArray1 = [];
   const state = {};
+  const communityArrData = [];
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     async function getPropertyDetails() {
       let propertyDetails = await dbh
         .collection("UserDetails")
@@ -28,30 +27,32 @@ export const AuthProvider = ({ children }) => {
         }, ${doc.data().city}`;
 
         setAddress(demoAddress);
-        newArray1.push(doc.data());
-        setPropertyData(newArray1);
+        setPropertyData([...propertyData, doc.data()]);
       });
     }
+    getPropertyDetails();
+  }, [user]);
 
+  useEffect(() => {
     async function getCommunityDetails() {
       let communityDocs = await dbh
-        .collection("Community")
-        .doc("Mississauga")
-        .collection("Applewood")
+        .collection("Communit")
+        .doc("mississauga")
+        .collection("All")
         .get();
 
       communityDocs.forEach((doc) => {
-        newArray.push(doc.data());
-        setCommunityData(newArray);
+        communityArrData.push(doc.data());
+        setCommunityData(communityArrData);
       });
     }
     getCommunityDetails();
-    getPropertyDetails();
   }, []);
 
   state["communityData"] = communityData;
   state["propertyData"] = propertyData;
   state["address"] = address;
+  // console.log(state);
 
   return (
     <AuthContext.Provider
