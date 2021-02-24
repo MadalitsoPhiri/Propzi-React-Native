@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import _ from 'lodash';
-import {firebase,dbh} from "../../firebase";
+import {firebase,dbh} from "../../firebase/index";
+//import * as firebase from 'firebase';
 import "firebase/firestore";
-
 
 
 
@@ -17,8 +17,1042 @@ import { LineChart} from "react-native-chart-kit";
 // import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
-
+export const AuthContext = React.createContext({});
 const { width, height } = Dimensions.get('window');
+
+// const testIDs = require('./testIDs');
+
+
+const loadItems = (day) => {
+  setTimeout(() => {
+    for (let i = -15; i < 85; i++) {
+      const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+      const strTime = this.timeToString(time);
+      if (!this.state.items[strTime]) {
+        this.state.items[strTime] = [];
+        const numItems = Math.floor(Math.random() * 3 + 1);
+        for (let j = 0; j < numItems; j++) {
+          this.state.items[strTime].push({
+            name: 'Item for ' + strTime + ' #' + j,
+            height: Math.max(50, Math.floor(Math.random() * 150))
+          });
+        }
+      }
+    }
+    const newItems = {};
+    Object.keys(this.state.items).forEach(key => {
+      newItems[key] = this.state.items[key];
+    });
+    this.setState({
+      items: newItems
+    });
+  }, 1000);
+}
+const mocks = []
+
+let startDate = ''
+
+const ReportScreen = () => {
+  const [shouldShow, setShouldShow] = useState(false);
+  const [shouldShow1, setShouldShow1] = useState(false);
+  const [shouldShow2, setShouldShow2] = useState(false);
+  const [shouldShow3, setShouldShow3] = useState(false);
+  const [shouldShow4, setShouldShow4] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [NoDateSelected, nowSelected] = useState(true);
+  const [selected, setSelected] = useState('');
+  const [selected1, setSelected1] = useState('');
+  const [dateSelected, setDate] = useState(false);
+  const [dateSelected1, setDate1] = useState(false);
+  
+
+  const [loading, setLoading] = useState(true); 
+  const [users, setUsers] = useState([]); 
+  const [userData, setUserData] = useState('')
+  const[userProperties, setProperties] = useState([])
+  const[community, setCommunities] = useState([])
+
+  useEffect(() => {
+    const subscriber = dbh
+      .collection('Economics/Country/EconomicIndicator')
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+
+      querySnapshot.forEach(documentSnapshot => {
+        users.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        });
+      });
+
+      setUsers(users);
+      setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+  useEffect(() => {
+    const subscriber1 = dbh
+      .collection('Economics/Toronto/EconomicIndicator')
+      .onSnapshot((querySnapshot) => {
+        const users1 = [];
+
+      querySnapshot.forEach(documentSnapshot => {
+        users1.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        });
+      });
+
+      //setUsers(users =>[...users, users1]);
+      setUsers(users => users.concat(users1))
+      setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber1();
+  }, []);
+
+  useEffect(() => {
+    const userData1 = dbh
+      .collection('UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property')
+      .onSnapshot((querySnapshot) => {
+        let userData2 = '';
+
+        querySnapshot.forEach(documentSnapshot => {
+          let b = documentSnapshot.data()
+          let street = b.streetName
+          let streetNumber = b.streetNumber
+          let address = streetNumber + ' ' + street
+          userData2 = address
+        });
+        
+      
+      
+      setUserData(userData2)
+      setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => userData1();
+  }, []);
+  useEffect(() => {
+    const userProperty1 = dbh
+      .collection('UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property')
+      .onSnapshot((querySnapshot) => {
+        let userProperty2 = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          userProperty2.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+        
+      
+      
+      setProperties(userProperty2)
+      setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => userProperty1();
+  }, []);
+  useEffect(() => {
+    const community1 = dbh
+      .collection('Community/Ajax/Carruthers Creek')
+      .onSnapshot((querySnapshot) => {
+        const communities2 = [];
+
+      querySnapshot.forEach(documentSnapshot => {
+        communities2.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        });
+      });
+
+      setCommunities(communities2)
+      setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => community1();
+  }, []);
+
+
+  const onDayPress = day => {
+    setSelected(day.dateString);
+    setDate(!dateSelected);
+    startDate = day.dateString
+    console.log('start date:' + startDate)
+  };
+  const { destinations } = mocks;
+  let dateOne = '2021-02-14'
+  let dateTwo = '2021-02-18'
+  
+  if (loading) {
+    return <ActivityIndicator />
+  }
+  
+  return (
+    
+    <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 0 }}
+        >
+
+      <View style={styles.root}>
+        
+      <StatusBar barStyle="light-content" />
+      
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 20, paddingEnd:20, paddingTop: 10}}>
+      <View style={{flexDirection: 'column'}}>
+      <Text style={styles.title}>{userData}</Text>
+      <Text style={styles.stitle}>Last Updated at 12/28/2020.</Text>
+      </View>
+      <View style={{flexDirection: 'column'}}>
+      
+          <Pressable onPress={() => setModalVisible(!modalVisible)}>
+          <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignItems: 'center'}}>
+            <View style={{paddingTop: 0}}>
+              { modalVisible ? (
+                <View>
+                  <Image source={require('../../assets/icons/up1.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+                </View>
+                  
+              ):
+              <View>
+                <Image source={require('../../assets/icons/down1.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+              </View>
+              
+              }
+          
+            {/* <FontIcon
+                    name="caret-down"
+                    color= '#35d1b9'
+                    size={40}
+                    solid
+                  /> */}
+            </View>
+            </View>
+            </Pressable>
+        </View>
+        
+         
+      </View>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {modalVisible ? (
+          <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          //presentationStyle={overFullScreen}
+          
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={[styles.name, {marginTop:5, marginBottom:5}]}>Select Property</Text>
+              <FlatList
+                  data={userProperties}
+                  renderItem={({ item }) => (
+                    <View style={{ height: 50, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}
+                      >
+                    <Text style={styles.textStyle}>{item.streetNumber} {item.streetName}</Text>
+                      </Pressable>
+                    </View>
+                  )}
+                />
+              
+            </View>
+          </View>
+        </Modal>
+        ):null}
+      </View>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 20, paddingEnd:20, paddingTop: 20}}>
+        <Text style={{fontSize: 24, fontWeight: 'bold'}}>Propzi Price</Text>
+        <TouchableOpacity style={{alignContent: 'flex-end'}}  onPress={() => setShouldShow3(!shouldShow3)}>
+        <View style={{height: 30, width:88, backgroundColor: '#f2f2f2'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 15, paddingEnd:15, paddingTop: 7}}>
+            <Text style={{fontSize:12, color: '#000', paddingLeft:0}}>Date</Text>
+            {shouldShow3 ?(
+              <Image source={require('../../assets/icons/6.png')} style={{width: 10, height: 10, alignSelf: 'center', marginTop: -2, paddingLeft: 10}}/>
+            ): <Image source={require('../../assets/icons/5.png')} style={{width: 10, height: 10, alignSelf: 'center', marginTop: -2, paddingLeft: 10}}/> 
+            }
+            
+            {/* <FontIcon
+                    name="chevron-down"
+                    color= '#000000'
+                    size={12}
+                    solid
+                  /> */}
+              </View>
+        </View>
+        </TouchableOpacity>
+        
+        </View>
+        {shouldShow3? (
+          
+          <View style={{flex: 1, alignContent: 'center'}}>
+            {NoDateSelected? (
+              <TouchableOpacity onPress={() => nowSelected(!NoDateSelected)}>
+                  <Fragment>
+                 <Calendar
+                 //markingType={'period'}
+                 current={'2020-02-02'}
+                 testID={testIDs.calendars.FIRST}
+                 hideArrows={false}
+                //  renderArrow={(direction) => (<FontIcon
+                //    name="caret-right"
+                //    color= '#35d1b9'
+                //    size={40}
+                //    solid
+                //  />)}
+                 onDayPress={onDayPress}
+                 //markingType={'period'}
+                 markedDates={{
+                   [selected]: {
+                     selected: true,
+                     disableTouchEvent: true,
+                     selectedColor: '#70d7c7',
+                     selectedTextColor: 'white'
+                   } }}
+                 
+                 onPressArrowLeft={subtractMonth => subtractMonth()}
+                 // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+                 onPressArrowRight={addMonth => addMonth()}
+                 // Disable left arrow. Default = false
+                 //onDayPress={(day) => {console.log('selected day', day.dateString)}}
+                 enableSwipeMonths={true}
+               />
+                 </Fragment>
+               
+              </TouchableOpacity>
+                 
+            ):null}
+           
+          </View> 
+        ): 
+        <View>
+          <Text style={{fontSize:10, color: '#979797', paddingLeft:3}}>You have selected your start date as: {selected}</Text>
+        </View>
+        }
+      
+      {shouldShow4 ? (
+        <TouchableOpacity onPress={() => setShouldShow4(!shouldShow4)}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 50, paddingEnd:50, paddingTop: 20}}>
+          <View style={{flexDirection: 'row', alignSelf: 'flex-start', alignContent: 'flex-start'}}>
+          {/* <FontIcon
+                name="circle"
+                color= '#35d1b9'
+                size={10}
+                solid
+              /> */}
+             <Text style={{fontSize:10, color: '#35d1b9', paddingLeft:3}}>6336 Culmore Cres</Text>      
+          </View>
+          <View style={{flexDirection: 'row', alignSelf: 'flex-end', alignContent: 'flex-end'}}>
+          {/* <FontIcon
+                name="circle"
+                color= '#979797'
+                size={10}
+                solid
+              /> */}
+            <Text style={{fontSize:10, color: '#979797', paddingLeft:3}}>Avg. Market Price</Text>
+          </View>
+         
+          
+      </View>
+      
+          <View style= {{marginTop: 20}}>
+        <LineChart
+                  data={{
+                    labels: labels,
+                    datasets: [
+                      {
+                        data: data,
+                        color: (opacity = 1) => `rgba(94, 229, 208, 1)`, // optional
+                        strokeWidth: 2 
+                      },
+                      {
+                        data: data1,
+                        color: (opacity = 1) => `rgba(151, 151, 151, 1)`, // optional
+                        strokeWidth: 2 
+                      }
+                    ],
+                  }}
+                  width={Dimensions.get('window').width - 10} // from react-native
+                  height={220}
+                  //withHorizontalLabels = {false}
+                  withDots = {false}
+                  withInnerLines = {false}
+                  withOuterLines = {false}
+                  yAxisLabel="$"
+                  yAxisInterval={2}
+                  chartConfig={{
+                    backgroundColor: '#fff',
+                    backgroundGradientFrom: '#fff',
+                    backgroundGradientTo: '#FFF',
+                    decimalPlaces: 0, // optional, defaults to 2dp
+                    useShadowColorFromDataset: false, // optional,
+                    color: (opacity = 0) => `rgba(0, 256, 256, ${opacity})`,
+                    labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
+                    style: {
+                      borderRadius: 30,
+                    },
+                    propsForDots: {
+                      r: 0,
+                      strokeWidth: 0,
+                      stroke: '#35d1b9',
+                    },
+                    
+                    
+                  }}
+                  //bezier
+                  style={{
+                    marginVertical: 5,
+                    borderRadius: 15,
+                  }}
+                  renderDotContent={({ x, y, index }) => {
+                    return (
+                      <View
+                        style={{
+                          height: 24,
+                          width: 24,
+                          backgroundColor: "#abc",
+                          position: "absolute",
+                          top: y - 36, // <--- relevant to height / width (
+                          left: x - 12, // <--- width / 2
+                        }}
+                      >
+                        <Text style={{ fontSize: 10 }}>{data[index]}</Text>
+                      </View>
+                    );
+                  }}
+                />
+                <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
+                
+                <View style={[styles.card5, {marginLeft: width - 200}]}>
+                  
+                    <Text style={{color: '#303030', fontSize: 12}}>$921000</Text>
+                    <Text style={{color: '#2cde49', fontSize: 10}}>+1.35%</Text>
+                  
+                  </View>
+              </View>
+        </View>
+          
+        </TouchableOpacity>
+
+       
+      ): 
+      <TouchableOpacity onPress={() => setShouldShow4(!shouldShow4)}>
+      <View style= {{marginTop: 20}}>
+      <LineChart
+                data={{
+                  labels: labels,
+                  datasets: [
+                    {
+                      data: data,
+                      color: (opacity = 1) => `rgba(94, 229, 208, 1)`, // optional
+                      strokeWidth: 2 
+                    },
+                    {
+                      data: data1,
+                      color: (opacity = 1) => `rgba(151, 151, 151, 1)`, // optional
+                      strokeWidth: 2 
+                    }
+                  ],
+                }}
+                width={Dimensions.get('window').width - 10} // from react-native
+                height={180}
+                //withHorizontalLabels = {false}
+                withDots = {false}
+                withInnerLines = {false}
+                withOuterLines = {false}
+                yAxisLabel="$"
+                yAxisInterval={2}
+                chartConfig={{
+                  backgroundColor: '#fff',
+                  backgroundGradientFrom: '#fff',
+                  backgroundGradientTo: '#FFF',
+                  decimalPlaces: 0, // optional, defaults to 2dp
+                  useShadowColorFromDataset: false, // optional,
+                  color: (opacity = 0) => `rgba(0, 256, 256, ${opacity})`,
+                  labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
+                  style: {
+                    borderRadius: 30,
+                  },
+                  propsForDots: {
+                    r: 0,
+                    strokeWidth: 0,
+                    stroke: '#35d1b9',
+                  },
+                  
+                  
+                }}
+                //bezier
+                style={{
+                  marginVertical: 5,
+                  borderRadius: 15,
+                }}
+                renderDotContent={({ x, y, index }) => {
+                  return (
+                    <View
+                      style={{
+                        height: 24,
+                        width: 24,
+                        backgroundColor: "#abc",
+                        position: "absolute",
+                        top: y - 36, // <--- relevant to height / width (
+                        left: x - 12, // <--- width / 2
+                      }}
+                    >
+                      <Text style={{ fontSize: 10 }}>{data[index]}</Text>
+                    </View>
+                  );
+                }}
+              />
+              <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
+              
+              <View style={[styles.card5, {marginLeft: width - 200}]}>
+                
+                  <Text style={{color: '#303030', fontSize: 12}}>$921000</Text>
+                  <Text style={{color: '#2cde49', fontSize: 10}}>+1.35%</Text>
+                 
+                </View>
+            </View>
+      </View>
+
+ 
+      </TouchableOpacity>
+      
+      }
+      <View style={{marginStart: 20, marginTop:10}}>
+        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Report</Text>
+      </View>
+           <ScrollView horizontal={true} style={{marginTop: 10, marginStart:20}}>
+             {shouldShow ? (
+               <TouchableOpacity style={[styles.card6,  {marginBottom: 10}]} onPress={() => 
+               {
+                setShouldShow(!shouldShow)
+                setShouldShow1(false)
+                setShouldShow2(false)
+               }}>
+               <View style={styles.cardContent}>
+               <Text style={styles.name}>Home Renovations</Text>
+                 
+               </View>
+             </TouchableOpacity>
+             ): 
+             <TouchableOpacity style={[styles.card7,  {marginBottom: 10}]} onPress={() => {
+              setShouldShow(!shouldShow)
+              setShouldShow1(false)
+              setShouldShow2(false)
+             }}>
+          <View style={styles.cardContent}>
+          <Text style={styles.name}>Home Renovations</Text>
+            
+          </View>
+        </TouchableOpacity>
+             }
+
+             {shouldShow1 ? (
+                <TouchableOpacity style={[styles.card6,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
+                  setShouldShow1(!shouldShow1)
+                  setShouldShow(false)
+                  setShouldShow2(false)
+                }}>
+                <View style={styles.cardContent}>
+                <Text style={styles.name}>Economic Indicators</Text>
+                  
+                </View>
+              </TouchableOpacity>
+             ): 
+             <TouchableOpacity style={[styles.card7,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
+              setShouldShow1(!shouldShow1)
+              setShouldShow(false)
+              setShouldShow2(false)
+             }}>
+             <View style={styles.cardContent}>
+             <Text style={styles.name}>Economic Indicators</Text>
+               
+             </View>
+           </TouchableOpacity>
+             }
+           
+           {shouldShow2 ? (
+             <TouchableOpacity style={[styles.card6,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
+              setShouldShow2(!shouldShow2)
+              setShouldShow(false)
+              setShouldShow1(false)
+             }}>
+             <View style={styles.cardContent}>
+             <Text style={styles.name}>Neighbourhood Development</Text>
+               
+             </View>
+           </TouchableOpacity>
+           ):
+           <TouchableOpacity style={[styles.card7,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
+            setShouldShow2(!shouldShow2)
+            setShouldShow(false)
+            setShouldShow1(false)
+           }}>
+           <View style={styles.cardContent}>
+           <Text style={styles.name}>Neighbourhood Development</Text>
+             
+           </View>
+         </TouchableOpacity>
+           }
+        
+        
+           </ScrollView>
+           
+           <View style= {{marginTop: -10}}>
+      {shouldShow ? (
+          <View style={{flex: 1, justifyContent: 'space-between'}}>
+          <TouchableOpacity style={[styles.card,  {marginBottom: 20}]} onPress={() => setShouldShow(!shouldShow)}>
+          <View style={styles.cardContent}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
+              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+              <Text style={styles.name}>Home Renovations</Text>
+              <Text style={styles.count}>Last updated on Dec 28th, 2020</Text>
+              </View>
+              <View style={{flexDirection: 'column', alignContent: 'center', alignItems: 'center'}}>
+              <View style={{alignSelf: 'flex-end', width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'center', alignItems: 'center'}}>
+              <View style={{paddingTop: 0}}>
+              <Image source={require('../../assets/icons/down1.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+              {/* <FontIcon
+                      name="caret-right"
+                      color= '#35d1b9'
+                      size={40}
+                      solid
+                    /> */}
+              </View>
+              
+              </View>
+              </View>
+            </View>
+            
+          </View>
+        </TouchableOpacity>
+            <View style={[styles.flex, styles.column, styles.recommended ]}>
+            
+            <View style={[styles.column, styles.recommendedList]}>
+                <FlatList
+                  horizontal
+                  pagingEnabled={true}
+                  showsHorizontalScrollIndicator={false}
+                  legacyImplementation={false}
+                  scrollEventThrottle={16}
+                  snapToAlignment="center"
+                  style={{ overflow: 'visible', wid: (width - 50) }}
+                  data={community}
+                  keyExtractor={(item, index) => `${item.id}`}
+                  renderItem={({ item, index }) => 
+                  <View style={[
+                    styles.flex, styles.column, styles.recommendation, 
+                    index === 0 ? { marginLeft: 20 } : null,
+                    // isLastItem ? { marginRight: 20 / 2 } : null,
+                  ]}>
+                    <View style={[styles.flex, styles.recommendationHeader]}>
+                      <Image style={[styles.recommendationImage]} source={{ uri: item.img }} />
+                      <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
+                        
+                        <View style={[styles.card3, {marginLeft: ((width - (25 * 2)) / 1.2) - 120, marginTop: 20}]}>
+                            <Text style={styles.count}>{item.community}</Text>
+                           
+                          </View>
+                      </View>
+                    </View>
+                    <View style={[styles.flex, styles.column, styles.shadow, { justifyContent: 'space-evenly', padding: 25 / 2 }]}>
+                      <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 25 / 4.5, }}>{item.heading}</Text>
+                      <Text style={{ color: '#788490' }}>From: {item.dataSource}</Text>
+                      <Text style={{ color: '#1f2123' }}>{item.description}</Text>
+                      <View style={
+                        { marginTop: 20 }
+                      }>
+                        <View style={styles.card4}>
+                            <Text style={styles.count}>Propzi Impact:</Text>
+                            <Text style={styles.count1}>{item.propziImpact}</Text>
+                            
+                          </View>
+                      </View>
+                    </View>
+                  </View>
+                  }
+                />
+              </View>
+            </View>
+        
+        </View>
+        ) : 
+        <View >
+              <TouchableOpacity style={[styles.card,  {marginBottom: 5}]} onPress={() => setShouldShow(!shouldShow)}>
+                <View style={styles.cardContent}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
+                  <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+                  <Text style={styles.name}>Home Renovations</Text>
+                  <Text style={[styles.count]}>Last visited on 2 Feb 2021</Text>
+                  <FlatList
+                  data={imgs3}
+                  keyExtractor={(item)=>{
+                    return item.id;
+                  }}
+                  renderItem={(item) => {
+                    const Group = item.item;
+                    
+                    return(
+                      <View>
+                        <View style={styles1.groupMembersContent}>
+                          {Group.members.map((prop, key) => {
+                            return (
+                              <Image key={key} style={styles1.memberImage}  source={{uri:prop}}/>
+                            );
+                          })}
+                        </View>
+                      </View>
+                    );
+                  }}/>
+
+                  </View>
+                  <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+                    <Text style={{alignItems: 'flex-end', paddingLeft: 45, alignSelf: 'flex-end', marginRight: 5, marginBottom: 5}}>{community.length} Updates</Text>
+                    <View style={{ alignSelf: 'flex-end', paddingTop:5}}>
+                      <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'flex-end', alignItems: 'center'}}>
+                      <View style={{paddingTop: 0}}>
+                <Image source={require('../../assets/icons/right1.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+              {/* <FontIcon
+                      name="caret-down"
+                      color= '#35d1b9'
+                      size={40}
+                      solid
+                    /> */}
+              </View>
+              
+              </View>
+                    </View>
+                    
+                  </View>
+                
+                </View>
+                
+                
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                
+                  <View style={{marginTop: -10, alignContent: 'flex-end', paddingLeft: 50}}>
+              
+              </View>
+                </View>
+                
+              </View>
+            </TouchableOpacity>
+            </View>
+        }
+      </View>   
+
+      <View style= {{marginTop: -10}}>
+      {shouldShow1 ? (
+          <View>
+          <TouchableOpacity style={[styles.card1,  {marginBottom: 20}]} onPress={() => setShouldShow1(!shouldShow1)}>
+          <View style={styles.cardContent}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
+              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+              <Text style={styles.name}>Economic Indicators</Text>
+              <Text style={styles.count}>Last updated on Dec 28th, 2020</Text>
+              </View>
+              <View style={{flexDirection: 'column', alignContent: 'center', alignItems: 'center'}}>
+              <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'center', alignItems: 'center'}}>
+              <View style={{paddingTop: 0}}>
+              <Image source={require('../../assets/icons/down2.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+              {/* <FontIcon
+                      name="caret-right"
+                      color= '#518de7'
+                      size={40}
+                      solid
+                    /> */}
+              </View>
+              
+              </View>
+              </View>
+            </View>
+            
+          </View>
+        </TouchableOpacity>
+        <ScrollView horizontal={true}>
+          <View style={[styles.flex, styles.column, styles.recommended ]}>
+            
+            <View style={[styles.column, styles.recommendedList]}>
+            <FlatList
+                  horizontal
+                  pagingEnabled={true}
+                  showsHorizontalScrollIndicator={false}
+                  legacyImplementation={false}
+                  scrollEventThrottle={16}
+                  snapToAlignment="center"
+                  style={{ overflow: 'visible', wid: (width - 50) }}
+                  data={users}
+                  keyExtractor={(item, index) => `${item.id}`}
+                  renderItem={({ item, index }) => 
+                  <View style={[
+                    styles.flex, styles.column, styles.recommendation, 
+                    index === 0 ? { marginLeft: 20 } : null,
+                    // isLastItem ? { marginRight: 20 / 2 } : null,
+                  ]}>
+                    <View style={[styles.flex, styles.recommendationHeader]}>
+                      <Image style={[styles.recommendationImage]} source={{ uri: item.img }} />
+                      <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
+                        
+                        <View style={[styles.card3, {marginLeft: ((width - (25 * 2)) / 1.4) - 120, marginTop: 20}]}>
+                            <Text style={styles.count}>{item.categoryIndicator}</Text>
+                           
+                          </View>
+                      </View>
+                    </View>
+                    <View style={[styles.flex, styles.column, styles.shadow, { justifyContent: 'space-evenly', padding: 25 / 2 }]}>
+                      <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 25 / 4.5, }}>{item.indicator}</Text>
+                      <Text style={{ color: '#788490' }}>From: {item.dataSource}</Text>
+                      <Text style={{ color: '#1f2123' }}>{item.description}</Text>
+                      <View style={
+                        { marginTop: 20 }
+                      }>
+                        <View style={styles.card4}>
+                            <Text style={styles.count}>Propzi Impact:</Text>
+                            <Text style={styles.count1}>{item.propziImpact}</Text>
+                            
+                          </View>
+                      </View>
+                    </View>
+                  </View>
+                  }
+                />
+              </View>
+            </View>
+            
+        </ScrollView>
+        
+        </View>
+        ) : 
+        <View>
+              <TouchableOpacity style={[styles.card1,  {marginBottom: 0}]} onPress={() => setShouldShow1(!shouldShow1)}>
+              <View style={styles.cardContent}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
+                <View style={{flexDirection: 'column'}}>
+                  <Text style={styles.name}>Econominc Indicators</Text>
+                  <Text style={[styles.count]}>Last visited on 2 Feb 2021</Text>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <FlatList
+                  data={imgs1}
+                  keyExtractor={(item)=>{
+                    return item.id;
+                  }}
+                  renderItem={(item) => {
+                    const Group = item.item;
+                    
+                    return(
+                      <View>
+                        <View style={styles1.groupMembersContent}>
+                          {Group.members.map((prop, key) => {
+                            return (
+                              <Image key={key} style={styles1.memberImage}  source={{uri:prop}}/>
+                            );
+                          })}
+                        </View>
+                      </View>
+                    );
+                  }}/>
+                  
+                </View>
+                
+                </View>
+                <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+                  <Text style={{ alignSelf: 'flex-start', marginRight: 5, marginBottom: 5}}>{users.length} Updates</Text>
+                  <View style={{ alignSelf: 'flex-end', paddingTop:5}}>
+              <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'flex-end', alignItems: 'center'}}>
+                <View style={{paddingTop: 0}}>
+              <Image source={require('../../assets/icons/right2.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+              {/* <FontIcon
+                      name="caret-down"
+                      color= '#518de7'
+                      size={40}
+                      solid
+                    /> */}
+              </View>
+              
+              </View>
+              </View>
+              
+                </View>
+                
+                
+                </View>
+                
+                
+                
+              </View>
+            </TouchableOpacity>
+            </View>
+        }
+      </View>   
+
+      <View style= {{marginTop: -10}}>
+      {shouldShow2 ? (
+          <View>
+          <TouchableOpacity style={[styles.card2,  {marginBottom: 20}]} onPress={() => setShouldShow2(!shouldShow2)}>
+          <View style={styles.cardContent}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
+              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+              <Text style={styles.name}>Neighbourhood Development</Text>
+              <Text style={styles.count}>Last updated on Dec 28th, 2020</Text>
+              
+              </View>
+              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+              <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'flex-end', alignItems: 'center'}}>
+                <View style={{paddingTop: 0}}>
+                <Image source={require('../../assets/icons/down3.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+              {/* <FontIcon
+                      name="caret-right"
+                      color= '#e7bd51'
+                      size={40}
+                      solid
+                    /> */}
+              </View>
+              
+              </View>
+              </View>
+            </View>
+            
+          </View>
+        </TouchableOpacity>
+        <ScrollView horizontal={true}>
+        <View style={[styles.flex, styles.column, styles.recommended ]}>
+            
+            <View style={[styles.column, styles.recommendedList]}>
+                <FlatList
+                  horizontal
+                  pagingEnabled={true}
+                  showsHorizontalScrollIndicator={false}
+                  legacyImplementation={false}
+                  scrollEventThrottle={16}
+                  snapToAlignment="center"
+                  style={{ overflow: 'visible', wid: (width - 50) }}
+                  data={community}
+                  keyExtractor={(item, index) => `${item.id}`}
+                  renderItem={({ item, index }) => 
+                  <View style={[
+                    styles.flex, styles.column, styles.recommendation, 
+                    index === 0 ? { marginLeft: 20 } : null,
+                    // isLastItem ? { marginRight: 20 / 2 } : null,
+                  ]}>
+                    <View style={[styles.flex, styles.recommendationHeader]}>
+                      <Image style={[styles.recommendationImage]} source={{ uri: item.img }} />
+                      <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
+                        
+                        <View style={[styles.card3, {marginLeft: ((width - (25 * 2)) / 1.4) - 120, marginTop: 20}]}>
+                            <Text style={styles.count}>{item.community}</Text>
+                           
+                          </View>
+                      </View>
+                    </View>
+                    <View style={[styles.flex, styles.column, styles.shadow, { justifyContent: 'space-evenly', padding: 25 / 2 }]}>
+                      <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 25 / 4.5, }}>{item.heading}</Text>
+                      <Text style={{ color: '#788490' }}>From: {item.dataSource}</Text>
+                      <Text style={{ color: '#1f2123' }}>{item.description}</Text>
+                      <View style={
+                        { marginTop: 20 }
+                      }>
+                        <View style={styles.card4}>
+                            <Text style={styles.count}>Propzi Impact:</Text>
+                            <Text style={styles.count1}>{item.propziImpact}</Text>
+                            
+                          </View>
+                      </View>
+                    </View>
+                  </View>
+                  }
+                />
+              </View>
+        </View>
+        </ScrollView>
+        
+        
+        </View>
+        ) : 
+        <View><TouchableOpacity style={[styles.card2,  {marginBottom: 20}]} onPress={() => setShouldShow2(!shouldShow2)}>
+          <View style={styles.cardContent}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
+                  <View style={{flexDirection: 'column', justifyConten: 'space-between'}}>
+                  <Text style={styles.name}>Neighbourhood Development</Text>
+                  <Text style={[styles.count]}>Last visited on 2 Feb 2021</Text>
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <FlatList
+                  data={imgs2}
+                  keyExtractor={(item)=>{
+                    return item.id;
+                  }}
+                  renderItem={(item) => {
+                    const Group = item.item;
+                    
+                    return(
+                      <View>
+                        <View style={styles1.groupMembersContent}>
+                          {Group.members.map((prop, key) => {
+                            return (
+                              <Image key={key} style={styles1.memberImage}  source={{uri:prop}}/>
+                            );
+                          })}
+                        </View>
+                      </View>
+                    );
+                  }}/>
+                  
+                </View>
+                
+                  </View>
+
+                  <View style={{flexDirection: 'column', justifyConten: 'space-between', alignSelf: 'flex-end'}}>
+                  <Text style={{alignItems: 'flex-end', alignSelf: 'flex-end', marginBottom: 5}}>{community.length} Updates</Text>
+                  <View style={{alignSelf: 'flex-end'}}>
+                    <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'center', alignItems: 'center'}}>
+                      <View style={{paddingTop: 0}}>
+                      <Image source={require('../../assets/icons/right3.png')} style={{width: 30, height: 30, alignSelf: 'center', marginTop: 12, paddingLeft: 10}}/>
+                    {/* <FontIcon
+                            name="caret-down"
+                            color= '#e7bd51'
+                            size={40}
+                            solid
+                          /> */}
+                    </View>
+              
+              </View>
+              </View>
+              
+                  </View>
+                
+                
+                </View>
+                
+                
+                
+              </View>
+            </TouchableOpacity>
+            </View>
+        }
+      </View>   
+             
+         
+      </View>
+      </ScrollView>
+  );
+};
+
+ReportScreen.defaultProps = {
+  //navigation: { navigate: () => null },
+ 
+}
+
 const labels = [
   'Jan',
   'Feb',
@@ -58,7 +1092,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    backgroundColor: "gray",
+    backgroundColor: "#fff",
   },
   container: {
     justifyContent: 'center',
@@ -436,1020 +1470,30 @@ const imgs3 = [
   }
 ]
 
-// const testIDs = require('./testIDs');
 
-
-const loadItems = (day) => {
-  setTimeout(() => {
-    for (let i = -15; i < 85; i++) {
-      const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-      const strTime = this.timeToString(time);
-      if (!this.state.items[strTime]) {
-        this.state.items[strTime] = [];
-        const numItems = Math.floor(Math.random() * 3 + 1);
-        for (let j = 0; j < numItems; j++) {
-          this.state.items[strTime].push({
-            name: 'Item for ' + strTime + ' #' + j,
-            height: Math.max(50, Math.floor(Math.random() * 150))
-          });
-        }
-      }
-    }
-    const newItems = {};
-    Object.keys(this.state.items).forEach(key => {
-      newItems[key] = this.state.items[key];
-    });
-    this.setState({
-      items: newItems
-    });
-  }, 1000);
-}
-const mocks = []
-
-let startDate = ''
-
-const ReportScreen = () => {
-  const [shouldShow, setShouldShow] = useState(false);
-  const [shouldShow1, setShouldShow1] = useState(false);
-  const [shouldShow2, setShouldShow2] = useState(false);
-  const [shouldShow3, setShouldShow3] = useState(false);
-  const [shouldShow4, setShouldShow4] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [NoDateSelected, nowSelected] = useState(true);
-  const [selected, setSelected] = useState('');
-  const [selected1, setSelected1] = useState('');
-  const [dateSelected, setDate] = useState(false);
-  const [dateSelected1, setDate1] = useState(false);
-  
-
-  const [loading, setLoading] = useState(true); 
-  const [users, setUsers] = useState([]); 
-  const [userData, setUserData] = useState('')
-  const[userProperties, setProperties] = useState([])
-  const[community, setCommunities] = useState([])
-
-  useEffect(() => {
-    const subscriber = dbh
-      .collection('Economics/Country/EconomicIndicator')
-      .onSnapshot((querySnapshot) => {
-        const users = [];
-
-      querySnapshot.forEach(documentSnapshot => {
-        users.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
-        });
-      });
-
-      setUsers(users);
-      setLoading(false);
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
-  useEffect(() => {
-    const subscriber1 = dbh
-      .collection('Economics/Toronto/EconomicIndicator')
-      .onSnapshot((querySnapshot) => {
-        const users1 = [];
-
-      querySnapshot.forEach(documentSnapshot => {
-        users1.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
-        });
-      });
-
-      //setUsers(users =>[...users, users1]);
-      setUsers(users => users.concat(users1))
-      setLoading(false);
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber1();
-  }, []);
-
-  useEffect(() => {
-    const userData1 = dbh
-      .collection('UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property')
-      .onSnapshot((querySnapshot) => {
-        let userData2 = '';
-
-        querySnapshot.forEach(documentSnapshot => {
-          let b = documentSnapshot.data()
-          let street = b.streetName
-          let streetNumber = b.streetNumber
-          let address = streetNumber + ' ' + street
-          userData2 = address
-        });
-        
-      
-      
-      setUserData(userData2)
-      setLoading(false);
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => userData1();
-  }, []);
-  useEffect(() => {
-    const userProperty1 = dbh
-      .collection('UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property')
-      .onSnapshot((querySnapshot) => {
-        let userProperty2 = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          userProperty2.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-        
-      
-      
-      setProperties(userProperty2)
-      setLoading(false);
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => userProperty1();
-  }, []);
-  useEffect(() => {
-    const community1 = dbh
-      .collection('Community/Ajax/Carruthers Creek')
-      .onSnapshot((querySnapshot) => {
-        const communities2 = [];
-
-      querySnapshot.forEach(documentSnapshot => {
-        communities2.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
-        });
-      });
-
-      setCommunities(communities2)
-      setLoading(false);
-      });
-
-    // Unsubscribe from events when no longer in use
-    return () => community1();
-  }, []);
-
-
-  const onDayPress = day => {
-    setSelected(day.dateString);
-    setDate(!dateSelected);
-    startDate = day.dateString
-    console.log('start date:' + startDate)
-  };
-  const { destinations } = mocks;
-  let dateOne = '2021-02-14'
-  let dateTwo = '2021-02-18'
-  
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-  
-  return (
-    
-    <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: '0' }}
-        >
-
-      <View style={styles.root}>
-        
-      <StatusBar barStyle="light-content" />
-      
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 20, paddingEnd:20, paddingTop: 10}}>
-      <View style={{flexDirection: 'column'}}>
-      <Text style={styles.title}>{userData}</Text>
-      <Text style={styles.stitle}>Last Updated at 12/28/2020.</Text>
-      </View>
-      <View style={{flexDirection: 'column'}}>
-      
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-          <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignItems: 'center'}}>
-            <View style={{paddingTop: 0}}>
-            {/* <FontIcon
-                    name="caret-down"
-                    color= '#35d1b9'
-                    size={40}
-                    solid
-                  /> */}
-            </View>
-            </View>
-            </Pressable>
-        </View>
-        
-         
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {modalVisible ? (
-          <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          //presentationStyle={overFullScreen}
-          
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={[styles.name, {marginTop:5, marginBottom:5}]}>Select Property</Text>
-              <FlatList
-                  data={userProperties}
-                  renderItem={({ item }) => (
-                    <View style={{ height: 50, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                      <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}
-                      >
-                    <Text style={styles.textStyle}>{item.streetNumber} {item.streetName}</Text>
-                      </Pressable>
-                    </View>
-                  )}
-                />
-              
-            </View>
-          </View>
-        </Modal>
-        ):null}
-      </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 20, paddingEnd:20, paddingTop: 20}}>
-        <Text style={{fontSize: 24, fontWeight: 'bold'}}>Propzi Price</Text>
-        <TouchableOpacity style={{alignContent: 'flex-end'}}  onPress={() => setShouldShow3(!shouldShow3)}>
-        <View style={{height: 30, width:88, backgroundColor: '#f2f2f2'}}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 15, paddingEnd:15, paddingTop: 7}}>
-            <Text style={{fontSize:12, color: '#000', paddingLeft:0}}>Date</Text>
-            {/* <FontIcon
-                    name="chevron-down"
-                    color= '#000000'
-                    size={12}
-                    solid
-                  /> */}
-              </View>
-        </View>
-        </TouchableOpacity>
-        
-        </View>
-        {shouldShow3? (
-          
-          <View style={{flex: 1, alignContent: 'center'}}>
-            {NoDateSelected? (
-              <TouchableOpacity onPress={() => nowSelected(!NoDateSelected)}>
-                  <Fragment>
-                 <Calendar
-                 //markingType={'period'}
-                 current={'2020-02-02'}
-                 testID={testIDs.calendars.FIRST}
-                 hideArrows={false}
-                //  renderArrow={(direction) => (<FontIcon
-                //    name="caret-right"
-                //    color= '#35d1b9'
-                //    size={40}
-                //    solid
-                //  />)}
-                 onDayPress={onDayPress}
-                 markingType={'period'}
-                 markedDates={{
-                   [selected]: {
-                     selected: true,
-                     disableTouchEvent: true,
-                     selectedColor: '#70d7c7',
-                     selectedTextColor: 'white'
-                   },
-                   '2021-02-14': {marked: true, startingDay: true, color: '#50cebb', textColor: 'white'},
-                   '2021-02-15': {marked: true, color: '#70d7c7', textColor: 'white'},
-                   '2021-02-16': {marked: true, color: '#70d7c7', textColor: 'white'},
-                   '2021-02-17': {marked: true, endingDay: true, color: '#50cebb', textColor: 'white'},
-                 }}
-                 
-                 onPressArrowLeft={subtractMonth => subtractMonth()}
-                 // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                 onPressArrowRight={addMonth => addMonth()}
-                 // Disable left arrow. Default = false
-                 //onDayPress={(day) => {console.log('selected day', day.dateString)}}
-                 enableSwipeMonths={true}
-               />
-                 </Fragment>
-               
-              </TouchableOpacity>
-                 
-            ):null}
-           
-          </View> 
-        ): 
-        <View>
-          <Text style={{fontSize:10, color: '#979797', paddingLeft:3}}>You have selected your start date as: {selected}</Text>
-        </View>
-        }
-      
-      {shouldShow4 ? (
-        <TouchableOpacity onPress={() => setShouldShow4(!shouldShow4)}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingStart: 50, paddingEnd:50, paddingTop: 20}}>
-          <View style={{flexDirection: 'row', alignSelf: 'flex-start', alignContent: 'flex-start'}}>
-          {/* <FontIcon
-                name="circle"
-                color= '#35d1b9'
-                size={10}
-                solid
-              /> */}
-             <Text style={{fontSize:10, color: '#35d1b9', paddingLeft:3}}>6336 Culmore Cres</Text>      
-          </View>
-          <View style={{flexDirection: 'row', alignSelf: 'flex-end', alignContent: 'flex-end'}}>
-          {/* <FontIcon
-                name="circle"
-                color= '#979797'
-                size={10}
-                solid
-              /> */}
-            <Text style={{fontSize:10, color: '#979797', paddingLeft:3}}>Avg. Market Price</Text>
-          </View>
-         
-          
-      </View>
-      
-          <View style= {{marginTop: 20}}>
-        <LineChart
-                  data={{
-                    labels: labels,
-                    datasets: [
-                      {
-                        data: data,
-                        color: (opacity = 1) => `rgba(94, 229, 208, 1)`, // optional
-                        strokeWidth: 2 
-                      },
-                      {
-                        data: data1,
-                        color: (opacity = 1) => `rgba(151, 151, 151, 1)`, // optional
-                        strokeWidth: 2 
-                      }
-                    ],
-                  }}
-                  width={Dimensions.get('window').width - 10} // from react-native
-                  height={220}
-                  //withHorizontalLabels = {false}
-                  withDots = {false}
-                  withInnerLines = {false}
-                  withOuterLines = {false}
-                  yAxisLabel="$"
-                  yAxisInterval={2}
-                  chartConfig={{
-                    backgroundColor: '#fff',
-                    backgroundGradientFrom: '#fff',
-                    backgroundGradientTo: '#FFF',
-                    decimalPlaces: 0, // optional, defaults to 2dp
-                    useShadowColorFromDataset: false, // optional,
-                    color: (opacity = 0) => `rgba(0, 256, 256, ${opacity})`,
-                    labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                      borderRadius: 30,
-                    },
-                    propsForDots: {
-                      r: '0',
-                      strokeWidth: '0',
-                      stroke: '#35d1b9',
-                    },
-                    
-                    
-                  }}
-                  //bezier
-                  style={{
-                    marginVertical: 5,
-                    borderRadius: 15,
-                  }}
-                  renderDotContent={({ x, y, index }) => {
-                    return (
-                      <View
-                        style={{
-                          height: 24,
-                          width: 24,
-                          backgroundColor: "#abc",
-                          position: "absolute",
-                          top: y - 36, // <--- relevant to height / width (
-                          left: x - 12, // <--- width / 2
-                        }}
-                      >
-                        <Text style={{ fontSize: 10 }}>{data[index]}</Text>
-                      </View>
-                    );
-                  }}
-                />
-                <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
-                
-                <View style={[styles.card5, {marginLeft: width - 200}]}>
-                  
-                    <Text style={{color: '#303030', fontSize: 12}}>$921000</Text>
-                    <Text style={{color: '#2cde49', fontSize: 10}}>+1.35%</Text>
-                  
-                  </View>
-              </View>
-        </View>
-          
-        </TouchableOpacity>
-
-       
-      ): 
-      <TouchableOpacity onPress={() => setShouldShow4(!shouldShow4)}>
-      <View style= {{marginTop: 20}}>
-      <LineChart
-                data={{
-                  labels: labels,
-                  datasets: [
-                    {
-                      data: data,
-                      color: (opacity = 1) => `rgba(94, 229, 208, 1)`, // optional
-                      strokeWidth: 2 
-                    },
-                    {
-                      data: data1,
-                      color: (opacity = 1) => `rgba(151, 151, 151, 1)`, // optional
-                      strokeWidth: 2 
-                    }
-                  ],
-                }}
-                width={Dimensions.get('window').width - 10} // from react-native
-                height={180}
-                //withHorizontalLabels = {false}
-                withDots = {false}
-                withInnerLines = {false}
-                withOuterLines = {false}
-                yAxisLabel="$"
-                yAxisInterval={2}
-                chartConfig={{
-                  backgroundColor: '#fff',
-                  backgroundGradientFrom: '#fff',
-                  backgroundGradientTo: '#FFF',
-                  decimalPlaces: 0, // optional, defaults to 2dp
-                  useShadowColorFromDataset: false, // optional,
-                  color: (opacity = 0) => `rgba(0, 256, 256, ${opacity})`,
-                  labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
-                  style: {
-                    borderRadius: 30,
-                  },
-                  propsForDots: {
-                    r: '0',
-                    strokeWidth: '0',
-                    stroke: '#35d1b9',
-                  },
-                  
-                  
-                }}
-                //bezier
-                style={{
-                  marginVertical: 5,
-                  borderRadius: 15,
-                }}
-                renderDotContent={({ x, y, index }) => {
-                  return (
-                    <View
-                      style={{
-                        height: 24,
-                        width: 24,
-                        backgroundColor: "#abc",
-                        position: "absolute",
-                        top: y - 36, // <--- relevant to height / width (
-                        left: x - 12, // <--- width / 2
-                      }}
-                    >
-                      <Text style={{ fontSize: 10 }}>{data[index]}</Text>
-                    </View>
-                  );
-                }}
-              />
-              <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
-              
-              <View style={[styles.card5, {marginLeft: width - 200}]}>
-                
-                  <Text style={{color: '#303030', fontSize: 12}}>$921000</Text>
-                  <Text style={{color: '#2cde49', fontSize: 10}}>+1.35%</Text>
-                 
-                </View>
-            </View>
-      </View>
-
- 
-      </TouchableOpacity>
-      
-      }
-      <View style={{marginStart: 20, marginTop:10}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Report</Text>
-      </View>
-           <ScrollView horizontal={true} style={{marginTop: 10, marginStart:20}}>
-             {shouldShow ? (
-               <TouchableOpacity style={[styles.card6,  {marginBottom: 10}]} onPress={() => 
-               {
-                setShouldShow(!shouldShow)
-                setShouldShow1(false)
-                setShouldShow2(false)
-               }}>
-               <View style={styles.cardContent}>
-               <Text style={styles.name}>Home Renovations</Text>
-                 
-               </View>
-             </TouchableOpacity>
-             ): 
-             <TouchableOpacity style={[styles.card7,  {marginBottom: 10}]} onPress={() => {
-              setShouldShow(!shouldShow)
-              setShouldShow1(false)
-              setShouldShow2(false)
-             }}>
-          <View style={styles.cardContent}>
-          <Text style={styles.name}>Home Renovations</Text>
-            
-          </View>
-        </TouchableOpacity>
-             }
-
-             {shouldShow1 ? (
-                <TouchableOpacity style={[styles.card6,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
-                  setShouldShow1(!shouldShow1)
-                  setShouldShow(false)
-                  setShouldShow2(false)
-                }}>
-                <View style={styles.cardContent}>
-                <Text style={styles.name}>Economic Indicators</Text>
-                  
-                </View>
-              </TouchableOpacity>
-             ): 
-             <TouchableOpacity style={[styles.card7,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
-              setShouldShow1(!shouldShow1)
-              setShouldShow(false)
-              setShouldShow2(false)
-             }}>
-             <View style={styles.cardContent}>
-             <Text style={styles.name}>Economic Indicators</Text>
-               
-             </View>
-           </TouchableOpacity>
-             }
-           
-           {shouldShow2 ? (
-             <TouchableOpacity style={[styles.card6,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
-              setShouldShow2(!shouldShow2)
-              setShouldShow(false)
-              setShouldShow1(false)
-             }}>
-             <View style={styles.cardContent}>
-             <Text style={styles.name}>Neighbourhood Development</Text>
-               
-             </View>
-           </TouchableOpacity>
-           ):
-           <TouchableOpacity style={[styles.card7,  {marginBottom: 10, marginLeft: 6}]} onPress={() => {
-            setShouldShow2(!shouldShow2)
-            setShouldShow(false)
-            setShouldShow1(false)
-           }}>
-           <View style={styles.cardContent}>
-           <Text style={styles.name}>Neighbourhood Development</Text>
-             
-           </View>
-         </TouchableOpacity>
-           }
-        
-        
-           </ScrollView>
-           
-           <View style= {{marginTop: -10}}>
-      {shouldShow ? (
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
-          <TouchableOpacity style={[styles.card,  {marginBottom: 20}]} onPress={() => setShouldShow(!shouldShow)}>
-          <View style={styles.cardContent}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
-              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-              <Text style={styles.name}>Home Renovations</Text>
-              <Text style={styles.count}>Last updated on Dec 28th, 2020</Text>
-              </View>
-              <View style={{flexDirection: 'column', alignContent: 'center', alignItems: 'center'}}>
-              <View style={{alignSelf: 'flex-end', width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'center', alignItems: 'center'}}>
-              <View style={{paddingTop: 5}}>
-              {/* <FontIcon
-                      name="caret-right"
-                      color= '#35d1b9'
-                      size={40}
-                      solid
-                    /> */}
-              </View>
-              
-              </View>
-              </View>
-            </View>
-            
-          </View>
-        </TouchableOpacity>
-            <View style={[styles.flex, styles.column, styles.recommended ]}>
-            
-            <View style={[styles.column, styles.recommendedList]}>
-                <FlatList
-                  horizontal
-                  pagingEnabled={true}
-                  showsHorizontalScrollIndicator={false}
-                  legacyImplementation={false}
-                  scrollEventThrottle={16}
-                  snapToAlignment="center"
-                  style={{ overflow: 'visible', wid: (width - 50) }}
-                  data={community}
-                  keyExtractor={(item, index) => `${item.id}`}
-                  renderItem={({ item, index }) => 
-                  <View style={[
-                    styles.flex, styles.column, styles.recommendation, 
-                    index === 0 ? { marginLeft: 20 } : null,
-                    // isLastItem ? { marginRight: 20 / 2 } : null,
-                  ]}>
-                    <View style={[styles.flex, styles.recommendationHeader]}>
-                      <Image style={[styles.recommendationImage]} source={{ uri: item.img }} />
-                      <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
-                        
-                        <View style={[styles.card3, {marginLeft: ((width - (25 * 2)) / 1.2) - 120, marginTop: 20}]}>
-                            <Text style={styles.count}>{item.community}</Text>
-                           
-                          </View>
-                      </View>
-                    </View>
-                    <View style={[styles.flex, styles.column, styles.shadow, { justifyContent: 'space-evenly', padding: 25 / 2 }]}>
-                      <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 25 / 4.5, }}>{item.heading}</Text>
-                      <Text style={{ color: '#788490' }}>From: {item.dataSource}</Text>
-                      <Text style={{ color: '#1f2123' }}>{item.description}</Text>
-                      <View style={
-                        { marginTop: 20 }
-                      }>
-                        <View style={styles.card4}>
-                            <Text style={styles.count}>Propzi Impact:</Text>
-                            <Text style={styles.count1}>{item.propziImpact}</Text>
-                            
-                          </View>
-                      </View>
-                    </View>
-                  </View>
-                  }
-                />
-              </View>
-            </View>
-        
-        </View>
-        ) : 
-        <View >
-              <TouchableOpacity style={[styles.card,  {marginBottom: 5}]} onPress={() => setShouldShow(!shouldShow)}>
-              <View style={styles.cardContent}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
-                  <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-                  <Text style={styles.name}>Home Renovations</Text>
-                  <Text style={[styles.count]}>Last visited on 2 Feb 2021</Text>
-                  <FlatList
-                  data={imgs3}
-                  keyExtractor={(item)=>{
-                    return item.id;
-                  }}
-                  renderItem={(item) => {
-                    const Group = item.item;
-                    
-                    return(
-                      <View>
-                        <View style={styles1.groupMembersContent}>
-                          {Group.members.map((prop, key) => {
-                            return (
-                              <Image key={key} style={styles1.memberImage}  source={{uri:prop}}/>
-                            );
-                          })}
-                        </View>
-                      </View>
-                    );
-                  }}/>
-
-                  </View>
-                  <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-                    <Text style={{alignItems: 'flex-end', paddingLeft: 45, alignSelf: 'flex-end', marginRight: 5, marginBottom: 5}}>{community.length} Updates</Text>
-                    <View style={{ alignSelf: 'flex-end', paddingTop:5}}>
-                    <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'flex-end', alignItems: 'center'}}>
-              <View style={{paddingTop: 5}}>
-              {/* <FontIcon
-                      name="caret-down"
-                      color= '#35d1b9'
-                      size={40}
-                      solid
-                    /> */}
-              </View>
-              
-              </View>
-                    </View>
-                    
-                  </View>
-                
-                </View>
-                
-                
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                
-                  <View style={{marginTop: -10, alignContent: 'flex-end', paddingLeft: 50}}>
-              
-              </View>
-                </View>
-                
-              </View>
-            </TouchableOpacity>
-            </View>
-        }
-      </View>   
-
-      <View style= {{marginTop: -10}}>
-      {shouldShow1 ? (
-          <View>
-          <TouchableOpacity style={[styles.card1,  {marginBottom: 20}]} onPress={() => setShouldShow1(!shouldShow1)}>
-          <View style={styles.cardContent}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
-              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-              <Text style={styles.name}>Economic Indicators</Text>
-              <Text style={styles.count}>Last updated on Dec 28th, 2020</Text>
-              </View>
-              <View style={{flexDirection: 'column', alignContent: 'center', alignItems: 'center'}}>
-              <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'center', alignItems: 'center'}}>
-              <View style={{paddingTop: 5}}>
-              {/* <FontIcon
-                      name="caret-right"
-                      color= '#518de7'
-                      size={40}
-                      solid
-                    /> */}
-              </View>
-              
-              </View>
-              </View>
-            </View>
-            
-          </View>
-        </TouchableOpacity>
-        <ScrollView horizontal={true}>
-          <View style={[styles.flex, styles.column, styles.recommended ]}>
-            
-            <View style={[styles.column, styles.recommendedList]}>
-            <FlatList
-                  horizontal
-                  pagingEnabled={true}
-                  showsHorizontalScrollIndicator={false}
-                  legacyImplementation={false}
-                  scrollEventThrottle={16}
-                  snapToAlignment="center"
-                  style={{ overflow: 'visible', wid: (width - 50) }}
-                  data={users}
-                  keyExtractor={(item, index) => `${item.id}`}
-                  renderItem={({ item, index }) => 
-                  <View style={[
-                    styles.flex, styles.column, styles.recommendation, 
-                    index === 0 ? { marginLeft: 20 } : null,
-                    // isLastItem ? { marginRight: 20 / 2 } : null,
-                  ]}>
-                    <View style={[styles.flex, styles.recommendationHeader]}>
-                      <Image style={[styles.recommendationImage]} source={{ uri: item.img }} />
-                      <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
-                        
-                        <View style={[styles.card3, {marginLeft: ((width - (25 * 2)) / 1.4) - 120, marginTop: 20}]}>
-                            <Text style={styles.count}>{item.categoryIndicator}</Text>
-                           
-                          </View>
-                      </View>
-                    </View>
-                    <View style={[styles.flex, styles.column, styles.shadow, { justifyContent: 'space-evenly', padding: 25 / 2 }]}>
-                      <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 25 / 4.5, }}>{item.indicator}</Text>
-                      <Text style={{ color: '#788490' }}>From: {item.dataSource}</Text>
-                      <Text style={{ color: '#1f2123' }}>{item.description}</Text>
-                      <View style={
-                        { marginTop: 20 }
-                      }>
-                        <View style={styles.card4}>
-                            <Text style={styles.count}>Propzi Impact:</Text>
-                            <Text style={styles.count1}>{item.propziImpact}</Text>
-                            
-                          </View>
-                      </View>
-                    </View>
-                  </View>
-                  }
-                />
-              </View>
-            </View>
-            
-        </ScrollView>
-        
-        </View>
-        ) : 
-        <View>
-              <TouchableOpacity style={[styles.card1,  {marginBottom: 0}]} onPress={() => setShouldShow1(!shouldShow1)}>
-              <View style={styles.cardContent}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
-                <View style={{flexDirection: 'column'}}>
-                  <Text style={styles.name}>Econominc Indicators</Text>
-                  <Text style={[styles.count]}>Last visited on 2 Feb 2021</Text>
-
-                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <FlatList
-                  data={imgs1}
-                  keyExtractor={(item)=>{
-                    return item.id;
-                  }}
-                  renderItem={(item) => {
-                    const Group = item.item;
-                    
-                    return(
-                      <View>
-                        <View style={styles1.groupMembersContent}>
-                          {Group.members.map((prop, key) => {
-                            return (
-                              <Image key={key} style={styles1.memberImage}  source={{uri:prop}}/>
-                            );
-                          })}
-                        </View>
-                      </View>
-                    );
-                  }}/>
-                  
-                </View>
-                
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-                  <Text style={{ alignSelf: 'flex-start', marginRight: 5, marginBottom: 5}}>{users.length} Updates</Text>
-                  <View style={{ alignSelf: 'flex-end', paddingTop:5}}>
-              <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'flex-end', alignItems: 'center'}}>
-              <View style={{paddingTop: 5}}>
-              {/* <FontIcon
-                      name="caret-down"
-                      color= '#518de7'
-                      size={40}
-                      solid
-                    /> */}
-              </View>
-              
-              </View>
-              </View>
-              
-                </View>
-                
-                
-                </View>
-                
-                
-                
-              </View>
-            </TouchableOpacity>
-            </View>
-        }
-      </View>   
-
-      <View style= {{marginTop: -10}}>
-      {shouldShow2 ? (
-          <View>
-          <TouchableOpacity style={[styles.card2,  {marginBottom: 20}]} onPress={() => setShouldShow2(!shouldShow2)}>
-          <View style={styles.cardContent}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
-              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-              <Text style={styles.name}>Neighbourhood Development</Text>
-              <Text style={styles.count}>Last updated on Dec 28th, 2020</Text>
-              
-              </View>
-              <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
-              <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'flex-end', alignItems: 'center'}}>
-                <View style={{paddingTop: 5}}>
-              {/* <FontIcon
-                      name="caret-right"
-                      color= '#e7bd51'
-                      size={40}
-                      solid
-                    /> */}
-              </View>
-              
-              </View>
-              </View>
-            </View>
-            
-          </View>
-        </TouchableOpacity>
-        <ScrollView horizontal={true}>
-        <View style={[styles.flex, styles.column, styles.recommended ]}>
-            
-            <View style={[styles.column, styles.recommendedList]}>
-                <FlatList
-                  horizontal
-                  pagingEnabled={true}
-                  showsHorizontalScrollIndicator={false}
-                  legacyImplementation={false}
-                  scrollEventThrottle={16}
-                  snapToAlignment="center"
-                  style={{ overflow: 'visible', wid: (width - 50) }}
-                  data={community}
-                  keyExtractor={(item, index) => `${item.id}`}
-                  renderItem={({ item, index }) => 
-                  <View style={[
-                    styles.flex, styles.column, styles.recommendation, 
-                    index === 0 ? { marginLeft: 20 } : null,
-                    // isLastItem ? { marginRight: 20 / 2 } : null,
-                  ]}>
-                    <View style={[styles.flex, styles.recommendationHeader]}>
-                      <Image style={[styles.recommendationImage]} source={{ uri: item.img }} />
-                      <View style={[ styles.flex1, styles.row, styles.recommendationOptions ]}>
-                        
-                        <View style={[styles.card3, {marginLeft: ((width - (25 * 2)) / 1.4) - 120, marginTop: 20}]}>
-                            <Text style={styles.count}>{item.community}</Text>
-                           
-                          </View>
-                      </View>
-                    </View>
-                    <View style={[styles.flex, styles.column, styles.shadow, { justifyContent: 'space-evenly', padding: 25 / 2 }]}>
-                      <Text style={{ fontSize: 14 * 1.25, fontWeight: '500', paddingBottom: 25 / 4.5, }}>{item.heading}</Text>
-                      <Text style={{ color: '#788490' }}>From: {item.dataSource}</Text>
-                      <Text style={{ color: '#1f2123' }}>{item.description}</Text>
-                      <View style={
-                        { marginTop: 20 }
-                      }>
-                        <View style={styles.card4}>
-                            <Text style={styles.count}>Propzi Impact:</Text>
-                            <Text style={styles.count1}>{item.propziImpact}</Text>
-                            
-                          </View>
-                      </View>
-                    </View>
-                  </View>
-                  }
-                />
-              </View>
-        </View>
-        </ScrollView>
-        
-        
-        </View>
-        ) : 
-        <View>
-              <TouchableOpacity style={[styles.card2,  {marginBottom: 20}]} onPress={() => setShouldShow2(!shouldShow2)}>
-              <View style={styles.cardContent}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: (width - (25 * 2)) / 1.1}}>
-                  <View style={{flexDirection: 'column', justifyConten: 'space-between'}}>
-                  <Text style={styles.name}>Neighbourhood Development</Text>
-                  <Text style={[styles.count]}>Last visited on 2 Feb 2021</Text>
-                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <FlatList
-                  data={imgs2}
-                  keyExtractor={(item)=>{
-                    return item.id;
-                  }}
-                  renderItem={(item) => {
-                    const Group = item.item;
-                    
-                    return(
-                      <View>
-                        <View style={styles1.groupMembersContent}>
-                          {Group.members.map((prop, key) => {
-                            return (
-                              <Image key={key} style={styles1.memberImage}  source={{uri:prop}}/>
-                            );
-                          })}
-                        </View>
-                      </View>
-                    );
-                  }}/>
-                  
-                </View>
-                
-                  </View>
-
-                  <View style={{flexDirection: 'column', justifyConten: 'space-between', alignSelf: 'flex-end'}}>
-                  <Text style={{alignItems: 'flex-end', alignSelf: 'flex-end', marginBottom: 5}}>{community.length} Updates</Text>
-                  <View style={{alignSelf: 'flex-end'}}>
-                    <View style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#f6f6f6', alignContent: 'center', alignItems: 'center'}}>
-                    <View style={{paddingTop: 5}}>
-                    {/* <FontIcon
-                            name="caret-down"
-                            color= '#e7bd51'
-                            size={40}
-                            solid
-                          /> */}
-                    </View>
-              
-              </View>
-              </View>
-              
-                  </View>
-                
-                
-                </View>
-                
-                
-                
-              </View>
-            </TouchableOpacity>
-            </View>
-        }
-      </View>   
-             
-         
-      </View>
-      </ScrollView>
-  );
+const testIDs = {
+  menu: {
+    CONTAINER: 'menu',
+    CALENDARS: 'calendars_btn',
+    CALENDAR_LIST: 'calendar_list_btn',
+    HORIZONTAL_LIST: 'horizontal_list_btn',
+    AGENDA: 'agenda_btn',
+    EXPANDABLE_CALENDAR: 'expandable_calendar_btn',
+    WEEK_CALENDAR: 'week_calendar_btn'
+  },
+  calendars: {
+    CONTAINER: 'calendars',
+    FIRST: 'first_calendar',
+    LAST: 'last_calendar'
+  },
+  calendarList: {CONTAINER: 'calendarList'},
+  horizontalList: {CONTAINER: 'horizontalList'},
+  agenda: {
+    CONTAINER: 'agenda',
+    ITEM: 'item'
+  },
+  expandableCalendar: {CONTAINER: 'expandableCalendar'},
+  weekCalendar: {CONTAINER: 'weekCalendar'}
 };
-
-ReportScreen.defaultProps = {
-  //navigation: { navigate: () => null },
- 
-}
 
 export default ReportScreen

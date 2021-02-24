@@ -3,7 +3,7 @@ import TabNavigator from "../utils/navigation/TabNavigator.js";
 import {createStackNavigator} from "@react-navigation/stack";
 import AuthStack from "./AuthStack.js";
 import {View,ActivityIndicator, Text} from "react-native";
-import {AuthContext} from "../components/AuthProvider";
+import {AuthContext} from "../components/providers/AuthProvider";
 import {firebase,dbh} from "../../firebase";
 import PropziLogo from "../../assets/PropziLogo.svg"
 import BarsIcon from "../../assets/bars-solid.svg"
@@ -14,7 +14,9 @@ import {TouchableOpacity,
   import ManualAddHomeScreen from "./ManualAddHomeScreen";
   import SearchHomeScreen from "./SearchHomeScreen";
   import PropertyConfirmationScreen from "./PropertyConfirmationScreen";
-const {width,height} = Dimensions.get("window")
+  
+
+  const {width,height} = Dimensions.get("window")
 
 
   
@@ -48,7 +50,7 @@ console.log(user)
 if(isLoading){
 return<LoadingScreen/>
 }
-    return (hasProperty ?<Stack.Navigator>
+    return (hasProperty ? <Stack.Navigator>
         <Stack.Screen name="Main" component={TabNavigator} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
            <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
           ) }}

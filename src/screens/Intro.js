@@ -11,7 +11,7 @@ import {
   Image,
 } from "react-native";
 import Slide from "../components/Slide";
-import {AuthContext} from "../components/AuthProvider";
+import {AuthContext} from "../components/providers/AuthProvider";
 
 const styles = StyleSheet.create({
   container: {

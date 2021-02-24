@@ -12,11 +12,13 @@ import { colors } from "../../styles";
 import FileIcon from "../../../assets/file-alt-regular.svg"
 import HomeIcon from "../../../assets/home-solid.svg"
 import CartIcon from "../../../assets/shopping-cart-solid.svg"
-
+import {PropertyDataProvider} from '../../components/providers/PropertyDataProvider';
 const Tabs = createBottomTabNavigator();
+//src/components/providers/PropertyDataProvider.js
 
 const TabNavigator = () => {
   return (
+    <PropertyDataProvider>
     <Tabs.Navigator
       tabBarOptions={{
         activeTintColor: colors.PRIMARY_COLOR,
@@ -42,6 +44,7 @@ const TabNavigator = () => {
       <Tabs.Screen name="Report" component={ReportStackNavigator} />
       <Tabs.Screen name="Offers" component={OffersStackNavigator} />
     </Tabs.Navigator>
+    </PropertyDataProvider>
   );
 };
 

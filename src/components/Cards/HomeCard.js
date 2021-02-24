@@ -9,8 +9,8 @@ export default function HomeCard({ data, to }) {
       <View style={styles.cardHeader}>
         <Home style={styles.homeImg} />
         <Text style={styles.propziPrice}>
-          {data[0].propziPrice != "" ? (
-            <Text>{data[0].propziPrice}</Text>
+          {data.propziPrice != "" ? (
+            <Text>{data.propziPrice}</Text>
           ) : (
             <Text>Calculating</Text>
           )}
@@ -26,8 +26,8 @@ export default function HomeCard({ data, to }) {
         <View>
           <Text>CMA Price</Text>
           <Text>
-            {data[0].cmaPrice != "" ? (
-              <Text>{data[0].cmaPrice}</Text>
+            {data.cmaPrice != "" ? (
+              <Text>{data.cmaPrice}</Text>
             ) : (
               <Text>Calculating</Text>
             )}

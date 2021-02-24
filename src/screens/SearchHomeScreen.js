@@ -2,7 +2,8 @@ import React, { useState,useContext } from 'react';
 import { StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity,ActivityIndicator} from 'react-native';
 const {width, height} = Dimensions.get("window")
 import { dbh } from "../../firebase";
-import {AuthContext} from "../components/AuthProvider";
+import {AuthContext} from "../components/providers/AuthProvider";
+import PropziVisit from "./PropziVisit";
 
 
 const LoadingScreen = () => {
@@ -114,6 +115,9 @@ export default function SearchHomeScreen({navigation}) {
   const [property,setproperty] = useState(null)
   const [isLoading,setLoading] = useState(false)
   const {user,setUser} = useContext(AuthContext)
+  const [isMLSSelected,setMLSSelected] = useState(true)
+  const [isUpgradesSelected,setUpgradesSelected] = useState(false)
+  const [isPropziVisitSelected,setPropziVisitSelected] = useState(false)
 
   const getPropertyDetails = (raw)=>{
      const {streetNumber,streetName} = cleanAddress(raw)
@@ -269,6 +273,25 @@ export default function SearchHomeScreen({navigation}) {
         });
   }
 
+  const onMLSSelected = () =>{
+    setMLSSelected(true)
+    setUpgradesSelected(false)
+    setPropziVisitSelected(false)
+  }
+
+
+  const onUPgradesSelected = () =>{
+    setMLSSelected(false)
+    setUpgradesSelected(true)
+    setPropziVisitSelected(false)
+  }
+
+  const onPropziVisitSelected = () =>{
+    setMLSSelected(false)
+    setUpgradesSelected(false)
+    setPropziVisitSelected(true)
+  }
+
 if(isLoading){
 return<LoadingScreen/>
 }
@@ -306,20 +329,22 @@ return<LoadingScreen/>
           <TouchableOpacity style={styles.continueButton}><Text style={{color:"white",fontSize:18}}>Continue</Text></TouchableOpacity>
           </View>
         :null}
-        {propertyFound ? <View style={{padding:16,marginBottom:"20%"}}>
+        {propertyFound ? <View style={{padding:20,marginBottom:"20%"}}>
     <Text style={{fontSize:24}}>Home Details</Text>
     <View style={{flexDirection:"row"}}>
-      <TouchableOpacity style={styles.pill}>
+      <TouchableOpacity style={[styles.pill,{backgroundColor:isMLSSelected ? "#46D0B6":"#C4C4C4"}]} onPress={onMLSSelected}>
         <Text style={{fontSize:16,color:"white"}}>MSL</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.pill}>
+      <TouchableOpacity style={[styles.pill,{backgroundColor:isUpgradesSelected ? "#46D0B6":"#C4C4C4"}]} onPress={onUPgradesSelected}>
         <Text style={{fontSize:16,color:"white"}}>Upgrades</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.pill}>
+      <TouchableOpacity style={[styles.pill,{backgroundColor:isPropziVisitSelected ? "#46D0B6":"#C4C4C4"}]} onPress={onPropziVisitSelected}>
         <Text style={{fontSize:16,color:"white"}}>Propzi</Text>
       </TouchableOpacity>
     </View>
 
+
+{isMLSSelected ? <View>
 <View style={{marginTop:"10%"}}>
   <View style={{marginBottom:"5%"}}>
   <Text style={{fontWeight:"500",fontSize:16}}>Address</Text>
@@ -366,7 +391,7 @@ return<LoadingScreen/>
 <TouchableOpacity style={styles.addHomeButton} onPress={handlePropertyAdding}>
   <Text style={{fontSize:18,color:"white"}}>Add Home</Text>
 </TouchableOpacity>
-
+</View>: isUpgradesSelected ? <Text>UPgrades</Text>: isPropziVisitSelected ? <PropziVisit/>:null}
   </View>:null}
         </ScrollView>
     </SafeAreaView>
@@ -378,19 +403,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent:"center",
+    flexDirection:"row"
+   
   },
   resultsContainer:{
-    paddingHorizontal:10,
     shadowColor:"#333",
     shadowOffset:{width:1,height:1},
     backgroundColor:"white",
     shadowRadius:5,
     shadowOpacity:0.3,
     borderRadius:10,
-    width:width - 32,
+    width:width - 40,
     maxHeight:height / 2,
     marginTop:30,
     alignSelf:"center",
+   
 
 
   },
@@ -409,7 +437,6 @@ const styles = StyleSheet.create({
     flex:1,
     height:35,
     borderRadius:40,
-    backgroundColor:"#C4C4C4",
     alignItems:"center",
     justifyContent:"center",
     margin:"1%",
@@ -429,10 +456,12 @@ const styles = StyleSheet.create({
     marginTop:"20%"
   },
   input: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
     borderRadius: 5,
     backgroundColor:"white",
+    height:50,
+    justifyContent:"center",
+    marginHorizontal:16,
+   
   },
   icon: {
     position: "absolute",
