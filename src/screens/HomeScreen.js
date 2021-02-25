@@ -4,8 +4,7 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity,
-  ActivityIndicator
+  TouchableOpacity
 } from "react-native";
 import GlobalCard from "../components/Cards/GlobalCard";
 import HomeCard from "../components/Cards/HomeCard";
@@ -15,10 +14,10 @@ import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
-
+import {ActivityIndicator} from "react-native-paper";
 
 const LoadingScreen = () => {
-  return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large"/></View>);
+  return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/></View>);
   }
 
 export default function HomeScreen({ navigation }) {

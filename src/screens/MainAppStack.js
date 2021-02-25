@@ -2,7 +2,7 @@ import React,{useContext,useState,useEffect} from 'react';
 import TabNavigator from "../utils/navigation/TabNavigator.js";
 import {createStackNavigator} from "@react-navigation/stack";
 import AuthStack from "./AuthStack.js";
-import {View,ActivityIndicator, Text} from "react-native";
+import {View, Text} from "react-native";
 import {AuthContext} from "../components/providers/AuthProvider";
 import {firebase,dbh} from "../../firebase";
 import PropziLogo from "../../assets/PropziLogo.svg"
@@ -14,7 +14,7 @@ import {TouchableOpacity,
   import ManualAddHomeScreen from "./ManualAddHomeScreen";
   import SearchHomeScreen from "./SearchHomeScreen";
   import PropertyConfirmationScreen from "./PropertyConfirmationScreen";
-  
+  import {ActivityIndicator} from "react-native-paper";
 
   const {width,height} = Dimensions.get("window")
 
@@ -23,7 +23,7 @@ import {TouchableOpacity,
 const Stack = createStackNavigator()
 
 const LoadingScreen = () => {
-    return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large"/></View>);
+    return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/></View>);
     }
 
 
