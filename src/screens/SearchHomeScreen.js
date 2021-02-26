@@ -1,13 +1,15 @@
 import React, { useState,useContext } from 'react';
-import { StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity,ActivityIndicator} from 'react-native';
+import { StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity} from 'react-native';
 const {width, height} = Dimensions.get("window")
 import { dbh } from "../../firebase";
 import {AuthContext} from "../components/providers/AuthProvider";
 import PropziVisit from "./PropziVisit";
+import PropziUpgradesScreen from "./PropziUpgradesScreen";
+import { ActivityIndicator } from 'react-native-paper';
 
 
 const LoadingScreen = () => {
-  return(<View style={{justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large"/><Text style={{marginTop:"5%"}}>Adding your Home...</Text></View>);
+  return(<View style={{justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/><Text style={{marginTop:"5%"}}>Adding your Home...</Text></View>);
   }
 
 
@@ -391,7 +393,7 @@ return<LoadingScreen/>
 <TouchableOpacity style={styles.addHomeButton} onPress={handlePropertyAdding}>
   <Text style={{fontSize:18,color:"white"}}>Add Home</Text>
 </TouchableOpacity>
-</View>: isUpgradesSelected ? <Text>UPgrades</Text>: isPropziVisitSelected ? <PropziVisit/>:null}
+</View>: isUpgradesSelected ? <PropziUpgradesScreen/> : isPropziVisitSelected ? <PropziVisit/>:null}
   </View>:null}
         </ScrollView>
     </SafeAreaView>
