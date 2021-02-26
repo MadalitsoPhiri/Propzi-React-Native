@@ -5,7 +5,8 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Pressable,
 } from "react-native";
 import GlobalCard from "../components/Cards/GlobalCard";
 import HomeCard from "../components/Cards/HomeCard";
@@ -16,17 +17,30 @@ import tryImage from "../../assets/propzi-img/tryImg.jpg";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 
-
 const LoadingScreen = () => {
-  return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large"/></View>);
-  }
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <ActivityIndicator size="large" />
+    </View>
+  );
+};
 
 export default function HomeScreen({ navigation }) {
   const { homeState } = useContext(AuthContext);
-  const {isPropertyDataLoaded,property} = useContext(PropertyDataContext);
+  const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
 
-if(!isPropertyDataLoaded){return <LoadingScreen/>}
- console.log(property)
+  if (!isPropertyDataLoaded) {
+    return <LoadingScreen />;
+  }
+  console.log(property);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
@@ -36,7 +50,16 @@ if(!isPropertyDataLoaded){return <LoadingScreen/>}
             {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
           <Text style={styles.address}>Address</Text>
-          <Text style={styles.actualAddress}>{`${property.streetNumber},${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
+          <Text
+            style={styles.actualAddress}
+          >{`${property.streetNumber},${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
+          <Pressable onPress={() => navigation.navigate("manual")}>
+            <Text
+              style={{ alignSelf: "flex-end", borderWidth: 1, padding: 10 }}
+            >
+              Add property
+            </Text>
+          </Pressable>
         </View>
 
         <HomeCard data={property} />
@@ -90,8 +113,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingHorizontal:16,
-    backgroundColor:"white",
+    paddingHorizontal: 16,
+    backgroundColor: "white",
   },
   todayContainer: {
     marginTop: 20,
