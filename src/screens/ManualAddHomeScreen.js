@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Input from "../components/Input";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
 import { dbh, firebase } from "../../firebase";
 import { CheckFalse, CheckTrue } from "../../assets/CheckIcon";
+import { ActivityIndicator } from "react-native-paper";
 
 const LoadingScreen = () => {
   return (
@@ -24,10 +19,11 @@ const LoadingScreen = () => {
         height: "100%",
       }}
     >
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color="#46D0B6" />
     </View>
   );
 };
+
 export default function ManualAddHome() {
   const [isLoading, setIsLoading] = useState(false);
   const [unit, setUnit] = useState("");

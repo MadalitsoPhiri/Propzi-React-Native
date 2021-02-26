@@ -26,7 +26,7 @@ export default function GlobalCard({
       onPress={() => to.navigate("Report")}
     >
       <View style={styles.cardImage}>
-        <Image source={imgUrl} style={{height: "100%" }} />
+        <Image source={imgUrl} style={styles.cardImage} />
         <View style={styles.category}>
           <Text>{category}</Text>
         </View>
@@ -58,13 +58,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.LIGHT_COLOR,
     marginTop: 50,
-    marginBottom:50,
+    marginBottom: 50,
     borderRadius: 10,
-    flexWrap:"wrap",
+    flexWrap: "wrap",
     overflow: "hidden",
   },
   cardImage: {
-    height:250,
+    height: 250,
+    width: "100%",
   },
   category: {
     position: "absolute",
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 50,
     backgroundColor: colors.PRIMARY_COLOR,
-    right:"70%",
+    right: 15,
     top: 20,
   },
   content: {

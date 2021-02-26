@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import TabNavigator from "../utils/navigation/TabNavigator.js";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthStack from "./AuthStack.js";
-<<<<<<< HEAD
 import { View, ActivityIndicator, Text } from "react-native";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { firebase, dbh } from "../../firebase";
@@ -12,28 +11,12 @@ import { TouchableOpacity, Dimensions } from "react-native";
 import NotFoundHomeScreen from "./NotFoundHomeScreen";
 import ManualAddHomeScreen from "./ManualAddHomeScreen";
 import SearchHomeScreen from "./SearchHomeScreen";
-=======
-import {View, Text} from "react-native";
-import {AuthContext} from "../components/providers/AuthProvider";
-import {firebase,dbh} from "../../firebase";
-import PropziLogo from "../../assets/PropziLogo.svg"
-import BarsIcon from "../../assets/bars-solid.svg"
-import {TouchableOpacity,
-    Dimensions,
-  } from "react-native";
-  import NotFoundHomeScreen from "./NotFoundHomeScreen";
-  import ManualAddHomeScreen from "./ManualAddHomeScreen";
-  import SearchHomeScreen from "./SearchHomeScreen";
-  import PropertyConfirmationScreen from "./PropertyConfirmationScreen";
-  import {ActivityIndicator} from "react-native-paper";
->>>>>>> e48e6f3f0ce12171a68577f6692f23a6b27211cb
 
 const { width, height } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
 
 const LoadingScreen = () => {
-<<<<<<< HEAD
   return (
     <View
       style={{
@@ -214,67 +197,3 @@ export default MainAppStack = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
-=======
-    return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/></View>);
-    }
-
-
-export default MainAppStack = ({navigation}) =>{
-    const {user,setUser} = useContext(AuthContext);
-    const [hasProperty,setHasProperty] = useState(false);
-    const [isLoading,setLoading] = useState(true);
-      useEffect(()=>{
-        dbh.collection("UserDetails").doc(user.uid).collection("Property").get().then((docSnapshot)=>{
-             if(docSnapshot.size != 0){
-             //They have not property yet
-                 setHasProperty(true)
-               
-             }
-             setLoading(false)
-        }).catch((e)=>{
-             setLoading(false)
-            console.log(e)
-        })
-      },[]);
-    
-console.log(user)
-
-if(isLoading){
-return<LoadingScreen/>
-}
-    return (hasProperty ? <Stack.Navigator>
-        <Stack.Screen name="Main" component={TabNavigator} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
-           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
-          ) }}
-/>
-
-    </Stack.Navigator>:<Stack.Navigator>
-    <Stack.Screen name="notFound" component={NotFoundHomeScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
-           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
-          ) }}
-
-/>
-
-
-<Stack.Screen name="Main" component={TabNavigator} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
-           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
-          ) }}
-/>
-
-<Stack.Screen name="manual" component={ManualAddHomeScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
-           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
-          ) }}
-          
-/>
-
-<Stack.Screen name="search" component={SearchHomeScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} />,  headerRight: (props) => (
-           <TouchableOpacity onPress={()=>navigation.openDrawer()}><BarsIcon width={25} height={25} style={{marginRight:15}} color={"black"}/></TouchableOpacity>
-          ) }}
-          
-/>
-
-
-    </Stack.Navigator>);
-}
-
->>>>>>> e48e6f3f0ce12171a68577f6692f23a6b27211cb
