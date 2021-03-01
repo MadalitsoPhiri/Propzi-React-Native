@@ -144,14 +144,14 @@ export default function HomeScreen({ navigation }) {
             horizontal
             data={HomeBankOffersCardData}
             renderItem={({ item }) => (
-              <View style={{marginRight:20}}>
+              <View style={{ marginRight: 20, marginLeft: 1 }}>
                 <HomeBankFinance
                   title={item.title}
                   term={item.term}
                   specialRate={item.specialRate}
                   APR={item.APR}
                   key={item.id}
-                  width={width}
+                  width={width - 34}
                 />
               </View>
             )}

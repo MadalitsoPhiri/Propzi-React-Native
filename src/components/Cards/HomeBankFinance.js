@@ -86,25 +86,24 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
 
+  cardBodyRight: {
+    width: "10%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardBodyLeft: {
+    width: "45%",
+  },
+
   cardBodyLeftTitle: {
     fontWeight: "700",
     width: "90%",
     marginBottom: 10,
+    fontSize: 15,
   },
 
   headerText: {
     fontWeight: "200",
-  },
-
-  homeImg: {
-    marginBottom: 10,
-    width: "100%",
-    marginTop: 16,
-  },
-
-  propziPrice: {
-    fontSize: 26,
-    fontWeight: "bold",
   },
 
   cardFooter: {
