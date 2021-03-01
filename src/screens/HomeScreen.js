@@ -15,30 +15,16 @@ import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
-import { ActivityIndicator } from "react-native-paper";
+import Loader from '../components/Loader'
+import HomeBankFinance from "../components/Cards/HomeBankFinance";
 
-const LoadingScreen = () => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <ActivityIndicator size="large" color="#46D0B6" />
-    </View>
-  );
-};
 
 export default function HomeScreen({ navigation }) {
   const { homeState } = useContext(AuthContext);
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
 
   if (!isPropertyDataLoaded) {
-    return <LoadingScreen />;
+    return <Loader />;
   }
   console.log(property);
   return (
@@ -52,7 +38,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.address}>Address</Text>
           <Text
             style={styles.actualAddress}
-          >{`${property.streetNumber},${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
+          >{`${property.streetNumber} ${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
           <Pressable onPress={() => navigation.navigate("manual")}>
             <Text
               style={{ alignSelf: "flex-end", borderWidth: 1, padding: 10 }}
@@ -99,11 +85,8 @@ export default function HomeScreen({ navigation }) {
               );
             })
           : null}
-
-        {/* <View style={styles.homeOffers}>
-          <Text style={styles.homeHeading}>Your home finance offers</Text>
-          <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
-        </View> */}
+        
+        <HomeBankFinance />
       </View>
     </ScrollView>
   );

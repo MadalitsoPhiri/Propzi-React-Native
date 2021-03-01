@@ -6,23 +6,8 @@ import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
 import { dbh, firebase } from "../../firebase";
 import { CheckFalse, CheckTrue } from "../../assets/CheckIcon";
-import { ActivityIndicator } from "react-native-paper";
+import Loader from '../components/Loader'
 
-const LoadingScreen = () => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <ActivityIndicator size="large" color="#46D0B6" />
-    </View>
-  );
-};
 
 export default function ManualAddHome() {
   const [isLoading, setIsLoading] = useState(false);
@@ -181,7 +166,7 @@ export default function ManualAddHome() {
   };
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <Loader />;
   }
 
   return (
