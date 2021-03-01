@@ -85,8 +85,38 @@ export default function HomeScreen({ navigation }) {
               );
             })
           : null}
-        
-        <HomeBankFinance />
+      </View>
+
+      <View style={styles.homeOffers}>
+        <Text style={styles.homeHeading}>Your home finance offers</Text>
+        <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
+
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>Scotiabank</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* <>
+          <ScrollView
+            horizontal
+            contentContainerStyle={{ marginHorizontal: 3 }}
+            bounces={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            <HomeBankFinance width={377} />
+            <HomeBankFinance width={377} />
+          </ScrollView>
+        </> */}
       </View>
     </ScrollView>
   );
@@ -136,7 +166,7 @@ const styles = StyleSheet.create({
   },
 
   homeOffers: {
-    marginBottom: 400,
+    // marginBottom: 400,
   },
 
   homeSubHeading: {
