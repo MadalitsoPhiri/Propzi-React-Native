@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Pressable,
+  FlatList,
+  Dimensions
 } from "react-native";
 import GlobalCard from "../components/Cards/GlobalCard";
 import HomeCard from "../components/Cards/HomeCard";
@@ -17,7 +19,7 @@ import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import Loader from '../components/Loader'
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
-
+const { width } = Dimensions.get('screen')
 
 export default function HomeScreen({ navigation }) {
   const { homeState } = useContext(AuthContext);
@@ -26,7 +28,38 @@ export default function HomeScreen({ navigation }) {
   if (!isPropertyDataLoaded) {
     return <Loader />;
   }
-  console.log(property);
+
+  const HomeBankOffersCardData = [
+    {
+      id: '1',
+      title: "Special Mortgage Rates",
+      term: "5 Year Fixed",
+      specialRate: "2.4%",
+      APR: "2.6%",
+    },
+    {
+      id: '2',
+      title: "Scotiabank Special Mortgage Rates",
+      term: "10 Year Fixed",
+      specialRate: ".8%",
+      APR: "3.0%",
+    },
+    {
+      id: '3',
+      title: "BMO Special Mortgage Rates",
+      term: "5 Year Fixed",
+      specialRate: "2.4%",
+      APR: "4.0%",
+    },
+    {
+      id: '4',
+      title: "CIBC Special Mortgage Rates",
+      term: "8 Year Fixed",
+      specialRate: "2.4%",
+      APR: "4.8%",
+    },
+  ];
+  
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
@@ -106,17 +139,24 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* <>
-          <ScrollView
+        <>
+          <FlatList
             horizontal
-            contentContainerStyle={{ marginHorizontal: 3 }}
-            bounces={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            <HomeBankFinance width={377} />
-            <HomeBankFinance width={377} />
-          </ScrollView>
-        </> */}
+            data={HomeBankOffersCardData}
+            renderItem={({ item }) => (
+              <View style={{marginRight:20}}>
+                <HomeBankFinance
+                  title={item.title}
+                  term={item.term}
+                  specialRate={item.specialRate}
+                  APR={item.APR}
+                  key={item.id}
+                  width={width}
+                />
+              </View>
+            )}
+          />
+        </>
       </View>
     </ScrollView>
   );
@@ -173,5 +213,21 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
+  },
+
+  homeOffers: {
+    flex: 1,
+  },
+
+  pill: {
+    flex: 1,
+    height: 35,
+    backgroundColor: "#C4C4C4",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+    margin: "1%",
+    marginTop: "5%",
+    paddingHorizontal: 10,
   },
 });

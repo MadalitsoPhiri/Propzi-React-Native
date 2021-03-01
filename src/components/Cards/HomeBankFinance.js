@@ -3,8 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../styles";
 import Button from "../Button";
+import FinanceIcon from '../../../assets/FinanceHome.svg'
 
-export default function HomeFinanceOffersCard({ width }) {
+export default function HomeFinanceOffersCard({ width, title, term, specialRate, APR }) {
   return (
     <View style={[styles.cardContainer, { width }]}>
       <View style={styles.cardHeader}>
@@ -18,25 +19,23 @@ export default function HomeFinanceOffersCard({ width }) {
       <View style={styles.line}></View>
       <View style={styles.cardBody}>
         <View style={styles.cardBodyLeft}>
-          <Text style={styles.cardBodyLeftTitle}>
-            BMO Special Mortgage Rates
-          </Text>
+          <Text style={styles.cardBodyLeftTitle}>{title}</Text>
           <View style={{ alignItems: "center" }}>
-            <Text>Term: 5 Years Fixed</Text>
-            <Text>Special Rate: 2.5%</Text>
-            <Text>APR: 4.0%</Text>
+            <Text>Term: {term}</Text>
+            <Text>Special Rate: {specialRate}</Text>
+            <Text>APR: {APR}</Text>
           </View>
         </View>
         <View style={styles.cardBodyRight}>
-          <Text>icon</Text>
+          <FinanceIcon />
         </View>
       </View>
       <View style={styles.cardFooter}>
         <Button
           title="Apply Now"
           borderRadius={50}
-          width={"70%"}
-          paddingVertical={10}
+          width={"75%"}
+          paddingVertical={9}
         />
         <TouchableOpacity>
           <Text
