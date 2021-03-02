@@ -142,16 +142,18 @@ export default function HomeScreen({ navigation }) {
         <>
           <FlatList
             horizontal
+            pagingEnabled
+            bounces={false}
             data={HomeBankOffersCardData}
             renderItem={({ item }) => (
-              <View style={{ marginRight: 20, marginLeft: 1 }}>
+              <View style={{ marginHorizontal: 4 }}>
                 <HomeBankFinance
                   title={item.title}
                   term={item.term}
                   specialRate={item.specialRate}
                   APR={item.APR}
                   key={item.id}
-                  width={width - 34}
+                  width={width - 40}
                 />
               </View>
             )}

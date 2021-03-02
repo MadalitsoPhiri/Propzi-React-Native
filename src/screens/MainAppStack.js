@@ -1,36 +1,20 @@
 import React, { useContext, useState, useEffect } from "react";
 import TabNavigator from "../utils/navigation/TabNavigator.js";
 import { createStackNavigator } from "@react-navigation/stack";
-import AuthStack from "./AuthStack.js";
-import { View, ActivityIndicator, Text } from "react-native";
 import { AuthContext } from "../components/providers/AuthProvider";
-import { firebase, dbh } from "../../firebase";
+import { dbh } from "../../firebase";
 import PropziLogo from "../../assets/PropziLogo.svg";
 import BarsIcon from "../../assets/bars-solid.svg";
 import { TouchableOpacity, Dimensions } from "react-native";
 import NotFoundHomeScreen from "./NotFoundHomeScreen";
 import ManualAddHomeScreen from "./ManualAddHomeScreen";
 import SearchHomeScreen from "./SearchHomeScreen";
+import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
 
-const LoadingScreen = () => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <ActivityIndicator size="large" />
-    </View>
-  );
-};
 
 export default MainAppStack = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
@@ -55,10 +39,9 @@ export default MainAppStack = ({ navigation }) => {
       });
   }, []);
 
-  console.log(user);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <Loader />;
   }
   return hasProperty ? (
     <Stack.Navigator
