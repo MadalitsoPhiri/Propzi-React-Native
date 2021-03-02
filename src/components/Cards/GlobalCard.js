@@ -58,11 +58,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.LIGHT_COLOR,
     marginTop: 50,
-    marginBottom: 50,
+    marginBottom: 20,
     borderRadius: 10,
     flexWrap: "wrap",
     overflow: "hidden",
   },
+  
   cardImage: {
     height: 250,
     width: "100%",
