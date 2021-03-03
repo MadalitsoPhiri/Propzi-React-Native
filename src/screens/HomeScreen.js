@@ -4,7 +4,10 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Pressable,
+  FlatList,
+  Dimensions
 } from "react-native";
 import GlobalCard from "../components/Cards/GlobalCard";
 import HomeCard from "../components/Cards/HomeCard";
@@ -14,18 +17,49 @@ import { colors, btnSize } from "../styles";
 import tryImage from "../../assets/propzi-img/tryImg.jpg";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
-import {ActivityIndicator} from "react-native-paper";
-
-const LoadingScreen = () => {
-  return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/></View>);
-  }
+import Loader from '../components/Loader'
+import HomeBankFinance from "../components/Cards/HomeBankFinance";
+const { width } = Dimensions.get('screen')
 
 export default function HomeScreen({ navigation }) {
   const { homeState } = useContext(AuthContext);
-  const {isPropertyDataLoaded,property} = useContext(PropertyDataContext);
+  const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
 
-if(!isPropertyDataLoaded){return <LoadingScreen/>}
- console.log(property)
+  if (!isPropertyDataLoaded) {
+    return <Loader />;
+  }
+
+  const HomeBankOffersCardData = [
+    {
+      id: '1',
+      title: "Special Mortgage Rates",
+      term: "5 Year Fixed",
+      specialRate: "2.4%",
+      APR: "2.6%",
+    },
+    {
+      id: '2',
+      title: "Scotiabank Special Mortgage Rates",
+      term: "10 Year Fixed",
+      specialRate: ".8%",
+      APR: "3.0%",
+    },
+    {
+      id: '3',
+      title: "BMO Special Mortgage Rates",
+      term: "5 Year Fixed",
+      specialRate: "2.4%",
+      APR: "4.0%",
+    },
+    {
+      id: '4',
+      title: "CIBC Special Mortgage Rates",
+      term: "8 Year Fixed",
+      specialRate: "2.4%",
+      APR: "4.8%",
+    },
+  ];
+  
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
@@ -35,7 +69,16 @@ if(!isPropertyDataLoaded){return <LoadingScreen/>}
             {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
           <Text style={styles.address}>Address</Text>
-          <Text style={styles.actualAddress}>{`${property.streetNumber},${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
+          <Text
+            style={styles.actualAddress}
+          >{`${property.streetNumber} ${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
+          <Pressable onPress={() => navigation.navigate("manual")}>
+            <Text
+              style={{ alignSelf: "flex-end", borderWidth: 1, padding: 10 }}
+            >
+              Add property
+            </Text>
+          </Pressable>
         </View>
 
         <HomeCard data={property} />
@@ -75,11 +118,47 @@ if(!isPropertyDataLoaded){return <LoadingScreen/>}
               );
             })
           : null}
+      </View>
 
-        {/* <View style={styles.homeOffers}>
-          <Text style={styles.homeHeading}>Your home finance offers</Text>
-          <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
-        </View> */}
+      <View style={styles.homeOffers}>
+        <Text style={styles.homeHeading}>Your home finance offers</Text>
+        <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
+
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>Scotiabank</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
+          </TouchableOpacity>
+        </View>
+
+        <>
+          <FlatList
+            horizontal
+            pagingEnabled
+            bounces={false}
+            data={HomeBankOffersCardData}
+            renderItem={({ item }) => (
+              <View style={{ marginHorizontal: 4 }}>
+                <HomeBankFinance
+                  title={item.title}
+                  term={item.term}
+                  specialRate={item.specialRate}
+                  APR={item.APR}
+                  key={item.id}
+                  width={width - 40}
+                />
+              </View>
+            )}
+          />
+        </>
       </View>
     </ScrollView>
   );
@@ -89,8 +168,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingHorizontal:16,
-    backgroundColor:"white",
+    paddingHorizontal: 16,
+    backgroundColor: "white",
   },
   todayContainer: {
     marginTop: 20,
@@ -129,12 +208,28 @@ const styles = StyleSheet.create({
   },
 
   homeOffers: {
-    marginBottom: 400,
+    // marginBottom: 400,
   },
 
   homeSubHeading: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
+  },
+
+  homeOffers: {
+    flex: 1,
+  },
+
+  pill: {
+    flex: 1,
+    height: 35,
+    backgroundColor: "#C4C4C4",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+    margin: "1%",
+    marginTop: "5%",
+    paddingHorizontal: 10,
   },
 });

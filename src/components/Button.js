@@ -8,13 +8,19 @@ export default function Button({
   width,
   marginTop,
   borderRadius,
+  paddingVertical = 15,
 }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.btnContainer}>
       <View
         style={[
           styles.btn,
-          { width: width, marginTop: marginTop, borderRadius: borderRadius },
+          {
+            width: width,
+            marginTop: marginTop,
+            borderRadius: borderRadius,
+            paddingVertical,
+          },
         ]}
       >
         <Text style={styles.btnText}>{title}</Text>
@@ -29,7 +35,6 @@ const styles = StyleSheet.create({
   },
 
   btn: {
-    paddingVertical: 15,
     paddingHorizontal: 30,
     backgroundColor: colors.PRIMARY_COLOR,
   },

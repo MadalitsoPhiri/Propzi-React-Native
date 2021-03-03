@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+gitimport React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -9,7 +9,6 @@ import {
   ScrollView,
   SafeAreaView,
   Dimensions,
-  ActivityIndicator,
 } from "react-native";
 import { firebase,dbh} from "../../firebase";
 import GoogleIcon from "../../assets/google-icon.svg"
@@ -19,6 +18,7 @@ import { useFonts } from 'expo-font';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { Ionicons } from '@expo/vector-icons';
 import * as Google from 'expo-google-app-auth';
+import Loader from "../components/Loader";
 
 
 const {width,height} = Dimensions.get("window")
@@ -103,7 +103,6 @@ export default function LoginScreen({navigation}) {
 
   const handleOnEmailChange = (e) => {
     setEmail(e);
-    console.log(e);
   };
   const setHiddenValue = () =>{
     if (isHidden){
@@ -113,13 +112,8 @@ export default function LoginScreen({navigation}) {
     }
   }
 
-  const LoadingScreen = () => {
-    return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large"/></View>);
-    }
-
   const handleOnPasswordChange = (e) => {
     setPassword(e);
-    console.log(e);
   };
 
   const handleLogin = () => {
@@ -140,7 +134,7 @@ export default function LoginScreen({navigation}) {
   };
 
   if (isLoading) {
-    return <LoadingScreen/>;
+    return <Loader />;
   }
   return (
     <SafeAreaView>

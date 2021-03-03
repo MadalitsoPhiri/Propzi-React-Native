@@ -6,11 +6,7 @@ import {AuthContext} from "../components/providers/AuthProvider";
 import PropziVisit from "./PropziVisit";
 import PropziUpgradesScreen from "./PropziUpgradesScreen";
 import { ActivityIndicator } from 'react-native-paper';
-
-
-const LoadingScreen = () => {
-  return(<View style={{justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/><Text style={{marginTop:"5%"}}>Adding your Home...</Text></View>);
-  }
+import Loader from "../components/Loader";
 
 
 
@@ -295,7 +291,7 @@ export default function SearchHomeScreen({navigation}) {
   }
 
 if(isLoading){
-return<LoadingScreen/>
+return <Loader />;
 }
 
   return (
