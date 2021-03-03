@@ -169,7 +169,7 @@ const ReportScreen = () => {
   let dateTwo = "2021-02-18";
 
   if (loading) {
-    return <Loader />;
+    return <Loader text=""/>;
   }
 
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];

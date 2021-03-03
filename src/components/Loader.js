@@ -1,8 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View,Text} from 'react-native'
 import { ActivityIndicator } from "react-native-paper";
 
-const Loading = () => {
+const Loading = ({text}) => {
   return (
     <View
       style={{
@@ -14,6 +14,7 @@ const Loading = () => {
       }}
     >
       <ActivityIndicator size="large" color="#46D0B6" />
+      <Text>{text}</Text>
     </View>
   );
 };

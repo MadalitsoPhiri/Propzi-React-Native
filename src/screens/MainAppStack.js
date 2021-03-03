@@ -41,7 +41,7 @@ export default MainAppStack = ({ navigation }) => {
 
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader text=""/>;
   }
   return hasProperty ? (
     <Stack.Navigator
@@ -157,6 +157,31 @@ export default MainAppStack = ({ navigation }) => {
       <Stack.Screen
         name="search"
         component={SearchHomeScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+
+<Stack.Screen
+        name="manual"
+        component={ManualAddHomeScreen}
         options={{
           headerTitle: (props) => (
             <PropziLogo

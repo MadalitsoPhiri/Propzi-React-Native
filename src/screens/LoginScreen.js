@@ -134,7 +134,7 @@ export default function LoginScreen({navigation}) {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader text=""/>;
   }
   return (
     <SafeAreaView>

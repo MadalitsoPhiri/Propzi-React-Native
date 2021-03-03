@@ -5,7 +5,7 @@ import { dbh } from "../../firebase";
 import {AuthContext} from "../components/providers/AuthProvider";
 import PropziVisit from "./PropziVisit";
 import PropziUpgradesScreen from "./PropziUpgradesScreen";
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator,Modal,Provider,Portal, Dialog} from 'react-native-paper';
 import Loader from "../components/Loader";
 
 
@@ -40,10 +40,21 @@ const cleanAddress = (raw)=>{
     let streetNumber;
 
     if (postGridAddress.length == 3){
-       streetNumber = postGridAddress[0]
-       streetName = postGridAddress[1]
+      let lastItem = postGridAddress[postGridAddress.length - 1]
+       
 
-
+        if(lastItem.length <= 2){
+          streetNumber = postGridAddress[0]
+          streetName = postGridAddress[1]
+        }else{
+          streetNumber = postGridAddress[0]
+          postGridAddress.shift()
+          let streetNameArray = []
+          postGridAddress.forEach((item)=>{
+            streetNameArray.push(item)
+          })
+         streetName = streetNameArray.join(" ").toLowerCase()
+        }
     
      return {streetNumber,streetName}
 
@@ -73,18 +84,29 @@ const cleanAddress = (raw)=>{
           
           
       }else{
-           postGridAddress.pop()
-           streetNumber = postGridAddress[0]
+        if(lastItem.length == 1){
+          postGridAddress.pop()
+          streetNumber = postGridAddress[0]
+         let streetNameArray = []
+         let index;
+         for (index = 0;index < postGridAddress.length; index++){
+             if (index != 0){
+               streetNameArray.push(postGridAddress[index])
+             }
+           
+         }
+          streetName = streetNameArray.join(" ").toLowerCase()
+        }else{
+          streetNumber = postGridAddress[0]
+          postGridAddress.shift()
           let streetNameArray = []
-          let index;
-          for (index = 0;index < postGridAddress.length; index++){
-              if (index != 0){
-                streetNameArray.push(postGridAddress[index])
-              }
-            
-          }
-           streetName = streetNameArray.join(" ").toLowerCase()
-           return {streetNumber,streetName}
+          postGridAddress.forEach((item)=>{
+            streetNameArray.push(item)
+          })
+         streetName = streetNameArray.join(" ").toLowerCase()
+          
+        }
+        return {streetNumber,streetName}
 //                                       
          
       }
@@ -117,6 +139,17 @@ export default function SearchHomeScreen({navigation}) {
   const [isUpgradesSelected,setUpgradesSelected] = useState(false)
   const [isPropziVisitSelected,setPropziVisitSelected] = useState(false)
 
+  const [bedroomVisible, setbedroomVisible] = React.useState(false);
+  const [bathroomVisible, setbathroomVisible] = React.useState(false);
+
+  const showBathroomEdit = () => setbathroomVisible(true);
+  const showBedroomEdit = () => setbedroomVisible(true);
+  
+  
+  const hideBedroomDialog = () => setbedroomVisible(false);
+  const hideBathroomDialog = () => setbathroomVisible(false);
+
+
   const getPropertyDetails = (raw)=>{
      const {streetNumber,streetName} = cleanAddress(raw)
      console.log(streetName)
@@ -132,7 +165,7 @@ export default function SearchHomeScreen({navigation}) {
 
     const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}`;
 
-
+     console.log(REPLIERS_ENDPOINT_WITHOUT_STATUS_U)
     fetch(REPLIERS_ENDPOINT_WITHOUT_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json())
 .then(obj=>{
      console.log(obj)
@@ -144,6 +177,7 @@ export default function SearchHomeScreen({navigation}) {
            fetch(ACHEIVED_LISTING_URL,REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
              if(obj.listings.length == 0){
                setpropertyNotFound(true)
+               setisFetching(false)
              }else{
                    setisFetching(false)
                    setproperty(obj.listings[0])
@@ -290,12 +324,19 @@ export default function SearchHomeScreen({navigation}) {
     setPropziVisitSelected(true)
   }
 
+  const handleBedroomEdit = (e) =>{
+        
+  }
+
 if(isLoading){
-return <Loader />;
+return <Loader text=""/>;
 }
 
   return (
+    <Provider>
     <SafeAreaView style={styles.container}>
+
+
       <ScrollView style={{height:"100%"}}>
       <Animated.View>
       <View style={styles.resultsContainer}> 
@@ -314,17 +355,35 @@ return <Loader />;
       </ScrollView>
        
       </View>
+
+      <Portal>
+      <Dialog visible={bedroomVisible} onDismiss={hideBedroomDialog} dismissable={false}>
+        <Dialog.Content>
+        <Input placeholder="Enter number of bedrooms" onChangeText={handleBedroomEdit} value={""}/>
+       <TouchableOpacity onPress={hideBedroomDialog}><Text>Done</Text></TouchableOpacity>
+        </Dialog.Content>
+
+      </Dialog>
+
+      <Dialog visible={bathroomVisible} onDismiss={hideBathroomDialog} dismissable={false}>
+        <Dialog.Content>
+        <Input placeholder="Enter number of bathrooms" onChangeText={handleBedroomEdit} value={""}/>
+       <TouchableOpacity onPress={hideBathroomDialog}><Text>Done</Text></TouchableOpacity>
+        </Dialog.Content>
+        
+      </Dialog>
+        </Portal>
       </Animated.View>
       <Text style={{fontSize:14,padding:16,textAlign:"center",color:"#828282",marginTop:"5%"}}>Enter your address and we will try to search for it automatically.</Text>
       {isFetching ? <View style={{marginTop:"20%"}}>
-        <ActivityIndicator size="large"/>
+        <ActivityIndicator size="large" color="#46D0B6"/>
         <Text style={{fontSize:15,marginTop:"5%",marginHorizontal:20,textAlign:"center"}}>finding your home</Text>
         </View>:null}
         {propertyNotFound ?<View style={{marginTop:"10%",marginHorizontal:16,alignSelf:"center",JustifySelf:"center"}}>
           <Text style={{fontSize:20,fontWeight:"semi-bold",marginBottom:"4%",textAlign:"center"}}>Oops! We can’t find your home info</Text>
           <Text style={{fontSize:17,textAlign:"center",color:"#828282"}}>we were unable to find your home details, press continue below to enter the details manually.</Text>
 
-          <TouchableOpacity style={styles.continueButton}><Text style={{color:"white",fontSize:18}}>Continue</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.continueButton} onPress={() =>navigation.navigate("manual")}><Text style={{color:"white",fontSize:18}}>Continue</Text></TouchableOpacity>
           </View>
         :null}
         {propertyFound ? <View style={{padding:20,marginBottom:"20%"}}>
@@ -355,8 +414,8 @@ return <Loader />;
        <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` ${property.details.numBedroomsPlus == "" ?"0":property.details.numBedroomsPlus} Bedroom: Basement`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center"}}>
-        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}}>Cancel</Text></TouchableOpacity>
-        <TouchableOpacity><Text style={{color:"green"}}>OK</Text></TouchableOpacity>
+        <TouchableOpacity><Text style={{color:"red"}} onPress={showBedroomEdit}>Edit</Text></TouchableOpacity>
+        
       </View>
     </View>
 
@@ -367,8 +426,8 @@ return <Loader />;
        <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` ${property.details.numBathroomsPlus == "" ?"0":property.details.numBedroomsPlus}Bathrooms: Basement`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center"}}>
-        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}}>Cancel</Text></TouchableOpacity>
-        <TouchableOpacity><Text style={{color:"green"}}>OK</Text></TouchableOpacity>
+        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}} onPress={showBathroomEdit}>Edit</Text></TouchableOpacity>
+       
       </View>
     </View>
 
@@ -379,8 +438,8 @@ return <Loader />;
        <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` Sqft: ${property.details.sqft}`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center"}}>
-        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}}>Cancel</Text></TouchableOpacity>
-        <TouchableOpacity><Text style={{color:"green"}}>OK</Text></TouchableOpacity>
+        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}}>Edit</Text></TouchableOpacity>
+        
       </View>
     </View>
 </View>
@@ -393,6 +452,7 @@ return <Loader />;
   </View>:null}
         </ScrollView>
     </SafeAreaView>
+    </Provider>
   );
 }
 
@@ -416,6 +476,7 @@ const styles = StyleSheet.create({
     maxHeight:height / 2,
     marginTop:30,
     alignSelf:"center",
+    elevation:5
    
 
 
