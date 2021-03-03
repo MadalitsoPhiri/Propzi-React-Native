@@ -25,11 +25,11 @@ export default function NotFoundHomeScreen({ navigation }) {
 
       <View style={{ alignItems: "center" }}>
         <Text style={styles.title}>
-          Oops! We can't find your home
+          Oops! You dont have a home yet.
         </Text>
 
         <Text style={{ fontSize: 20, textAlign: "center" }}>
-          If you're not able to find your home please continue below
+          To see your propzi score you need to add atleast one home or property.
         </Text>
       </View>
 

@@ -7,8 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
-  ActivityIndicator,
+  Dimensions
 } from "react-native";
 import { btnSize, colors } from "../styles";
 import EmailIcon from "../../assets/envelope-regular.svg"
@@ -18,6 +17,8 @@ import UserIcon from "../../assets/user-regular.svg"
 import {Formik} from "formik";
 import * as yup from "yup";
 import { firebase,dbh} from "../../firebase";
+import Loader from "../components/Loader";
+import { ActivityIndicator } from 'react-native-paper';
 
 
 const SignUpSchema = yup.object({
@@ -47,11 +48,7 @@ export default function SignUpScreen({navigation}) {
  
 
 
-  const LoadingScreen = (navigation) => {
   
-    
-    }
-
   
   
 
@@ -68,7 +65,6 @@ export default function SignUpScreen({navigation}) {
   const handleCreateAccount = (info) => {
        setLoading(true)
        firebase.auth().createUserWithEmailAndPassword(info.email,info.password).then((credential)=>{
-                      firebase.auth().signOut()
             dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
               fullName:info.fullName,phone:info.phone,email:info.email
           }).then((obj)=>{
@@ -85,7 +81,7 @@ export default function SignUpScreen({navigation}) {
   };
 
   if (isLoading) {
-    return <LoadingScreen/>;
+    return <Loader text="Signing up..."/>;
   }
 
 

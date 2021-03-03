@@ -1,4 +1,4 @@
-gitimport React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -134,7 +134,7 @@ export default function LoginScreen({navigation}) {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader text=""/>;
   }
   return (
     <SafeAreaView>

@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
 
   if (!isPropertyDataLoaded) {
-    return <Loader />;
+    return <Loader text=""/>;
   }
 
   const HomeBankOffersCardData = [
