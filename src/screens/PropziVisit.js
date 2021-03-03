@@ -1,7 +1,9 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { StyleSheet, Text, View,Dimensions,SafeAreaView,TouchableOpacity,ScrollView} from 'react-native';
 import {Calendar} from 'react-native-calendars';
-
+import Loader from "../components/Loader";
+import { dbh } from "../../firebase";
+import {AuthContext} from "../components/providers/AuthProvider";
 const {width,height}  = Dimensions.get("window")
 
 const MorningTimeSelecter = ()=>{
@@ -9,6 +11,8 @@ const MorningTimeSelecter = ()=>{
   const [isNineSelected,setIsNineSelected] = useState(false)
   const [isTenSelected,setIsTenSelected] = useState(false)
   const [isElevenSelected,setIsElevenSelected] = useState(false)
+  const {user,setUser,property,setproperty} = useContext(AuthContext)
+  const [isLoading,setLoading] = useState(false)
 
   const onEightSelected = ()=>{
     setIsEightSelected(true)
@@ -39,6 +43,8 @@ const MorningTimeSelecter = ()=>{
     setIsElevenSelected(true)
   }
 
+
+  
 
 return(<View style={styles.timeContainer}>
   <TouchableOpacity style={[styles.time,{backgroundColor:isEightSelected ? "#D6F5EF":"#F2F2F2"}]} onPress={onEightSelected}> 
@@ -180,11 +186,13 @@ return(<View style={styles.timeContainer}>
 
 
 
-export default function PropziVisit() {
+export default function PropziVisit({navigation}) {
   const [isMorningSelected,setIsMorningSelected] = useState(true)
 const [isAfternoonSelected,setIsAfternoonSelected] = useState(false)
 const [isEveningSelected,setIsEveningSelected] = useState(false)
 const [selectedDate,setSelectedDate] = useState({})
+const [isLoading,setLoading] = useState(false)
+const {user,setUser,property,setproperty} = useContext(AuthContext)
 
 const onMorningSelected = ()=>{
     setIsEveningSelected(false)
@@ -203,8 +211,56 @@ const onEveningSelected = ()=>{
   setIsAfternoonSelected(false)
   setIsMorningSelected(false)
 }
+
+
+const handlePropertyAdding = ()=>{
+  setLoading(true)
+      const dataToSave = {
+  bedrooms: property.details.numBedrooms,
+  bathrooms: property.details.numBathrooms,
+  squareFeet: property.details.sqft,
+  propertyType: property.details.propertyType,
+  propertyClass: property.class,
+  area: property.address.area,
+  city: property.address.city,
+  cmaPrice: "",
+  propziPrice:"",
+  neighbourhood: property.address.neighborhood,
+  streetName: property.address.streetName,
+  streetNumber: property.address.streetNumber,
+  unitNumber: property.address.unitNumber,
+};
+
+
+  dbh
+    .collection("UserDetails")
+    .doc(user.uid)
+    .collection("Property")
+    .add(dataToSave)
+    .then(
+      (info) => {
+        info.get().then((ds) => {
+          if (ds.data()) {
+             navigation.replace("Main");
+           
+          }
+        });
+      },
+      (err) => {
+        console.log(err.message)
+        setLoading(false)
+      }
+    );
+
+}
+
+if(isLoading){
+  return <Loader text="Processing..."/>;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+       <ScrollView>
       <Text style={{marginHorizontal:20,fontSize:22,lineHeight:33,fontWeight:"500",marginBottom:"5%"}}>Book Your Propzi Visit</Text>
       <Text style={{marginHorizontal:20,fontSize:15,lineHeight:20,fontWeight:"200",marginBottom:"5%",textAlign:"center",color:"#000000",width:300}} numberoflines={3}>Get a professional assessment from our team of Propzi home surveyors. Your first visit is free!</Text>
       <Text style={{marginHorizontal:20,fontSize:16,lineHeight:33,fontWeight:"500",marginBottom:"5%",alignSelf:"flex-start",color:"#696969"}}>Date</Text>
@@ -260,7 +316,17 @@ const onEveningSelected = ()=>{
      <TouchableOpacity style={{height:54,backgroundColor:"#46D0B6",justifyContent:"center",alignItems:"center",borderRadius:6,width:300,marginTop:"5%"}}>
        <Text style={{fontSize:18,lineHeight:21,textAlign:"center",color:"white"}}>Continue</Text>
      </TouchableOpacity>
+     <View style={{flexDirection: "row",justifyContent:"space-between"}}>
+                <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={()=>{navigation.goBack();}}>
+                    <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>Back</Text>
+                </TouchableOpacity>
 
+                <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={handlePropertyAdding}>
+                    <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>next</Text>
+                </TouchableOpacity>
+             </View>
+
+            </ScrollView>
     </SafeAreaView>
   );
 }

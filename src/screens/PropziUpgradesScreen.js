@@ -1,13 +1,15 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { StyleSheet, Text, View,Dimensions,SafeAreaView,TouchableOpacity,ScrollView} from 'react-native';
 import { Chip } from 'react-native-paper';
+import { dbh } from "../../firebase";
 import Check from "../../assets/Check.svg"
+import {AuthContext} from "../components/providers/AuthProvider";
+import Loader from "../components/Loader";
 
 
 
 
-
-export default function PropziUpgradesScreen(){
+export default function PropziUpgradesScreen({navigation}){
 
     const [newRoof,setNewRoof] = useState(false)
     const [hardwoodFloors,setHardwoodFloors] = useState(false)
@@ -24,9 +26,57 @@ export default function PropziUpgradesScreen(){
     const [backyardDeck,setBackyardDeck] = useState(false)
     const [bigBedrooms,setBigBedrooms] = useState(false)
     const [openLayout,setOpenLayout] = useState(false)
+    const [isLoading,setLoading] = useState(false)
+    const {user,setUser,property,setproperty} = useContext(AuthContext)
 
 
-    return(<SafeAreaView style={{marginTop:"10%"}}>
+    const handlePropertyAdding = ()=>{
+      setLoading(true)
+          const dataToSave = {
+      bedrooms: property.details.numBedrooms,
+      bathrooms: property.details.numBathrooms,
+      squareFeet: property.details.sqft,
+      propertyType: property.details.propertyType,
+      propertyClass: property.class,
+      area: property.address.area,
+      city: property.address.city,
+      cmaPrice: "",
+      propziPrice:"",
+      neighbourhood: property.address.neighborhood,
+      streetName: property.address.streetName,
+      streetNumber: property.address.streetNumber,
+      unitNumber: property.address.unitNumber,
+    };
+  
+   
+      dbh
+        .collection("UserDetails")
+        .doc(user.uid)
+        .collection("Property")
+        .add(dataToSave)
+        .then(
+          (info) => {
+            info.get().then((ds) => {
+              if (ds.data()) {
+                 navigation.replace("Main");
+               
+              }
+            });
+          },
+          (err) => {
+            console.log(err.message)
+            setLoading(false)
+          }
+        );
+    
+    }
+
+    if(isLoading){
+      return <Loader text="Processing..."/>;
+      }
+      
+    return(<SafeAreaView style={{marginHorizontal:18,marginTop:"2%"}}>
+      <ScrollView>
           <View>
           <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Have you done any upgrades?</Text>
           <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose renovations that you have done in your home since you moved in:</Text>
@@ -68,8 +118,20 @@ export default function PropziUpgradesScreen(){
           <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Get a professional assessment from our team of Propzi home surveyors. Your first visit is free!</Text>
           </View>
 
-             <TouchableOpacity style={{backgroundColor:"#46D0B6",width:279,height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:6,marginTop:"10%"}}>
+             <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:10,marginTop:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={()=>{navigation.navigate("visit")}}>
                  <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>Book a Propzi Visit</Text>
              </TouchableOpacity>
+
+            
+             <View style={{flexDirection: "row",justifyContent:"space-between"}}>
+                <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={()=>{navigation.goBack();}}>
+                    <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>Back</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={handlePropertyAdding}>
+                    <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>next</Text>
+                </TouchableOpacity>
+             </View>
+             </ScrollView>
         </SafeAreaView>)
 }
