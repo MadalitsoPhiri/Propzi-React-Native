@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const [communityData, setCommunityData] = useState([]);
   const [propertyData, setPropertyData] = useState([]);
+  const [property,setproperty] = useState({})
   const [address, setAddress] = useState("");
 
   const state = {};
@@ -60,7 +61,8 @@ export const AuthProvider = ({ children }) => {
         homeState: state,
         user,
         setUser,
-
+        property,
+        setproperty,
         isFirstLaunch,
         setisFirstLaunch,
         login: (email, password) => {

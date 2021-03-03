@@ -6,7 +6,6 @@ const Loading = ({text}) => {
   return (
     <View
       style={{
-        flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
@@ -14,7 +13,7 @@ const Loading = ({text}) => {
       }}
     >
       <ActivityIndicator size="large" color="#46D0B6" />
-      <Text>{text}</Text>
+      <Text style={{marginTop:"5%"}}>{text}</Text>
     </View>
   );
 };
