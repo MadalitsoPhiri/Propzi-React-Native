@@ -178,8 +178,8 @@ const ReportScreen = () => {
     <SafeAreaView>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 0 }}
-        bounces={false}
+        contentContainerStyle={{ paddingBottom: 30 }}
+        style={{backgroundColor:'white'}}
       >
         <View style={styles.root}>
           {/* Address and Arrow */}
