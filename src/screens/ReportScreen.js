@@ -1,5 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
-import _ from "lodash";
+import React, { useState, useEffect, useContext } from "react";
 import { dbh } from "../../firebase/index";
 import {
   StyleSheet,
@@ -11,13 +10,12 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Modal,
   Pressable,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import ModalDropdown from "react-native-modal-dropdown";
 
-import { Calendar } from "react-native-calendars";
+import { AuthContext } from "../components/providers/AuthProvider";
 import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
@@ -37,9 +35,10 @@ import {
 } from "../../assets/reportImagesAndIcons/reportIcons";
 
 import { colors } from "../styles";
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const ReportScreen = () => {
+  const { user } = useContext(AuthContext);
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
@@ -49,7 +48,7 @@ const ReportScreen = () => {
 
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const [userData, setUserData] = useState("");
+  const [userAddresses, setUserUserAddresses] = useState([]);
   const [userProperties, setProperties] = useState([]);
   const [community, setCommunities] = useState([]);
 
@@ -96,31 +95,33 @@ const ReportScreen = () => {
     return () => subscriber1();
   }, []);
 
+  // Get user Addresses
   useEffect(() => {
-    const userData1 = dbh
-      .collection("UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property")
+    const getUserPropertyAddress = dbh
+      .collection(`UserDetails/${user.uid}/Property`)
       .onSnapshot((querySnapshot) => {
-        let userData2 = "";
+        let userData2 = [];
 
         querySnapshot.forEach((documentSnapshot) => {
           let b = documentSnapshot.data();
           let street = b.streetName;
           let streetNumber = b.streetNumber;
-          let address = streetNumber + " " + street;
-          userData2 = address;
+          let address = streetNumber + " " + street + ", " + b.city;
+          userData2.push(address);
         });
 
-        setUserData(userData2);
+        setUserUserAddresses(userData2);
         setLoading(false);
       });
 
     // Unsubscribe from events when no longer in use
-    return () => userData1();
+    return () => getUserPropertyAddress();
   }, []);
 
+  // Get user Property Details
   useEffect(() => {
-    const userProperty1 = dbh
-      .collection("UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property")
+    const getAllUserProperties = dbh
+      .collection(`UserDetails/${user.uid}/Property`)
       .onSnapshot((querySnapshot) => {
         let userProperty2 = [];
 
@@ -136,13 +137,18 @@ const ReportScreen = () => {
       });
 
     // Unsubscribe from events when no longer in use
-    return () => userProperty1();
+    return () => getAllUserProperties();
   }, []);
 
+
+  
   useEffect(() => {
     const community1 = dbh
-      .collection("Community/Ajax/Carruthers Creek")
+      .collection("Community")
+      .doc("Ajax")
+      .collection("Carruthers Creek")
       .onSnapshot((querySnapshot) => {
+        console.log(querySnapshot.docs[0].data());
         const communities2 = [];
 
         querySnapshot.forEach((documentSnapshot) => {
@@ -150,12 +156,12 @@ const ReportScreen = () => {
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
+
+          setCommunities(communities2);
+          setLoading(false);
         });
-
-        setCommunities(communities2);
-        setLoading(false);
       });
-
+  
     // Unsubscribe from events when no longer in use
     return () => community1();
   }, []);
@@ -181,11 +187,8 @@ const ReportScreen = () => {
           <View style={styles.topSection}>
             <View>
               <ModalDropdown
-                defaultValue="45 Bristol Rd, Mississauga"
-                options={[
-                  "45 Bristol Rd, Mississauga",
-                  "40 Bristol Rd, Mississauga",
-                ]}
+                defaultValue={userAddresses && userAddresses}
+                options={userAddresses}
                 dropdownStyle={{
                   paddingHorizontal: 10,
                   marginTop: 2,
@@ -716,7 +719,7 @@ const ReportScreen = () => {
                   onPress={() => setShouldShow1(!shouldShow1)}
                   title="Econominc Indicators"
                   date="2 Feb 2021"
-                  imagesArray={imgs1}
+                  imagesArray={imgs2}
                   updates={users.length}
                   backgroundColor="rgba(81,141,231, 0.2)"
                 />
