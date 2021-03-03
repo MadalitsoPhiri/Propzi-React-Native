@@ -392,7 +392,7 @@ const ReportScreen = () => {
                 alignItems: "center",
               }}
             >
-              <View style={{ marginTop: 50, marginLeft: 55 }}>
+              <View style={{ marginTop: 35, marginLeft: 55 }}>
                 <LineChart
                   data={{
                     labels: labels,
