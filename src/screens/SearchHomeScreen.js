@@ -420,6 +420,7 @@ const styles = StyleSheet.create({
     maxHeight:height / 2,
     marginTop:30,
     alignSelf:"center",
+    elevation:5
    
 
 

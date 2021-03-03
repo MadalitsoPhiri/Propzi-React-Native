@@ -32,7 +32,7 @@ export default function PropziUpgradesScreen(){
           <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose renovations that you have done in your home since you moved in:</Text>
           </View>
            
-            <View style={{flexDirection:"row",flexWrap:true,marginTop:"5%"}}>
+            <View style={{flexDirection:"row",flexWrap:"wrap",marginTop:"5%"}}>
             <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
             <Chip icon="" onPress={() => setHardwoodFloors(!hardwoodFloors)} style={{backgroundColor:hardwoodFloors ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} ><Text style={{color:hardwoodFloors ? "#ffffff":"#46D0B6",fontSize:16}}>Hardwood Floors</Text></Chip>
             <Chip icon="" onPress={() => setExteriorPaint(!exteriorPaint)} style={{backgroundColor:exteriorPaint ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}}  ><Text style={{color:exteriorPaint ? "#ffffff":"#46D0B6",fontSize:16}}>Exterior Paint</Text></Chip>
@@ -49,7 +49,7 @@ export default function PropziUpgradesScreen(){
           <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose details about your home that best describe your home:</Text>
           </View>
            
-            <View style={{flexDirection:"row",flexWrap:true,marginTop:"5%"}}>
+            <View style={{flexDirection:"row",flexWrap:"wrap",marginTop:"5%"}}>
             <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
             <Chip icon="" onPress={() => setAlwaysSunny(!alwaysSunny)} style={{backgroundColor:alwaysSunny ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} ><Text style={{color:alwaysSunny ? "#ffffff":"#46D0B6",fontSize:16}}>Always Sunny</Text></Chip>
             <Chip icon="" onPress={() => setCloseToSchool(!closeToSchool)} style={{backgroundColor:closeToSchool ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}}  ><Text style={{color:closeToSchool ? "#ffffff":"#46D0B6",fontSize:16}}>Close to School</Text></Chip>
