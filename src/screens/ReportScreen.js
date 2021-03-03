@@ -15,38 +15,37 @@ import {
   Pressable,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import ModalDropdown from "react-native-modal-dropdown";
+
 import { Calendar } from "react-native-calendars";
 import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
+import {
+  imgs1,
+  imgs2,
+  imgs3,
+} from "../../assets/reportImagesAndIcons/reportCircleImages";
+import {
+  arrowOne,
+  arrowTwo,
+  arrowThree,
+  dropDownIconOne,
+  dropDownIconTwo,
+  dropDownIconThree,
+} from "../../assets/reportImagesAndIcons/reportIcons";
+
 import { colors } from "../styles";
-
-export const AuthContext = React.createContext({});
 const { width, height } = Dimensions.get("window");
-const arrowOne = require("../../assets/icons/right1.png");
-const arrowTwo = require("../../assets/icons/right2.png");
-const arrowThree = require("../../assets/icons/right3.png");
-const dropDownIconOne = require("../../assets/icons/down1.png");
-const dropDownIconTwo = require("../../assets/icons/down2.png");
-const dropDownIconThree = require("../../assets/icons/down3.png");
-
-const mocks = [];
-
-let startDate = "";
 
 const ReportScreen = () => {
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
-  const [shouldShow3, setShouldShow3] = useState(false);
+  const [dateToggle, setDateToggle] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [NoDateSelected, nowSelected] = useState(true);
-  const [selected, setSelected] = useState("");
-  const [selected1, setSelected1] = useState("");
-  const [dateSelected, setDate] = useState(false);
-  const [dateSelected1, setDate1] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -74,6 +73,7 @@ const ReportScreen = () => {
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
+
   useEffect(() => {
     const subscriber1 = dbh
       .collection("Economics/Toronto/EconomicIndicator")
@@ -117,6 +117,7 @@ const ReportScreen = () => {
     // Unsubscribe from events when no longer in use
     return () => userData1();
   }, []);
+
   useEffect(() => {
     const userProperty1 = dbh
       .collection("UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property")
@@ -137,6 +138,7 @@ const ReportScreen = () => {
     // Unsubscribe from events when no longer in use
     return () => userProperty1();
   }, []);
+
   useEffect(() => {
     const community1 = dbh
       .collection("Community/Ajax/Carruthers Creek")
@@ -158,20 +160,11 @@ const ReportScreen = () => {
     return () => community1();
   }, []);
 
-  const onDayPress = (day) => {
-    setSelected(day.dateString);
-    setDate(!dateSelected);
-    startDate = day.dateString;
-    console.log("start date:" + startDate);
-  };
-  const { destinations } = mocks;
-  let dateOne = "2021-02-14";
-  let dateTwo = "2021-02-18";
-
   if (loading) {
-    return <Loader text=""/>;
+    return <Loader />;
   }
 
+  // Graph Data Here
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   const data = [900000, 912000, 913000, 917000, 916000, 921000];
   const data1 = [892000, 902000, 907000, 915000, 912000, 918000];
@@ -186,12 +179,27 @@ const ReportScreen = () => {
         <View style={styles.root}>
           {/* Address and Arrow */}
           <View style={styles.topSection}>
-            <View style={{ flexDirection: "column" }}>
-              <Text style={styles.title}>{"45 Bristol Rd, Mississauga"}</Text>
+            <View>
+              <ModalDropdown
+                defaultValue="45 Bristol Rd, Mississauga"
+                options={[
+                  "45 Bristol Rd, Mississauga",
+                  "40 Bristol Rd, Mississauga",
+                ]}
+                dropdownStyle={{
+                  paddingHorizontal: 10,
+                  marginTop: 2,
+                  width: width - 40,
+                }}
+                dropdownTextStyle={{ fontSize: 18, fontWeight: "500" }}
+                textStyle={{ fontSize: 20, fontWeight: "500" }}
+                onTouchStart={() => setModalVisible(!modalVisible)}
+              />
+              {/* <Text style={styles.title}>{"45 Bristol Rd, Mississauga"}</Text> */}
               <Text style={styles.stitle}>Last Updated at 12/28/2020.</Text>
             </View>
             <View style={{ flexDirection: "column" }}>
-              <Pressable onPress={() => setModalVisible(false)}>
+              <Pressable onPress={() => setModalVisible(!modalVisible)}>
                 <View
                   style={{
                     width: 60,
@@ -223,155 +231,80 @@ const ReportScreen = () => {
             </View>
           </View>
 
-          {/* Modal */}
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {modalVisible ? (
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                style={{ height: 300, width }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Text
-                      style={[styles.name, { marginTop: 5, marginBottom: 5 }]}
-                    >
-                      Select Property
-                    </Text>
-                    <FlatList
-                      data={userProperties}
-                      renderItem={({ item }) => (
-                        <View
-                          style={{
-                            height: 50,
-                            flex: 1,
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}
-                          >
-                            <Text style={styles.textStyle}>
-                              {item.streetNumber} {item.streetName}
-                            </Text>
-                          </Pressable>
-                        </View>
-                      )}
-                    />
-                  </View>
-                </View>
-              </Modal>
-            ) : null}
-          </View>
-
           {/* Propzi heading and Date picker plus date select logic */}
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              paddingStart: 20,
-              paddingEnd: 20,
-              paddingTop: 20,
+              alignItems: "center",
+              paddingHorizontal: 20,
+              marginTop: 10,
+              height: 60,
             }}
           >
             <Text style={{ fontSize: 24, fontWeight: "bold" }}>
               Propzi Price
             </Text>
-            <TouchableOpacity
-              style={{ alignContent: "flex-end" }}
-              onPress={() => setShouldShow3(!shouldShow3)}
+            <View
+              style={{
+                flexDirection: "row",
+                backgroundColor: "#f3f3f3",
+                paddingRight: 10,
+              }}
             >
-              <View
-                style={{ height: 30, width: 88, backgroundColor: "#f2f2f2" }}
-              >
-                <View
+              <ModalDropdown
+                options={[
+                  "January-2021",
+                  "Febuary-2021",
+                  "March-2021",
+                  "April-2021",
+                  "May-2021",
+                  "Jun2-2021",
+                  "July-2021",
+                  "August-2021",
+                ]}
+                dropdownStyle={{
+                  width: "25%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                textStyle={{ fontSize: 14 }}
+                defaultValue="Date"
+                style={{
+                  padding: 5,
+                  paddingHorizontal: 10,
+                }}
+                onSelect={(index, value) => console.warn(value)}
+                animated={true}
+                onTouchStart={() => setDateToggle(!dateToggle)}
+              />
+              {dateToggle ? (
+                <>
+                  <Image
+                    source={require("../../assets/icons/6.png")}
+                    style={{
+                      width: 10,
+                      height: 10,
+                      alignSelf: "center",
+                      marginTop: -2,
+                      paddingLeft: 5,
+                    }}
+                  />
+                </>
+              ) : (
+                <Image
+                  source={require("../../assets/icons/5.png")}
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingStart: 15,
-                    paddingEnd: 15,
-                    paddingTop: 7,
+                    width: 10,
+                    height: 10,
+                    alignSelf: "center",
+                    marginTop: -2,
+                    paddingLeft: 5,
                   }}
-                >
-                  <Text style={{ fontSize: 12, color: "#000", paddingLeft: 0 }}>
-                    Date
-                  </Text>
-                  {shouldShow3 ? (
-                    <Image
-                      source={require("../../assets/icons/6.png")}
-                      style={{
-                        width: 10,
-                        height: 10,
-                        alignSelf: "center",
-                        marginTop: -2,
-                        paddingLeft: 10,
-                      }}
-                    />
-                  ) : (
-                    <Image
-                      source={require("../../assets/icons/5.png")}
-                      style={{
-                        width: 10,
-                        height: 10,
-                        alignSelf: "center",
-                        marginTop: -2,
-                        paddingLeft: 10,
-                      }}
-                    />
-                  )}
-
-                  {/* <FontIcon
-                      name="chevron-down"
-                      color= '#000000'
-                      size={12}
-                      solid
-                    /> */}
-                </View>
-              </View>
-            </TouchableOpacity>
+                />
+              )}
+            </View>
           </View>
-
-          {/* {shouldShow3 ? (
-            <View style={{ flex: 1, alignContent: "center" }}>
-              {NoDateSelected ? (
-                <TouchableOpacity onPress={() => nowSelected(!NoDateSelected)}>
-                  <Fragment>
-                    <Calendar
-                      current={"2020-02-02"}
-                      testID={testIDs.calendars.FIRST}
-                      hideArrows={false}
-           
-                      onDayPress={onDayPress}
-     
-                      markedDates={{
-                        [selected]: {
-                          selected: true,
-                          disableTouchEvent: true,
-                          selectedColor: "#70d7c7",
-                          selectedTextColor: "white",
-                        },
-                      }}
-                      onPressArrowLeft={(subtractMonth) => subtractMonth()}
-                      // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                      onPressArrowRight={(addMonth) => addMonth()}
-                      // Disable left arrow. Default = false
-                      //onDayPress={(day) => {console.log('selected day', day.dateString)}}
-                      enableSwipeMonths={true}
-                    />
-                  </Fragment>
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          ) : (
-            <View>
-              <Text style={{ fontSize: 10, color: "#979797", paddingLeft: 3 }}>
-                You have selected your start date as: {selected}
-              </Text>
-            </View>
-          )} */}
 
           {/* Toggle address avg price text */}
           {shouldShow4 ? (
@@ -621,7 +554,7 @@ const ReportScreen = () => {
                 }}
               >
                 <View style={styles.pill}>
-                  <Text style={styles.name}>Home Renovations</Text>
+                  <Text style={styles.pillName}>Home Renovations</Text>
                 </View>
               </TouchableOpacity>
             )}
@@ -729,7 +662,7 @@ const ReportScreen = () => {
                   onPress={() => setShouldShow(!shouldShow)}
                   title="Home Renovations"
                   date="10th Jan 2021"
-                  imagesArray={imgs2}
+                  imagesArray={imgs1}
                   backgroundColor="rgba(52,209,184, 0.16)"
                   updates={community.length}
                 />
@@ -860,8 +793,7 @@ const styles = StyleSheet.create({
   },
 
   pillName: {
-    fontSize: 12,
-    fontWeight: "600",
+    fontSize: 14,
   },
   pills: {
     backgroundColor: colors.SECONDARY_COLOR,
@@ -872,11 +804,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 25,
     backgroundColor: colors.PRIMARY_COLOR,
-  },
-
-  separator: {
-    height: 1,
-    backgroundColor: "#CCCCCC",
   },
 
   topSection: {
@@ -916,137 +843,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#a4a4a4",
   },
-  container: {
-    flex: 1,
-    marginTop: 20,
-    backgroundColor: "#ebf0f7",
-  },
-  contentList: {
-    flex: 1,
-  },
-  cardContent: {
-    marginLeft: 10,
-    marginTop: 5,
-  },
 
-  image: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    borderWidth: 2,
-    borderColor: "#ebf0f7",
-  },
-
-  card: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    backgroundColor: "rgba(52,209,184, 0.16)",
-    padding: 10,
-    flexDirection: "row",
-    borderRadius: 16,
-  },
-  card1: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    backgroundColor: "rgba(81,141,231, 0.2)",
-    padding: 10,
-    flexDirection: "row",
-    borderRadius: 16,
-  },
-  card2: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    backgroundColor: "rgba(231,189,81, 0.2)",
-    padding: 10,
-    flexDirection: "row",
-    borderRadius: 16,
-  },
-
-  name: {
-    fontSize: 12,
-    color: "#000000",
-    fontWeight: "bold",
-  },
-  count: {
-    fontSize: 10,
-    color: "#979797",
-  },
-
-  flex: {
-    flex: 1,
-  },
-  flex1: {
-    flex: 1,
-    alignItems: "flex-end",
-  },
-  column: {
-    flexDirection: "column",
-  },
-  row: {
-    flexDirection: "row",
-  },
-
-  recommended: {},
-  recommendedHeader: {
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    paddingHorizontal: 25,
-    marginVertical: 20 * 0.66,
-  },
-  recommendedList: {},
-  recommendation: {
-    width: (width - 25 * 2) / 1.2,
-    marginHorizontal: 8,
-    backgroundColor: "#ffffff",
-    overflow: "hidden",
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-  },
-  recommendation1: {
-    width: width - 50,
-    marginHorizontal: 8,
-    backgroundColor: "#f6f6f6",
-    overflow: "hidden",
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    borderBottomLeftRadius: 16,
-  },
-  recommendationHeader: {
-    overflow: "hidden",
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-  },
   recommendationOptions: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -1056,242 +853,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  recommendationTemp: {
-    fontSize: 14 * 1.25,
-    color: "#fff",
-  },
-  recommendationImage: {
-    width: (width - 25 * 2) / 1.2,
-    height: (width - 25 * 2) / 2,
-  },
-
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-  },
-
-  card3: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-    backgroundColor: "rgba(52,209,184, 1)",
-    padding: 5,
-    flexDirection: "row",
-    borderRadius: 16,
-    alignSelf: "flex-end",
-  },
-  card5: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    /* marginLeft: 20,
-    marginRight: 20, */
-    backgroundColor: "rgba(52,209,184, 0.18)",
-    padding: 5,
-    flexDirection: "row",
-    borderRadius: 16,
-    alignSelf: "flex-end",
-  },
-
-  card4: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    /* marginLeft: 20,
-    marginRight: 20, */
-    backgroundColor: "#fff",
-    padding: 5,
-    flexDirection: "row",
-    borderRadius: 16,
-    width: 140,
-  },
-  card6: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    /* marginLeft: 20,
-    marginRight: 20, */
-    backgroundColor: "#35d1b9",
-    paddingTop: 0,
-    paddingRight: 9,
-    paddingBottom: 7,
-    flexDirection: "row",
-    borderRadius: 16,
-    alignSelf: "center",
-  },
-  card7: {
-    shadowColor: "#00000021",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    /* marginLeft: 20,
-    marginRight: 20, */
-    backgroundColor: "#c5c5c5",
-    paddingTop: 0,
-    paddingRight: 9,
-    paddingBottom: 7,
-    flexDirection: "row",
-    borderRadius: 16,
-    alignSelf: "center",
-  },
-  count: {
-    fontSize: 12,
-    alignSelf: "flex-start",
-    color: "#1f2123",
-    paddingLeft: 5,
-  },
-  count1: {
-    fontSize: 12,
-    alignSelf: "flex-end",
-    color: "#960303",
-    paddingLeft: 10,
-    marginRight: 5,
-  },
-  cardHeader: {
-    flex: 1,
-    borderTopLeftRadius: 1,
-    borderTopRightRadius: 1,
-    flexDirection: "row",
-    alignContent: "space-between",
-    justifyContent: "space-between",
-  },
-  centeredView: {
-    flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 2,
-  },
-  modalView: {
-    margin: 5,
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 5,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#fff",
-  },
-  buttonClose: {
-    backgroundColor: "rgba(52,209,184, 0.86)",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
 });
-
-const imgs1 = [
-  {
-    id: 3,
-    members: [
-      "https://i.cbc.ca/1.1688376.1379083887!/httpImage/image.jpg_gen/derivatives/16x9_780/hi-unemployed.jpg",
-      "https://www.cbre.us/-/media/cbre/countryunitedstates/media/images/pr-stock-images/pr-image-04.jpg",
-      "https://hughesmarino.com/wp-content/uploads/San-Diego-downtown-dusk.jpg",
-      "https://cdn-res.keymedia.com/cms/images/ca/046/0348_637250306371916023.jpg",
-    ],
-  },
-];
-const imgs2 = [
-  {
-    id: 4,
-    members: [
-      "https://www.greenwoodswim.com/mabutap/3250/Marijuana-Kamloops-British-Colombia-Canada-5e72a9c9d4bdc.jpg",
-      "https://www.chatelaine.com/wp-content/uploads/2017/01/Morin_Library_credit_Patrick_Matte-1.jpg",
-      "https://images.adsttc.com/media/images/595b/9b16/b22e/386b/ae00/011e/newsletter/007-_Perkins_Will_Albion_Library.jpg",
-      "https://cdn.renewcanada.net/wp-content/uploads/2017/12/22144736/manitoba-government.jpg",
-    ],
-  },
-];
-const imgs3 = [
-  {
-    id: 5,
-    members: [
-      "https://constructionreviewonline.com/wp-content/uploads/2020/11/image3.jpg",
-      "https://loveincorporated.blob.core.windows.net/contentimages/gallery/39f51006-18b2-4e24-9a94-52e8a4dc05b8-shutterstock_521094097.jpg",
-      "https://www.thespruce.com/thmb/pIk77UlWUgSY2VGy2yHvKclVYZU=/2121x1193/smart/filters:no_upscale()/Family-home-renovation-GettyImages-513438249-58a0e0803df78c4758055c1a.jpg",
-      "https://www.refreshrenovations.global/images/uploads/plan-hero.jpg",
-    ],
-  },
-];
-
-const testIDs = {
-  menu: {
-    CONTAINER: "menu",
-    CALENDARS: "calendars_btn",
-    CALENDAR_LIST: "calendar_list_btn",
-    HORIZONTAL_LIST: "horizontal_list_btn",
-    AGENDA: "agenda_btn",
-    EXPANDABLE_CALENDAR: "expandable_calendar_btn",
-    WEEK_CALENDAR: "week_calendar_btn",
-  },
-  calendars: {
-    CONTAINER: "calendars",
-    FIRST: "first_calendar",
-    LAST: "last_calendar",
-  },
-  calendarList: { CONTAINER: "calendarList" },
-  horizontalList: { CONTAINER: "horizontalList" },
-  agenda: {
-    CONTAINER: "agenda",
-    ITEM: "item",
-  },
-  expandableCalendar: { CONTAINER: "expandableCalendar" },
-  weekCalendar: { CONTAINER: "weekCalendar" },
-};
 
 export default ReportScreen;
