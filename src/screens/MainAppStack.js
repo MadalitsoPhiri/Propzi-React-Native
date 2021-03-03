@@ -9,6 +9,8 @@ import { TouchableOpacity, Dimensions } from "react-native";
 import NotFoundHomeScreen from "./NotFoundHomeScreen";
 import ManualAddHomeScreen from "./ManualAddHomeScreen";
 import SearchHomeScreen from "./SearchHomeScreen";
+import PropziUpgradesScreen from "./PropziUpgradesScreen";
+import PropziVisit from "./PropziVisit";
 import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
@@ -150,7 +152,7 @@ export default MainAppStack = ({ navigation }) => {
                 color={"black"}
               />
             </TouchableOpacity>
-          ),
+          ),headerLeft: null
         }}
       />
 
@@ -200,6 +202,54 @@ export default MainAppStack = ({ navigation }) => {
               />
             </TouchableOpacity>
           ),
+        }}
+      />
+
+<Stack.Screen
+        name="upgrades"
+        component={PropziUpgradesScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),headerLeft: null
+        }}
+      />
+
+<Stack.Screen
+        name="visit"
+        component={PropziVisit}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),headerLeft: null
         }}
       />
     </Stack.Navigator>

@@ -132,18 +132,54 @@ export default function SearchHomeScreen({navigation}) {
   const [searchValue,setsearchValue] = useState("")
   const [propertyFound,setpropertyFound] = useState(false);
   const [propertyNotFound,setpropertyNotFound] = useState(false)
-  const [property,setproperty] = useState(null)
   const [isLoading,setLoading] = useState(false)
-  const {user,setUser} = useContext(AuthContext)
+  const {user,setUser,property,setproperty} = useContext(AuthContext)
   const [isMLSSelected,setMLSSelected] = useState(true)
   const [isUpgradesSelected,setUpgradesSelected] = useState(false)
   const [isPropziVisitSelected,setPropziVisitSelected] = useState(false)
+  const [bedroom,setBedroom] = useState("")
+  const [bedroomPlus,setBedroomPlus] = useState("")
+  const [bathrooms,setBathrooms] = useState("")
+  const [bathroomsPlus,setBathroomsPlus] = useState("")
 
   const [bedroomVisible, setbedroomVisible] = React.useState(false);
   const [bathroomVisible, setbathroomVisible] = React.useState(false);
 
-  const showBathroomEdit = () => setbathroomVisible(true);
-  const showBedroomEdit = () => setbedroomVisible(true);
+  const showBathroomEdit = () => {
+    if(property.details.numBathrooms != null || property.details.numBathrooms != ""){
+      setBathrooms(property.details.numBathrooms)
+    }else{
+      setBathrooms("0")
+    }
+
+    if(property.details.numBathroomsPlus != null || property.details.numBathroomsPlus != ""){
+      setBathroomsPlus(property.details.numBathroomsPlus)
+    }else{
+      setBathroomsPlus("0")
+    }
+   
+    
+    setbathroomVisible(true);
+  }
+  const showBedroomEdit = () => {
+
+    if(property.details.numBedrooms == null || property.details.numBedrooms == ""){
+      setBedroom("0")
+    }else{
+     
+      setBedroom(property.details.numBedrooms)
+    }
+
+    if(property.details.numBedroomsPlus == null || property.details.numBedroomsPlus == ""){
+      
+      setBedroomPlus("0")
+    }else{
+      setBedroomPlus(property.details.numBedroomsPlus)
+    }
+    
+    setbedroomVisible(true)
+  
+  };
   
   
   const hideBedroomDialog = () => setbedroomVisible(false);
@@ -325,7 +361,11 @@ export default function SearchHomeScreen({navigation}) {
   }
 
   const handleBedroomEdit = (e) =>{
-        
+        setBathrooms(e)
+  }
+
+  const handleBedroomPlusEdit = (e) =>{
+        setBedroomPlus(e)
   }
 
 if(isLoading){
@@ -357,14 +397,34 @@ return <Loader text=""/>;
       </View>
 
       <Portal>
+        {/* Dialog 1 */}
       <Dialog visible={bedroomVisible} onDismiss={hideBedroomDialog} dismissable={false}>
         <Dialog.Content>
-        <Input placeholder="Enter number of bedrooms" onChangeText={handleBedroomEdit} value={""}/>
-       <TouchableOpacity onPress={hideBedroomDialog}><Text>Done</Text></TouchableOpacity>
+          <View style={{flexDirection:"row",alignItems: "center"}}>
+            <Text style={{flex:1}}>number of Bedrooms:</Text>
+          <Input style={{flex:1,borderWidth:1,borderColor:"#000000"}} placeholder="Enter number of bedrooms" onChangeText={handleBedroomEdit} value={bedroom}/>
+          </View>
+
+          <View style={{flexDirection:"row",alignItems: "center"}}>
+            <Text style={{flex:1}}>number of BedroomsPlus:</Text>
+            <Input  onChangeText={handleBedroomPlusEdit} value={bedroomPlus} />
+          </View>
+        
+       
+          <TouchableOpacity style={{backgroundColor:"#46D0B6",borderRadius:10,paddingHorizontal:20,paddingVertical:10,width:80,alignSelf:"center",marginTop:"5%"}} onPress={hideBedroomDialog}><Text style={{color:"#ffffff"}}>Done</Text></TouchableOpacity>
         </Dialog.Content>
 
       </Dialog>
-
+          {/* Dialog 2 */} 
+      <Dialog visible={bathroomVisible} onDismiss={hideBathroomDialog} dismissable={false}>
+        <Dialog.Content>
+        <Input  onChangeText={handleBedroomEdit} value={""}/>
+        <Input placeholder="Enter number of bathrooms Plus" onChangeText={handleBedroomPlusEdit} value={""}/>
+       <TouchableOpacity style={{backgroundColor:"#46D0B6",borderRadius:10,paddingHorizontal:20,paddingVertical:10,marginTop:"5%"}} onPress={hideBathroomDialog}><Text style={{color:"#ffffff"}}>Done</Text></TouchableOpacity>
+        </Dialog.Content>
+        
+      </Dialog>
+        {/* Dialog 3 */} 
       <Dialog visible={bathroomVisible} onDismiss={hideBathroomDialog} dismissable={false}>
         <Dialog.Content>
         <Input placeholder="Enter number of bathrooms" onChangeText={handleBedroomEdit} value={""}/>
@@ -388,20 +448,10 @@ return <Loader text=""/>;
         :null}
         {propertyFound ? <View style={{padding:20,marginBottom:"20%"}}>
     <Text style={{fontSize:24}}>Home Details</Text>
-    <View style={{flexDirection:"row"}}>
-      <TouchableOpacity style={[styles.pill,{backgroundColor:isMLSSelected ? "#46D0B6":"#C4C4C4"}]} onPress={onMLSSelected}>
-        <Text style={{fontSize:16,color:"white"}}>MSL</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.pill,{backgroundColor:isUpgradesSelected ? "#46D0B6":"#C4C4C4"}]} onPress={onUPgradesSelected}>
-        <Text style={{fontSize:16,color:"white"}}>Upgrades</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.pill,{backgroundColor:isPropziVisitSelected ? "#46D0B6":"#C4C4C4"}]} onPress={onPropziVisitSelected}>
-        <Text style={{fontSize:16,color:"white"}}>Propzi</Text>
-      </TouchableOpacity>
-    </View>
 
 
-{isMLSSelected ? <View>
+
+<View>
 <View style={{marginTop:"10%"}}>
   <View style={{marginBottom:"5%"}}>
   <Text style={{fontWeight:"500",fontSize:16}}>Address</Text>
@@ -410,24 +460,20 @@ return <Loader text=""/>;
 <View style={{flexDirection:"row"}}> 
     <View style={{flex:1}}>
        <Text style={{fontWeight:"500",fontSize:16}}>Bedrooms</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` ${property.details.numBedrooms} Bedrooms Main Floor`}</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` ${property.details.numBedroomsPlus == "" ?"0":property.details.numBedroomsPlus} Bedroom: Basement`}</Text>
+       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` number of Bedrooms ${property.details.numBedrooms} + ${property.details.numBedroomsPlus == "" || property.details.numBedroomsPlus == null ?"0":property.details.numBedroomsPlus}`}</Text>
       </View>
-      <View style={{flex:0.5,flexDirection:"row",alignItems:"center"}}>
-        <TouchableOpacity><Text style={{color:"red"}} onPress={showBedroomEdit}>Edit</Text></TouchableOpacity>
-        
+      <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
+        <TouchableOpacity onPress={showBedroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
       </View>
     </View>
 
     <View style={{flexDirection:"row",marginTop:"5%"}}> 
     <View style={{flex:1}}>
        <Text style={{fontWeight:"500",fontSize:16}}>Bathrooms</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` ${property.details.numBathrooms} Bathrooms Main Floor`}</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` ${property.details.numBathroomsPlus == "" ?"0":property.details.numBedroomsPlus}Bathrooms: Basement`}</Text>
+       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{`number of Bathrooms ${property.details.numBathrooms} + ${property.details.numBathroomsPlus == "" || property.details.numBathroomsPlus == null?"0":property.details.numBedroomsPlus}`}</Text>
       </View>
-      <View style={{flex:0.5,flexDirection:"row",alignItems:"center"}}>
-        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}} onPress={showBathroomEdit}>Edit</Text></TouchableOpacity>
-       
+      <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
+        <TouchableOpacity onPress={showBathroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
       </View>
     </View>
 
@@ -437,18 +483,18 @@ return <Loader text=""/>;
        <Text style={{fontWeight:"500",fontSize:16}}>Space:Main Interior</Text>
        <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` Sqft: ${property.details.sqft}`}</Text>
       </View>
-      <View style={{flex:0.5,flexDirection:"row",alignItems:"center"}}>
-        <TouchableOpacity><Text style={{color:"red",marginRight:"20%"}}>Edit</Text></TouchableOpacity>
-        
-      </View>
+      <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
+        <TouchableOpacity style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
+        </View>
+
     </View>
 </View>
     
 
-<TouchableOpacity style={styles.addHomeButton} onPress={handlePropertyAdding}>
-  <Text style={{fontSize:18,color:"white"}}>Add Home</Text>
+<TouchableOpacity style={styles.addHomeButton} onPress={()=>{navigation.navigate("upgrades")}}>
+  <Text style={{fontSize:18,color:"white"}}>Next</Text>
 </TouchableOpacity>
-</View>: isUpgradesSelected ? <PropziUpgradesScreen/> : isPropziVisitSelected ? <PropziVisit/>:null}
+</View>
   </View>:null}
         </ScrollView>
     </SafeAreaView>
@@ -507,10 +553,10 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:10,
+    borderRadius:50,
     backgroundColor:"#34D1B6",
     height:50,
-    width:width - 50,
+    paddingVertical:10,paddingHorizontal:30,
     alignSelf:"center",
     marginTop:"20%"
   },
