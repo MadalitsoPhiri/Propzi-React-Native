@@ -1,21 +1,29 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import _ from 'lodash';
-import {dbh} from "../../firebase/index";
+import React, { Fragment, useState, useEffect } from "react";
+import _ from "lodash";
+import { dbh } from "../../firebase/index";
 import {
-  StyleSheet, Text, View, Dimensions,TouchableOpacity,SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  SafeAreaView,
   FlatList,
-  ScrollView, Image, Modal, Pressable
-} from 'react-native'
-import { LineChart} from "react-native-chart-kit";
-import {Calendar} from 'react-native-calendars';
-import Loader from '../components/Loader'
-import ReportRectangleCard from '../components/Cards/ReportRectangleCard'
+  ScrollView,
+  Image,
+  Modal,
+  Pressable,
+} from "react-native";
+import { LineChart } from "react-native-chart-kit";
+import { Calendar } from "react-native-calendars";
+import Loader from "../components/Loader";
+import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
-import { colors } from '../styles';
+import { colors } from "../styles";
 
 export const AuthContext = React.createContext({});
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const arrowOne = require("../../assets/icons/right1.png");
 const arrowTwo = require("../../assets/icons/right2.png");
 const arrowThree = require("../../assets/icons/right3.png");
@@ -23,10 +31,9 @@ const dropDownIconOne = require("../../assets/icons/down1.png");
 const dropDownIconTwo = require("../../assets/icons/down2.png");
 const dropDownIconThree = require("../../assets/icons/down3.png");
 
+const mocks = [];
 
-const mocks = []
-
-let startDate = ''
+let startDate = "";
 
 const ReportScreen = () => {
   const [shouldShow, setShouldShow] = useState(false);
@@ -36,33 +43,32 @@ const ReportScreen = () => {
   const [shouldShow4, setShouldShow4] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [NoDateSelected, nowSelected] = useState(true);
-  const [selected, setSelected] = useState('');
-  const [selected1, setSelected1] = useState('');
+  const [selected, setSelected] = useState("");
+  const [selected1, setSelected1] = useState("");
   const [dateSelected, setDate] = useState(false);
   const [dateSelected1, setDate1] = useState(false);
-  
 
-  const [loading, setLoading] = useState(true); 
-  const [users, setUsers] = useState([]); 
-  const [userData, setUserData] = useState('')
-  const[userProperties, setProperties] = useState([])
-  const[community, setCommunities] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [userData, setUserData] = useState("");
+  const [userProperties, setProperties] = useState([]);
+  const [community, setCommunities] = useState([]);
 
   useEffect(() => {
     const subscriber = dbh
-      .collection('Economics/Country/EconomicIndicator')
+      .collection("Economics/Country/EconomicIndicator")
       .onSnapshot((querySnapshot) => {
         const users = [];
 
-      querySnapshot.forEach(documentSnapshot => {
-        users.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
+        querySnapshot.forEach((documentSnapshot) => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
         });
-      });
 
-      setUsers(users);
-      setLoading(false);
+        setUsers(users);
+        setLoading(false);
       });
 
     // Unsubscribe from events when no longer in use
@@ -70,20 +76,20 @@ const ReportScreen = () => {
   }, []);
   useEffect(() => {
     const subscriber1 = dbh
-      .collection('Economics/Toronto/EconomicIndicator')
+      .collection("Economics/Toronto/EconomicIndicator")
       .onSnapshot((querySnapshot) => {
         const users1 = [];
 
-      querySnapshot.forEach(documentSnapshot => {
-        users1.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
+        querySnapshot.forEach((documentSnapshot) => {
+          users1.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
         });
-      });
 
-      //setUsers(users =>[...users, users1]);
-      setUsers(users => users.concat(users1))
-      setLoading(false);
+        //setUsers(users =>[...users, users1]);
+        setUsers((users) => users.concat(users1));
+        setLoading(false);
       });
 
     // Unsubscribe from events when no longer in use
@@ -92,22 +98,20 @@ const ReportScreen = () => {
 
   useEffect(() => {
     const userData1 = dbh
-      .collection('UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property')
+      .collection("UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property")
       .onSnapshot((querySnapshot) => {
-        let userData2 = '';
+        let userData2 = "";
 
-        querySnapshot.forEach(documentSnapshot => {
-          let b = documentSnapshot.data()
-          let street = b.streetName
-          let streetNumber = b.streetNumber
-          let address = streetNumber + ' ' + street
-          userData2 = address
+        querySnapshot.forEach((documentSnapshot) => {
+          let b = documentSnapshot.data();
+          let street = b.streetName;
+          let streetNumber = b.streetNumber;
+          let address = streetNumber + " " + street;
+          userData2 = address;
         });
-        
-      
-      
-      setUserData(userData2)
-      setLoading(false);
+
+        setUserData(userData2);
+        setLoading(false);
       });
 
     // Unsubscribe from events when no longer in use
@@ -115,21 +119,19 @@ const ReportScreen = () => {
   }, []);
   useEffect(() => {
     const userProperty1 = dbh
-      .collection('UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property')
+      .collection("UserDetails/26P9zBdu34c5UvE2OffJkRSIkgZ2/Property")
       .onSnapshot((querySnapshot) => {
         let userProperty2 = [];
 
-        querySnapshot.forEach(documentSnapshot => {
+        querySnapshot.forEach((documentSnapshot) => {
           userProperty2.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
         });
-        
-      
-      
-      setProperties(userProperty2)
-      setLoading(false);
+
+        setProperties(userProperty2);
+        setLoading(false);
       });
 
     // Unsubscribe from events when no longer in use
@@ -137,36 +139,35 @@ const ReportScreen = () => {
   }, []);
   useEffect(() => {
     const community1 = dbh
-      .collection('Community/Ajax/Carruthers Creek')
+      .collection("Community/Ajax/Carruthers Creek")
       .onSnapshot((querySnapshot) => {
         const communities2 = [];
 
-      querySnapshot.forEach(documentSnapshot => {
-        communities2.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
+        querySnapshot.forEach((documentSnapshot) => {
+          communities2.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
         });
-      });
 
-      setCommunities(communities2)
-      setLoading(false);
+        setCommunities(communities2);
+        setLoading(false);
       });
 
     // Unsubscribe from events when no longer in use
     return () => community1();
   }, []);
 
-
-  const onDayPress = day => {
+  const onDayPress = (day) => {
     setSelected(day.dateString);
     setDate(!dateSelected);
-    startDate = day.dateString
-    console.log('start date:' + startDate)
+    startDate = day.dateString;
+    console.log("start date:" + startDate);
   };
   const { destinations } = mocks;
-  let dateOne = '2021-02-14'
-  let dateTwo = '2021-02-18'
-  
+  let dateOne = "2021-02-14";
+  let dateTwo = "2021-02-18";
+
   if (loading) {
     return <Loader />;
   }
@@ -174,8 +175,7 @@ const ReportScreen = () => {
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   const data = [900000, 912000, 913000, 917000, 916000, 921000];
   const data1 = [892000, 902000, 907000, 915000, 912000, 918000];
-  
-  
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -197,7 +197,7 @@ const ReportScreen = () => {
                     width: 60,
                     height: 60,
                     borderRadius: 50,
-                    marginTop:10,
+                    marginTop: 10,
                     backgroundColor: "#f6f6f6",
                     alignItems: "center",
                     justifyContent: "center",
@@ -230,7 +230,7 @@ const ReportScreen = () => {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-                style={{height:300,width}}
+                style={{ height: 300, width }}
               >
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
@@ -375,7 +375,7 @@ const ReportScreen = () => {
 
           {/* Toggle address avg price text */}
           {shouldShow4 ? (
-            <TouchableOpacity onPress={() => setShouldShow4(!shouldShow4)}>
+            <Pressable onPress={() => setShouldShow4(!shouldShow4)}>
               <View
                 style={{
                   flexDirection: "row",
@@ -493,10 +493,10 @@ const ReportScreen = () => {
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           ) : (
             // Line Graph start here
-            <TouchableOpacity
+            <Pressable
               onPress={() => setShouldShow4(!shouldShow4)}
               style={{
                 justifyContent: "center",
@@ -585,7 +585,7 @@ const ReportScreen = () => {
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           )}
 
           <View style={{ marginStart: 20, marginTop: 30 }}>
@@ -706,18 +706,17 @@ const ReportScreen = () => {
                       snapToAlignment="center"
                       style={{ overflow: "visible", wid: width - 50 }}
                       data={community}
-                      keyExtractor={(item, index) => `${item.id}`}
                       renderItem={({ item, index }) => (
-                        <>
-                          <ReportCard
-                            title={item.indicator}
-                            imgUrl={item.img}
-                            dataSource={item.dataSource}
-                            category={item.community}
-                            propziImpact={item.propziImpact}
-                            desc={item.description}
-                          />
-                        </>
+                        <ReportCard
+                          title={item.indicator}
+                          imgUrl={item.img}
+                          dataSource={item.dataSource}
+                          category={item.community}
+                          propziImpact={item.propziImpact}
+                          desc={item.description}
+                          index={index}
+                          key={index}
+                        />
                       )}
                     />
                   </View>
@@ -759,7 +758,6 @@ const ReportScreen = () => {
                       snapToAlignment="center"
                       style={{ overflow: "visible", wid: width - 50 }}
                       data={users}
-                      keyExtractor={(item, index) => `${item.id}`}
                       renderItem={({ item, index }) => (
                         <>
                           <ReportCard
@@ -769,6 +767,8 @@ const ReportScreen = () => {
                             category={item.categoryIndicator}
                             propziImpact={item.propziImpact}
                             desc={item.description}
+                            index={index}
+                            key={index}
                           />
                         </>
                       )}
@@ -813,7 +813,6 @@ const ReportScreen = () => {
                       snapToAlignment="center"
                       style={{ overflow: "visible", wid: width - 50 }}
                       data={community}
-                      keyExtractor={(item, index) => `${item.id}`}
                       renderItem={({ item, index }) => (
                         <>
                           <ReportCard
@@ -823,6 +822,7 @@ const ReportScreen = () => {
                             desc={item.description}
                             category={item.category}
                             index={index}
+                            key={index}
                             title={item.heading}
                           />
                         </>
@@ -851,8 +851,6 @@ const ReportScreen = () => {
   );
 };
 
-
- 
 const styles = StyleSheet.create({
   pill: {
     paddingHorizontal: 25,
@@ -1239,15 +1237,15 @@ const styles = StyleSheet.create({
 
 const imgs1 = [
   {
-    id:3,
-    members:[
-      "https://i.cbc.ca/1.1688376.1379083887!/httpImage/image.jpg_gen/derivatives/16x9_780/hi-unemployed.jpg", 
-      "https://www.cbre.us/-/media/cbre/countryunitedstates/media/images/pr-stock-images/pr-image-04.jpg", 
+    id: 3,
+    members: [
+      "https://i.cbc.ca/1.1688376.1379083887!/httpImage/image.jpg_gen/derivatives/16x9_780/hi-unemployed.jpg",
+      "https://www.cbre.us/-/media/cbre/countryunitedstates/media/images/pr-stock-images/pr-image-04.jpg",
       "https://hughesmarino.com/wp-content/uploads/San-Diego-downtown-dusk.jpg",
-      "https://cdn-res.keymedia.com/cms/images/ca/046/0348_637250306371916023.jpg"
-    ]
-  }
-]
+      "https://cdn-res.keymedia.com/cms/images/ca/046/0348_637250306371916023.jpg",
+    ],
+  },
+];
 const imgs2 = [
   {
     id: 4,
@@ -1255,10 +1253,10 @@ const imgs2 = [
       "https://www.greenwoodswim.com/mabutap/3250/Marijuana-Kamloops-British-Colombia-Canada-5e72a9c9d4bdc.jpg",
       "https://www.chatelaine.com/wp-content/uploads/2017/01/Morin_Library_credit_Patrick_Matte-1.jpg",
       "https://images.adsttc.com/media/images/595b/9b16/b22e/386b/ae00/011e/newsletter/007-_Perkins_Will_Albion_Library.jpg",
-      "https://cdn.renewcanada.net/wp-content/uploads/2017/12/22144736/manitoba-government.jpg"
-    ]
-  }
-]
+      "https://cdn.renewcanada.net/wp-content/uploads/2017/12/22144736/manitoba-government.jpg",
+    ],
+  },
+];
 const imgs3 = [
   {
     id: 5,
@@ -1266,35 +1264,34 @@ const imgs3 = [
       "https://constructionreviewonline.com/wp-content/uploads/2020/11/image3.jpg",
       "https://loveincorporated.blob.core.windows.net/contentimages/gallery/39f51006-18b2-4e24-9a94-52e8a4dc05b8-shutterstock_521094097.jpg",
       "https://www.thespruce.com/thmb/pIk77UlWUgSY2VGy2yHvKclVYZU=/2121x1193/smart/filters:no_upscale()/Family-home-renovation-GettyImages-513438249-58a0e0803df78c4758055c1a.jpg",
-      "https://www.refreshrenovations.global/images/uploads/plan-hero.jpg"
-    ]
-  }
-]
-
+      "https://www.refreshrenovations.global/images/uploads/plan-hero.jpg",
+    ],
+  },
+];
 
 const testIDs = {
   menu: {
-    CONTAINER: 'menu',
-    CALENDARS: 'calendars_btn',
-    CALENDAR_LIST: 'calendar_list_btn',
-    HORIZONTAL_LIST: 'horizontal_list_btn',
-    AGENDA: 'agenda_btn',
-    EXPANDABLE_CALENDAR: 'expandable_calendar_btn',
-    WEEK_CALENDAR: 'week_calendar_btn'
+    CONTAINER: "menu",
+    CALENDARS: "calendars_btn",
+    CALENDAR_LIST: "calendar_list_btn",
+    HORIZONTAL_LIST: "horizontal_list_btn",
+    AGENDA: "agenda_btn",
+    EXPANDABLE_CALENDAR: "expandable_calendar_btn",
+    WEEK_CALENDAR: "week_calendar_btn",
   },
   calendars: {
-    CONTAINER: 'calendars',
-    FIRST: 'first_calendar',
-    LAST: 'last_calendar'
+    CONTAINER: "calendars",
+    FIRST: "first_calendar",
+    LAST: "last_calendar",
   },
-  calendarList: {CONTAINER: 'calendarList'},
-  horizontalList: {CONTAINER: 'horizontalList'},
+  calendarList: { CONTAINER: "calendarList" },
+  horizontalList: { CONTAINER: "horizontalList" },
   agenda: {
-    CONTAINER: 'agenda',
-    ITEM: 'item'
+    CONTAINER: "agenda",
+    ITEM: "item",
   },
-  expandableCalendar: {CONTAINER: 'expandableCalendar'},
-  weekCalendar: {CONTAINER: 'weekCalendar'}
+  expandableCalendar: { CONTAINER: "expandableCalendar" },
+  weekCalendar: { CONTAINER: "weekCalendar" },
 };
 
-export default ReportScreen
+export default ReportScreen;
