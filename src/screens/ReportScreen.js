@@ -42,6 +42,7 @@ const ReportScreen = () => {
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const [dateToggle, setDateToggle] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -140,15 +141,13 @@ const ReportScreen = () => {
     return () => getAllUserProperties();
   }, []);
 
-
-  
+  // Get communit data
   useEffect(() => {
     const community1 = dbh
       .collection("Community")
       .doc("Ajax")
       .collection("Carruthers Creek")
       .onSnapshot((querySnapshot) => {
-        console.log(querySnapshot.docs[0].data());
         const communities2 = [];
 
         querySnapshot.forEach((documentSnapshot) => {
@@ -161,7 +160,7 @@ const ReportScreen = () => {
           setLoading(false);
         });
       });
-  
+
     // Unsubscribe from events when no longer in use
     return () => community1();
   }, []);
@@ -187,7 +186,7 @@ const ReportScreen = () => {
           <View style={styles.topSection}>
             <View>
               <ModalDropdown
-                defaultValue={userAddresses && userAddresses}
+                defaultValue={userAddresses && userAddresses[0]}
                 options={userAddresses}
                 dropdownStyle={{
                   paddingHorizontal: 10,
@@ -195,241 +194,195 @@ const ReportScreen = () => {
                   width: width - 40,
                 }}
                 dropdownTextStyle={{ fontSize: 18, fontWeight: "500" }}
-                textStyle={{ fontSize: 20, fontWeight: "500" }}
+                textStyle={{ fontSize: 20, fontWeight: "500", marginBottom: 5 }}
                 onTouchStart={() => setModalVisible(!modalVisible)}
               />
               {/* <Text style={styles.title}>{"45 Bristol Rd, Mississauga"}</Text> */}
               <Text style={styles.stitle}>Last Updated at 12/28/2020.</Text>
             </View>
-            <View style={{ flexDirection: "column" }}>
-              <Pressable onPress={() => setModalVisible(!modalVisible)}>
-                <View
-                  style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 50,
-                    marginTop: 10,
-                    backgroundColor: "#f6f6f6",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {modalVisible ? (
-                    <View>
-                      <Image
-                        source={require("../../assets/icons/up1.png")}
-                        style={{ width: 25, height: 25 }}
-                      />
-                    </View>
-                  ) : (
-                    <View>
-                      <Image
-                        source={require("../../assets/icons/down1.png")}
-                        style={{ width: 25, height: 25 }}
-                      />
-                    </View>
-                  )}
-                </View>
-              </Pressable>
-            </View>
-          </View>
-
-          {/* Propzi heading and Date picker plus date select logic */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingHorizontal: 20,
-              marginTop: 10,
-              height: 60,
-            }}
-          >
-            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-              Propzi Price
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                backgroundColor: "#f3f3f3",
-                paddingRight: 10,
-              }}
+            
+            <Pressable
+              style={styles.topSectionArrowContainer}
+              onPress={() => setModalVisible(!modalVisible)}
             >
-              <ModalDropdown
-                options={[
-                  "January-2021",
-                  "Febuary-2021",
-                  "March-2021",
-                  "April-2021",
-                  "May-2021",
-                  "Jun2-2021",
-                  "July-2021",
-                  "August-2021",
-                ]}
-                dropdownStyle={{
-                  width: "25%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                textStyle={{ fontSize: 14 }}
-                defaultValue="Date"
-                style={{
-                  padding: 5,
-                  paddingHorizontal: 10,
-                }}
-                onSelect={(index, value) => console.warn(value)}
-                animated={true}
-                onTouchStart={() => setDateToggle(!dateToggle)}
-              />
-              {dateToggle ? (
-                <>
+              {modalVisible ? (
+                <View>
                   <Image
-                    source={require("../../assets/icons/6.png")}
-                    style={{
-                      width: 10,
-                      height: 10,
-                      alignSelf: "center",
-                      marginTop: -2,
-                      paddingLeft: 5,
-                    }}
+                    source={require("../../assets/icons/up1.png")}
+                    style={{ width: 25, height: 25 }}
                   />
-                </>
+                </View>
               ) : (
-                <Image
-                  source={require("../../assets/icons/5.png")}
-                  style={{
-                    width: 10,
-                    height: 10,
-                    alignSelf: "center",
-                    marginTop: -2,
-                    paddingLeft: 5,
-                  }}
-                />
+                <View>
+                  <Image
+                    source={require("../../assets/icons/down1.png")}
+                    style={{ width: 25, height: 25 }}
+                  />
+                </View>
               )}
-            </View>
+            </Pressable>
           </View>
 
           {/* Toggle address avg price text */}
           {shouldShow4 ? (
-            <Pressable onPress={() => setShouldShow4(!shouldShow4)}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  paddingTop: 20,
-                  paddingBottom: 10,
-                }}
-              >
+            // Propzi heading and Date picker plus date select logic
+            <>
+              <View style={styles.propziHeadingAndDateMadal}>
+                <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                  Propzi Price
+                </Text>
                 <View
                   style={{
                     flexDirection: "row",
-                    alignSelf: "flex-start",
-                    alignContent: "flex-start",
+                    backgroundColor: "#f3f3f3",
+                    paddingRight: 10,
                   }}
                 >
-                  <Text
-                    style={{ fontSize: 10, color: "#35d1b9", paddingLeft: 3 }}
-                  >
-                    6336 Culmore Cres
-                  </Text>
+                  <ModalDropdown
+                    options={[
+                      "January-2021",
+                      "Febuary-2021",
+                      "March-2021",
+                      "April-2021",
+                      "May-2021",
+                      "Jun2-2021",
+                      "July-2021",
+                      "August-2021",
+                    ]}
+                    dropdownStyle={{
+                      width: "25%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    textStyle={{ fontSize: 14 }}
+                    defaultValue="Date"
+                    style={{
+                      padding: 5,
+                      paddingHorizontal: 10,
+                    }}
+                    onSelect={(index, value) => console.warn(value)}
+                    animated={true}
+                    onTouchStart={() => setDateToggle(!dateToggle)}
+                  />
+                  {dateToggle ? (
+                    <Image
+                      source={require("../../assets/icons/6.png")}
+                      style={{
+                        width: 10,
+                        height: 10,
+                        alignSelf: "center",
+                        marginTop: -2,
+                        paddingLeft: 5,
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      source={require("../../assets/icons/5.png")}
+                      style={{
+                        width: 10,
+                        height: 10,
+                        alignSelf: "center",
+                        marginTop: -2,
+                        paddingLeft: 5,
+                      }}
+                    />
+                  )}
                 </View>
+              </View>
+              <Pressable onPress={() => setShouldShow4(!shouldShow4)}>
                 <View
                   style={{
                     flexDirection: "row",
-                    alignSelf: "flex-end",
-                    alignContent: "flex-end",
+                    justifyContent: "space-around",
+                    paddingTop: 20,
+                    paddingBottom: 10,
                   }}
                 >
-                  <Text
-                    style={{ fontSize: 10, color: "#979797", paddingLeft: 3 }}
-                  >
+                  <Text style={{ fontSize: 12, color: "#35d1b9" }}>
+                    {userAddresses && userAddresses[0]}
+                  </Text>
+                  <Text style={{ fontSize: 12, color: "#979797" }}>
                     Avg. Market Price
                   </Text>
                 </View>
-              </View>
 
-              <View style={{ marginTop: 20, marginLeft: 35 }}>
-                <LineChart
-                  data={{
-                    labels: labels,
-                    datasets: [
-                      {
-                        data: data,
-                        color: (opacity = 1) => `rgba(94, 229, 208, 1)`, // optional
-                        strokeWidth: 2,
+                <View style={{ marginTop: 20, marginLeft: 35 }}>
+                  <LineChart
+                    data={{
+                      labels: labels,
+                      datasets: [
+                        {
+                          data: data,
+                          color: (opacity = 1) => `rgba(94, 229, 208, 1)`, // optional
+                          strokeWidth: 2,
+                        },
+                        {
+                          data: data1,
+                          color: (opacity = 1) => `rgba(151, 151, 151, 1)`, // optional
+                          strokeWidth: 2,
+                        },
+                      ],
+                    }}
+                    width={Dimensions.get("window").width - 10} // from react-native
+                    height={220}
+                    //withHorizontalLabels = {false}
+                    withDots={false}
+                    withInnerLines={false}
+                    withOuterLines={false}
+                    yAxisLabel="$"
+                    yAxisInterval={2}
+                    chartConfig={{
+                      backgroundColor: "#fff",
+                      backgroundGradientFrom: "#fff",
+                      backgroundGradientTo: "#FFF",
+                      decimalPlaces: 0, // optional, defaults to 2dp
+                      useShadowColorFromDataset: false, // optional,
+                      color: (opacity = 0) => `rgba(0, 256, 256, ${opacity})`,
+                      labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
+                      style: {
+                        borderRadius: 30,
                       },
-                      {
-                        data: data1,
-                        color: (opacity = 1) => `rgba(151, 151, 151, 1)`, // optional
-                        strokeWidth: 2,
+                      propsForDots: {
+                        r: 0,
+                        strokeWidth: 0,
+                        stroke: "#35d1b9",
                       },
-                    ],
-                  }}
-                  width={Dimensions.get("window").width - 10} // from react-native
-                  height={220}
-                  //withHorizontalLabels = {false}
-                  withDots={false}
-                  withInnerLines={false}
-                  withOuterLines={false}
-                  yAxisLabel="$"
-                  yAxisInterval={2}
-                  chartConfig={{
-                    backgroundColor: "#fff",
-                    backgroundGradientFrom: "#fff",
-                    backgroundGradientTo: "#FFF",
-                    decimalPlaces: 0, // optional, defaults to 2dp
-                    useShadowColorFromDataset: false, // optional,
-                    color: (opacity = 0) => `rgba(0, 256, 256, ${opacity})`,
-                    labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                      borderRadius: 30,
-                    },
-                    propsForDots: {
-                      r: 0,
-                      strokeWidth: 0,
-                      stroke: "#35d1b9",
-                    },
-                  }}
-                  //bezier
-                  style={{
-                    marginVertical: 5,
-                    borderRadius: 15,
-                  }}
-                  renderDotContent={({ x, y, index }) => {
-                    return (
-                      <View
-                        style={{
-                          height: 24,
-                          width: 24,
-                          backgroundColor: "#abc",
-                          position: "absolute",
-                          top: y - 36, // <--- relevant to height / width (
-                          left: x - 12, // <--- width / 2
-                        }}
-                      >
-                        <Text style={{ fontSize: 10 }}>{data[index]}</Text>
-                      </View>
-                    );
-                  }}
-                />
-                <View
-                  style={[
-                    styles.flex1,
-                    styles.row,
-                    styles.recommendationOptions,
-                  ]}
-                >
-                  <View style={[styles.card5, { marginLeft: width - 200 }]}>
-                    <Text style={{ color: "#303030", fontSize: 12 }}>
-                      $921000
-                    </Text>
-                    <Text style={{ color: "#2cde49", fontSize: 10 }}>
-                      +1.35%
-                    </Text>
+                    }}
+                    //bezier
+                    style={{
+                      marginVertical: 5,
+                      borderRadius: 15,
+                    }}
+                    renderDotContent={({ x, y, index }) => {
+                      return (
+                        <View
+                          style={{
+                            height: 24,
+                            width: 24,
+                            backgroundColor: "#abc",
+                            position: "absolute",
+                            top: y - 36, // <--- relevant to height / width (
+                            left: x - 12, // <--- width / 2
+                          }}
+                        >
+                          <Text style={{ fontSize: 10 }}>{data[index]}</Text>
+                        </View>
+                      );
+                    }}
+                  />
+                  <View style={styles.propziPriceTip}>
+                    <View style={styles.propziPriceTipWrapper}>
+                      <Text style={{ color: "#303030", fontSize: 12 }}>
+                        $921000
+                      </Text>
+                      <Text style={{ color: "#2cde49", fontSize: 10 }}>
+                        +1.35%
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </Pressable>
+              </Pressable>
+            </>
           ) : (
             // Line Graph start here
             <Pressable
@@ -439,7 +392,7 @@ const ReportScreen = () => {
                 alignItems: "center",
               }}
             >
-              <View style={{ marginTop: 40, marginLeft: 55 }}>
+              <View style={{ marginTop: 50, marginLeft: 55 }}>
                 <LineChart
                   data={{
                     labels: labels,
@@ -504,16 +457,10 @@ const ReportScreen = () => {
                     );
                   }}
                 />
-                <View
-                  style={[
-                    styles.flex1,
-                    styles.row,
-                    styles.recommendationOptions,
-                  ]}
-                >
-                  <View style={[styles.card5, { marginLeft: width - 200 }]}>
+                <View style={styles.propziPriceTip}>
+                  <View style={styles.propziPriceTipWrapper}>
                     <Text style={{ color: "#303030", fontSize: 12 }}>
-                      $921000
+                      $921,000
                     </Text>
                     <Text style={{ color: "#2cde49", fontSize: 10 }}>
                       +1.35%
@@ -524,8 +471,8 @@ const ReportScreen = () => {
             </Pressable>
           )}
 
-          <View style={{ marginStart: 20, marginTop: 30 }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Report</Text>
+          <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 10 }}>
+            <Text style={{ fontSize: 23, fontWeight: "500" }}>Report</Text>
           </View>
 
           {/* Tabs start here */}
@@ -534,88 +481,124 @@ const ReportScreen = () => {
             style={{ marginTop: 10, marginStart: 20 }}
             showsHorizontalScrollIndicator={false}
           >
-            {shouldShow ? (
-              <TouchableOpacity
+            {showAll ? (
+              <Pressable
                 style={[styles.pillsActive]}
                 onPress={() => {
-                  setShouldShow(!shouldShow);
+                  setShowAll(true);
+                  setShouldShow(false);
                   setShouldShow1(false);
                   setShouldShow2(false);
                 }}
               >
                 <View style={[styles.pill]}>
-                  <Text style={styles.pillName}>Home Renovations</Text>
+                  <Text style={styles.pillName}>All</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             ) : (
-              <TouchableOpacity
+              <Pressable
                 style={[styles.pills]}
+                onPress={() => {
+                  setShowAll(true);
+                  setShouldShow(false);
+                  setShouldShow1(false);
+                  setShouldShow2(false);
+                }}
+              >
+                <View style={styles.pill}>
+                  <Text style={styles.pillName}>All</Text>
+                </View>
+              </Pressable>
+            )}
+
+            {shouldShow ? (
+              <Pressable
+                style={[styles.pillsActive, { marginLeft: 10 }]}
                 onPress={() => {
                   setShouldShow(!shouldShow);
                   setShouldShow1(false);
                   setShouldShow2(false);
+                  setShowAll(false);
+                }}
+              >
+                <View style={[styles.pill]}>
+                  <Text style={styles.pillName}>Home Renovations</Text>
+                </View>
+              </Pressable>
+            ) : (
+              <Pressable
+                style={[styles.pills, { marginLeft: 10 }]}
+                onPress={() => {
+                  setShouldShow(!shouldShow);
+                  setShouldShow1(false);
+                  setShouldShow2(false);
+                  setShowAll(false);
                 }}
               >
                 <View style={styles.pill}>
                   <Text style={styles.pillName}>Home Renovations</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
 
             {shouldShow1 ? (
-              <TouchableOpacity
-                style={[styles.pillsActive, { marginLeft: 6 }]}
+              <Pressable
+                style={[styles.pillsActive, { marginLeft: 10 }]}
                 onPress={() => {
                   setShouldShow1(!shouldShow1);
                   setShouldShow(false);
                   setShouldShow2(false);
+                  setShowAll(false);
                 }}
               >
                 <View style={styles.pill}>
                   <Text style={styles.pillName}>Economic Indicators</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             ) : (
-              <TouchableOpacity
-                style={[styles.pills, { marginLeft: 6 }]}
+              <Pressable
+                style={[styles.pills, { marginLeft: 10 }]}
                 onPress={() => {
                   setShouldShow1(!shouldShow1);
                   setShouldShow(false);
                   setShouldShow2(false);
+                  setShowAll(false);
                 }}
               >
                 <View style={styles.pill}>
                   <Text style={styles.pillName}>Economic Indicators</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
 
             {shouldShow2 ? (
-              <TouchableOpacity
-                style={[styles.pillsActive, { marginLeft: 6 }]}
+              <Pressable
+                style={[styles.pillsActive, { marginLeft: 10 }]}
                 onPress={() => {
                   setShouldShow2(!shouldShow2);
                   setShouldShow(false);
                   setShouldShow1(false);
+                  setShowAll(false);
                 }}
               >
                 <View style={styles.pill}>
                   <Text style={styles.pillName}>Community Development</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             ) : (
-              <TouchableOpacity
-                style={[styles.pills, { marginLeft: 6 }]}
+              <Pressable
+                style={[styles.pills, { marginLeft: 10 }]}
                 onPress={() => {
                   setShouldShow2(!shouldShow2);
                   setShouldShow(false);
                   setShouldShow1(false);
+                  setShowAll(false);
                 }}
               >
                 <View style={styles.pill}>
                   <Text style={styles.pillName}>Community Development</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
           </ScrollView>
 
@@ -735,7 +718,7 @@ const ReportScreen = () => {
                   onPress={() => setShouldShow2(!shouldShow2)}
                   title="Community Developments"
                   date="25th Feb 2021"
-                  backgroundColor="rgba(52,209,184, 0.18)"
+                  backgroundColor="rgba(231, 189, 81, 0.2)"
                 />
 
                 <View style={[styles.flex, styles.column, styles.recommended]}>
@@ -776,7 +759,7 @@ const ReportScreen = () => {
                   date="3 Feb 2021"
                   imagesArray={imgs3}
                   updates={community.length}
-                  backgroundColor="rgba(52,209,184, 0.18)"
+                  backgroundColor="rgba(231, 189, 81, 0.2)"
                 />
               </View>
             )}
@@ -788,15 +771,51 @@ const ReportScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  topSectionArrowContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    backgroundColor: "#f6f6f6",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  propziHeadingAndDateMadal: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginTop: 10,
+    height: 60,
+  },
+
+  propziPriceTipWrapper: {
+    marginLeft: width - 200,
+    backgroundColor: "rgba(52, 208, 184, 0.22)",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+
+  topSection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal:20,
+    height: 80,
+    marginTop:20
+  },
+
   pill: {
     paddingHorizontal: 25,
-    paddingVertical: 14,
+    paddingVertical: 10,
     justifyContent: "center",
     alignItems: "center",
   },
 
   pillName: {
     fontSize: 14,
+    color: "white",
   },
   pills: {
     backgroundColor: colors.SECONDARY_COLOR,
@@ -807,15 +826,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 25,
     backgroundColor: colors.PRIMARY_COLOR,
-  },
-
-  topSection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingStart: 20,
-    paddingEnd: 20,
-    paddingTop: 10,
   },
 
   root: {
@@ -847,7 +857,7 @@ const styles = StyleSheet.create({
     color: "#a4a4a4",
   },
 
-  recommendationOptions: {
+  propziPriceTip: {
     alignItems: "center",
     justifyContent: "space-between",
     padding: 25 / 2,
