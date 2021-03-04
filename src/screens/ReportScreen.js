@@ -243,16 +243,17 @@ const ReportScreen = () => {
                       "January-2021",
                       "Febuary-2021",
                       "March-2021",
-                      "April-2021",
-                      "May-2021",
-                      "Jun2-2021",
-                      "July-2021",
-                      "August-2021",
+                      // "April-2021",
+                      // "May-2021",
+                      // "June-2021",
+                      // "July-2021",
+                      // "August-2021",
                     ]}
                     dropdownStyle={{
                       width: "25%",
                       justifyContent: "center",
                       alignItems: "center",
+                      height:120
                     }}
                     textStyle={{ fontSize: 14 }}
                     defaultValue="Date"
