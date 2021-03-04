@@ -3,12 +3,12 @@ export const styles = {
     shadowColor: "#00000021",
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 1,
     },
 
     shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
+    shadowRadius: 3,
+    elevation: 1,
 
     marginLeft: 20,
     marginRight: 20,
