@@ -8,7 +8,252 @@ import PropziUpgradesScreen from "./PropziUpgradesScreen";
 import { ActivityIndicator,Modal,Provider,Portal, Dialog} from 'react-native-paper';
 import Loader from "../components/Loader";
 
+const StreetSuffix = [
+  "ANX",
+  "ARC",
+  "AVE",
+  "BYU",
+  "BCH",
+  "BND",
+  "BLF",
+  "BLFS",
+  "BTM",
+  "BLVD",
+  "BR",
+  "BRG",
+  "BRK",
+  "BRKS",
+  "BG",
+  "BGS",
+  "BYP",
+  "CP",
+  "CYN",
+  "CPE","CSWY","CTR","CTRS","CIR","CIRS",
+  "CLF",
+  "CLFS",
+  "CLB",
+  "CMN",
+  "CMNS",
+  "COR",
+  "CORS",
 
+  "CRSE",
+
+  "CT",
+
+  "CTS",
+
+  "CV",
+
+  "CVS",
+  "CRK",
+
+  "CRES",
+
+  "CRST",
+  "XING",
+
+  "XRD",
+  "XRDS",
+  "CURV",
+  "DL",
+
+  "DM",
+
+  "DV",
+
+  "DR",
+
+  "DRS",
+  "EST",
+
+  "ESTS",
+
+  "EXPY",
+
+  "EXT",
+
+  "EXTS",
+  "FALL",
+  "FLS",
+
+  "FRY",
+
+  "FLD",
+
+  "FLDS",
+
+  "FLT",
+
+  "FLTS",
+
+  "FRD",
+
+  "FRDS",
+  "FRST",
+
+  "FRG",
+
+  "FRGS",
+  "FRK",
+
+  "FRKS",
+
+  "FT",
+
+  "FWY",
+
+  "GDN",
+
+  "GDNS",
+
+  "GTWY",
+
+  "GLN",
+
+  "GLNS",
+  "GRN",
+
+  "GRNS",
+  "GRV",
+
+  "GRVS",
+  "HBR",
+
+  "HBRS",
+  "HVN",
+
+  "HTS",
+
+  "HWY",
+
+  "HL",
+
+  "HLS",
+
+  "HOLW",
+
+  "INLT",
+  "IS",
+
+  "ISS",
+
+  "ISLE",
+
+  "JCT",
+
+  "JCTS",
+
+  "KY",
+
+  "KYS",
+
+  "KNL",
+
+  "KNLS",
+
+  "LK",
+
+  "LKS",
+
+  "LAND",
+  "LNDG",
+
+  "LN",
+
+  "LGT",
+
+  "LGTS",
+  "LF",
+
+  "LCK",
+
+  "LCKS",
+
+  "LDG",
+
+  "LOOP",
+
+  "MALL",
+  "MNR",
+
+  "MNRS",
+
+  "MDW",
+  "MDWS",
+
+  "MEWS",
+  "ML",
+  "MLS",
+  "MSN",
+
+  "MTWY",
+  "MT",
+
+  "MTN",
+
+  "MTNS",
+
+  "NCK",
+
+  "ORCH",
+
+  "OVAL",
+
+  "OPAS",
+  "PARK",
+
+  "PARK",
+  "PKWY",
+
+  "PKWY",
+
+  "PASS",
+  "PSGE",
+  "PATH",
+
+  "PIKE",
+
+  "PNE",
+  "PNES",
+
+  "PL",
+  "PLN",
+
+  "PLNS",
+
+  "PLZ",
+
+  "PT",
+
+  "PTS",
+
+  "PRT",
+
+  "PRTS",
+
+  "PR",
+
+  "RADL",
+
+  "RAMP",
+  "RNCH",
+
+  "RPD",
+
+  "RPDS",
+
+  "RST",
+
+  "RDG",
+
+  "RDGS",
+
+  "RIV",
+
+  "RD","RDS","RTE","ROW","RUE","RUN","SHL","SHLS","SHR","SHRS","SKWY","SPG","SPGS","SPUR","SPUR","SQ","SQS","STA","STRA","STRM","ST","STS","SMT","TER","TRWY","TRCE","TRAK","TRFY","TRL","TRLR","TUNL","TPKE", "UPAS","UN","UNS", "VLY","VLYS",
+"VIA","VW","VWS","VLG","VLGS","VL","VIS","WALK","WALK","WALL","WAY","WAYS","WL","WLS",
+];
 
 const Input = ({ width, placeholder, searchIcon, onChangeText,value ,editable})=> {
   return (
@@ -43,7 +288,7 @@ const cleanAddress = (raw)=>{
       let lastItem = postGridAddress[postGridAddress.length - 1]
        
 
-        if(lastItem.length <= 2){
+        if(StreetSuffix.includes(lastItem)){
           streetNumber = postGridAddress[0]
           streetName = postGridAddress[1]
         }else{
@@ -62,7 +307,7 @@ const cleanAddress = (raw)=>{
       let lastItem = postGridAddress[postGridAddress.length - 1]
       let secondLastItem = postGridAddress[postGridAddress.length - 2]
       
-      if (secondLastItem.length == 2 && lastItem.length == 1){
+      if (StreetSuffix.includes(secondLastItem) && lastItem.length == 1){
         postGridAddress.pop()
         postGridAddress.pop()
        
@@ -84,28 +329,19 @@ const cleanAddress = (raw)=>{
           
           
       }else{
-        if(lastItem.length == 1){
-          postGridAddress.pop()
-          streetNumber = postGridAddress[0]
-         let streetNameArray = []
-         let index;
-         for (index = 0;index < postGridAddress.length; index++){
-             if (index != 0){
-               streetNameArray.push(postGridAddress[index])
-             }
-           
-         }
-          streetName = streetNameArray.join(" ").toLowerCase()
-        }else{
-          streetNumber = postGridAddress[0]
+        streetNumber = postGridAddress[0]
           postGridAddress.shift()
           let streetNameArray = []
           postGridAddress.forEach((item)=>{
-            streetNameArray.push(item)
+              let current = item.toUpperCase()
+            if(StreetSuffix.includes(current)){
+
+            }else{
+              streetNameArray.push(item)
+            }
+          
           })
          streetName = streetNameArray.join(" ").toLowerCase()
-          
-        }
         return {streetNumber,streetName}
 //                                       
          
@@ -134,32 +370,32 @@ export default function SearchHomeScreen({navigation}) {
   const [propertyNotFound,setpropertyNotFound] = useState(false)
   const [isLoading,setLoading] = useState(false)
   const {user,setUser,property,setproperty} = useContext(AuthContext)
-  const [isMLSSelected,setMLSSelected] = useState(true)
-  const [isUpgradesSelected,setUpgradesSelected] = useState(false)
-  const [isPropziVisitSelected,setPropziVisitSelected] = useState(false)
   const [bedroom,setBedroom] = useState("")
   const [bedroomPlus,setBedroomPlus] = useState("")
   const [bathrooms,setBathrooms] = useState("")
   const [bathroomsPlus,setBathroomsPlus] = useState("")
+  const [sqft,setSqft] = useState("")
 
   const [bedroomVisible, setbedroomVisible] = React.useState(false);
   const [bathroomVisible, setbathroomVisible] = React.useState(false);
+  const [sqftVisible,setSqftVisible] = React.useState(false);
 
   const showBathroomEdit = () => {
-    if(property.details.numBathrooms != null || property.details.numBathrooms != ""){
-      setBathrooms(property.details.numBathrooms)
-    }else{
+    if(property.details.numBathrooms == null || property.details.numBathrooms == ""){
       setBathrooms("0")
+    }else{
+     
+      setBathrooms(property.details.numBathrooms)
     }
 
-    if(property.details.numBathroomsPlus != null || property.details.numBathroomsPlus != ""){
-      setBathroomsPlus(property.details.numBathroomsPlus)
-    }else{
+    if(property.details.numBathroomPlus == null || property.details.numBathroomPlus == ""){
+      
       setBathroomsPlus("0")
+    }else{
+      setBathroomsPlus(property.details.numBathroomPlus)
     }
-   
     
-    setbathroomVisible(true);
+    setbathroomVisible(true)
   }
   const showBedroomEdit = () => {
 
@@ -180,10 +416,61 @@ export default function SearchHomeScreen({navigation}) {
     setbedroomVisible(true)
   
   };
+
+
+  const showSqftDialog = ()=>{
+    if(property.details.sqft == null || property.details.sqft == ""){
+      setSqft("0")
+    }else{
+     
+      setSqft(property.details.sqft)
+    }
+    setSqftVisible(true)
+  }
   
   
-  const hideBedroomDialog = () => setbedroomVisible(false);
-  const hideBathroomDialog = () => setbathroomVisible(false);
+  const hideBedroomDialog = () => {
+     if(bedroom == property.details.numBedrooms && bedroomPlus == property.details.numBedroomsPlus){
+      setbedroomVisible(false);
+      return
+     }
+
+     let CurrentPropertyDetails = {...property}
+       CurrentPropertyDetails.details.numBedrooms = bedroom
+       CurrentPropertyDetails.details.numBedroomsPlus = bedroomPlus
+
+       setproperty(CurrentPropertyDetails)
+
+    setbedroomVisible(false);
+  
+  }
+  const hideBathroomDialog = () => {
+    if(bathrooms == property.details.numBathrooms && bathroomsPlus == property.details.numBathroomsPlus){
+      setbathroomVisible(false);
+      return
+     }
+
+     let CurrentPropertyDetails = {...property}
+     CurrentPropertyDetails.details.numBathrooms = bathrooms
+     CurrentPropertyDetails.details.numBathroomsPlus = bathroomsPlus
+     setproperty(CurrentPropertyDetails) 
+
+
+    setbathroomVisible(false);
+  }
+  const hideSqftDialog = () => {
+    if(sqft == property.details.sqft){
+      setSqftVisible(false);
+      return
+     }
+     let CurrentPropertyDetails = {...property}
+     CurrentPropertyDetails.details.sqft = sqft
+
+     setproperty(CurrentPropertyDetails)
+
+
+    setSqftVisible(false);
+  }
 
 
   const getPropertyDetails = (raw)=>{
@@ -282,7 +569,9 @@ export default function SearchHomeScreen({navigation}) {
     setLoading(true)
         const dataToSave = {
     bedrooms: property.details.numBedrooms,
+    bedroomsPlus: property.details.numBedroomsPlus,
     bathrooms: property.details.numBathrooms,
+    numBathroomsPlus: property.details.numBathroomsPlus,
     squareFeet: property.details.sqft,
     propertyType: property.details.propertyType,
     propertyClass: property.class,
@@ -361,12 +650,25 @@ export default function SearchHomeScreen({navigation}) {
   }
 
   const handleBedroomEdit = (e) =>{
-        setBathrooms(e)
+        setBedroom(e)
   }
 
   const handleBedroomPlusEdit = (e) =>{
         setBedroomPlus(e)
   }
+
+  const handleBathroomEdit = (e) =>{
+    setBathrooms(e)
+}
+
+const handleBathroomPlusEdit = (e) =>{
+    setBathroomsPlus(e)
+}
+
+
+const handleSqftTextChange = (e) =>{
+  setSqft(e)
+}
 
 if(isLoading){
 return <Loader text=""/>;
@@ -416,19 +718,32 @@ return <Loader text=""/>;
 
       </Dialog>
           {/* Dialog 2 */} 
-      <Dialog visible={bathroomVisible} onDismiss={hideBathroomDialog} dismissable={false}>
+          <Dialog visible={bathroomVisible} onDismiss={hideBathroomDialog} dismissable={false}>
         <Dialog.Content>
-        <Input  onChangeText={handleBedroomEdit} value={""}/>
-        <Input placeholder="Enter number of bathrooms Plus" onChangeText={handleBedroomPlusEdit} value={""}/>
-       <TouchableOpacity style={{backgroundColor:"#46D0B6",borderRadius:10,paddingHorizontal:20,paddingVertical:10,marginTop:"5%"}} onPress={hideBathroomDialog}><Text style={{color:"#ffffff"}}>Done</Text></TouchableOpacity>
-        </Dialog.Content>
+          <View style={{flexDirection:"row",alignItems: "center"}}>
+            <Text style={{flex:1}}>number of Bathrooms:</Text>
+          <Input style={{flex:1,borderWidth:1,borderColor:"#000000"}} placeholder="Enter number of bathrooms" onChangeText={handleBathroomEdit} value={bathrooms}/>
+          </View>
+
+          <View style={{flexDirection:"row",alignItems: "center"}}>
+            <Text style={{flex:1}}>number of BathroomsPlus:</Text>
+            <Input  onChangeText={handleBathroomPlusEdit} value={bathroomsPlus} />
+          </View>
         
+       
+          <TouchableOpacity style={{backgroundColor:"#46D0B6",borderRadius:10,paddingHorizontal:20,paddingVertical:10,width:80,alignSelf:"center",marginTop:"5%"}} onPress={hideBathroomDialog}><Text style={{color:"#ffffff"}}>Done</Text></TouchableOpacity>
+        </Dialog.Content>
+
       </Dialog>
         {/* Dialog 3 */} 
-      <Dialog visible={bathroomVisible} onDismiss={hideBathroomDialog} dismissable={false}>
+      <Dialog visible={sqftVisible} onDismiss={hideSqftDialog} dismissable={false}>
         <Dialog.Content>
-        <Input placeholder="Enter number of bathrooms" onChangeText={handleBedroomEdit} value={""}/>
-       <TouchableOpacity onPress={hideBathroomDialog}><Text>Done</Text></TouchableOpacity>
+        <View style={{flexDirection:"row",alignItems: "center"}}>
+            <Text style={{flex:1}}>Approximate sqft:</Text>
+          <Input style={{flex:1,borderWidth:1,borderColor:"#000000"}} placeholder="Enter Appr Sqft e.g 300-500" onChangeText={handleSqftTextChange} value={sqft}/>
+          </View>
+          <TouchableOpacity onPress={hideSqftDialog}style={{backgroundColor:"#46D0B6",borderRadius:10,paddingHorizontal:20,paddingVertical:10,width:80,alignSelf:"center",marginTop:"5%"}}><Text style={{color:"#ffffff"}}>Done</Text></TouchableOpacity>
+      
         </Dialog.Content>
         
       </Dialog>
@@ -470,7 +785,7 @@ return <Loader text=""/>;
     <View style={{flexDirection:"row",marginTop:"5%"}}> 
     <View style={{flex:1}}>
        <Text style={{fontWeight:"500",fontSize:16}}>Bathrooms</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{`number of Bathrooms ${property.details.numBathrooms} + ${property.details.numBathroomsPlus == "" || property.details.numBathroomsPlus == null?"0":property.details.numBedroomsPlus}`}</Text>
+       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{`number of Bathrooms ${property.details.numBathrooms} + ${property.details.numBathroomsPlus == "" || property.details.numBathroomsPlus == null?"0":property.details.numBathroomsPlus}`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
         <TouchableOpacity onPress={showBathroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
@@ -481,10 +796,10 @@ return <Loader text=""/>;
     <View style={{flexDirection:"row",marginTop:"5%"}}> 
     <View style={{flex:1}}>
        <Text style={{fontWeight:"500",fontSize:16}}>Space:Main Interior</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` Sqft: ${property.details.sqft}`}</Text>
+       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` Sqft: ${property.details.sqft == null || property.details.sqft == "" ? "----": property.details.sqft }`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
-        <TouchableOpacity style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
+        <TouchableOpacity onPress={showSqftDialog} style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
         </View>
 
     </View>

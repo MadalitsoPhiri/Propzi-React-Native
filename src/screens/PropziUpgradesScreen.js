@@ -32,21 +32,23 @@ export default function PropziUpgradesScreen({navigation}){
 
     const handlePropertyAdding = ()=>{
       setLoading(true)
-          const dataToSave = {
-      bedrooms: property.details.numBedrooms,
-      bathrooms: property.details.numBathrooms,
-      squareFeet: property.details.sqft,
-      propertyType: property.details.propertyType,
-      propertyClass: property.class,
-      area: property.address.area,
-      city: property.address.city,
-      cmaPrice: "",
-      propziPrice:"",
-      neighbourhood: property.address.neighborhood,
-      streetName: property.address.streetName,
-      streetNumber: property.address.streetNumber,
-      unitNumber: property.address.unitNumber,
-    };
+      const dataToSave = {
+        bedrooms: property.details.numBedrooms,
+        bedroomsPlus: property.details.numBedroomsPlus,
+        bathrooms: property.details.numBathrooms,
+        bathroomsPlus: property.details.numBathroomsPlus,
+        squareFeet: property.details.sqft,
+        propertyType: property.details.propertyType,
+        propertyClass: property.class,
+        area: property.address.area,
+        city: property.address.city,
+        cmaPrice: "",
+        propziPrice:"",
+        neighbourhood: property.address.neighborhood,
+        streetName: property.address.streetName,
+        streetNumber: property.address.streetNumber,
+        unitNumber: property.address.unitNumber,
+      };
   
    
       dbh
@@ -113,15 +115,7 @@ export default function PropziUpgradesScreen({navigation}){
 
 
 
-            <View style={{marginTop:"10%"}}>
-          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Get another opinion from Propzi</Text>
-          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Get a professional assessment from our team of Propzi home surveyors. Your first visit is free!</Text>
-          </View>
-
-             <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:10,marginTop:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={()=>{navigation.navigate("visit")}}>
-                 <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>Book a Propzi Visit</Text>
-             </TouchableOpacity>
-
+        
             
              <View style={{flexDirection: "row",justifyContent:"space-between"}}>
                 <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={()=>{navigation.goBack();}}>
