@@ -83,7 +83,7 @@ export default function PropziUpgradesScreen({navigation}){
           <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Have you done any upgrades?</Text>
           <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose renovations that you have done in your home since you moved in:</Text>
           </View>
-           
+           <ScrollView horizontal>
             <View style={{flexDirection:"row",flexWrap:"wrap",marginTop:"5%"}}>
             <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
             <Chip icon="" onPress={() => setHardwoodFloors(!hardwoodFloors)} style={{backgroundColor:hardwoodFloors ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} ><Text style={{color:hardwoodFloors ? "#ffffff":"#46D0B6",fontSize:16}}>Hardwood Floors</Text></Chip>
@@ -94,6 +94,7 @@ export default function PropziUpgradesScreen({navigation}){
             <Chip  icon="" onPress={() => setFrontLawn(!frontLawn)} style={{backgroundColor:frontLawn ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}}  ><Text style={{color:frontLawn ? "#ffffff":"#46D0B6",fontSize:16}}>Front Lawn</Text></Chip>
             <Chip  icon="" onPress={() => setbathroomTiles(!bathroomTiles)} style={{backgroundColor:bathroomTiles ? "#46D0B6":"#D6F5EF",marginLeft:"2%",marginBottom:"5%"}} ><Text style={{color:bathroomTiles ? "#ffffff":"#46D0B6",fontSize:16}}>Bathroom Tiles</Text></Chip>
             </View>
+            </ScrollView>
 
 
             <View style={{marginTop:"10%"}}> 

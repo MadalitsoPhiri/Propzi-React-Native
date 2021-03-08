@@ -1,5 +1,6 @@
 import React from 'react'
 import {View, Text,StyleSheet,Image,Dimensions} from 'react-native'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { colors } from '../../styles';
 const {width} = Dimensions.get('screen')
 
@@ -13,6 +14,7 @@ const ReportCard = ({
   propziImpact,
   category,
 }) => {
+  console.warn(desc.substr(0,100));
   return (
     <View style={[styles.container, index === 0 ? { marginLeft: 20 } : null]}>
       <View style={styles.cardImage}>
@@ -24,10 +26,13 @@ const ReportCard = ({
 
       <View style={styles.cardBody}>
         <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={{ color: "#788490", marginBottom: 4,fontSize:12 }}>
+        <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
           From: {dataSource}
         </Text>
-        <Text style={{ color: "#1f2123", fontSize: 13 }}>{desc}</Text>
+        <Text style={{ color: "#1f2123", fontSize: 13,lineHeight:20 }}>
+          {desc.substr(0, 89) + "..."}
+          <Text style={{color:colors.PRIMARY_COLOR}}>Read More</Text>
+        </Text>
       </View>
 
       <View style={styles.cardFooter}>
@@ -83,6 +88,7 @@ const styles = StyleSheet.create({
   cardFooter: {
     paddingHorizontal:10,
     marginHorizontal:10,
+    marginVertical:20,
     marginTop:10,
     shadowColor: "#00000021",
     shadowOffset: {
