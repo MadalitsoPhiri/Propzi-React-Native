@@ -14,7 +14,7 @@ const ReportCard = ({
   propziImpact,
   category,
 }) => {
-  console.warn(desc.substr(0,100));
+ 
   return (
     <View style={[styles.container, index === 0 ? { marginLeft: 20 } : null]}>
       <View style={styles.cardImage}>
@@ -30,7 +30,7 @@ const ReportCard = ({
           From: {dataSource}
         </Text>
         <Text style={{ color: "#1f2123", fontSize: 13,lineHeight:20 }}>
-          {desc.substr(0, 89) + "..."}
+          {desc?.substr(0, 89) + "..."}
           <Text style={{color:colors.PRIMARY_COLOR}}>Read More</Text>
         </Text>
       </View>

@@ -147,8 +147,16 @@ const ReportScreen = () => {
   useEffect(() => {
     const community1 = dbh
       .collection("Communit")
-      .doc(property.city)
-      .collection(property.neighbourhood)
+      .doc(
+        property.city == "" || property.city == undefined
+          ? "Mississauga"
+          : property.city
+      )
+      .collection(
+        property.neighbourhood == "" || property.neighbourhood == undefined
+          ? "All"
+          : property.neighbourhood
+      )
       .onSnapshot((querySnapshot) => {
         const communities2 = [];
 
