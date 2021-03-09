@@ -16,6 +16,7 @@ import { LineChart } from "react-native-chart-kit";
 import ModalDropdown from "react-native-modal-dropdown";
 
 import { AuthContext } from "../components/providers/AuthProvider";
+import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
@@ -39,6 +40,7 @@ const { width } = Dimensions.get("window");
 
 const ReportScreen = () => {
   const { user } = useContext(AuthContext);
+  const { property } = useContext(PropertyDataContext);
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
@@ -144,9 +146,17 @@ const ReportScreen = () => {
   // Get communit data
   useEffect(() => {
     const community1 = dbh
-      .collection("Community")
-      .doc("Ajax")
-      .collection("Carruthers Creek")
+      .collection("Communit")
+      .doc(
+        property.city == "" || property.city == undefined
+          ? "Mississauga"
+          : property.city
+      )
+      .collection(
+        property.neighbourhood == "" || property.neighbourhood == undefined
+          ? "All"
+          : property.neighbourhood
+      )
       .onSnapshot((querySnapshot) => {
         const communities2 = [];
 
@@ -179,7 +189,7 @@ const ReportScreen = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 30 }}
-        style={{backgroundColor:'white'}}
+        style={{ backgroundColor: "white" }}
       >
         <View style={styles.root}>
           {/* Address and Arrow */}
@@ -200,7 +210,7 @@ const ReportScreen = () => {
               {/* <Text style={styles.title}>{"45 Bristol Rd, Mississauga"}</Text> */}
               <Text style={styles.stitle}>Last Updated at 12/28/2020.</Text>
             </View>
-            
+
             <Pressable
               style={styles.topSectionArrowContainer}
               onPress={() => setModalVisible(!modalVisible)}
@@ -253,7 +263,7 @@ const ReportScreen = () => {
                       width: "25%",
                       justifyContent: "center",
                       alignItems: "center",
-                      height:120
+                      height: 120,
                     }}
                     textStyle={{ fontSize: 14 }}
                     defaultValue="Date"
@@ -629,7 +639,11 @@ const ReportScreen = () => {
                       renderItem={({ item, index }) => (
                         <ReportCard
                           title={item.indicator}
-                          imgUrl={item.img}
+                          imgUrl={
+                            item.img
+                              ? item.img
+                              : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
+                          }
                           dataSource={item.dataSource}
                           category={item.community}
                           propziImpact={item.propziImpact}
@@ -724,30 +738,40 @@ const ReportScreen = () => {
 
                 <View style={[styles.flex, styles.column, styles.recommended]}>
                   <View style={[styles.column, styles.recommendedList]}>
-                    <FlatList
-                      horizontal
-                      pagingEnabled={true}
-                      showsHorizontalScrollIndicator={false}
-                      legacyImplementation={false}
-                      scrollEventThrottle={16}
-                      snapToAlignment="center"
-                      style={{ overflow: "visible", wid: width - 50 }}
-                      data={community}
-                      renderItem={({ item, index }) => (
-                        <>
-                          <ReportCard
-                            imgUrl={item.img}
-                            propziImpact={item.propziImpact}
-                            dataSource={item.dataSource}
-                            desc={item.description}
-                            category={item.category}
-                            index={index}
-                            key={index}
-                            title={item.heading}
-                          />
-                        </>
-                      )}
-                    />
+                    {community.length != 0 ? (
+                      <FlatList
+                        horizontal
+                        pagingEnabled={true}
+                        showsHorizontalScrollIndicator={false}
+                        legacyImplementation={false}
+                        scrollEventThrottle={16}
+                        snapToAlignment="center"
+                        style={{ overflow: "visible", wid: width - 50 }}
+                        data={community}
+                        renderItem={({ item, index }) => (
+                          <>
+                            <ReportCard
+                              imgUrl={
+                                item.img
+                                  ? item.img
+                                  : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
+                              }
+                              propziImpact={item.propziImpact}
+                              dataSource={item.dataSource}
+                              desc={item.description}
+                              category={item.category}
+                              index={index}
+                              key={index}
+                              title={item.heading}
+                            />
+                          </>
+                        )}
+                      />
+                    ) : (
+                      <Text style={{ textAlign: "center", color: "red" }}>
+                        No Data
+                      </Text>
+                    )}
                   </View>
                 </View>
               </View>

@@ -122,6 +122,7 @@ export default function PropziUpgradesScreen({navigation}){
             </ScrollView>
 
             </View>
+          
 
 
             <View style={{marginTop:"10%"}}> 
