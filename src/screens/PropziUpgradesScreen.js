@@ -1,6 +1,6 @@
-import React,{useState,useContext} from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import { StyleSheet, Text, View,Dimensions,SafeAreaView,TouchableOpacity,ScrollView,TouchableRipple} from 'react-native';
-import { Chip } from 'react-native-paper';
+import { Chip,Divider } from 'react-native-paper';
 import { dbh } from "../../firebase";
 import Check from "../../assets/Check.svg"
 import {AuthContext} from "../components/providers/AuthProvider";
@@ -41,7 +41,14 @@ export default function PropziUpgradesScreen({navigation}){
     const [openLayout,setOpenLayout] = useState(false)
     const [isLoading,setLoading] = useState(false)
     const {user,setUser,property,setproperty} = useContext(AuthContext)
+    const [ammenities,setAmenities] = useState([])
 
+
+ 
+    
+    useEffect(()=>{
+      FindAmenities()
+    },[])
 
     const handlePropertyAdding = ()=>{
       setLoading(true)
@@ -86,11 +93,48 @@ export default function PropziUpgradesScreen({navigation}){
     
     }
 
+
+    function arrayUnique(array) {
+      var a = array.concat();
+      for(var i=0; i<a.length; ++i) {
+          for(var j=i+1; j<a.length; ++j) {
+              if(a[i] === a[j])
+                  a.splice(j--, 1);
+          }
+      }
+  
+      return a;
+  }
+  
+
+    const FindAmenities = ()=>{
+      setAmenities([])
+      let CondominiumAmmenities = property.condominium.ammenities
+      let nearbyAmmenities = property.nearby.ammenities
+      let fullAmenities =  arrayUnique(CondominiumAmmenities.concat(nearbyAmmenities))
+      let finalArray = []
+        fullAmenities.forEach((item,index)=>{
+                 if(item == null || item == ""){
+                  return 
+                 }
+                
+              
+                  // setAmenities(currentArray)
+                  
+                  finalArray.push(item)
+                  return
+      })
+      setAmenities(prevArray => [...prevArray, ...finalArray])
+      console.log(fullAmenities)
+      console.log(ammenities)
+    }
+  
     if(isLoading){
       return <Loader text="Processing..."/>;
       }
       
-    return(<SafeAreaView style={{marginHorizontal:18,marginTop:"2%"}}>
+    return(<SafeAreaView style={{marginHorizontal:18,marginTop:"2%",height:"100%"}}>
+         <ScrollView showsVerticalScrollIndicator={false}>
     
           <View>
           <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Have you done any upgrades?</Text>
@@ -114,7 +158,7 @@ export default function PropziUpgradesScreen({navigation}){
             
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
-            <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
+            <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,height:35}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
             <Chip icon="" onPress={() => setHardwoodFloors(!hardwoodFloors)} style={{backgroundColor:hardwoodFloors ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:hardwoodFloors ? "#ffffff":"#46D0B6",fontSize:16}}>Hardwood Floors</Text></Chip>
             <Chip icon="" onPress={() => setExteriorPaint(!exteriorPaint)} style={{backgroundColor:exteriorPaint ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:exteriorPaint ? "#ffffff":"#46D0B6",fontSize:16}}>Exterior Paint</Text></Chip>
             <Chip  icon="" onPress={() => setbathroomTiles(!bathroomTiles)} style={{backgroundColor:bathroomTiles ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:bathroomTiles ? "#ffffff":"#46D0B6",fontSize:16}}>Bathroom Tiles</Text></Chip>
@@ -141,19 +185,36 @@ export default function PropziUpgradesScreen({navigation}){
             <Chip  icon="" onPress={() => setBigBedrooms(!bigBedrooms)} style={{backgroundColor:bigBedrooms ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:bigBedrooms ? "#ffffff":"#46D0B6",fontSize:16}}>Big Bedrooms</Text></Chip>
             <Chip  icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>Open Layout</Text></Chip>
             </ScrollView>
+            <View style={{marginTop:"10%"}}> 
+          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Ammenities</Text>
+          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose details about your home that best describe your home:</Text>
+          </View>
+          <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontSize:18}}>MLS</Text></View>
+          <Divider style={{backgroundColor:"#ccc",marginTop:"2%"}}/>
+          {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"5%"}}>{ammenities.map((item, index) => (
+          <Chip key={index} icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>{item}</Text></Chip>
+        ))}</ScrollView>:null}
+          {ammenities.length == 0 ? <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text>not Available</Text></View>:null }
 
-
-
+          <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontSize:18}}>Additional Ammenities</Text></View>
+          <Divider style={{backgroundColor:"#ccc",marginTop:"2%"}}/>
+          {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"5%"}}>{ammenities.map((item, index) => (
+          <Chip key={index} icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>{item}</Text></Chip>
+        ))}</ScrollView>:null}
+          {ammenities.length == 0 ? <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text>not Available</Text></View>:null }
+            
+         
+            </ScrollView>
         
             
              <View style={{flexDirection: "row",justifyContent:"space-between", position: 'relative',
     bottom:0,
     width:"100%"}}>
-                <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={()=>{navigation.goBack();}}>
+                <TouchableOpacity style={{backgroundColor:"#6FCF97",flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:15,paddingVertical:5}} onPress={()=>{navigation.goBack();}}>
                     <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>Back</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{backgroundColor:"#46D0B6",height:54,flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:20,paddingVertical:10}} onPress={handlePropertyAdding}>
+                <TouchableOpacity style={{backgroundColor:"#6FCF97",flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:15,paddingVertical:5}} onPress={handlePropertyAdding}>
                     <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>next</Text>
                 </TouchableOpacity>
              </View>
