@@ -19,6 +19,7 @@ import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import Loader from '../components/Loader'
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
+import { Ionicons,AntDesign } from '@expo/vector-icons';
 const { width } = Dimensions.get('screen')
 
 export default function HomeScreen({ navigation }) {

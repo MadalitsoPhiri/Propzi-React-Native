@@ -7,6 +7,8 @@ import PropziVisit from "./PropziVisit";
 import PropziUpgradesScreen from "./PropziUpgradesScreen";
 import { ActivityIndicator,Modal,Provider,Portal, Dialog} from 'react-native-paper';
 import Loader from "../components/Loader";
+import { useFonts } from 'expo-font';
+import {Entypo} from "@expo/vector-icons";
 
 const StreetSuffix = [
   "ANX",
@@ -670,7 +672,16 @@ const handleSqftTextChange = (e) =>{
   setSqft(e)
 }
 
-if(isLoading){
+const [loaded] = useFonts({
+  'Poppins-Medium':require('../../assets/fonts/Poppins/Poppins-Medium.ttf'),
+  'Poppins-Regular':require('../../assets/fonts/Poppins/Poppins-Regular.ttf'),
+  'Poppins-Bold':require('../../assets/fonts/Poppins/Poppins-Bold.ttf'),
+  'Poppins-Thin':require('../../assets/fonts/Poppins/Poppins-Thin.ttf'),
+
+ })
+
+
+if(isLoading || !loaded){
 return <Loader text=""/>;
 }
 
@@ -684,7 +695,7 @@ return <Loader text=""/>;
       <View style={styles.resultsContainer}> 
       <Input placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true}/>
       {noResults ? <Text style={{fontSize:20,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>no results</Text>:null}
-      <ScrollView >
+      <ScrollView contentContainerStyle={{paddingBottom: searchResults ?"5%":"0%"}}>
       {searchResults && searchResults.data ? 
       searchResults.data.map((result,index) => (
         <TouchableOpacity onPress={()=>handleSelect(index)}style={{height:40}}><Text key={index} style={{color:"#B9B9B9",fontSize:13,padding:20}}>{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text></TouchableOpacity>
@@ -807,8 +818,11 @@ return <Loader text=""/>;
     
 
 <TouchableOpacity style={styles.addHomeButton} onPress={()=>{navigation.navigate("upgrades")}}>
-  <Text style={{fontSize:18,color:"white"}}>Next</Text>
+<Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/>
+<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
 </TouchableOpacity>
+
+          
 </View>
   </View>:null}
         </ScrollView>
@@ -827,17 +841,14 @@ const styles = StyleSheet.create({
    
   },
   resultsContainer:{
-    shadowColor:"#333",
-    shadowOffset:{width:1,height:1},
-    backgroundColor:"white",
-    shadowRadius:5,
-    shadowOpacity:0.3,
+    backgroundColor:"#F7F7F7",
     borderRadius:10,
     width:width - 40,
     maxHeight:height / 2,
-    marginTop:30,
     alignSelf:"center",
-    elevation:5
+    borderWidth:1,
+    borderColor:"#DADADA",
+    marginTop:"10%"
    
 
 
@@ -865,13 +876,9 @@ const styles = StyleSheet.create({
   
   },
   addHomeButton:{
-    flexDirection:"row",
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:50,
-    backgroundColor:"#34D1B6",
-    height:50,
-    paddingVertical:10,paddingHorizontal:30,
+ 
     alignSelf:"center",
     marginTop:"20%"
   },

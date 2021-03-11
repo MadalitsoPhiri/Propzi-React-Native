@@ -698,7 +698,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
    
     <View style={[styles.resultsContainer]}>
 
-      <TextInput onSubmitEditing={Keyboard.dismiss} placeholder="Unit Number..." onChangeText={handleUnitNumberChange} value={currrentUnitNumber} keyboardType='numeric' style={{height:50,paddingHorizontal:16}}/>
+      <TextInput onSubmitEditing={Keyboard.dismiss} placeholder="Unit Number..." onChangeText={handleUnitNumberChange} value={currrentUnitNumber} keyboardType='numeric' style={{height:50,paddingHorizontal:16}} />
       </View>
    
 
@@ -717,9 +717,9 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
       <ScrollView style={{height:"100%"}}>
       <Animated.View>
       <View style={[styles.resultsContainer,{marginTop:"10%"}]}> 
-      <Input placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true}/>
+      <TextInput placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true} style={{height:50,paddingHorizontal:16}}/>
       {noResults ? <Text style={{fontSize:20,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>no results</Text>:null}
-      <ScrollView >
+      <ScrollView contentContainerStyle={{paddingBottom: searchResults ? "5%":"0%"}}>
       {searchResults && searchResults.data ? 
       searchResults.data.map((result,index) => (
         <TouchableOpacity onPress={()=>handleSelect(index)}style={{height:40}}><Text key={index} style={{color:"#B9B9B9",fontSize:13,padding:20}}>{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text></TouchableOpacity>
@@ -730,7 +730,6 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
      
 
       </ScrollView>
-       
       </View>
 
       <Portal>
@@ -790,7 +789,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
         <Text style={{fontSize:15,marginTop:"5%",marginHorizontal:20,textAlign:"center"}}>finding your home</Text>
         </View>:null}
         {propertyNotFound ?<View style={{marginTop:"10%",marginHorizontal:16,alignSelf:"center",JustifySelf:"center"}}>
-          <Text style={{fontSize:20,fontWeight:"semi-bold",marginBottom:"4%",textAlign:"center"}}>Oops! We can’t find your home info</Text>
+          <Text style={{fontSize:20,fontWeight:"400",marginBottom:"4%",textAlign:"center"}}>Oops! We can’t find your home info</Text>
           <Text style={{fontSize:17,textAlign:"center",color:"#828282"}}>we were unable to find your home details, press continue below to enter the details manually.</Text>
 
           <TouchableOpacity style={styles.continueButton} onPress={() =>navigation.navigate("manual")}><Text style={{color:"white",fontSize:18}}>Continue</Text></TouchableOpacity>

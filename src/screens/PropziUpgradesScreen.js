@@ -5,6 +5,8 @@ import { dbh } from "../../firebase";
 import Check from "../../assets/Check.svg"
 import {AuthContext} from "../components/providers/AuthProvider";
 import Loader from "../components/Loader";
+import { useFonts } from 'expo-font';
+import {Entypo} from "@expo/vector-icons";
 
 
 const {width} = Dimensions.get("window");
@@ -128,6 +130,16 @@ export default function PropziUpgradesScreen({navigation}){
       console.log(fullAmenities)
       console.log(ammenities)
     }
+
+    const [loaded] = useFonts({
+      'Poppins-Medium':require('../../assets/fonts/Poppins/Poppins-Medium.ttf'),
+      'Poppins-Regular':require('../../assets/fonts/Poppins/Poppins-Regular.ttf'),
+      'Poppins-Bold':require('../../assets/fonts/Poppins/Poppins-Bold.ttf'),
+      'Poppins-Thin':require('../../assets/fonts/Poppins/Poppins-Thin.ttf'),
+    
+     })
+    
+    
   
     if(isLoading){
       return <Loader text="Processing..."/>;
@@ -210,12 +222,14 @@ export default function PropziUpgradesScreen({navigation}){
              <View style={{flexDirection: "row",justifyContent:"space-between", position: 'relative',
     bottom:0,
     width:"100%"}}>
-                <TouchableOpacity style={{backgroundColor:"#6FCF97",flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:15,paddingVertical:5}} onPress={()=>{navigation.goBack();}}>
-                    <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>Back</Text>
+                <TouchableOpacity style={{justifyContent:"center",alignItems:"center",alignSelf:"center",marginTop:"10%",marginBottom:"10%"}} onPress={()=>{navigation.goBack();}}>
+                <Entypo name="chevron-with-circle-left" size={50} color="#6FCF97"/>
+<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{backgroundColor:"#6FCF97",flexDirection:"row",justifyContent:"center",alignItems:"center",alignSelf:"center",borderRadius:40,marginTop:"10%",marginBottom:"10%",paddingHorizontal:15,paddingVertical:5}} onPress={handlePropertyAdding}>
-                    <Text style={{fontSize:18,color:"white",fontWeight:"500",lineHeight:27}}>next</Text>
+                <TouchableOpacity style={{justifyContent:"center",alignItems:"center",alignSelf:"center",marginTop:"10%",marginBottom:"10%"}} onPress={handlePropertyAdding}>
+                <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/>
+<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
                 </TouchableOpacity>
              </View>
            

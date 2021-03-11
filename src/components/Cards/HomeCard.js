@@ -2,12 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import homeIcon from "../../../assets/propzi-img/home.png";
 import Home from "../../../assets/Home.svg";
+import { Ionicons,AntDesign} from '@expo/vector-icons';
 
 export default function HomeCard({ data, to }) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
-        <Home style={styles.homeImg} />
+        <AntDesign name="home" size={"100%"} color={"#46D0B6"}/>
         <Text style={styles.propziPrice}>
           {data.propziPrice != "" ? (
             <Text>{data.propziPrice}</Text>

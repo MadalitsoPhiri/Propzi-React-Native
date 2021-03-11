@@ -6,7 +6,7 @@ import {
   OffersStackNavigator,
   ReportStackNavigator,
 } from "./StackNavigator";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons,AntDesign } from '@expo/vector-icons';
 import { colors } from "../../styles";
 
 import FileIcon from "../../../assets/file-alt-regular.svg"
@@ -29,11 +29,11 @@ const TabNavigator = () => {
          
 
           if (route.name === "Home") {
-            return (<HomeIcon color={color} width={25} height={25}/>);
+            return (<AntDesign name="home" color={color} size={size}/>);
           } else if (route.name === "Report") {
-            return (<FileIcon  color={color} width={25} height={25}/>);
+            return (<AntDesign name="filetext1" color={color} size={size}/>);
           } else if (route.name === "Offers") {
-            return (<CartIcon width={25} height={25} color={color}/>);
+            return (<AntDesign name="tago" color={color} size={size}/>);
           }
 
           return null;

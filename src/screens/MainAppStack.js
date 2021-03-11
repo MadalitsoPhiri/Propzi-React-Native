@@ -14,6 +14,7 @@ import PropziVisit from "./PropziVisit";
 import Loader from "../components/Loader";
 import PropertyType from "./PropertyType";
 import CondoSearchScreen from "./CondoSearchScreen";
+import {Entypo} from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -179,6 +180,10 @@ export default MainAppStack = ({ navigation }) => {
               />
             </TouchableOpacity>
           ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+                      )
         }}
       />
 
@@ -219,7 +224,7 @@ export default MainAppStack = ({ navigation }) => {
               style={{ marginBottom: "5%" }}
             />
           ),
-          headerRight: (props) => (
+          headerRight: ({}) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
               <BarsIcon
                 width={25}
@@ -229,6 +234,10 @@ export default MainAppStack = ({ navigation }) => {
               />
             </TouchableOpacity>
           ),
+          headerLeft: ({size}) =>(
+           
+<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+          )
         }}
       />
 
