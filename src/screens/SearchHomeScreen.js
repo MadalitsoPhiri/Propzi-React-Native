@@ -755,7 +755,7 @@ return <Loader text=""/>;
         <Text style={{fontSize:15,marginTop:"5%",marginHorizontal:20,textAlign:"center"}}>finding your home</Text>
         </View>:null}
         {propertyNotFound ?<View style={{marginTop:"10%",marginHorizontal:16,alignSelf:"center",JustifySelf:"center"}}>
-          <Text style={{fontSize:20,fontWeight:"semi-bold",marginBottom:"4%",textAlign:"center"}}>Oops! We can’t find your home info</Text>
+          <Text style={{fontSize:20,fontWeight:"400",marginBottom:"4%",textAlign:"center"}}>Oops! We can’t find your home info</Text>
           <Text style={{fontSize:17,textAlign:"center",color:"#828282"}}>we were unable to find your home details, press continue below to enter the details manually.</Text>
 
           <TouchableOpacity style={styles.continueButton} onPress={() =>navigation.navigate("manual")}><Text style={{color:"white",fontSize:18}}>Continue</Text></TouchableOpacity>

@@ -102,7 +102,7 @@ export default function LoginScreen({navigation}) {
 
 
   const handleOnEmailChange = (e) => {
-    setEmail(e);
+    setEmail(e.trim());
   };
   const setHiddenValue = () =>{
     if (isHidden){
@@ -113,7 +113,7 @@ export default function LoginScreen({navigation}) {
   }
 
   const handleOnPasswordChange = (e) => {
-    setPassword(e);
+    setPassword(e.trim());
   };
 
   const handleLogin = () => {

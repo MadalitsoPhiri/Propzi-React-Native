@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react';
-import { StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity} from 'react-native';
+import {Keyboard,StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 const {width, height} = Dimensions.get("window")
 import { dbh } from "../../firebase";
 import {AuthContext} from "../components/providers/AuthProvider";
@@ -7,6 +7,8 @@ import PropziVisit from "./PropziVisit";
 import PropziUpgradesScreen from "./PropziUpgradesScreen";
 import { ActivityIndicator,Modal,Provider,Portal, Dialog} from 'react-native-paper';
 import Loader from "../components/Loader";
+import { useFonts } from 'expo-font';
+import {Ionicons,Entypo} from "@expo/vector-icons"
 
 const StreetSuffix = [
   "ANX",
@@ -379,6 +381,18 @@ export default function CondoSearchScreen({navigation}) {
   const [bedroomVisible, setbedroomVisible] = React.useState(false);
   const [bathroomVisible, setbathroomVisible] = React.useState(false);
   const [sqftVisible,setSqftVisible] = React.useState(false);
+  const [unitNumber,setUnitNumber] = React.useState(null)
+  const [currrentUnitNumber,setCurrentUnitNumber] = React.useState("")
+
+
+
+  const [loaded] = useFonts({
+    'Poppins-Medium':require('../../assets/fonts/Poppins/Poppins-Medium.ttf'),
+    'Poppins-Regular':require('../../assets/fonts/Poppins/Poppins-Regular.ttf'),
+    'Poppins-Bold':require('../../assets/fonts/Poppins/Poppins-Bold.ttf'),
+    'Poppins-Thin':require('../../assets/fonts/Poppins/Poppins-Thin.ttf'),
+
+   })
 
   const showBathroomEdit = () => {
     if(property.details.numBathrooms == null || property.details.numBathrooms == ""){
@@ -482,11 +496,11 @@ export default function CondoSearchScreen({navigation}) {
       headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
     };
 
-    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}`;
+    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}`;
 
-    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&status=U`;
+    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U`;
 
-    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}`;
+    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}`;
 
      console.log(REPLIERS_ENDPOINT_WITHOUT_STATUS_U)
     fetch(REPLIERS_ENDPOINT_WITHOUT_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json())
@@ -554,6 +568,10 @@ export default function CondoSearchScreen({navigation}) {
     
      
       
+  }
+
+  const handleUnitNumberChange = (e)=>{
+      setCurrentUnitNumber(e.trim())
   }
 
   const handleSelect = (index)=>{
@@ -669,11 +687,28 @@ const handleBathroomPlusEdit = (e) =>{
 const handleSqftTextChange = (e) =>{
   setSqft(e)
 }
-
-if(isLoading){
+if(isLoading || !loaded){
 return <Loader text=""/>;
 }
+if(unitNumber == null){
+return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}><View style={{height:"100%"}}>
+       
+    <Text style={{padding:16,fontFamily:"Poppins-Regular",fontSize:16}}>Unit Number:</Text>
+    
+   
+    <View style={[styles.resultsContainer]}>
 
+      <TextInput onSubmitEditing={Keyboard.dismiss} placeholder="Unit Number..." onChangeText={handleUnitNumberChange} value={currrentUnitNumber} keyboardType='numeric' style={{height:50,paddingHorizontal:16}}/>
+      </View>
+   
+
+      <View style={{justifyContent: "center",alignItems: "center",marginTop:"10%"}}>
+          <TouchableOpacity onPress={() =>setUnitNumber(currrentUnitNumber)}><Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/></TouchableOpacity>
+          <Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
+      </View>
+      
+</View></TouchableWithoutFeedback>)
+}
   return (
     <Provider>
     <SafeAreaView style={styles.container}>
@@ -681,7 +716,7 @@ return <Loader text=""/>;
 
       <ScrollView style={{height:"100%"}}>
       <Animated.View>
-      <View style={styles.resultsContainer}> 
+      <View style={[styles.resultsContainer,{marginTop:"10%"}]}> 
       <Input placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true}/>
       {noResults ? <Text style={{fontSize:20,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>no results</Text>:null}
       <ScrollView >
@@ -827,17 +862,14 @@ const styles = StyleSheet.create({
    
   },
   resultsContainer:{
-    shadowColor:"#333",
-    shadowOffset:{width:1,height:1},
-    backgroundColor:"white",
-    shadowRadius:5,
-    shadowOpacity:0.3,
+    backgroundColor:"#F7F7F7",
     borderRadius:10,
     width:width - 40,
     maxHeight:height / 2,
-    marginTop:30,
     alignSelf:"center",
-    elevation:5
+    borderWidth:1,
+    borderColor:"#DADADA",
+   
    
 
 
