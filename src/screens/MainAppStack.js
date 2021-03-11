@@ -12,6 +12,8 @@ import SearchHomeScreen from "./SearchHomeScreen";
 import PropziUpgradesScreen from "./PropziUpgradesScreen";
 import PropziVisit from "./PropziVisit";
 import Loader from "../components/Loader";
+import PropertyType from "./PropertyType";
+import CondoSearchScreen from "./CondoSearchScreen";
 
 const { width, height } = Dimensions.get("window");
 
@@ -180,6 +182,55 @@ export default MainAppStack = ({ navigation }) => {
         }}
       />
 
+
+<Stack.Screen
+        name="propertyType"
+        component={PropertyType}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+
+<Stack.Screen
+        name="condoSearch"
+        component={CondoSearchScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
 
 <Stack.Screen
         name="manual"

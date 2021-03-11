@@ -28,7 +28,7 @@ export default function NotFoundHomeScreen({ navigation }) {
           Oops! You dont have a home yet.
         </Text>
 
-        <Text style={{ fontSize: 20, textAlign: "center" }}>
+        <Text style={{ fontSize: 20, textAlign: "center", paddingHorizontal:16}}>
           To see your propzi score you need to add atleast one home or property.
         </Text>
       </View>
@@ -39,7 +39,7 @@ export default function NotFoundHomeScreen({ navigation }) {
           borderRadius={6}
           width={btnSize.MEDIUM_WIDTH}
           marginTop={30}
-          onPress={()=>navigation.replace("search")}
+          onPress={()=>navigation.replace("propertyType")}
         />
       </View>
     </View>
