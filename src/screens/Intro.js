@@ -1,4 +1,4 @@
-import React,{useContext,AsyncStorage}from "react";
+import React,{useContext}from "react";
 import {
   View,
   StyleSheet,
@@ -12,10 +12,12 @@ import {
 } from "react-native";
 import Slide from "../components/Slide";
 import {AuthContext} from "../components/providers/AuthProvider";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:"#fff"
   },
   header: {
     flex: 0.17,
@@ -58,6 +60,14 @@ function SignUp() {
   setisFirstLaunch(false);
 }
 
+async function setViewedOnboarding(){
+  try{
+      await AsyncStorage.setItem('@viewedOnboarding','true');
+  }catch{
+    console.log('Error @checkOnboarding:',err)
+  }
+}
+
 const slides = [
   <Slide
     label="Check your home value quickly and easily online"
@@ -83,12 +93,7 @@ export default function Intro({ navigation }) {
   let position = Animated.divide(scrollX, width);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          source={require("../../assets/onboading_assets/PropziLogo.png")}
-          style={styles.logo}
-        />
-      </View>
+   
       <View style={styles.slider}>
         <ScrollView
           horizontal
@@ -146,7 +151,10 @@ export default function Intro({ navigation }) {
         </View>
         <View style={{ marginTop: "10%" }}>
           <TouchableOpacity
-            onPress={() => { setisFirstLaunch(false)}}
+            onPress={() => { 
+              setViewedOnboarding()
+              navigation.replace('signUp')
+          }}
             style={{ padding: 5 }}
           >
             <View style={styles.btnContainer}>
@@ -165,7 +173,8 @@ export default function Intro({ navigation }) {
             <Text style={{ fontSize: 16 }}>Already a member?</Text>
             <TouchableOpacity
               onPress={() => {
-                setisFirstLaunch(false)
+                setViewedOnboarding()
+                navigation.replace('login')
               }}
               style={{ padding: 5 }}
             >
