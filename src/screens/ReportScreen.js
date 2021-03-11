@@ -250,9 +250,9 @@ const ReportScreen = () => {
                 >
                   <ModalDropdown
                     options={[
-                      "January-2021",
-                      "Febuary-2021",
-                      "March-2021",
+                      "Jan-2021",
+                      "Feb-2021",
+                      "Mar-2021",
                       // "April-2021",
                       // "May-2021",
                       // "June-2021",
@@ -271,7 +271,9 @@ const ReportScreen = () => {
                       padding: 5,
                       paddingHorizontal: 10,
                     }}
-                    onSelect={(index, value) => console.warn(value)}
+                    onSelect={(index, value) => {
+                      console.warn(value.substr(0,3));
+                    }}
                     animated={true}
                     onTouchStart={() => setDateToggle(!dateToggle)}
                   />
