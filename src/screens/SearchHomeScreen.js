@@ -693,7 +693,7 @@ return <Loader text=""/>;
       <ScrollView style={{height:"100%"}}>
       <Animated.View>
       <View style={styles.resultsContainer}> 
-      <Input placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true}/>
+      <TextInput placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true} style={{height:50,paddingHorizontal:16}}/>
       {noResults ? <Text style={{fontSize:20,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>no results</Text>:null}
       <ScrollView contentContainerStyle={{paddingBottom: searchResults ?"5%":"0%"}}>
       {searchResults && searchResults.data ? 

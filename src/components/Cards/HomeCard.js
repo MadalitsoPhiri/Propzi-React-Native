@@ -8,7 +8,7 @@ export default function HomeCard({ data, to }) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
-        <AntDesign name="home" size={"100%"} color={"#46D0B6"}/>
+        <AntDesign name="home" size={100} color={"#46D0B6"}/>
         <Text style={styles.propziPrice}>
           {data.propziPrice != "" ? (
             <Text>{data.propziPrice}</Text>
