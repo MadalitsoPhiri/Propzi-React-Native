@@ -7,60 +7,63 @@ import {
   TouchableOpacity,
   Pressable,
   FlatList,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import GlobalCard from "../components/Cards/GlobalCard";
 import HomeCard from "../components/Cards/HomeCard";
 import Button from "../components/Button";
 import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
-import tryImage from "../../assets/propzi-img/tryImg.jpg";
-import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
-import Loader from '../components/Loader'
+import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
+import { randomizeArray } from "../utils/helper";
+
+import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
-import { Ionicons,AntDesign } from '@expo/vector-icons';
-const { width } = Dimensions.get('screen')
+const { width } = Dimensions.get("screen");
 
 export default function HomeScreen({ navigation }) {
-  const { homeState } = useContext(AuthContext);
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
-
+  const { communityData, isLoading } = useContext(CommunityDataContext);
+  const communityDevelopments = randomizeArray(
+    communityData.slice(0, Math.random() * 10 + 5)
+  );
+  console.warn(communityDevelopments);
   if (!isPropertyDataLoaded) {
-    return <Loader text=""/>;
+    return <Loader text="" />;
   }
 
   const HomeBankOffersCardData = [
     {
-      id: '1',
+      id: "1",
       title: "Special Mortgage Rates",
       term: "5 Year Fixed",
       specialRate: "2.4%",
       APR: "2.6%",
     },
     {
-      id: '2',
+      id: "2",
       title: "Scotiabank Special Mortgage Rates",
       term: "10 Year Fixed",
       specialRate: ".8%",
       APR: "3.0%",
     },
     {
-      id: '3',
+      id: "3",
       title: "BMO Special Mortgage Rates",
       term: "5 Year Fixed",
       specialRate: "2.4%",
       APR: "4.0%",
     },
     {
-      id: '4',
+      id: "4",
       title: "CIBC Special Mortgage Rates",
       term: "8 Year Fixed",
       specialRate: "2.4%",
       APR: "4.8%",
     },
   ];
-  
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
@@ -103,20 +106,29 @@ export default function HomeScreen({ navigation }) {
           <SmallCard />
         </View>
 
-        {homeState.communityData.length > 0
-          ? homeState.communityData.map((communityData, i) => {
-              return (
-                <GlobalCard
-                  imgUrl={tryImage}
-                  from={communityData.dataSource}
-                  desc={communityData.description}
-                  title={communityData.heading}
-                  category={communityData.category}
-                  propziImpact={communityData.propziImpact}
-                  key={i}
-                  to={navigation}
-                />
-              );
+        {communityDevelopments?.length > 0
+          ? communityDevelopments?.map((communityDevelopment, i) => {
+              if (
+                communityDevelopment.city.toLowerCase() ==
+                property.city.toLowerCase()
+              ) {
+                return (
+                  <GlobalCard
+                    imgUrl={
+                      communityDevelopment.img != ""
+                        ? communityDevelopment.img
+                        : null
+                    }
+                    from={communityDevelopment.dataSource}
+                    desc={communityDevelopment.description}
+                    title={communityDevelopment.heading}
+                    category={communityDevelopment.category}
+                    propziImpact={communityDevelopment.propziImpact}
+                    key={i}
+                    to={navigation}
+                  />
+                );
+              }
             })
           : null}
       </View>
