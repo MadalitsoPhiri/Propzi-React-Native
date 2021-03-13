@@ -841,7 +841,8 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
     
 
 <TouchableOpacity style={styles.addHomeButton} onPress={()=>{navigation.navigate("upgrades")}}>
-  <Text style={{fontSize:18,color:"white"}}>Next</Text>
+<Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/>
+<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
 </TouchableOpacity>
 </View>
   </View>:null}
@@ -896,13 +897,9 @@ const styles = StyleSheet.create({
   
   },
   addHomeButton:{
-    flexDirection:"row",
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:50,
-    backgroundColor:"#34D1B6",
-    height:50,
-    paddingVertical:10,paddingHorizontal:30,
+ 
     alignSelf:"center",
     marginTop:"20%"
   },

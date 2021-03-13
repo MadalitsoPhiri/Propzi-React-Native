@@ -224,7 +224,7 @@ export default function PropziUpgradesScreen({navigation}){
     width:"100%"}}>
                 <TouchableOpacity style={{justifyContent:"center",alignItems:"center",alignSelf:"center",marginTop:"10%",marginBottom:"10%"}} onPress={()=>{navigation.goBack();}}>
                 <Entypo name="chevron-with-circle-left" size={50} color="#6FCF97"/>
-<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
+<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Back</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{justifyContent:"center",alignItems:"center",alignSelf:"center",marginTop:"10%",marginBottom:"10%"}} onPress={handlePropertyAdding}>
