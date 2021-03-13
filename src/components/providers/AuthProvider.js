@@ -6,12 +6,14 @@ export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isFirstLaunch, setisFirstLaunch] = useState(false);
-
+  const [property,setProperty] = useState({})
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
+        property,
+        setProperty,
         isFirstLaunch,
         setisFirstLaunch,
         login: (email, password) => {
