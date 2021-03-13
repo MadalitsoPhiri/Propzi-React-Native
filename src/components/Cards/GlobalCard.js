@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  Modal,
   TouchableOpacity,
   Alert,
 } from "react-native";
@@ -26,7 +25,7 @@ export default function GlobalCard({
       onPress={() => to.navigate("Report")}
     >
       <View style={styles.cardImage}>
-        <Image source={imgUrl} style={styles.cardImage} />
+        <Image source={{ uri: imgUrl }} style={styles.cardImage} />
         <View style={styles.category}>
           <Text>{category}</Text>
         </View>
@@ -34,17 +33,19 @@ export default function GlobalCard({
 
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
-        <Text>From {from}</Text>
-        <Text style={styles.desc}>{desc}</Text>
-        <TouchableOpacity
-          onPress={() => Alert.alert(propziImpact)}
-          style={styles.propziImpact}
-        >
-          <Text>
-            Propzi Impact:
-            <Text style={styles.propziImpactInner}> {propziImpact}</Text>
-          </Text>
-        </TouchableOpacity>
+        <Text style={{ color: "#999" }}>From {from}</Text>
+        <Text style={styles.desc}>{desc.substr(0, 110) + "...."}</Text>
+        {propziImpact == "" ? null : (
+          <TouchableOpacity
+            onPress={() => Alert.alert(propziImpact)}
+            style={styles.propziImpact}
+          >
+            <Text>
+              Propzi Impact:
+              <Text style={styles.propziImpactInner}> {propziImpact}</Text>
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     overflow: "hidden",
   },
-  
+
   cardImage: {
     height: 250,
     width: "100%",

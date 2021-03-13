@@ -17,6 +17,7 @@ import ModalDropdown from "react-native-modal-dropdown";
 
 import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
+import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
 import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
@@ -41,6 +42,7 @@ const { width } = Dimensions.get("window");
 const ReportScreen = () => {
   const { user } = useContext(AuthContext);
   const { property } = useContext(PropertyDataContext);
+  const { communityData } = useContext(CommunityDataContext);
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
@@ -143,37 +145,28 @@ const ReportScreen = () => {
     return () => getAllUserProperties();
   }, []);
 
-  // Get communit data
-  useEffect(() => {
-    const community1 = dbh
-      .collection("Communit")
-      .doc(
-        property.city == "" || property.city == undefined
-          ? "Mississauga"
-          : property.city
-      )
-      .collection(
-        property.neighbourhood == "" || property.neighbourhood == undefined
-          ? "All"
-          : property.neighbourhood
-      )
-      .onSnapshot((querySnapshot) => {
-        const communities2 = [];
+  // // Get communit data
+  // useEffect(() => {
+  //   const community1 = dbh
+  //     .collection("Communit")
+  //     .onSnapshot((querySnapshot) => {
+  //       const communities2 = [];
 
-        querySnapshot.forEach((documentSnapshot) => {
-          communities2.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
+  //       querySnapshot.forEach((documentSnapshot) => {
+  //         console.warn(documentSnapshot.data().city);
+  //         communities2.push({
+  //           ...documentSnapshot.data(),
+  //           key: documentSnapshot.id,
+  //         });
 
-          setCommunities(communities2);
-          setLoading(false);
-        });
-      });
+  //         setCommunities(communities2);
+  //         setLoading(false);
+  //       });
+  //     });
 
-    // Unsubscribe from events when no longer in use
-    return () => community1();
-  }, []);
+  //   // Unsubscribe from events when no longer in use
+  //   return () => community1();
+  // }, []);
 
   if (loading) {
     return <Loader />;
@@ -272,7 +265,7 @@ const ReportScreen = () => {
                       paddingHorizontal: 10,
                     }}
                     onSelect={(index, value) => {
-                      console.warn(value.substr(0,3));
+                      console.warn(value.substr(0, 3));
                     }}
                     animated={true}
                     onTouchStart={() => setDateToggle(!dateToggle)}
@@ -740,7 +733,7 @@ const ReportScreen = () => {
 
                 <View style={[styles.flex, styles.column, styles.recommended]}>
                   <View style={[styles.column, styles.recommendedList]}>
-                    {community.length != 0 ? (
+                    {communityData.length > 0 ? (
                       <FlatList
                         horizontal
                         pagingEnabled={true}
@@ -749,7 +742,7 @@ const ReportScreen = () => {
                         scrollEventThrottle={16}
                         snapToAlignment="center"
                         style={{ overflow: "visible", wid: width - 50 }}
-                        data={community}
+                        data={communityData.slice(0, 40)}
                         renderItem={({ item, index }) => (
                           <>
                             <ReportCard
@@ -785,7 +778,7 @@ const ReportScreen = () => {
                   title="Community Developments"
                   date="3 Feb 2021"
                   imagesArray={imgs3}
-                  updates={community.length}
+                  updates={communityData.slice(0, 40).length}
                   backgroundColor="rgba(231, 189, 81, 0.2)"
                 />
               </View>
@@ -828,9 +821,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal:20,
+    paddingHorizontal: 20,
     height: 80,
-    marginTop:20
+    marginTop: 20,
   },
 
   pill: {
