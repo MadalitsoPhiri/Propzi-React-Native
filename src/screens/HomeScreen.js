@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
   const { communityData, isLoading } = useContext(CommunityDataContext);
   const communityDevelopments = randomizeArray(
-    communityData.slice(4, Math.random() * 10 + 5)
+    communityData.slice(0, Math.random() * 10 + 5)
   );
   console.warn(communityDevelopments);
   if (!isPropertyDataLoaded) {
