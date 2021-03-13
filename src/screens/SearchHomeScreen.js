@@ -513,6 +513,7 @@ export default function SearchHomeScreen({navigation}) {
            }).catch(err=>{
              console.log(err)
              setisFetching(false)
+             setpropertyNotFound(true)
           })
           }else{
             setisFetching(false)
@@ -524,6 +525,7 @@ export default function SearchHomeScreen({navigation}) {
         }).catch(err=>{
           console.log(err.message)
           setisFetching(false)
+          setpropertyNotFound(true)
         })
      }else{
        setisFetching(false)
@@ -535,6 +537,7 @@ export default function SearchHomeScreen({navigation}) {
 }).catch(err=>{
   console.log(err.message)
   setisFetching(false)
+  setpropertyNotFound(true)
 })
   }
   
