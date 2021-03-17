@@ -45,7 +45,7 @@ export default forgotpassword = ({navigation}) => {
           input: {
             borderWidth: 3,
             borderColor: "#BDBDBD",
-            borderRadius: 5,
+            borderRadius: 10,
             backgroundColor:"white",
             flexDirection:"row",
             alignItems: "center",
@@ -55,7 +55,7 @@ export default forgotpassword = ({navigation}) => {
           sendButton:{
            borderRadius:20,
            paddingVertical:10,
-           paddingHorizontal:20,
+           paddingHorizontal:40,
            backgroundColor:"#6FCF97",
            alignSelf:"center",
            marginTop:"10%",

@@ -10,6 +10,7 @@ import {Entypo} from "@expo/vector-icons";
 
 
 const {width} = Dimensions.get("window");
+const BORDER_WIDTH = 2
 
 const styles = StyleSheet.create({
   pill: {
@@ -20,7 +21,13 @@ const styles = StyleSheet.create({
     borderRadius:100,
     height:35,
 
+  },
+  scrollContainer:{
+    flexWrap: "wrap",
+    flexDirection:'row',
+    width:700
   }
+
 })
 
 
@@ -44,6 +51,7 @@ export default function PropziUpgradesScreen({navigation}){
     const [isLoading,setLoading] = useState(false)
     const {user,setUser,property,setproperty} = useContext(AuthContext)
     const [ammenities,setAmenities] = useState([])
+    const [additionalAmmenities,setAdditionalAmenities] = useState([])
 
 
  
@@ -70,6 +78,7 @@ export default function PropziUpgradesScreen({navigation}){
         streetName: property.address.streetName,
         streetNumber: property.address.streetNumber,
         unitNumber: property.address.unitNumber,
+        Ammenities:ammenities
       };
   
    
@@ -95,6 +104,12 @@ export default function PropziUpgradesScreen({navigation}){
     
     }
 
+    // const mapMLS = ()=>{
+    //   ammenities.map((item,index)=>{
+    //       const [`${index}`,setItem] = useState({isSelected:false,name:item})
+    //   })
+    // } 
+
 
     function arrayUnique(array) {
       var a = array.concat();
@@ -119,11 +134,11 @@ export default function PropziUpgradesScreen({navigation}){
                  if(item == null || item == ""){
                   return 
                  }
-                
+                const itemState = {name:item,selected:true}
               
                   // setAmenities(currentArray)
                   
-                  finalArray.push(item)
+                  finalArray.push(itemState)
                   return
       })
       setAmenities(prevArray => [...prevArray, ...finalArray])
@@ -131,36 +146,24 @@ export default function PropziUpgradesScreen({navigation}){
       console.log(ammenities)
     }
 
-    const [loaded] = useFonts({
-      'Poppins-Medium':require('../../assets/fonts/Poppins/Poppins-Medium.ttf'),
-      'Poppins-Regular':require('../../assets/fonts/Poppins/Poppins-Regular.ttf'),
-      'Poppins-Bold':require('../../assets/fonts/Poppins/Poppins-Bold.ttf'),
-      'Poppins-Thin':require('../../assets/fonts/Poppins/Poppins-Thin.ttf'),
-    
-     })
-    
     
   
-    if(isLoading){
-      return <Loader text="Processing..."/>;
-      }
+   
       
     return(<SafeAreaView style={{marginHorizontal:18,marginTop:"2%",height:"100%"}}>
          <ScrollView showsVerticalScrollIndicator={false}>
     
           <View>
-          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Have you done any upgrades?</Text>
-          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose renovations that you have done in your home since you moved in:</Text>
+          <Text style={{fontWeight:"500",fontSize:20,fontFamily:"Poppins-Medium",lineHeight:30,textAlign: "center"}}>Have you done any upgrades?</Text>
+          <Text style={{fontWeight:"200",fontSize:13,fontFamily:"Poppins-Regular",lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose renovations that you have done in your home since you moved in:</Text>
           </View>
            
             <View style={{marginTop:"5%"}}>
 
               
              
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginBottom:16}}> 
-              <Chip icon="" onPress={() => setSwimmingPool(!swimmingPool)} style={{backgroundColor:swimmingPool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}><Text style={{color:swimmingPool ? "#ffffff":"#46D0B6",fontSize:16}}>Swimming Pool</Text></Chip>
-               <Chip  icon="" onPress={() => setLandscaping(!Landscaping)} style={{backgroundColor:Landscaping ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:Landscaping ? "#ffffff":"#46D0B6",fontSize:16}}>Landscaping</Text></Chip>
-               <Chip  icon="" onPress={() => setFrontLawn(!frontLawn)} style={{backgroundColor:frontLawn ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:frontLawn ? "#ffffff":"#46D0B6",fontSize:16}}>Front Lawn</Text></Chip></ScrollView>
+            
+              
               
       
              
@@ -169,12 +172,19 @@ export default function PropziUpgradesScreen({navigation}){
             
             
 
+            
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
-            <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,height:35}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
-            <Chip icon="" onPress={() => setHardwoodFloors(!hardwoodFloors)} style={{backgroundColor:hardwoodFloors ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:hardwoodFloors ? "#ffffff":"#46D0B6",fontSize:16}}>Hardwood Floors</Text></Chip>
-            <Chip icon="" onPress={() => setExteriorPaint(!exteriorPaint)} style={{backgroundColor:exteriorPaint ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:exteriorPaint ? "#ffffff":"#46D0B6",fontSize:16}}>Exterior Paint</Text></Chip>
-            <Chip  icon="" onPress={() => setbathroomTiles(!bathroomTiles)} style={{backgroundColor:bathroomTiles ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:bathroomTiles ? "#ffffff":"#46D0B6",fontSize:16}}>Bathroom Tiles</Text></Chip>
-            <Chip  icon="" onPress={() => setInteriorPaint(!interiorPaint)} style={{backgroundColor:interiorPaint ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:interiorPaint ? "#ffffff":"#46D0B6",fontSize:16}}>Interior Paint</Text></Chip>
+            <View style={styles.scrollContainer}>
+            <Chip icon="" onPress={() => setSwimmingPool(!swimmingPool)} style={{backgroundColor:swimmingPool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}><Text style={{color:swimmingPool ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Swimming Pool</Text></Chip>
+               <Chip  icon="" onPress={() => setLandscaping(!Landscaping)} style={{backgroundColor:Landscaping ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:Landscaping ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Landscaping</Text></Chip>
+               <Chip  icon="" onPress={() => setFrontLawn(!frontLawn)} style={{backgroundColor:frontLawn ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:frontLawn ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Front Lawn</Text></Chip>
+            <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,height:35,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>New Roof</Text></Chip>
+            <Chip icon="" onPress={() => setHardwoodFloors(!hardwoodFloors)} style={{backgroundColor:hardwoodFloors ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:hardwoodFloors ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Hardwood Floors</Text></Chip>
+            <Chip icon="" onPress={() => setExteriorPaint(!exteriorPaint)} style={{backgroundColor:exteriorPaint ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:exteriorPaint ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Exterior Paint</Text></Chip>
+            <Chip  icon="" onPress={() => setbathroomTiles(!bathroomTiles)} style={{backgroundColor:bathroomTiles ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:bathroomTiles ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Bathroom Tiles</Text></Chip>
+            <Chip  icon="" onPress={() => setInteriorPaint(!interiorPaint)} style={{backgroundColor:interiorPaint ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:interiorPaint ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>Interior Paint</Text></Chip>
+            </View>
+            
             </ScrollView>
 
             </View>
@@ -182,38 +192,47 @@ export default function PropziUpgradesScreen({navigation}){
 
 
             <View style={{marginTop:"10%"}}> 
-          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>What makes your home unique?</Text>
-          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose details about your home that best describe your home:</Text>
+          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center",fontFamily:"Poppins-Medium"}}>What makes your home unique?</Text>
+          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%",fontFamily:"Poppins-Regular"}}>Choose details about your home that best describe your home:</Text>
           </View>
            
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"10%"}}> 
-            <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
-            <Chip icon="" onPress={() => setAlwaysSunny(!alwaysSunny)} style={{backgroundColor:alwaysSunny ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:alwaysSunny ? "#ffffff":"#46D0B6",fontSize:16}}>Always Sunny</Text></Chip>
-            <Chip icon="" onPress={() => setCloseToSchool(!closeToSchool)} style={{backgroundColor:closeToSchool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:closeToSchool ? "#ffffff":"#46D0B6",fontSize:16}}>Close to School</Text></Chip>
-            <Chip icon="" onPress={() => setSwimmingPool(!swimmingPool)} style={{backgroundColor:swimmingPool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}><Text style={{color:swimmingPool ? "#ffffff":"#46D0B6",fontSize:16}}>Swimming Pool</Text></Chip>
-            <Chip  icon="" onPress={() => setHotTub(!hotTub)} style={{backgroundColor:hotTub ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:hotTub ? "#ffffff":"#46D0B6",fontSize:16}}>Hot Tub</Text></Chip>
-            <Chip  icon="" onPress={() => setCloseToChurch(!closeToChurch)} style={{backgroundColor:closeToChurch ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:closeToChurch ? "#ffffff":"#46D0B6",fontSize:16}}>Close to Church</Text></Chip>
-            <Chip  icon="" onPress={() => setBackyardDeck(!backyardDeck)} style={{backgroundColor:backyardDeck ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}}  ><Text style={{color:backyardDeck ? "#ffffff":"#46D0B6",fontSize:16}}>Backyard Deck</Text></Chip>
-            <Chip  icon="" onPress={() => setBigBedrooms(!bigBedrooms)} style={{backgroundColor:bigBedrooms ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:bigBedrooms ? "#ffffff":"#46D0B6",fontSize:16}}>Big Bedrooms</Text></Chip>
-            <Chip  icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>Open Layout</Text></Chip>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"10%"}}>
+            <View style={styles.scrollContainer}>
+            <Chip icon="" onPress={() => setNewRoof(!newRoof)} style={{backgroundColor:newRoof ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} textStyle={newRoof ? "#46D0B6":"#ffffff"} ><Text style={{color:newRoof ? "#ffffff":"#46D0B6",fontSize:16}}>New Roof</Text></Chip>
+            <Chip icon="" onPress={() => setAlwaysSunny(!alwaysSunny)} style={{backgroundColor:alwaysSunny ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:alwaysSunny ? "#ffffff":"#46D0B6",fontSize:16}}>Always Sunny</Text></Chip>
+            <Chip icon="" onPress={() => setCloseToSchool(!closeToSchool)} style={{backgroundColor:closeToSchool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:closeToSchool ? "#ffffff":"#46D0B6",fontSize:16}}>Close to School</Text></Chip>
+            <Chip icon="" onPress={() => setSwimmingPool(!swimmingPool)} style={{backgroundColor:swimmingPool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}><Text style={{color:swimmingPool ? "#ffffff":"#46D0B6",fontSize:16}}>Swimming Pool</Text></Chip>
+            <Chip  icon="" onPress={() => setHotTub(!hotTub)} style={{backgroundColor:hotTub ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:hotTub ? "#ffffff":"#46D0B6",fontSize:16}}>Hot Tub</Text></Chip>
+            <Chip  icon="" onPress={() => setCloseToChurch(!closeToChurch)} style={{backgroundColor:closeToChurch ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:closeToChurch ? "#ffffff":"#46D0B6",fontSize:16}}>Close to Church</Text></Chip>
+            <Chip  icon="" onPress={() => setBackyardDeck(!backyardDeck)} style={{backgroundColor:backyardDeck ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:backyardDeck ? "#ffffff":"#46D0B6",fontSize:16}}>Backyard Deck</Text></Chip>
+            <Chip  icon="" onPress={() => setBigBedrooms(!bigBedrooms)} style={{backgroundColor:bigBedrooms ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:bigBedrooms ? "#ffffff":"#46D0B6",fontSize:16}}>Big Bedrooms</Text></Chip>
+            <Chip  icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>Open Layout</Text></Chip>
+              </View> 
+           
             </ScrollView>
             <View style={{marginTop:"10%"}}> 
-          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center"}}>Ammenities</Text>
-          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%"}}>Choose details about your home that best describe your home:</Text>
+          <Text style={{fontWeight:"500",fontSize:20,lineHeight:30,textAlign: "center",fontFamily:"Poppins-Medium"}}>Ammenities</Text>
+          <Text style={{fontWeight:"200",fontSize:13,lineHeight:19,textAlign: "center",marginTop:"2%",fontFamily:"Poppins-Regular"}}>Choose details about your home that best describe your home:</Text>
           </View>
-          <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontSize:18}}>MLS</Text></View>
+          <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontSize:18,fontFamily:"Poppins-Medium"}}>MLS</Text></View>
           <Divider style={{backgroundColor:"#ccc",marginTop:"2%"}}/>
-          {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"5%"}}>{ammenities.map((item, index) => (
-          <Chip key={index} icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>{item}</Text></Chip>
-        ))}</ScrollView>:null}
-          {ammenities.length == 0 ? <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text>not Available</Text></View>:null }
+          {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"5%"}}><View style={styles.scrollContainer}>
+          {ammenities.map((item, index) => (
+          <Chip key={index} icon="" onPress={() => {
+            let newState = [...ammenities];
+            newState[index].selected = !item.selected
+            setAmenities(newState)
+          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
+        ))}
+            </View></ScrollView>:null}
+          {ammenities.length == 0 ? <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontFamily:"Poppins-Regular"}}>not Available</Text></View>:null }
 
-          <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontSize:18}}>Additional Ammenities</Text></View>
+          <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontSize:18,fontFamily:"Poppins-Regular"}}>Additional Ammenities</Text></View>
           <Divider style={{backgroundColor:"#ccc",marginTop:"2%"}}/>
-          {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"5%"}}>{ammenities.map((item, index) => (
-          <Chip key={index} icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>{item}</Text></Chip>
+          {additionalAmmenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginTop:"5%"}}>{additionalAmmenities.map((item, index) => (
+          <Chip key={index} icon="" onPress={() => setOpenLayout(!openLayout)} style={{backgroundColor:openLayout ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:openLayout ? "#ffffff":"#46D0B6",fontSize:16}}>{item.name}</Text></Chip>
         ))}</ScrollView>:null}
-          {ammenities.length == 0 ? <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text>not Available</Text></View>:null }
+          {additionalAmmenities.length == 0 ? <View style={{alignItems: "center",justifyContent: "center",width:"100%",marginTop:16}}><Text style={{fontFamily:"Poppins-Regular"}}>not Available yet!</Text></View>:null }
             
          
             </ScrollView>
