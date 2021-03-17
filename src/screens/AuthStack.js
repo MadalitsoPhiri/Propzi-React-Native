@@ -4,9 +4,9 @@ import LoginScreen from "./LoginScreen";
 import SignUpScreen from "./SignUpScreen";
 import PropziLogo from "../../assets/PropziLogo.svg"
 import forgotpassword from "./Forgotpassword";
-
+import {Entypo} from "@expo/vector-icons";
 import {
-    Dimensions,
+    Dimensions,TouchableOpacity
   } from "react-native";
 
 
