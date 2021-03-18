@@ -25,10 +25,14 @@ const { width } = Dimensions.get("screen");
 export default function HomeScreen({ navigation }) {
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
   const { communityData, isLoading } = useContext(CommunityDataContext);
-  const communityDevelopments = randomizeArray(
-    communityData.slice(0, Math.random() * 10 + 5)
-  );
-  console.warn(communityDevelopments);
+  let newArr1 = [];
+  communityData.map((val, i) => {
+    while (i <= 9) {
+      return newArr1.push(val);
+    }
+  });
+  const communityDevelopments = randomizeArray(newArr1);
+  // console.warn(communityDevelopments.length);
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
   }
@@ -105,7 +109,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.smallCardContainer}>
           <SmallCard />
         </View>
-
+        {isLoading && <Loader />}
         {communityDevelopments?.length > 0
           ? communityDevelopments?.map((communityDevelopment, i) => {
               if (
