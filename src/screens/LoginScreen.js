@@ -351,8 +351,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight:20,
     height:"100%",
-    marginTop:"5%",
-   
+    paddingTop:"5%",
+   backgroundColor:"#fff"
   },
 
   label: {

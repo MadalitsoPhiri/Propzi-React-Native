@@ -6,8 +6,7 @@ export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isFirstLaunch, setisFirstLaunch] = useState(false);
-  const [property, setproperty] = useState({});
-  
+  const [property,setproperty] = useState({})
   return (
     <AuthContext.Provider
       value={{
