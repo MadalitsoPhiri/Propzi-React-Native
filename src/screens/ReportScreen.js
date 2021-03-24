@@ -5,7 +5,6 @@ import {
   Text,
   View,
   Dimensions,
-  TouchableOpacity,
   SafeAreaView,
   FlatList,
   ScrollView,
@@ -56,6 +55,15 @@ const ReportScreen = () => {
   const [userAddresses, setUserUserAddresses] = useState([]);
   const [userProperties, setProperties] = useState([]);
   const [community, setCommunities] = useState([]);
+
+  function filterUserCommunitData() {
+    const newUserCommunitData = communityData.filter((item) => {
+      if (item.city.toLowerCase() == property.city.toLowerCase()) {
+        return item;
+      }
+    });
+    setCommunities(newUserCommunitData);
+  }
 
   useEffect(() => {
     const subscriber = dbh
@@ -145,28 +153,9 @@ const ReportScreen = () => {
     return () => getAllUserProperties();
   }, []);
 
-  // // Get communit data
-  // useEffect(() => {
-  //   const community1 = dbh
-  //     .collection("Communit")
-  //     .onSnapshot((querySnapshot) => {
-  //       const communities2 = [];
-
-  //       querySnapshot.forEach((documentSnapshot) => {
-  //         console.warn(documentSnapshot.data().city);
-  //         communities2.push({
-  //           ...documentSnapshot.data(),
-  //           key: documentSnapshot.id,
-  //         });
-
-  //         setCommunities(communities2);
-  //         setLoading(false);
-  //       });
-  //     });
-
-  //   // Unsubscribe from events when no longer in use
-  //   return () => community1();
-  // }, []);
+  useEffect(() => {
+    filterUserCommunitData();
+  }, []);
 
   if (loading) {
     return <Loader />;
@@ -742,9 +731,9 @@ const ReportScreen = () => {
                         scrollEventThrottle={16}
                         snapToAlignment="center"
                         style={{ overflow: "visible", wid: width - 50 }}
-                        data={communityData.slice(0, 40)}
-                        renderItem={({ item, index }) => (
-                          <>
+                        data={community}
+                        renderItem={({ item, index }) => {
+                          return (
                             <ReportCard
                               imgUrl={
                                 item.img
@@ -759,8 +748,8 @@ const ReportScreen = () => {
                               key={index}
                               title={item.heading}
                             />
-                          </>
-                        )}
+                          );
+                        }}
                       />
                     ) : (
                       <Text style={{ textAlign: "center", color: "red" }}>
@@ -778,7 +767,7 @@ const ReportScreen = () => {
                   title="Community Developments"
                   date="3 Feb 2021"
                   imagesArray={imgs3}
-                  updates={communityData.slice(0, 40).length}
+                  updates={community.length}
                   backgroundColor="rgba(231, 189, 81, 0.2)"
                 />
               </View>

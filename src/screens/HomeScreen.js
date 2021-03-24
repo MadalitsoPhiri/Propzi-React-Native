@@ -25,14 +25,8 @@ const { width } = Dimensions.get("screen");
 export default function HomeScreen({ navigation }) {
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
   const { communityData, isLoading } = useContext(CommunityDataContext);
-  let newArr1 = [];
-  communityData.map((val, i) => {
-    while (i <= 9) {
-      return newArr1.push(val);
-    }
-  });
-  const communityDevelopments = randomizeArray(newArr1);
-  // console.warn(communityDevelopments.length);
+  const communityDevelopments = randomizeArray(communityData.slice(0, 6));
+
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
   }

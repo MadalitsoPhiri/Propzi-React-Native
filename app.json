@@ -4,9 +4,9 @@
     "slug": "propzi",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Propzi-Logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Propzi-Logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -37,7 +37,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Propzi-Logo.png"
     },
     "description": ""
   }
