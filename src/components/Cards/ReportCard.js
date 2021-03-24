@@ -1,8 +1,8 @@
-import React from 'react'
-import {View, Text,StyleSheet,Image,Dimensions} from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { colors } from '../../styles';
-const {width} = Dimensions.get('screen')
+import React from "react";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { colors } from "../../styles";
+const { width } = Dimensions.get("screen");
 
 const ReportCard = ({
   imgUrl,
@@ -14,7 +14,6 @@ const ReportCard = ({
   propziImpact,
   category,
 }) => {
- 
   return (
     <View style={[styles.container, index === 0 ? { marginLeft: 20 } : null]}>
       <View style={styles.cardImage}>
@@ -29,23 +28,24 @@ const ReportCard = ({
         <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
           From: {dataSource}
         </Text>
-        <Text style={{ color: "#1f2123", fontSize: 13,lineHeight:20 }}>
+        <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20 }}>
           {desc?.substr(0, 89) + "..."}
-          <Text style={{color:colors.PRIMARY_COLOR}}>Read More</Text>
+          <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
         </Text>
       </View>
-
-      <View style={styles.cardFooter}>
-        <Text style={styles.propziImpactTitle}>Propzi Impact:</Text>
-        <Text
-          style={[
-            styles.propziImpact,
-            { color: isHigh ? colors.PRIMARY_COLOR : "red" },
-          ]}
-        >
-          {propziImpact}
-        </Text>
-      </View>
+      {propziImpact !== "" && propziImpact ? (
+        <View style={styles.cardFooter}>
+          <Text style={styles.propziImpactTitle}>Propzi Impact:</Text>
+          <Text
+            style={[
+              styles.propziImpact,
+              { color: isHigh ? colors.PRIMARY_COLOR : "red" },
+            ]}
+          >
+            {propziImpact}
+          </Text>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
-    marginBottom:30
+    marginBottom: 30,
   },
   cardImage: {
     overflow: "hidden",
@@ -75,21 +75,21 @@ const styles = StyleSheet.create({
   },
 
   cardBody: {
-    padding:10
+    padding: 10,
   },
 
-  cardTitle:{
-    fontSize:14,
-    fontWeight:'600',
-    marginBottom:5,
-    marginTop:10,
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 5,
+    marginTop: 10,
   },
 
   cardFooter: {
-    paddingHorizontal:10,
-    marginHorizontal:10,
-    marginVertical:20,
-    marginTop:10,
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
+    marginVertical: 20,
+    marginTop: 10,
     shadowColor: "#00000021",
     shadowOffset: {
       width: 0,
@@ -101,18 +101,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flexDirection: "row",
     borderRadius: 16,
-    width:width*0.4,
-    height:30,
-    alignItems:'center'
+    width: width * 0.4,
+    height: 30,
+    alignItems: "center",
   },
 
-  propziImpactTitle:{
-    fontSize:12,
+  propziImpactTitle: {
+    fontSize: 12,
   },
 
-  propziImpact:{
-    fontSize:12,
-    marginLeft:5
+  propziImpact: {
+    fontSize: 12,
+    marginLeft: 5,
   },
 
   tag: {
@@ -123,14 +123,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
     right: 14,
-    backgroundColor:colors.PRIMARY_COLOR,
-    borderRadius:50
+    backgroundColor: colors.PRIMARY_COLOR,
+    borderRadius: 50,
   },
 
-  tagName:{
-    fontSize:12
+  tagName: {
+    fontSize: 12,
   },
 });
 
 export default ReportCard;
-
