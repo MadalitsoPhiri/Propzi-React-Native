@@ -74,13 +74,13 @@ export default function HomeScreen({ navigation }) {
           <Text
             style={styles.actualAddress}
           >{`${property.streetNumber} ${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
-          <Pressable onPress={() => navigation.navigate("manual")}>
+          {/* <Pressable onPress={() => navigation.navigate("manual")}>
             <Text
               style={{ alignSelf: "flex-end", borderWidth: 1, padding: 10 }}
             >
               Add property
             </Text>
-          </Pressable>
+          </Pressable> */}
         </View>
 
         <HomeCard data={property} />
