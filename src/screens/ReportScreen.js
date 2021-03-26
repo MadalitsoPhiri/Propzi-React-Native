@@ -46,6 +46,7 @@ const ReportScreen = () => {
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [recentSales, setRecentSales] = useState(false);
   const [dateToggle, setDateToggle] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -491,6 +492,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShouldShow2(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={[styles.pill]}>
@@ -513,6 +515,40 @@ const ReportScreen = () => {
               </Pressable>
             )}
 
+            {/* Recent Sales */}
+            {recentSales ? (
+              <Pressable
+                style={[styles.pillsActive, { marginLeft: 10 }]}
+                onPress={() => {
+                  setShowAll(false);
+                  setRecentSales(true);
+                  setShouldShow(false);
+                  setShouldShow1(false);
+                  setShouldShow2(false);
+                }}
+              >
+                <View style={[styles.pill]}>
+                  <Text style={styles.pillName}>Recent Sales</Text>
+                </View>
+              </Pressable>
+            ) : (
+              <Pressable
+                style={[styles.pills, { marginLeft: 10 }]}
+                onPress={() => {
+                  setShowAll(false);
+                  setRecentSales(true);
+                  setShouldShow(false);
+                  setShouldShow1(false);
+                  setShouldShow2(false);
+                }}
+              >
+                <View style={styles.pill}>
+                  <Text style={styles.pillName}>Recent Sales</Text>
+                </View>
+              </Pressable>
+            )}
+            {/* Recent Sales */}
+
             {shouldShow ? (
               <Pressable
                 style={[styles.pillsActive, { marginLeft: 10 }]}
@@ -521,6 +557,7 @@ const ReportScreen = () => {
                   setShouldShow1(false);
                   setShouldShow2(false);
                   setShowAll(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={[styles.pill]}>
@@ -535,6 +572,7 @@ const ReportScreen = () => {
                   setShouldShow1(false);
                   setShouldShow2(false);
                   setShowAll(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -551,6 +589,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow2(false);
                   setShowAll(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -565,6 +604,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow2(false);
                   setShowAll(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -581,6 +621,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShowAll(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -595,6 +636,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShowAll(false);
+                  setRecentSales(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -605,6 +647,70 @@ const ReportScreen = () => {
           </ScrollView>
 
           {/* Cards start here */}
+
+          {/* Recent Sale Card */}
+          <View
+            style={{
+              marginTop: -10,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
+            {recentSales ? (
+              <>
+                <ReportRectangleCollapse
+                  dropDownIcon={dropDownIconThree}
+                  onPress={() => setRecentSales(!recentSales)}
+                  title="Recent Sales"
+                  date="2nd Feb 2021"
+                  backgroundColor="rgba(231, 184, 81, 0.2)"
+                />
+
+                {communityData.length > 0 ? (
+                  <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={[]}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <ReportCard
+                          imgUrl={
+                            item.img
+                              ? item.img
+                              : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
+                          }
+                          propziImpact={item.propziImpact}
+                          dataSource={item.dataSource}
+                          desc={item.description}
+                          category={item.category}
+                          index={index}
+                          key={index}
+                          title={item.heading}
+                        />
+                      );
+                    }}
+                  />
+                ) : (
+                  <Text style={{ textAlign: "center", color: "red" }}>
+                    No Data
+                  </Text>
+                )}
+              </>
+            ) : (
+              <>
+                <ReportRectangleCard
+                  arrowUrl={arrowThree}
+                  onPress={() => setRecentSales(!recentSales)}
+                  title="Recent Sales"
+                  date="3 Feb 2021"
+                  // imagesArray={communityThumbnails}
+                  updates={0}
+                  backgroundColor="rgba(100, 179, 65, 0.3)"
+                />
+              </>
+            )}
+          </View>
+          {/* Recent Sale Cards */}
           <View
             style={{
               marginTop: -10,
@@ -682,7 +788,7 @@ const ReportScreen = () => {
                   title="Economic Indicators"
                   date="20th Dec 2020"
                 />
-                
+
                 <FlatList
                   horizontal
                   bounces={false}
