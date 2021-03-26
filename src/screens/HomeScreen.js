@@ -156,6 +156,7 @@ export default function HomeScreen({ navigation }) {
             pagingEnabled
             bounces={false}
             data={HomeBankOffersCardData}
+            showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
               <View style={{ marginHorizontal: 4 }}>
                 <HomeBankFinance

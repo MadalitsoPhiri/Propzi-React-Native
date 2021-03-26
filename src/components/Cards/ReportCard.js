@@ -6,7 +6,6 @@ const { width } = Dimensions.get("screen");
 
 const ReportCard = ({
   imgUrl,
-  index,
   isHigh = false,
   title,
   dataSource,
@@ -15,63 +14,61 @@ const ReportCard = ({
   category,
 }) => {
   return (
-    <View style={[styles.container, index === 0 ? { marginLeft: 20 } : null]}>
-      <View style={styles.cardImage}>
-        <Image source={{ uri: imgUrl }} style={styles.image} />
+    <View style={styles.container}>
+      <View>
+        <Image
+          source={{ uri: imgUrl }}
+          style={[styles.image, { resizeMode: "cover" }]}
+        />
         <View style={styles.tag}>
           <Text style={styles.tagName}>{category}</Text>
         </View>
-      </View>
 
-      <View style={styles.cardBody}>
-        <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
-          From: {dataSource}
-        </Text>
-        <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20 }}>
-          {desc?.substr(0, 89) + "..."}
-          <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
-        </Text>
-      </View>
-      {propziImpact !== "" && propziImpact ? (
-        <View style={styles.cardFooter}>
-          <Text style={styles.propziImpactTitle}>Propzi Impact:</Text>
-          <Text
-            style={[
-              styles.propziImpact,
-              { color: isHigh ? colors.PRIMARY_COLOR : "red" },
-            ]}
-          >
-            {propziImpact}
+        <View style={styles.cardBody}>
+          <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
+            From: {dataSource}
+          </Text>
+          <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20 }}>
+            {desc?.substr(0, 89) + "..."}
+            <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
           </Text>
         </View>
-      ) : null}
+        {propziImpact !== "" && propziImpact ? (
+          <View style={styles.cardFooter}>
+            <Text style={styles.propziImpactTitle}>Propzi Impact:</Text>
+            <Text
+              style={[
+                styles.propziImpact,
+                { color: isHigh ? colors.PRIMARY_COLOR : "red" },
+              ]}
+            >
+              {propziImpact}
+            </Text>
+          </View>
+        ) : null}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    padding: 25 / 2,
-    width: (width - 25 * 2) / 1.2,
-    marginHorizontal: 8,
-    backgroundColor: "#ffffff",
+    position: "relative",
+    width: width * 0.7,
+    marginHorizontal: 20,
     overflow: "hidden",
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-    marginBottom: 30,
+    borderRadius: 16,
   },
-  cardImage: {
-    overflow: "hidden",
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-  },
+
   image: {
-    width: (width - 25 * 2) / 1.2,
-    height: (width - 25 * 2) / 2,
+    width: "100%",
+    height: (width - 25 * 2) / 1.7,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: "#f3f3f3",
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
   },
 
   cardBody: {

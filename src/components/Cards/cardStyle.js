@@ -10,8 +10,7 @@ export const styles = {
     shadowRadius: 3,
     elevation: 1,
 
-    marginLeft: 20,
-    marginRight: 20,
+    alignItems: "center",
     marginTop: 20,
     padding: 10,
     flexDirection: "row",
@@ -58,12 +57,14 @@ export const styles = {
 
   groupMembersContent: {
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 15,
   },
   memberImage: {
-    height: 30,
-    width: 30,
-    marginRight: 4,
-    borderRadius: 20,
+    height: 33,
+    width: 33,
+    marginRight: -15,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "white",
   },
 };

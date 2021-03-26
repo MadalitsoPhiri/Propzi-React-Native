@@ -24,7 +24,6 @@ import ReportCard from "../components/Cards/ReportCard";
 import {
   imgs1,
   imgs2,
-  imgs3,
 } from "../../assets/reportImagesAndIcons/reportCircleImages";
 import {
   arrowOne,
@@ -34,6 +33,7 @@ import {
   dropDownIconTwo,
   dropDownIconThree,
 } from "../../assets/reportImagesAndIcons/reportIcons";
+import { createImageThumbnailArray } from "../utils/helper";
 
 import { colors } from "../styles";
 const { width } = Dimensions.get("window");
@@ -52,9 +52,11 @@ const ReportScreen = () => {
 
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const [userAddresses, setUserUserAddresses] = useState([]);
+  const [userAddresses, setUserAddresses] = useState([]);
   const [userProperties, setProperties] = useState([]);
+  const [homeRenovation, setHomeRenovation] = useState([]);
   const [community, setCommunities] = useState([]);
+  const [communityThumbnails, setCommunityThumbnails] = useState([]);
 
   function filterUserCommunitData() {
     const newUserCommunitData = communityData.filter((item) => {
@@ -64,6 +66,11 @@ const ReportScreen = () => {
     });
     setCommunities(newUserCommunitData);
   }
+
+  useEffect(() => {
+    const communityThumbnailsData = createImageThumbnailArray(communityData);
+    setCommunityThumbnails(communityThumbnailsData);
+  }, []);
 
   useEffect(() => {
     const subscriber = dbh
@@ -123,7 +130,7 @@ const ReportScreen = () => {
           userData2.push(address);
         });
 
-        setUserUserAddresses(userData2);
+        setUserAddresses(userData2);
         setLoading(false);
       });
 
@@ -598,9 +605,15 @@ const ReportScreen = () => {
           </ScrollView>
 
           {/* Cards start here */}
-          <View style={{ marginTop: -10 }}>
+          <View
+            style={{
+              marginTop: -10,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
             {shouldShow ? (
-              <View style={{ flex: 1, justifyContent: "space-between" }}>
+              <>
                 <ReportRectangleCollapse
                   onPress={() => setShouldShow(!shouldShow)}
                   backgroundColor="rgba(52,209,184, 0.16)"
@@ -608,19 +621,13 @@ const ReportScreen = () => {
                   title="Home Renovations"
                   date="20th Dec 2020"
                 />
-
-                <View style={[styles.flex, styles.column, styles.recommended]}>
-                  <View style={[styles.column, styles.recommendedList]}>
-                    <FlatList
-                      horizontal
-                      pagingEnabled={true}
-                      showsHorizontalScrollIndicator={false}
-                      legacyImplementation={false}
-                      scrollEventThrottle={16}
-                      snapToAlignment="center"
-                      style={{ overflow: "visible", wid: width - 50 }}
-                      data={community}
-                      renderItem={({ item, index }) => (
+                {homeRenovation.length > 0 ? (
+                  <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={homeRenovation}
+                    renderItem={({ item, index }) => (
+                      <View>
                         <ReportCard
                           title={item.indicator}
                           imgUrl={
@@ -635,11 +642,15 @@ const ReportScreen = () => {
                           index={index}
                           key={index}
                         />
-                      )}
-                    />
-                  </View>
-                </View>
-              </View>
+                      </View>
+                    )}
+                  />
+                ) : (
+                  <Text style={{ textAlign: "center", color: "red" }}>
+                    No Data
+                  </Text>
+                )}
+              </>
             ) : (
               <View>
                 <ReportRectangleCard
@@ -647,17 +658,23 @@ const ReportScreen = () => {
                   onPress={() => setShouldShow(!shouldShow)}
                   title="Home Renovations"
                   date="10th Jan 2021"
-                  imagesArray={imgs1}
+                  // imagesArray={communityThumbnails}
                   backgroundColor="rgba(52,209,184, 0.16)"
-                  updates={community.length}
+                  updates={homeRenovation.length}
                 />
               </View>
             )}
           </View>
 
-          <View style={{ marginTop: -10 }}>
+          <View
+            style={{
+              marginTop: -10,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
             {shouldShow1 ? (
-              <View>
+              <>
                 <ReportRectangleCollapse
                   onPress={() => setShouldShow1(!shouldShow1)}
                   backgroundColor="rgba(81,141,231, 0.2)"
@@ -665,35 +682,29 @@ const ReportScreen = () => {
                   title="Economic Indicators"
                   date="20th Dec 2020"
                 />
-                <View style={[styles.flex, styles.column, styles.recommended]}>
-                  <View style={[styles.column, styles.recommendedList]}>
-                    <FlatList
-                      horizontal
-                      pagingEnabled={true}
-                      showsHorizontalScrollIndicator={false}
-                      legacyImplementation={false}
-                      scrollEventThrottle={16}
-                      snapToAlignment="center"
-                      style={{ overflow: "visible", wid: width - 50 }}
-                      data={users}
-                      renderItem={({ item, index }) => (
-                        <>
-                          <ReportCard
-                            title={item.indicator}
-                            imgUrl={item.img}
-                            dataSource={item.dataSource}
-                            category={item.categoryIndicator}
-                            propziImpact={item.propziImpact}
-                            desc={item.description}
-                            index={index}
-                            key={index}
-                          />
-                        </>
-                      )}
-                    />
-                  </View>
-                </View>
-              </View>
+                
+                <FlatList
+                  horizontal
+                  bounces={false}
+                  showsHorizontalScrollIndicator={false}
+                  data={users}
+                  renderItem={({ item, index }) => (
+                    <View style={{ marginHorizontal: 4 }}>
+                      <ReportCard
+                        title={item.indicator}
+                        imgUrl={item.img}
+                        dataSource={item.dataSource}
+                        category={item.categoryIndicator}
+                        propziImpact={item.propziImpact}
+                        desc={item.description}
+                        index={index}
+                        key={index}
+                        width={width - 29}
+                      />
+                    </View>
+                  )}
+                />
+              </>
             ) : (
               <View>
                 <ReportRectangleCard
@@ -709,9 +720,15 @@ const ReportScreen = () => {
             )}
           </View>
 
-          <View style={{ marginTop: -10 }}>
+          <View
+            style={{
+              marginTop: -10,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
             {shouldShow2 ? (
-              <View>
+              <>
                 <ReportRectangleCollapse
                   dropDownIcon={dropDownIconThree}
                   onPress={() => setShouldShow2(!shouldShow2)}
@@ -720,45 +737,36 @@ const ReportScreen = () => {
                   backgroundColor="rgba(231, 189, 81, 0.2)"
                 />
 
-                <View style={[styles.flex, styles.column, styles.recommended]}>
-                  <View style={[styles.column, styles.recommendedList]}>
-                    {communityData.length > 0 ? (
-                      <FlatList
-                        horizontal
-                        pagingEnabled={true}
-                        showsHorizontalScrollIndicator={false}
-                        legacyImplementation={false}
-                        scrollEventThrottle={16}
-                        snapToAlignment="center"
-                        style={{ overflow: "visible", wid: width - 50 }}
-                        data={community}
-                        renderItem={({ item, index }) => {
-                          return (
-                            <ReportCard
-                              imgUrl={
-                                item.img
-                                  ? item.img
-                                  : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
-                              }
-                              propziImpact={item.propziImpact}
-                              dataSource={item.dataSource}
-                              desc={item.description}
-                              category={item.category}
-                              index={index}
-                              key={index}
-                              title={item.heading}
-                            />
-                          );
-                        }}
-                      />
-                    ) : (
-                      <Text style={{ textAlign: "center", color: "red" }}>
-                        No Data
-                      </Text>
-                    )}
-                  </View>
-                </View>
-              </View>
+                {communityData.length > 0 ? (
+                  <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={community}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <ReportCard
+                          imgUrl={
+                            item.img
+                              ? item.img
+                              : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
+                          }
+                          propziImpact={item.propziImpact}
+                          dataSource={item.dataSource}
+                          desc={item.description}
+                          category={item.category}
+                          index={index}
+                          key={index}
+                          title={item.heading}
+                        />
+                      );
+                    }}
+                  />
+                ) : (
+                  <Text style={{ textAlign: "center", color: "red" }}>
+                    No Data
+                  </Text>
+                )}
+              </>
             ) : (
               <View>
                 <ReportRectangleCard
@@ -766,7 +774,7 @@ const ReportScreen = () => {
                   onPress={() => setShouldShow2(!shouldShow2)}
                   title="Community Developments"
                   date="3 Feb 2021"
-                  imagesArray={imgs3}
+                  imagesArray={communityThumbnails}
                   updates={community.length}
                   backgroundColor="rgba(231, 189, 81, 0.2)"
                 />

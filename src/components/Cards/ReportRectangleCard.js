@@ -1,6 +1,6 @@
-import React from 'react'
-import { View, Text,TouchableOpacity,FlatList,Image } from 'react-native'
-import {styles} from './cardStyle'
+import React from "react";
+import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
+import { styles } from "./cardStyle";
 
 const ReportRectangleCard = ({
   onPress,
@@ -30,26 +30,18 @@ const ReportRectangleCard = ({
             <Text style={styles.title}>{title}</Text>
             <Text style={[styles.date]}>Last visited on {date}</Text>
             <FlatList
+              horizontal
               data={imagesArray}
               keyExtractor={(item) => {
                 return item.id;
               }}
-              renderItem={(item) => {
-                const Group = item.item;
-
+              renderItem={({ item }) => {
                 return (
-                  <View>
-                    <View style={styles.groupMembersContent}>
-                      {Group.members.map((prop, key) => {
-                        return (
-                          <Image
-                            key={key}
-                            style={styles.memberImage}
-                            source={{ uri: prop }}
-                          />
-                        );
-                      })}
-                    </View>
+                  <View style={styles.groupMembersContent}>
+                    <Image
+                      style={styles.memberImage}
+                      source={{ uri: item.img }}
+                    />
                   </View>
                 );
               }}
@@ -68,4 +60,4 @@ const ReportRectangleCard = ({
   );
 };
 
-export default ReportRectangleCard
+export default ReportRectangleCard;
