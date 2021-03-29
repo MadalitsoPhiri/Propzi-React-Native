@@ -78,7 +78,8 @@ export default function PropziUpgradesScreen({navigation}){
         streetName: property.address.streetName,
         streetNumber: property.address.streetNumber,
         unitNumber: property.address.unitNumber,
-        Ammenities:ammenities
+        Ammenities:ammenities,
+        repliers:property
       };
   
    
