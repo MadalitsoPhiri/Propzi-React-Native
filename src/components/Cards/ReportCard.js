@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     overflow: "hidden",
     borderRadius: 16,
+    backgroundColor: "#f3f3f3",
   },
 
   image: {

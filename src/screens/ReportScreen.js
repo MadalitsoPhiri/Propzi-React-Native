@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { dbh } from "../../firebase/index";
 import {
   StyleSheet,
@@ -21,10 +22,8 @@ import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
-import {
-  imgs1,
-  imgs2,
-} from "../../assets/reportImagesAndIcons/reportCircleImages";
+import RecentSaleCard from "../components/Cards/RecentSales";
+import { imgs2 } from "../../assets/reportImagesAndIcons/reportCircleImages";
 import {
   arrowOne,
   arrowTwo,
@@ -36,6 +35,7 @@ import {
 import { createImageThumbnailArray } from "../utils/helper";
 
 import { colors } from "../styles";
+
 const { width } = Dimensions.get("window");
 
 const ReportScreen = () => {
@@ -46,19 +46,21 @@ const ReportScreen = () => {
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
   const [showAll, setShowAll] = useState(false);
-  const [recentSales, setRecentSales] = useState(false);
+  const [recentSalesBool, setRecentSalesBool] = useState(false);
+  const [recentSales, setRecentSales] = useState([]);
   const [dateToggle, setDateToggle] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  const [economics, setEconomics] = useState([]);
   const [userAddresses, setUserAddresses] = useState([]);
   const [userProperties, setProperties] = useState([]);
   const [homeRenovation, setHomeRenovation] = useState([]);
   const [community, setCommunities] = useState([]);
   const [communityThumbnails, setCommunityThumbnails] = useState([]);
 
+  // FILTER USER SPECIFIC COMMUNITY DATA
   function filterUserCommunitData() {
     const newUserCommunitData = communityData.filter((item) => {
       if (item.city.toLowerCase() == property.city.toLowerCase()) {
@@ -68,11 +70,13 @@ const ReportScreen = () => {
     setCommunities(newUserCommunitData);
   }
 
+  // SET IMAGE THUMBNAIL
   useEffect(() => {
     const communityThumbnailsData = createImageThumbnailArray(communityData);
     setCommunityThumbnails(communityThumbnailsData);
   }, []);
 
+  // GET ECONOMIC DATA
   useEffect(() => {
     const subscriber = dbh
       .collection("Economics/Country/EconomicIndicator")
@@ -86,7 +90,7 @@ const ReportScreen = () => {
           });
         });
 
-        setUsers(users);
+        setEconomics(users);
         setLoading(false);
       });
 
@@ -107,8 +111,7 @@ const ReportScreen = () => {
           });
         });
 
-        //setUsers(users =>[...users, users1]);
-        setUsers((users) => users.concat(users1));
+        setEconomics((users) => users.concat(users1));
         setLoading(false);
       });
 
@@ -163,6 +166,24 @@ const ReportScreen = () => {
 
   useEffect(() => {
     filterUserCommunitData();
+  }, []);
+
+  // FETCH RECENT SALES DATA
+  useEffect(() => {
+    const RECENT_SALES_ENDPOINT =
+      "https://api.repliers.io/listings?streetNumber=45&streetName=Bristol&sortBy=createdOnDesc&resultsPerPage=100&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT";
+    axios(RECENT_SALES_ENDPOINT, {
+      method: "GET",
+      headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
+    })
+      .then((res) => {
+        console.log(res.data.listings);
+
+        setRecentSales(res.data.listings);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   }, []);
 
   if (loading) {
@@ -492,7 +513,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShouldShow2(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={[styles.pill]}>
@@ -507,6 +528,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShouldShow2(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -516,12 +538,12 @@ const ReportScreen = () => {
             )}
 
             {/* Recent Sales */}
-            {recentSales ? (
+            {recentSalesBool ? (
               <Pressable
                 style={[styles.pillsActive, { marginLeft: 10 }]}
                 onPress={() => {
                   setShowAll(false);
-                  setRecentSales(true);
+                  setRecentSalesBool(!recentSalesBool);
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShouldShow2(false);
@@ -536,7 +558,7 @@ const ReportScreen = () => {
                 style={[styles.pills, { marginLeft: 10 }]}
                 onPress={() => {
                   setShowAll(false);
-                  setRecentSales(true);
+                  setRecentSalesBool(true);
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShouldShow2(false);
@@ -557,7 +579,7 @@ const ReportScreen = () => {
                   setShouldShow1(false);
                   setShouldShow2(false);
                   setShowAll(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={[styles.pill]}>
@@ -572,7 +594,7 @@ const ReportScreen = () => {
                   setShouldShow1(false);
                   setShouldShow2(false);
                   setShowAll(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -589,7 +611,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow2(false);
                   setShowAll(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -604,7 +626,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow2(false);
                   setShowAll(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -621,7 +643,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShowAll(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -636,7 +658,7 @@ const ReportScreen = () => {
                   setShouldShow(false);
                   setShouldShow1(false);
                   setShowAll(false);
-                  setRecentSales(false);
+                  setRecentSalesBool(false);
                 }}
               >
                 <View style={styles.pill}>
@@ -656,36 +678,34 @@ const ReportScreen = () => {
               paddingVertical: 10,
             }}
           >
-            {recentSales ? (
+            {recentSalesBool ? (
               <>
                 <ReportRectangleCollapse
                   dropDownIcon={dropDownIconThree}
-                  onPress={() => setRecentSales(!recentSales)}
+                  onPress={() => setRecentSalesBool(!recentSalesBool)}
                   title="Recent Sales"
                   date="2nd Feb 2021"
-                  backgroundColor="rgba(231, 184, 81, 0.2)"
+                  backgroundColor="rgba(100, 179, 65, 0.3)"
                 />
 
-                {communityData.length > 0 ? (
+                {recentSales.length > 0 ? (
                   <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    data={[]}
-                    renderItem={({ item, index }) => {
+                    data={recentSales}
+                    renderItem={({ item }) => {
                       return (
-                        <ReportCard
+                        <RecentSaleCard
                           imgUrl={
-                            item.img
-                              ? item.img
+                            `${item.images.length > 0}`
+                              ? `https://cdn.repliers.io/${item.images[0]}`
                               : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
                           }
-                          propziImpact={item.propziImpact}
-                          dataSource={item.dataSource}
-                          desc={item.description}
-                          category={item.category}
-                          index={index}
-                          key={index}
-                          title={item.heading}
+                          title={`${item?.address?.streetNumber}, ${item?.address?.streetName}`}
+                          address={`${item?.address?.neighborhood}, ${item?.address?.city}`}
+                          desc={item.details.description}
+                          soldFor={item?.soldPrice}
+                          key={item.mlsNumber}
                         />
                       );
                     }}
@@ -700,17 +720,19 @@ const ReportScreen = () => {
               <>
                 <ReportRectangleCard
                   arrowUrl={arrowThree}
-                  onPress={() => setRecentSales(!recentSales)}
+                  onPress={() => setRecentSalesBool(!recentSales)}
                   title="Recent Sales"
                   date="3 Feb 2021"
                   // imagesArray={communityThumbnails}
-                  updates={0}
+                  updates={recentSales.length}
                   backgroundColor="rgba(100, 179, 65, 0.3)"
                 />
               </>
             )}
           </View>
-          {/* Recent Sale Cards */}
+          {/* End Recent Sale Cards */}
+
+          {/* Home Renovation */}
           <View
             style={{
               marginTop: -10,
@@ -771,7 +793,9 @@ const ReportScreen = () => {
               </View>
             )}
           </View>
+          {/* End Home Renovation */}
 
+          {/* Economic Indicators */}
           <View
             style={{
               marginTop: -10,
@@ -793,7 +817,7 @@ const ReportScreen = () => {
                   horizontal
                   bounces={false}
                   showsHorizontalScrollIndicator={false}
-                  data={users}
+                  data={economics}
                   renderItem={({ item, index }) => (
                     <View style={{ marginHorizontal: 4 }}>
                       <ReportCard
@@ -819,13 +843,15 @@ const ReportScreen = () => {
                   title="Econominc Indicators"
                   date="2 Feb 2021"
                   imagesArray={imgs2}
-                  updates={users.length}
+                  updates={economics.length}
                   backgroundColor="rgba(81,141,231, 0.2)"
                 />
               </View>
             )}
           </View>
+          {/* End Economic Indicators */}
 
+          {/* Community development */}
           <View
             style={{
               marginTop: -10,
@@ -887,6 +913,7 @@ const ReportScreen = () => {
               </View>
             )}
           </View>
+          {/* End Community development */}
         </View>
       </ScrollView>
     </SafeAreaView>
