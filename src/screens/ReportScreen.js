@@ -72,7 +72,7 @@ const ReportScreen = () => {
     });
     setCommunities(newUserCommunitData);
   }
-  
+
   // SET IMAGE THUMBNAIL
   useEffect(() => {
     const communityThumbnailsData = createImageThumbnailArray(communityData);
@@ -174,7 +174,6 @@ const ReportScreen = () => {
   useEffect(() => {
     filterUserCommunitData();
   }, []);
-
 
   if (loading) {
     return <Loader />;
@@ -683,6 +682,7 @@ const ReportScreen = () => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={recentSales}
+                    keyExtractor={(item) => item.mlsNumber}
                     renderItem={({ item }) => {
                       return (
                         <RecentSaleCard
@@ -743,6 +743,7 @@ const ReportScreen = () => {
                   <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id}
                     data={homeRenovation}
                     renderItem={({ item, index }) => (
                       <View>
@@ -802,28 +803,34 @@ const ReportScreen = () => {
                   title="Economic Indicators"
                   date="20th Dec 2020"
                 />
-
-                <FlatList
-                  horizontal
-                  bounces={false}
-                  showsHorizontalScrollIndicator={false}
-                  data={economics}
-                  renderItem={({ item, index }) => (
-                    <View style={{ marginHorizontal: 4 }}>
-                      <ReportCard
-                        title={item.indicator}
-                        imgUrl={item.img}
-                        dataSource={item.dataSource}
-                        category={item.categoryIndicator}
-                        propziImpact={item.propziImpact}
-                        desc={item.description}
-                        index={index}
-                        key={index}
-                        width={width - 29}
-                      />
-                    </View>
-                  )}
-                />
+                {economics.length > 0 ? (
+                  <FlatList
+                    horizontal
+                    bounces={false}
+                    showsHorizontalScrollIndicator={false}
+                    data={economics}
+                    keyExtractor={(item) => item.mlsNumber}
+                    renderItem={({ item, index }) => (
+                      <View style={{ marginHorizontal: 4 }}>
+                        <ReportCard
+                          title={item.indicator}
+                          imgUrl={item.img}
+                          dataSource={item.dataSource}
+                          category={item.categoryIndicator}
+                          propziImpact={item.propziImpact}
+                          desc={item.description}
+                          index={index}
+                          key={index}
+                          width={width - 29}
+                        />
+                      </View>
+                    )}
+                  />
+                ) : (
+                  <Text style={{ textAlign: "center", color: "red" }}>
+                    No Data
+                  </Text>
+                )}
               </>
             ) : (
               <View>
@@ -864,6 +871,7 @@ const ReportScreen = () => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={community}
+                    keyExtractor={(item) => item.id}
                     renderItem={({ item, index }) => {
                       return (
                         <ReportCard
@@ -876,7 +884,6 @@ const ReportScreen = () => {
                           dataSource={item.dataSource}
                           desc={item.description}
                           category={item.category}
-                          index={index}
                           key={index}
                           title={item.heading}
                         />
