@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { dbh } from "../../firebase/index";
 import {
   StyleSheet,
@@ -18,12 +17,12 @@ import ModalDropdown from "react-native-modal-dropdown";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
+import { RecentSalesContext } from "../components/providers/RecentSaleProvider";
 import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
 import RecentSaleCard from "../components/Cards/RecentSales";
-import { imgs2 } from "../../assets/reportImagesAndIcons/reportCircleImages";
 import {
   arrowOne,
   arrowTwo,
@@ -32,7 +31,10 @@ import {
   dropDownIconTwo,
   dropDownIconThree,
 } from "../../assets/reportImagesAndIcons/reportIcons";
-import { createImageThumbnailArray } from "../utils/helper";
+import {
+  createImageThumbnailArray,
+  createImageThumbnailArrayFromRepliers,
+} from "../utils/helper";
 
 import { colors } from "../styles";
 
@@ -42,12 +44,13 @@ const ReportScreen = () => {
   const { user } = useContext(AuthContext);
   const { property } = useContext(PropertyDataContext);
   const { communityData } = useContext(CommunityDataContext);
+  const { recentSales } = useContext(RecentSalesContext);
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow1, setShouldShow1] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [recentSalesBool, setRecentSalesBool] = useState(false);
-  const [recentSales, setRecentSales] = useState([]);
+  const [recentSalesThumbnails, setRecentSalesThumbnails] = useState([]);
   const [dateToggle, setDateToggle] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -69,11 +72,15 @@ const ReportScreen = () => {
     });
     setCommunities(newUserCommunitData);
   }
-
+  // console.warn(recentSales);
   // SET IMAGE THUMBNAIL
   useEffect(() => {
     const communityThumbnailsData = createImageThumbnailArray(communityData);
     setCommunityThumbnails(communityThumbnailsData);
+    const recentSalesImageThumbnails = createImageThumbnailArrayFromRepliers(
+      recentSales
+    );
+    setRecentSalesThumbnails(recentSalesImageThumbnails);
   }, []);
 
   // GET ECONOMIC DATA
@@ -169,22 +176,19 @@ const ReportScreen = () => {
   }, []);
 
   // FETCH RECENT SALES DATA
-  useEffect(() => {
-    const RECENT_SALES_ENDPOINT =
-      "https://api.repliers.io/listings?streetNumber=45&streetName=Bristol&sortBy=createdOnDesc&resultsPerPage=100&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT";
-    axios(RECENT_SALES_ENDPOINT, {
-      method: "GET",
-      headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
-    })
-      .then((res) => {
-        console.log(res.data.listings);
-
-        setRecentSales(res.data.listings);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const RECENT_SALES_ENDPOINT = `https://api.repliers.io/listings?streetNumber=${property.streetNumber}&streetName=${property.streetName}&sortBy=createdOnDesc&resultsPerPage=100&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT`;
+  //   axios(RECENT_SALES_ENDPOINT, {
+  //     method: "GET",
+  //     headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
+  //   })
+  //     .then((res) => {
+  //       setRecentSales(res.data.listings);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // }, []);
 
   if (loading) {
     return <Loader />;
@@ -688,7 +692,7 @@ const ReportScreen = () => {
                   backgroundColor="rgba(100, 179, 65, 0.3)"
                 />
 
-                {recentSales.length > 0 ? (
+                {recentSales?.length > 0 ? (
                   <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -720,11 +724,11 @@ const ReportScreen = () => {
               <>
                 <ReportRectangleCard
                   arrowUrl={arrowThree}
-                  onPress={() => setRecentSalesBool(!recentSales)}
+                  onPress={() => setRecentSalesBool(!recentSalesBool)}
                   title="Recent Sales"
                   date="3 Feb 2021"
-                  // imagesArray={communityThumbnails}
-                  updates={recentSales.length}
+                  imagesArray={recentSalesThumbnails}
+                  updates={recentSales?.length}
                   backgroundColor="rgba(100, 179, 65, 0.3)"
                 />
               </>
@@ -842,7 +846,7 @@ const ReportScreen = () => {
                   onPress={() => setShouldShow1(!shouldShow1)}
                   title="Econominc Indicators"
                   date="2 Feb 2021"
-                  imagesArray={imgs2}
+                  imagesArray={[]}
                   updates={economics.length}
                   backgroundColor="rgba(81,141,231, 0.2)"
                 />
