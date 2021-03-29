@@ -72,7 +72,7 @@ const ReportScreen = () => {
     });
     setCommunities(newUserCommunitData);
   }
-  // console.warn(recentSales);
+  
   // SET IMAGE THUMBNAIL
   useEffect(() => {
     const communityThumbnailsData = createImageThumbnailArray(communityData);
@@ -175,20 +175,6 @@ const ReportScreen = () => {
     filterUserCommunitData();
   }, []);
 
-  // FETCH RECENT SALES DATA
-  // useEffect(() => {
-  //   const RECENT_SALES_ENDPOINT = `https://api.repliers.io/listings?streetNumber=${property.streetNumber}&streetName=${property.streetName}&sortBy=createdOnDesc&resultsPerPage=100&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT`;
-  //   axios(RECENT_SALES_ENDPOINT, {
-  //     method: "GET",
-  //     headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
-  //   })
-  //     .then((res) => {
-  //       setRecentSales(res.data.listings);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // }, []);
 
   if (loading) {
     return <Loader />;
