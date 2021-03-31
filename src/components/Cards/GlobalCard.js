@@ -34,7 +34,10 @@ export default function GlobalCard({
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <Text style={{ color: "#999" }}>From {from}</Text>
-        <Text style={styles.desc}>{desc.substr(0, 110) + "...."}</Text>
+        <Text style={styles.desc}>
+          {desc.substr(0, 110) + "...."}
+        </Text>
+        <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
         {propziImpact == "" ? null : (
           <TouchableOpacity
             onPress={() => Alert.alert(propziImpact)}
