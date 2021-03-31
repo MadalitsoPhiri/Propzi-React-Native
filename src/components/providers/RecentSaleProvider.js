@@ -5,11 +5,10 @@ import { PropertyDataContext } from "../providers/PropertyDataProvider";
 export const RecentSalesContext = React.createContext({});
 
 const RecentSalesProvider = ({ children }) => {
-  const { property } = useContext(PropertyDataContext);
+  const { repliers } = useContext(PropertyDataContext);
   const [isRecentSalesLoading, setIsRecentSalesLoading] = useState(false);
   const [recentSales, setRecentSales] = useState([]);
-
-  const RECENT_SALES_ENDPOINT = `https://api.repliers.io/listings?streetNumber=${property.streetNumber}&streetName=${property.streetName}&sortBy=createdOnDesc&resultsPerPage=100&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT`;
+  const RECENT_SALES_ENDPOINT = `https://api.repliers.io/listings?streetNumber=${repliers.streetNumber}&streetName=${repliers.streetName}&sortBy=createdOnDesc&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT`;
 
   useEffect(() => {
     setIsRecentSalesLoading(true);
