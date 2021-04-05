@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexWrap: "wrap",
     overflow: "hidden",
+    marginHorizontal:16
   },
 
   cardImage: {

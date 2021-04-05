@@ -26,6 +26,7 @@ export default function HomeScreen({ navigation }) {
   const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
   const { communityData, isLoading } = useContext(CommunityDataContext);
   const communityDevelopments = randomizeArray(communityData.slice(0, 6));
+  const cardData = [1,2,3];
 
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
@@ -135,7 +136,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.homeHeading}>Your home finance offers</Text>
         <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
           <TouchableOpacity style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
           </TouchableOpacity>
@@ -180,15 +181,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingHorizontal: 16,
     backgroundColor: "white",
   },
   todayContainer: {
     marginTop: 20,
+    paddingHorizontal:16,
   },
   today: {
     fontSize: 36,
     fontWeight: "bold",
+   
   },
   date: {
     fontSize: 17,
@@ -213,24 +215,29 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
     marginTop: 30,
+    paddingHorizontal:16
   },
 
   smallCardContainer: {
     marginTop: 24,
+    paddingHorizontal:16
   },
 
   homeOffers: {
     // marginBottom: 400,
+    paddingHorizontal:16
   },
 
   homeSubHeading: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
+    paddingHorizontal:16
   },
 
   homeOffers: {
     flex: 1,
+    paddingHorizontal:16
   },
 
   pill: {
