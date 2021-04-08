@@ -1,21 +1,20 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn
+  C:\Program Files\nodejs\node.exe C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-vector-icons
 
 PATH: 
-  /Library/Java/JavaVirtualMachines/jdk1.8.0_281.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_281.jdk/Contents/Home/bin:/Users/patrickkabwe/Library/Android/sdk/emulator:/Users/patrickkabwe/Library/Android/sdk/tools:/Users/patrickkabwe/Library/Android/sdk/tools/bin:/Users/patrickkabwe/Library/Android/sdk/platform-tools:/Users/patrickkabwe/Library/Android/sdk/emulator:/Users/patrickkabwe/Library/Android/sdk/tools:/Users/patrickkabwe/Library/Android/sdk/tools/bin:/Users/patrickkabwe/Library/Android/sdk/platform-tools
+  C:\Users\victor c\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\victor c\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Users\victor c\AppData\Local\Microsoft\WindowsApps;C:\Users\victor c\AppData\Roaming\npm;C:\Users\victor c\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  15.6.0
+  14.16.0
 
 Platform: 
-  darwin x64
+  win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:69:26)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\victor c\Desktop\Propzi-app-react-native-dev\node_modules\@babel\generator\node_modules\.bin'
 
 npm manifest: 
   {
