@@ -13,6 +13,7 @@ import PropziUpgradesScreen from "./PropziUpgradesScreen";
 import PropziVisit from "./PropziVisit";
 import Loader from "../components/Loader";
 import PropertyType from "./PropertyType";
+import changeDefault from "./changeDefault";
 import CondoSearchScreen from "./CondoSearchScreen";
 import {Entypo} from "@expo/vector-icons";
 
@@ -100,6 +101,145 @@ export default MainAppStack = ({ navigation }) => {
               />
             </TouchableOpacity>
           ),
+        }}
+      />
+
+
+<Stack.Screen
+        name="search"
+        component={SearchHomeScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+                      )
+        }}
+      />
+
+
+<Stack.Screen
+        name="changeDefault"
+        component={changeDefault}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+                      )
+        }}
+      />
+
+
+<Stack.Screen
+        name="propertyType"
+        component={PropertyType}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),    headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+                      ),
+        }}
+      />
+
+
+<Stack.Screen
+        name="condoSearch"
+        component={CondoSearchScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: ({}) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+          )
+        }}
+      />
+
+<Stack.Screen
+        name="upgrades"
+        component={PropziUpgradesScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <BarsIcon
+                width={25}
+                height={25}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),headerLeft: null
         }}
       />
     </Stack.Navigator>

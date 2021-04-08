@@ -1,15 +1,25 @@
 import React,{ useContext } from "react";
-import {View,Text,StyleSheet,ScrollView,Dimensions,Animated} from "react-native";
-import { Ionicons,AntDesign} from '@expo/vector-icons';
+import {View,Text,StyleSheet,ScrollView,Dimensions,Animated,Pressable} from "react-native";
+import { Ionicons,AntDesign,Feather,Entypo } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { PropertyDataContext } from "../providers/PropertyDataProvider";
 
 
 
 const {width,height} = Dimensions.get("screen")
-const CaroselData = [1,2,3]
 
 
 
-export default function HomeCard({ data, to }) {
+
+export default function HomeCard({ properties, to, navigation }) {
+  const {defaultHome, setdefaultHome } = useContext(PropertyDataContext);
+  let CaroselData = []
+  if(properties.length > 5){
+    CaroselData = properties.slice(0,5)
+  }else{
+    CaroselData = [1,...properties]
+  }
+  
   const scrollX = new Animated.Value(0)
   let position = Animated.divide(scrollX, width)
 return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
@@ -18,42 +28,56 @@ return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
 <ScrollView horizontal pagingEnabled contentContainerStyle={{marginBottom:20}} onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { x: scrollX } } }]
                     )} showsHorizontalScrollIndicator={false}>
-      <View style={styles.carouselItem}>
-      <View style={styles.cardHeader}>
-        <AntDesign name="home" size={100} color={"#46D0B6"}/>
-        <Text style={styles.propziPrice}>
-          {data.propziPrice != "" ? (
-            <Text>{data.propziPrice}</Text>
-          ) : (
-            <Text>Calculating</Text>
-          )}
-        </Text>
-        <Text>Propzi Price</Text>
-      </View>
-
-      <View style={styles.cardFooter}>
-        <View>
-          <Text>Propzi Visit</Text>
-          <Text>12/01/21</Text>
-        </View>
-        <View>
-          <Text>CMA Price</Text>
-          <Text>
-            {data.cmaPrice != "" ? (
-              <Text>{data.cmaPrice}</Text>
-            ) : (
-              <Text>Calculating</Text>
-            )}
-          </Text>
-        </View>
-      </View>
-      </View>
-      <View style={[styles.carouselItem,{alignItems:"center"}]}>
-        <Text>Comming Soon!</Text>
-      </View>
+                      {properties.map((data,index)=>{
+                       
+                        if(index>3){
+                         return
+                        }
+              
+                        return  <View style={styles.carouselItem} key={index}>
+                           {data.isDefault ? <Pressable style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,position:"absolute",borderRadius:30,zIndex:1,top:"8%",right:"5%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>Default</Text></Pressable>:null}
+                        <View style={styles.cardHeader}>
+                         
+                          <AntDesign name="home" size={100} color={"#46D0B6"}/>
+                          <Text style={styles.propziPrice}>
+                            {data.cmaPrice != "" ? (
+                              <Text style={{ fontFamily:"Poppins-Bold"}}>{data.cmaPrice}</Text>
+                            ) : (
+                              <Text style={{ fontFamily:"Poppins-Medium",color:"gray"}}>Calculating</Text>
+                            )}
+                          </Text>
+                          <Text style={{ fontFamily:"Poppins-Medium",}}>Propzi Price</Text>
+                        </View>
+                  
+                        <View style={styles.cardFooter}>
+                          <View>
+                            <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Propzi Visit</Text>
+                            <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>12/01/21</Text>
+                          </View>
+                          <View>
+                            <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Last Sold Price</Text>
+                            <Text>
+                              {console.log("last:",data.repliers.soldPrice)}
+                              {data.repliers.soldPrice != null ? (
+                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{'$'+ Math.round(data.repliers.soldPrice).toLocaleString()}</Text>
+                              ) : (
+                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
+                              )}
+                            </Text>
+                          </View>
+                        </View>
+                        </View>
+                      })}
+     
+      <TouchableOpacity onPress={()=>{
+         navigation.navigate("propertyType")
+      }}>
       <View style={[styles.carouselItem,{alignItems:"center",}]}>
-      <Text>Comming Soon!</Text>
+      <View style={{marginBottom:10}}><Feather name="plus-circle" size={50} color="gray" /></View>
+        <Text style={{fontFamily:"Poppins-Medium",fontSize:17}}>Add Another Property</Text>
       </View>
+      </TouchableOpacity>
+   
   </ScrollView>
  <View style={styles.dotView}>
                     {CaroselData.map((_, i) => {
@@ -89,12 +113,14 @@ const styles = StyleSheet.create({
      borderRadius:10,
      alignSelf:"center",
      shadowColor:"#000",
-     shadowOffset:{width:0,height:10},
-     shadowOpacity:0.05,
+     shadowOffset:{width:5,height:10},
+     shadowOpacity:0.08,
      shadowRadius:12,
      height:height / 3,
      justifyContent:"center",
-     padding:16
+     padding:16,
+     borderWidth:0.195,
+     borderColor:"gray"
 
      
  
