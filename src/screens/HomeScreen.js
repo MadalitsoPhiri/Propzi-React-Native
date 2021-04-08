@@ -79,7 +79,7 @@ export default function HomeScreen({ navigation }) {
             <View style={{flex:1}}><Text style={styles.address}>Address</Text>
           <Text
             style={styles.actualAddress}
-          >{`${property.streetNumber} ${property.streetName}, ${property.neighbourhood},${property.city}`}</Text></View>
+          >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
           <View>
           <Entypo name="chevron-with-circle-right" size={28} color="gray" />
           </View>
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   addressContainer:{
-    paddingVertical:10,paddingHorizontal:10,borderColor:"gray",borderWidth:0.195,backgroundColor:"white",
+    paddingVertical:10,paddingHorizontal:10,borderColor: 'rgba(158, 150, 158, .5)',borderWidth:1,backgroundColor:"white",
     borderRadius:10,shadowColor:"#000",
      shadowOffset:{width:5,height:10},
      shadowOpacity:0.08,

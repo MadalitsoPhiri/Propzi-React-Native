@@ -61,9 +61,9 @@ export default function changeDefault({navigation,route}){
             {route.params.list.map((property,index)=>{
                 return ( <TouchableOpacity onPress={()=>handlePropertySelected(property)} style={styles.addressContainer}>
                     <View style={{flex:1}}><Text style={styles.address}>Address</Text>
-                  <Text
-                    style={styles.actualAddress}
-                  >{`${property.streetNumber} ${property.streetName}, ${property.neighbourhood},${property.city}`}</Text></View>
+                    <Text
+            style={styles.actualAddress}
+          >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber} ,${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
                   <View>
                   {property.isDefault?<MaterialIcons name="radio-button-checked" size={28} color="gray"/>:<MaterialIcons name="radio-button-unchecked" size={28} color="gray"/>}
                   </View>
@@ -79,10 +79,20 @@ export default function changeDefault({navigation,route}){
 
 const styles = StyleSheet.create({
     addressContainer:{
-        paddingVertical:10,paddingHorizontal:10,borderColor:"gray",borderWidth:0.195,backgroundColor:"white",
+        paddingVertical:10,paddingHorizontal:10,borderColor: 'rgba(158, 150, 158, .5)',borderWidth:1,backgroundColor:"white",
         borderRadius:10,shadowColor:"#000",
          shadowOffset:{width:5,height:10},
          shadowOpacity:0.08,
          shadowRadius:12,marginTop:16,
-        flexDirection:"row",alignItems:"center",marginHorizontal:16}
+        flexDirection:"row",alignItems:"center",marginHorizontal:16},
+        address: {
+            marginTop: 10,
+            fontSize: 16,
+            fontFamily:"Poppins-Medium",
+          },
+          actualAddress: {
+            fontWeight: "300",
+            fontFamily:"Poppins-Medium",
+            color:"gray"
+          },
 })

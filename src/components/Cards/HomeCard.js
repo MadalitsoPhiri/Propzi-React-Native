@@ -35,7 +35,14 @@ return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
                         }
               
                         return  <View style={styles.carouselItem} key={index}>
-                           {data.isDefault ? <Pressable style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,position:"absolute",borderRadius:30,zIndex:1,top:"8%",right:"5%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>Default</Text></Pressable>:null}
+                          <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                            <View  style={[{paddingHorizontal:15,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1}]}>
+                            <Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"gray"}}>{data.repliers.address.unitNumber == "" ? `${data.streetNumber} ${data.streetName}`:`${data.repliers.address.unitNumber}, ${data.streetNumber} ${data.streetName}`}</Text>
+                            </View>
+                         
+                           {data.isDefault ? <Pressable style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>Default</Text></Pressable>:null}
+                           </View>
+                        
                         <View style={styles.cardHeader}>
                          
                           <AntDesign name="home" size={100} color={"#46D0B6"}/>
@@ -52,7 +59,7 @@ return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
                         <View style={styles.cardFooter}>
                           <View>
                             <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Propzi Visit</Text>
-                            <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>12/01/21</Text>
+                            <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
                           </View>
                           <View>
                             <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Last Sold Price</Text>
@@ -119,8 +126,8 @@ const styles = StyleSheet.create({
      height:height / 3,
      justifyContent:"center",
      padding:16,
-     borderWidth:0.195,
-     borderColor:"gray"
+     borderWidth:1,
+     borderColor: 'rgba(158, 150, 158, .5)'
 
      
  
