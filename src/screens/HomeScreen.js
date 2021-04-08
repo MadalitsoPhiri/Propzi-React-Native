@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,15 +17,18 @@ import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
 import { randomizeArray } from "../utils/helper";
-
+import { Ionicons,AntDesign,Feather,Entypo } from '@expo/vector-icons';
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
 const { width } = Dimensions.get("screen");
 
+
 export default function HomeScreen({ navigation }) {
-  const { isPropertyDataLoaded, property } = useContext(PropertyDataContext);
+  const { isPropertyDataLoaded,Properties,setProperties,defaultHome, setdefaultHome } = useContext(PropertyDataContext);
+  const property = Properties[0]
   const { communityData, isLoading } = useContext(CommunityDataContext);
   const communityDevelopments = randomizeArray(communityData.slice(0, 6));
+ 
 
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
@@ -70,21 +73,29 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.date}>
             {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
-          <Text style={styles.address}>Address</Text>
+          <TouchableOpacity onPress={()=>{
+            navigation.navigate("changeDefault",{list:[...Properties]})
+          }} style={styles.addressContainer}>
+            <View style={{flex:1}}><Text style={styles.address}>Address</Text>
           <Text
             style={styles.actualAddress}
-          >{`${property.streetNumber} ${property.streetName}, ${property.neighbourhood},${property.city}`}</Text>
-          <Pressable onPress={() => navigation.navigate("manual")}>
+          >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
+          <View>
+          <Entypo name="chevron-with-circle-right" size={28} color="gray" />
+          </View>
+  
+          </TouchableOpacity>
+          {/* <Pressable onPress={() => navigation.navigate("manual")}>
             <Text
               style={{ alignSelf: "flex-end", borderWidth: 1, padding: 10 }}
             >
               Add property
             </Text>
-          </Pressable>
+          </Pressable> */}
         </View>
 
-        <HomeCard data={property} />
-        {/* {console.warn(homeState.address)} */}
+        <HomeCard  properties={Properties} navigation={navigation}/>
+        {console.log(Properties)}
         <Button
           title={"See Your Report"}
           width={btnSize.LARGE_WIDTH}
@@ -135,7 +146,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.homeHeading}>Your home finance offers</Text>
         <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
           <TouchableOpacity style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
           </TouchableOpacity>
@@ -156,6 +167,7 @@ export default function HomeScreen({ navigation }) {
             pagingEnabled
             bounces={false}
             data={HomeBankOffersCardData}
+            showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
               <View style={{ marginHorizontal: 4 }}>
                 <HomeBankFinance
@@ -179,26 +191,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingHorizontal: 16,
     backgroundColor: "white",
   },
   todayContainer: {
     marginTop: 20,
+    paddingHorizontal:16,
   },
   today: {
     fontSize: 36,
     fontWeight: "bold",
+    fontFamily:"Poppins-Bold",
+   
   },
   date: {
     fontSize: 17,
     marginTop: 5,
+    fontFamily:"Poppins-Medium"
   },
   address: {
     marginTop: 10,
     fontSize: 16,
+    fontFamily:"Poppins-Medium",
   },
   actualAddress: {
     fontWeight: "300",
+    fontFamily:"Poppins-Medium",
+    color:"gray"
   },
   learnMore: {
     textAlign: "center",
@@ -212,24 +230,30 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
     marginTop: 30,
+    paddingHorizontal:16,
+    fontFamily:"Poppins-Medium",
   },
 
   smallCardContainer: {
     marginTop: 24,
+    paddingHorizontal:16
   },
 
   homeOffers: {
     // marginBottom: 400,
+    paddingHorizontal:16
   },
 
   homeSubHeading: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
+    paddingHorizontal:16
   },
 
   homeOffers: {
     flex: 1,
+    paddingHorizontal:16
   },
 
   pill: {
@@ -243,4 +267,12 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     paddingHorizontal: 10,
   },
+  addressContainer:{
+    paddingVertical:10,paddingHorizontal:10,borderColor: 'rgba(158, 150, 158, .5)',borderWidth:1,backgroundColor:"white",
+    borderRadius:10,shadowColor:"#000",
+     shadowOffset:{width:5,height:10},
+     shadowOpacity:0.08,
+     shadowRadius:12,marginTop:16,
+    flexDirection:"row",alignItems:"center"}
+  
 });

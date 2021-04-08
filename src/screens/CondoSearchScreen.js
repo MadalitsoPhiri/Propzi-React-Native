@@ -496,11 +496,11 @@ export default function CondoSearchScreen({navigation}) {
       headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
     };
 
-    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}`;
+    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo`;
 
-    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U`;
+    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U&class=condo`;
 
-    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}`;
+    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo`;
 
      console.log(REPLIERS_ENDPOINT_WITHOUT_STATUS_U)
     fetch(REPLIERS_ENDPOINT_WITHOUT_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json())
@@ -722,7 +722,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
       <ScrollView contentContainerStyle={{paddingBottom: searchResults ? "5%":"0%"}}>
       {searchResults && searchResults.data ? 
       searchResults.data.map((result,index) => (
-        <TouchableOpacity onPress={()=>handleSelect(index)}style={{height:40}}><Text key={index} style={{color:"#B9B9B9",fontSize:13,padding:20}}>{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleSelect(index)}style={{height:40}}><Text key={index} style={{color:"gray",fontSize:13,padding:20}}>{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text></TouchableOpacity>
       ))
       :null}
        

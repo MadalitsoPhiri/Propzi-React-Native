@@ -9,8 +9,10 @@ import { useFonts } from 'expo-font';
 import {Entypo} from "@expo/vector-icons";
 
 
+
 const {width} = Dimensions.get("window");
 const BORDER_WIDTH = 2
+
 
 const styles = StyleSheet.create({
   pill: {
@@ -78,11 +80,32 @@ export default function PropziUpgradesScreen({navigation}){
         streetName: property.address.streetName,
         streetNumber: property.address.streetNumber,
         unitNumber: property.address.unitNumber,
-        Ammenities:ammenities
+        Ammenities:ammenities,
+        repliers:property,
+        isDefault:true
+
       };
   
-   
-      dbh
+
+
+
+      dbh.collection("UserDetails")
+      .doc(user.uid)
+      .collection("Property").where("isDefault", "==", true)
+      .get()
+      .then((querySnapshot) => {
+
+        if (querySnapshot.size != 0) {
+          //User already has property
+          querySnapshot.forEach((doc) => {
+            dbh.collection("UserDetails")
+      .doc(user.uid)
+      .collection("Property").doc(doc.id).update({isDefault:false})
+       
+     
+        });
+
+        dbh
         .collection("UserDetails")
         .doc(user.uid)
         .collection("Property")
@@ -91,7 +114,10 @@ export default function PropziUpgradesScreen({navigation}){
           (info) => {
             info.get().then((ds) => {
               if (ds.data()) {
-                 navigation.replace("Main");
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'Main'}],
+                });
                
               }
             });
@@ -101,6 +127,40 @@ export default function PropziUpgradesScreen({navigation}){
             setLoading(false)
           }
         );
+        }else{
+          dbh
+          .collection("UserDetails")
+          .doc(user.uid)
+          .collection("Property")
+          .add(dataToSave)
+          .then(
+            (info) => {
+              info.get().then((ds) => {
+                if (ds.data()) {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{name: 'Main'}],
+                  });
+                 
+                }
+              });
+            },
+            (err) => {
+              console.log(err.message)
+              setLoading(false)
+            }
+          );
+        }
+
+         
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
+
+
+   
+     
     
     }
 
@@ -148,7 +208,9 @@ export default function PropziUpgradesScreen({navigation}){
 
     
   
-   
+    if (isLoading) {
+      return <Loader text="adding property..."/>;
+    }
       
     return(<SafeAreaView style={{marginHorizontal:18,marginTop:"2%",height:"100%"}}>
          <ScrollView showsVerticalScrollIndicator={false}>
@@ -202,7 +264,7 @@ export default function PropziUpgradesScreen({navigation}){
             <Chip icon="" onPress={() => setAlwaysSunny(!alwaysSunny)} style={{backgroundColor:alwaysSunny ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:alwaysSunny ? "#ffffff":"#46D0B6",fontSize:16}}>Always Sunny</Text></Chip>
             <Chip icon="" onPress={() => setCloseToSchool(!closeToSchool)} style={{backgroundColor:closeToSchool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:closeToSchool ? "#ffffff":"#46D0B6",fontSize:16}}>Close to School</Text></Chip>
             <Chip icon="" onPress={() => setSwimmingPool(!swimmingPool)} style={{backgroundColor:swimmingPool ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}><Text style={{color:swimmingPool ? "#ffffff":"#46D0B6",fontSize:16}}>Swimming Pool</Text></Chip>
-            <Chip  icon="" onPress={() => setHotTub(!hotTub)} style={{backgroundColor:hotTub ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:hotTub ? "#ffffff":"#46D0B6",fontSize:16}}>Hot Tub</Text></Chip>
+            <Chip icon="" onPress={() => setHotTub(!hotTub)} style={{backgroundColor:hotTub ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:hotTub ? "#ffffff":"#46D0B6",fontSize:16}}>Hot Tub</Text></Chip>
             <Chip  icon="" onPress={() => setCloseToChurch(!closeToChurch)} style={{backgroundColor:closeToChurch ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:closeToChurch ? "#ffffff":"#46D0B6",fontSize:16}}>Close to Church</Text></Chip>
             <Chip  icon="" onPress={() => setBackyardDeck(!backyardDeck)} style={{backgroundColor:backyardDeck ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}}  ><Text style={{color:backyardDeck ? "#ffffff":"#46D0B6",fontSize:16}}>Backyard Deck</Text></Chip>
             <Chip  icon="" onPress={() => setBigBedrooms(!bigBedrooms)} style={{backgroundColor:bigBedrooms ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:16,borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:bigBedrooms ? "#ffffff":"#46D0B6",fontSize:16}}>Big Bedrooms</Text></Chip>

@@ -16,7 +16,6 @@ const CommunitDataProvider = ({ children }) => {
       docs.forEach((doc) => {
         communityList.push(doc.data());
         newArray = randomizeArray(communityList);
-        // console.warn(doc.id,docs.docs[0].);
         setCommunityData(newArray);
         setIsLoading(false);
       });

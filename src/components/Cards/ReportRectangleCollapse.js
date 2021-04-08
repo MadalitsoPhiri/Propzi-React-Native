@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { styles } from "./cardStyle";
 
 const ReportRectangleCollapse = ({
@@ -16,10 +11,7 @@ const ReportRectangleCollapse = ({
 }) => {
   return (
     <TouchableOpacity
-      style={[
-        styles.card,
-        { marginBottom: 20, backgroundColor: backgroundColor },
-      ]}
+      style={[styles.card, { marginBottom: 30, backgroundColor, height: 90 }]}
       onPress={onPress}
     >
       <View style={styles.cardContent}>
