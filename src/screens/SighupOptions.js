@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 // TODO:// Configure the title
-export default function LoginScreen({navigation}) {
+export default function SighupOptions({navigation}) {
 
   const handlepress = () => {
     Alert.alert(
