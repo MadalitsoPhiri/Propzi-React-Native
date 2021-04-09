@@ -63,7 +63,7 @@ export default function changeDefault({navigation,route}){
                     <View style={{flex:1}}><Text style={styles.address}>Address</Text>
                     <Text
             style={styles.actualAddress}
-          >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber} ,${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
+          >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
                   <View>
                   {property.isDefault?<MaterialIcons name="radio-button-checked" size={28} color="gray"/>:<MaterialIcons name="radio-button-unchecked" size={28} color="gray"/>}
                   </View>

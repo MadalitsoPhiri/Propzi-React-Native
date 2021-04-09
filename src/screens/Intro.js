@@ -153,7 +153,7 @@ export default function Intro({ navigation }) {
           <TouchableOpacity
             onPress={() => { 
               setViewedOnboarding()
-              navigation.replace('signUp')
+              navigation.replace('signupOptions')
           }}
             style={{ padding: 5 }}
           >

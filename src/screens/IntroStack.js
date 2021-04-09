@@ -7,7 +7,7 @@ import PropziLogo from "../../assets/PropziLogo.svg"
 import forgotpassword from "./Forgotpassword";
 import {Entypo} from "@expo/vector-icons";
 import {TouchableOpacity} from 'react-native';
-
+import SignupOptions from  "./SignupOptions";
 import {
     Dimensions,
   } from "react-native";
@@ -24,6 +24,7 @@ export default IntroStack = ()=>{
     return(<IntroStackNavigator.Navigator initialScreen={Intro}>
         <IntroStackNavigator.Screen name="intro" component={Intro} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} /> }}/>
         <IntroStackNavigator.Screen name="login" component={LoginScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} /> }}/>
+        <IntroStackNavigator.Screen name="signupOptions" component={signupOptions} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} /> }}/>
         <IntroStackNavigator.Screen name="signUp" component={SignUpScreen} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} /> }}/>
         <IntroStackNavigator.Screen name="forgot" component={forgotpassword} options={{ headerTitle: props => <PropziLogo height={height* 0.1} width={width*0.2} style={{marginBottom:"5%"}} /> ,headerLeft: ({size}) =>(
            

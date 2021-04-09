@@ -22,7 +22,7 @@ export default function HomeCard({ properties, to, navigation }) {
   
   const scrollX = new Animated.Value(0)
   let position = Animated.divide(scrollX, width)
-return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
+return (<View style={{width,marginTop:15,marginBottom:30}}>
 
 
 <ScrollView horizontal pagingEnabled contentContainerStyle={{marginBottom:20}} onScroll={Animated.event(
@@ -35,7 +35,7 @@ return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
                         }
               
                         return  <View style={styles.carouselItem} key={index}>
-                          <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                          <View style={{flexDirection:"row",justifyContent:"space-between",marginVertical:10}}>
                             <View  style={[{paddingHorizontal:15,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1}]}>
                             <Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"gray"}}>{data.repliers.address.unitNumber == "" ? `${data.streetNumber} ${data.streetName}`:`${data.repliers.address.unitNumber}, ${data.streetNumber} ${data.streetName}`}</Text>
                             </View>
@@ -45,7 +45,7 @@ return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
                         
                         <View style={styles.cardHeader}>
                          
-                          <AntDesign name="home" size={100} color={"#46D0B6"}/>
+                          <AntDesign name="home" size={width/3.8} color={"#46D0B6"}/>
                           <Text style={styles.propziPrice}>
                             {data.cmaPrice != "" ? (
                               <Text style={{ fontFamily:"Poppins-Bold"}}>{data.cmaPrice}</Text>
@@ -79,7 +79,7 @@ return (<View style={{width,height:height/2.5,marginTop:15,marginBottom:20}}>
       <TouchableOpacity onPress={()=>{
          navigation.navigate("propertyType")
       }}>
-      <View style={[styles.carouselItem,{alignItems:"center",}]}>
+      <View style={[styles.carouselItemCustom,{alignItems:"center",}]}>
       <View style={{marginBottom:10}}><Feather name="plus-circle" size={50} color="gray" /></View>
         <Text style={{fontFamily:"Poppins-Medium",fontSize:17}}>Add Another Property</Text>
       </View>
@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
      shadowOffset:{width:5,height:10},
      shadowOpacity:0.08,
      shadowRadius:12,
-     height:height / 3,
      justifyContent:"center",
      padding:16,
      borderWidth:1,
@@ -132,6 +131,26 @@ const styles = StyleSheet.create({
      
  
   },
+
+  carouselItemCustom:{
+    width:width - 32,
+    margin:16,
+    backgroundColor:"white",
+    borderRadius:10,
+    alignSelf:"center",
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:10},
+    shadowOpacity:0.08,
+    shadowRadius:12,
+    justifyContent:"center",
+    padding:16,
+    minHeight:height/2.78,
+    borderWidth:1,
+    borderColor: 'rgba(158, 150, 158, .5)'
+
+    
+
+ },
   cardContainer: {
     marginTop: 20,
     marginBottom: 60,
