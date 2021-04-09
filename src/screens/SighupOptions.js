@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 // TODO:// Configure the title
-export default function SignupOptions({navigation}) {
+export default function LoginScreen({navigation}) {
 
   const handlepress = () => {
     Alert.alert(
@@ -37,12 +37,12 @@ export default function SignupOptions({navigation}) {
   <TouchableOpacity onPress={handlepress} style={{backgroundColor:"#1c1e2a",marginBottom:7,marginTop:7,height:50,borderRadius:12}}>
      <View style={styles.buttoncontainer}>
       <View>
-      <Image source={require('../../assets/icons/apple.png')}  style={{ width: 20, height: 20,marginRight:6 }}/>
+      <Image source={require('../../assets/icons/apple.png')}  style={{ width: 20, height: 20,marginRight:10 }}/>
     
       </View>
 
 
-      <View style={{ flex: 4,}}>
+      <View style={{ flex: 4,height:50}}>
       <Text style={{color:"white"}}>Sign in with Apple</Text> 
       </View>
       <View>
@@ -55,12 +55,12 @@ export default function SignupOptions({navigation}) {
   <TouchableOpacity onPress={handlepress} style={{backgroundColor:"#5d7cb3",marginBottom:7,marginTop:7,height:50,borderRadius:12}}>
   <View style={styles.buttoncontainer}>
       <View>
-      <Image source={require('../../assets/icons/facebook.png')}  style={{ width: 20, height: 20,marginRight:6 }}/>
+      <Image source={require('../../assets/icons/facebook.png')}  style={{ width: 20, height: 20,marginRight:10 }}/>
     
       </View>
 
 
-      <View style={{ flex: 4,}}>
+      <View style={{ flex: 4,height:50}}>
       <Text style={{color:"white"}}>Continue with Facebook</Text> 
       </View>
       <View>
@@ -74,12 +74,12 @@ export default function SignupOptions({navigation}) {
 
   <View style={styles.buttoncontainer}>
       <View>
-      <Image source={require('../../assets/icons/google.png')}  style={{ width: 20, height: 20,marginRight:6 }}/>
+      <Image source={require('../../assets/icons/google.png')}  style={{ width: 20, height: 20,marginRight:10 }}/>
     
       </View>
 
 
-      <View style={{ flex: 4,}}>
+      <View style={{ flex: 4,height:50}}>
       <Text style={{color:"white"}}>Continue with Google</Text> 
       </View>
      
@@ -93,12 +93,12 @@ export default function SignupOptions({navigation}) {
 
   <View style={styles.buttoncontainer}>
       <View>
-      <Image source={require('../../assets/icons/email.png')}  style={{ width: 20, height: 20,marginRight:6 }}/>
+      <Image source={require('../../assets/icons/email.png')}  style={{ width: 20, height: 20,marginRight:10 }}/>
     
       </View>
 
 
-      <View style={{ flex: 4,}}>
+      <View style={{ flex: 4,height:50}}>
       <Text style={{color:"grey"}}>Continue with Email</Text> 
       </View>
       <View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   buttoncontainer:{
     flex: 1,
     padding: 20,
-    
+paddingTop:10,
     flexDirection: 'row'
   },
 
