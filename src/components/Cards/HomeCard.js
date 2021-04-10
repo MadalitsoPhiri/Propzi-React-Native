@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
      justifyContent:"center",
      padding:16,
      borderWidth:1,
-     borderColor: 'rgba(158, 150, 158, .5)'
+     borderColor: 'rgba(158, 150, 158, .5)',
+     elevation:8
 
      
  
@@ -146,7 +147,8 @@ const styles = StyleSheet.create({
     padding:16,
     minHeight:height/2.78,
     borderWidth:1,
-    borderColor: 'rgba(158, 150, 158, .5)'
+    borderColor: 'rgba(158, 150, 158, .5)',
+    elevation:8
 
     
 

@@ -273,6 +273,7 @@ const styles = StyleSheet.create({
      shadowOffset:{width:5,height:10},
      shadowOpacity:0.08,
      shadowRadius:12,marginTop:16,
-    flexDirection:"row",alignItems:"center"}
+    flexDirection:"row",alignItems:"center", elevation:8},
+   
   
 });

@@ -170,20 +170,7 @@ export default function Intro({ navigation }) {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 16 }}>Already a member?</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setViewedOnboarding()
-                navigation.replace('login')
-              }}
-              style={{ padding: 5 }}
-            >
-              <Text
-                style={{ fontSize: 16, color: "#34d1b4", marginLeft: "2%" }}
-              >
-                Login
-              </Text>
-            </TouchableOpacity>
+            
           </View>
         </View>
       </View>

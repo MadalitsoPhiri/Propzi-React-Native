@@ -11,16 +11,19 @@ import {
   SafeAreaView,
   Alert,
   Dimensions,
+  Platform
 } from "react-native";
 import { AntDesign, Entypo, FontAwesome} from '@expo/vector-icons';
 import PropziLogo from "../../assets/PropziLogo.svg";
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Google from 'expo-google-app-auth';
 import Loader from "../components/Loader";
+import { firebase,dbh} from "../../firebase";
 
 // TODO:// Configure the title
 const {width,height} = Dimensions.get("window") 
-export default function singupOptions({navigation}) {
+var provider = new firebase.auth.GoogleAuthProvider();
+export default function SignupOptions({navigation}) {
   const [isLoading,setLoading] = useState(false);
 
   const handlepress = () => {
@@ -86,7 +89,7 @@ export default function singupOptions({navigation}) {
     setLoading(true)
     try {
       const result = await Google.logInAsync({
-        //androidClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
+        androidClientId: `520048464069-drl8djviqeoa9crvdv5q05ighkb5eq1m.apps.googleusercontent.com`,
         iosClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
         scopes: ['profile', 'email'],
       });
@@ -145,7 +148,7 @@ export default function singupOptions({navigation}) {
   }
   return (
     <SafeAreaView style={{backgroundColor:"#fff"}}>
-    <ScrollView style={[styles.authContainer,{height}]}>
+    <ScrollView style={[styles.authContainer]}>
     <PropziLogo
               height={54}
               width={97}
@@ -153,9 +156,9 @@ export default function singupOptions({navigation}) {
             />
 <Text style={[styles.headerText,{marginHorizontal:20}]}> Discover the true value of your home</Text>
 
-<View style={{marginTop:20,marginHorizontal:20,height:"100%"}}>
+<View style={{marginTop:20,marginHorizontal:20,height:Platform.OS === 'ios' ?"100%":height * 0.667}}>
   
-  <TouchableOpacity onPress={handleAppleClick} style={{backgroundColor:"#1c1e2a",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+  {Platform.OS === 'ios' ?<TouchableOpacity onPress={handleAppleClick} style={{backgroundColor:"#000000",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
     
     <View style={{justifyContent:"space-between",flexDirection:"row"}}>
     <AntDesign name="apple1" size={20} color="white" />
@@ -168,7 +171,7 @@ export default function singupOptions({navigation}) {
       <Entypo name="chevron-right" size={24} color="white" />
   
  
-  </TouchableOpacity>
+  </TouchableOpacity>:null}
 
 
   <TouchableOpacity onPress={handlepress} style={{backgroundColor:"#4c659d",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
@@ -221,11 +224,13 @@ export default function singupOptions({navigation}) {
   </TouchableOpacity>
   
 
- 
-    <Text style={{color:"grey",fontSize:11,marginTop:30,position:"absolute",bottom:0}}>By using this app, you agree to the <Text style={{fontWeight:"bold"}}>Terms and Conditions</Text>and <Text style={{fontWeight:"bold"}}>Privacy Policy</Text>.You also agree to receive product related emails from Prozi which you can unsubscribe at any time.</Text>
-
+    
+   
+  <Text style={{color:"grey",fontSize:11,position:"absolute",bottom:0,marginTop:20,textAlign:"center"}}>By using this app, you agree to the <Text style={{fontWeight:"bold"}}>Terms and Conditions</Text> and <Text style={{fontWeight:"bold"}}>Privacy Policy</Text>.You also agree to receive product related emails from Propzi which you can unsubscribe at any time.</Text>
 </View>
+
     </ScrollView>
+    
     </SafeAreaView>
   );
 
@@ -237,7 +242,7 @@ const styles = StyleSheet.create({
   authContainer: {
     paddingLeft: 20,
     paddingRight:20,
-    height:"100%",
+    height,
     paddingTop:"2%",
    backgroundColor:"#fff"
   },
