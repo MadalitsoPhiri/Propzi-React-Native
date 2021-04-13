@@ -65,10 +65,11 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                             <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Last Sold Price</Text>
                             <Text>
                               {console.log("last:",data.repliers.soldPrice)}
-                              {data.repliers.soldPrice != null ? (
-                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{'$'+ Math.round(data.repliers.soldPrice).toLocaleString()}</Text>
+                              {data.repliers.soldPrice == null || data.repliers.soldPrice == "0.00" || data.repliers.soldPrice == "" ? (
+                                 <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
+                               
                               ) : (
-                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
+                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{'$'+ Math.round(data.repliers.soldPrice).toLocaleString()}</Text>
                               )}
                             </Text>
                           </View>

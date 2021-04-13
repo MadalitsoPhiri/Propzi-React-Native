@@ -496,11 +496,11 @@ export default function CondoSearchScreen({navigation}) {
       headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
     };
 
-    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo`;
+    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale`;
 
-    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U&class=condo`;
+    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U&class=condo&type=sale`;
 
-    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo`;
+    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale`;
 
      console.log(REPLIERS_ENDPOINT_WITHOUT_STATUS_U)
     fetch(REPLIERS_ENDPOINT_WITHOUT_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json())
@@ -520,7 +520,7 @@ export default function CondoSearchScreen({navigation}) {
                    setproperty(obj.listings[0])
                    setpropertyFound(true)
                   
-                   console.log(obj.listings[0])
+                   console.log(JSON.stringify(obj.listings[0]))
              }
            }).catch(err=>{
              console.log(err)
@@ -531,7 +531,7 @@ export default function CondoSearchScreen({navigation}) {
             setproperty(obj.listings[0])
             setpropertyFound(true)
            
-            console.log(obj.listings[0])
+            console.log(JSON.stringify(obj.listings[0]))
           }
         }).catch(err=>{
           console.log(err.message)
@@ -542,7 +542,7 @@ export default function CondoSearchScreen({navigation}) {
        setproperty(obj.listings[0])
        setpropertyFound(true)
      
-       console.log(obj.listings[0])
+       console.log(JSON.stringify(obj.listings[0]))
      }
 }).catch(err=>{
   console.log(err.message)
