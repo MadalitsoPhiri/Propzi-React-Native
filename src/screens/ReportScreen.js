@@ -40,7 +40,7 @@ import { colors } from "../styles";
 
 const { width } = Dimensions.get("window");
 
-const ReportScreen = () => {
+const ReportScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const { property } = useContext(PropertyDataContext);
   const { communityData } = useContext(CommunityDataContext);
@@ -691,7 +691,13 @@ const ReportScreen = () => {
                               ? `https://cdn.repliers.io/${item.images[0]}`
                               : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
                           }
-                          title={`${item?.address?.streetNumber} ${item?.address?.streetName}, ${item?.address?.unitNumber ? 'Unit ' +item?.address?.unitNumber :'' }`}
+                          title={`${item?.address?.streetNumber} ${
+                            item?.address?.streetName
+                          }, ${
+                            item?.address?.unitNumber
+                              ? "Unit " + item?.address?.unitNumber
+                              : ""
+                          }`}
                           address={`${item?.address?.neighborhood}, ${item?.address?.city}`}
                           desc={item.details.description}
                           soldFor={item?.soldPrice}
@@ -886,6 +892,8 @@ const ReportScreen = () => {
                           category={item.category}
                           key={index}
                           title={item.heading}
+                          projectURL={item.projectUrl}
+                          to={navigation}
                         />
                       );
                     }}
