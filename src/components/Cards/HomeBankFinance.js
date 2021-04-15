@@ -3,18 +3,30 @@ import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors } from "../../styles";
 import Button from "../Button";
-import FinanceIcon from '../../../assets/FinanceHome.svg'
+import FinanceIcon from "../../../assets/FinanceHome.svg";
+import { AntDesign } from "@expo/vector-icons";
 
-export default function HomeFinanceOffersCard({ width, title, term, specialRate, APR }) {
+export default function HomeFinanceOffersCard({
+  width,
+  title,
+  term,
+  specialRate,
+  APR,
+}) {
   return (
     <View style={[styles.cardContainer, { width }]}>
       <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
-          <Text style={{ marginRight: 15 }}>icon</Text>
+          <AntDesign
+            name="warning"
+            style={{ marginRight: 15 }}
+            size={20}
+            color="grey"
+          />
           <Text style={styles.headerText}>Your approval odds are fair</Text>
         </View>
 
-        <Text>icon</Text>
+        <AntDesign name="warning" size={20} color="grey" />
       </View>
       <View style={styles.line}></View>
       <View style={styles.cardBody}>
