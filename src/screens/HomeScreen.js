@@ -34,37 +34,6 @@ export default function HomeScreen({ navigation }) {
     return <Loader text="" />;
   }
 
-  const HomeBankOffersCardData = [
-    {
-      id: "1",
-      title: "Special Mortgage Rates",
-      term: "5 Year Fixed",
-      specialRate: "2.4%",
-      APR: "2.6%",
-    },
-    {
-      id: "2",
-      title: "Scotiabank Special Mortgage Rates",
-      term: "10 Year Fixed",
-      specialRate: ".8%",
-      APR: "3.0%",
-    },
-    {
-      id: "3",
-      title: "BMO Special Mortgage Rates",
-      term: "5 Year Fixed",
-      specialRate: "2.4%",
-      APR: "4.0%",
-    },
-    {
-      id: "4",
-      title: "CIBC Special Mortgage Rates",
-      term: "8 Year Fixed",
-      specialRate: "2.4%",
-      APR: "4.8%",
-    },
-  ];
-
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
@@ -146,42 +115,10 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.homeHeading}>Your home finance offers</Text>
         <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>Scotiabank</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
-          </TouchableOpacity>
-        </View>
-
-        <>
-          <FlatList
-            horizontal
-            pagingEnabled
-            bounces={false}
-            data={HomeBankOffersCardData}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={{ marginHorizontal: 4 }}>
-                <HomeBankFinance
-                  title={item.title}
-                  term={item.term}
-                  specialRate={item.specialRate}
-                  APR={item.APR}
-                  key={item.id}
-                  width={width - 40}
-                />
-              </View>
-            )}
-          />
-        </>
+        <View style={{ marginHorizontal: 4 }}>
+<HomeBankFinance/>
+</View>
+       
       </View>
     </ScrollView>
   );

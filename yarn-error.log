@@ -1,21 +1,30 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn
+  C:\Program Files\nodejs\node.exe C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  /Library/Java/JavaVirtualMachines/jdk1.8.0_281.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_281.jdk/Contents/Home/bin:/Users/patrickkabwe/Library/Android/sdk/emulator:/Users/patrickkabwe/Library/Android/sdk/tools:/Users/patrickkabwe/Library/Android/sdk/tools/bin:/Users/patrickkabwe/Library/Android/sdk/platform-tools:/Users/patrickkabwe/Library/Android/sdk/emulator:/Users/patrickkabwe/Library/Android/sdk/tools:/Users/patrickkabwe/Library/Android/sdk/tools/bin:/Users/patrickkabwe/Library/Android/sdk/platform-tools
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\victor c\AppData\Local\Microsoft\WindowsApps;C:\Users\victor c\AppData\Roaming\npm;C:\Users\victor c\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  15.6.0
+  14.16.0
 
 Platform: 
-  darwin x64
+  win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:69:26)
+  Error: https://registry.yarnpkg.com/@native-base: Request "https://registry.yarnpkg.com/@native-base" returned a 405
+      at Request.params.callback [as _callback] (C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66997:18)
+      at Request.self.callback (C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
@@ -29,7 +38,8 @@ npm manifest:
     },
     "dependencies": {
       "@expo-google-fonts/inter": "^0.1.0",
-      "@expo/vector-icons": "^12.0.3",
+      "@expo/vector-icons": "^12.0.0",
+      "@native-base": "^2.13.0",
       "@react-native-async-storage/async-storage": "^1.14.1",
       "@react-native-community/checkbox": "^0.5.7",
       "@react-native-community/masked-view": "0.1.10",
@@ -39,6 +49,7 @@ npm manifest:
       "@react-navigation/native": "^5.9.2",
       "@react-navigation/stack": "^5.14.2",
       "@use-expo/font": "^2.0.0",
+      "axios": "^0.21.1",
       "expo": "^40.0.1",
       "expo-app-loading": "^1.0.1",
       "expo-apple-authentication": "~2.2.2",
@@ -49,7 +60,7 @@ npm manifest:
       "expo-status-bar": "~1.0.3",
       "firebase": "7.9.0",
       "formik": "^2.2.6",
-      "react": "^17.0.1",
+      "react": "16.13.1",
       "react-dom": "16.13.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
       "react-native-calendars": "^1.1249.0",
@@ -1528,7 +1539,7 @@ Lockfile:
     dependencies:
       cross-spawn "^6.0.5"
   
-  "@expo/vector-icons@^12.0.0", "@expo/vector-icons@^12.0.3":
+  "@expo/vector-icons@^12.0.0":
     version "12.0.3"
     resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-12.0.3.tgz#d7379a3a6bfd4189bc6aed9b9d295f3aca6a5ece"
     integrity sha512-KlQ1MC2ff/CBYV/Nsu+O7wa712I0plb5N5PdMhYxLbVGW2KkULEbAoFp04nab3R4eej/Tq10G+yjTu04q16n3g==
@@ -2870,6 +2881,13 @@ Lockfile:
     integrity sha512-XWX3OX8Onv97LMk/ftVyBibpGwY5a8SmuxZPzeOxqmuEqUCOM9ZE+uIaD1VNJ5QnvU2UQusvmKbuM1FR8QWGfQ==
     dependencies:
       array-filter "^1.0.0"
+  
+  axios@^0.21.1:
+    version "0.21.1"
+    resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+    integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+    dependencies:
+      follow-redirects "^1.10.0"
   
   babel-plugin-dynamic-import-node@^2.3.3:
     version "2.3.3"
@@ -4389,6 +4407,11 @@ Lockfile:
       "@firebase/remote-config" "0.1.13"
       "@firebase/storage" "0.3.26"
       "@firebase/util" "0.2.40"
+  
+  follow-redirects@^1.10.0:
+    version "1.13.3"
+    resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.3.tgz#e5598ad50174c1bc4e872301e82ac2cd97f90267"
+    integrity sha512-DUgl6+HDzB0iEptNQEXLx/KhTmDb8tZUHSeLqpnjpknR70H0nC2t9N73BK6fN4hOvJ84pKlIQVQ4k5FFlBedKA==
   
   fontfaceobserver@^2.1.0:
     version "2.1.0"
@@ -7000,13 +7023,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
     integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
   
-  react@^17.0.1:
-    version "17.0.1"
-    resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
-    integrity sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==
+  react@16.13.1:
+    version "16.13.1"
+    resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
+    integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
     dependencies:
       loose-envify "^1.1.0"
       object-assign "^4.1.1"
+      prop-types "^15.6.2"
   
   readable-stream@^2.0.1, readable-stream@^2.0.6, readable-stream@^2.2.2, readable-stream@~2.3.6:
     version "2.3.7"
