@@ -17,6 +17,7 @@ import { AntDesign, Entypo, FontAwesome} from '@expo/vector-icons';
 import PropziLogo from "../../assets/PropziLogo.svg";
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Google from 'expo-google-app-auth';
+import * as Facebook from 'expo-facebook';
 import Loader from "../components/Loader";
 import { firebase,dbh} from "../../firebase";
 
@@ -26,12 +27,6 @@ var provider = new firebase.auth.GoogleAuthProvider();
 export default function SignupOptions({navigation}) {
   const [isLoading,setLoading] = useState(false);
 
-  const handlepress = () => {
-    Alert.alert(
-      "facebook",
-      "this feature is not available",)
-   }
- 
     async function handleAppleClick(){
       try {
         const cred = await AppleAuthentication.signInAsync({
@@ -84,7 +79,31 @@ export default function SignupOptions({navigation}) {
       }
     }
    
-
+    handlepress = async()=> {
+      try {
+        await Facebook.initializeAsync({
+          appId: '185801686567133',
+        });
+        const {
+          type,
+          token,
+          expirationDate,
+          permissions,
+          declinedPermissions,
+        } = await Facebook.logInWithReadPermissionsAsync({
+          permissions: ['public_profile'],
+        });
+        if (type === 'success') {
+          // Get the user's name using Facebook's Graph API
+          const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+          Alert.alert('Logged in!', `testing the facebook login ${(await response.json()).name}!`);
+        } else {
+          // type === 'cancel'
+        }
+      } catch ({ message }) {
+        alert(`Facebook Login Error: ${message}`);
+      }
+    }
    signInWithGoogleAsync = async()=> {
     setLoading(true)
     try {

@@ -18,11 +18,12 @@ export default function GlobalCard({
   desc,
   propziImpact,
   to,
+  projectURL,
 }) {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => to.navigate("Report")}
+      onPress={() => to.navigate("WebView", { projectURL })}
     >
       <View style={styles.cardImage}>
         <Image source={{ uri: imgUrl }} style={styles.cardImage} />
@@ -34,9 +35,7 @@ export default function GlobalCard({
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <Text style={{ color: "#999" }}>From {from}</Text>
-        <Text style={styles.desc}>
-          {desc.substr(0, 110) + "...."}
-        </Text>
+        <Text style={styles.desc}>{desc.substr(0, 110) + "...."}</Text>
         <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
         {propziImpact == "" ? null : (
           <TouchableOpacity
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexWrap: "wrap",
     overflow: "hidden",
-    marginHorizontal:16
+    marginHorizontal: 16,
   },
 
   cardImage: {
