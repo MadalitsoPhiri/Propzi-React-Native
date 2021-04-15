@@ -3,7 +3,7 @@ import {View,Text,StyleSheet,ScrollView,Dimensions,Animated} from "react-native"
 
 
 import SignupOptions from  "./SignupOptions";
-
+  
 
 const {width,height} = Dimensions.get("screen")
 const CaroselData = [1,2,3]
