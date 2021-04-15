@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { colors } from "../../styles";
 const { width } = Dimensions.get("screen");
@@ -12,9 +19,14 @@ const ReportCard = ({
   desc,
   propziImpact,
   category,
+  projectURL,
+  to,
 }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => to.navigate("WebView", { projectURL })}
+      style={styles.container}
+    >
       <View>
         <Image
           source={{ uri: imgUrl }}
@@ -48,7 +60,7 @@ const ReportCard = ({
           </View>
         ) : null}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
