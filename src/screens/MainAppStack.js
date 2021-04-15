@@ -128,7 +128,7 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       )
         }}
       />
@@ -157,7 +157,7 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       )
         }}
       />
@@ -185,7 +185,7 @@ export default MainAppStack = ({ navigation }) => {
             </TouchableOpacity>
           ),    headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       ),
         }}
       />
@@ -214,7 +214,7 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
           )
         }}
       />
@@ -322,7 +322,7 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       )
         }}
       />
@@ -376,7 +376,7 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
           )
         }}
       />
