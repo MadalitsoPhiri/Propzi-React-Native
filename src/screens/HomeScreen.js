@@ -5,7 +5,6 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Pressable,
   FlatList,
   Dimensions,
 } from "react-native";
@@ -21,7 +20,6 @@ import { Entypo } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
 const { width } = Dimensions.get("screen");
-import { WebView } from "react-native-webview";
 
 export default function HomeScreen({ navigation }) {
   const {
@@ -120,7 +118,7 @@ export default function HomeScreen({ navigation }) {
         </View>
         {isLoading && <Loader />}
         {communityDevelopments?.length > 0
-          ? communityData?.map((communityDevelopment, i) => {
+          ? communityDevelopments?.map((communityDevelopment, i) => {
               if (
                 communityDevelopment.city.toLowerCase() ==
                 property.city.toLowerCase()
