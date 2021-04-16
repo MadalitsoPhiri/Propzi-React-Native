@@ -81,19 +81,41 @@ export default function SignupOptions({navigation}) {
    
     handlepress = async()=> {
       try {
-        await Facebook.initializeAsync({
-          appId: '185801686567133',
-        });
-        const {
-          type,
-          token,
-          expirationDate,
-          permissions,
-          declinedPermissions,
-        } = await Facebook.logInWithReadPermissionsAsync({
-          permissions: ['public_profile'],
-        });
-        const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+
+
+        if (Platform.OS === 'ios') {
+          await Facebook.initializeAsync({
+            appId: '845016889691335',
+          });
+          const {
+            type,
+            token,
+            expirationDate,
+            permissions,
+            declinedPermissions,
+          } = await Facebook.logInWithReadPermissionsAsync({
+            permissions: ['public_profile'],
+          });
+          const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        }
+        else{
+          await Facebook.initializeAsync({
+            appId: '185801686567133',
+          });
+          const {
+            type,
+            token,
+            expirationDate,
+            permissions,
+            declinedPermissions,
+          } = await Facebook.logInWithReadPermissionsAsync({
+            permissions: ['public_profile'],
+          });
+          const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        }
+
+      
+      
 
         if (result.type === 'success') {
           // Get the user's name using Facebook's Graph API
