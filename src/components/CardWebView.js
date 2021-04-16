@@ -6,7 +6,6 @@ import Loader from "../components/Loader";
 
 export function CardWebView({ route }) {
   let projectURL = route.params.projectURL;
-  const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   if (!projectURL.startsWith("http")) {
@@ -22,7 +21,6 @@ export function CardWebView({ route }) {
     <>
       {isLoading && <Loader text="" />}
       <WebView
-        onLoadProgress={({ nativeEvent }) => setProgress(nativeEvent.progress)}
         onLoadEnd={() => setIsLoading(false)}
         originWhitelist={["*"]}
         source={{ uri: projectURL }}
