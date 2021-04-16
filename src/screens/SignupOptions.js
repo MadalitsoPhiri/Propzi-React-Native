@@ -23,7 +23,7 @@ import { firebase,dbh} from "../../firebase";
 
 // TODO:// Configure the title
 const {width,height} = Dimensions.get("window") 
-var provider = new firebase.auth.GoogleAuthProvider();
+// var provider = new firebase.auth.GoogleAuthProvider();
 export default function SignupOptions({navigation}) {
   const [isLoading,setLoading] = useState(false);
 
@@ -93,17 +93,55 @@ export default function SignupOptions({navigation}) {
         } = await Facebook.logInWithReadPermissionsAsync({
           permissions: ['public_profile'],
         });
-        if (type === 'success') {
+        const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+
+        if (result.type === 'success') {
           // Get the user's name using Facebook's Graph API
-          const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-          Alert.alert('Logged in!', `testing the facebook login ${(await response.json()).name}!`);
+          var cred = firebase.auth.FacebookAuthProvider.credential(result);
+
+          firebase.auth().signInWithCredential(cred).then((credential)=>{
+              //User Succsessfully signed in
+              dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
+      if (docSnapshot.size == 0) {
+        dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
+          fullName:credential.user.displayName,phone:credential.user.phoneNumber,email:credential.user.email,clientIsMobile:true
+      }).then((obj)=>{
+          
+      },(err)=>{
+     setLoading(false)
+     setError(err)
+      })
+      
+      }
+  
+    });
+  
+  
+          }).catch((error) => {
+            setLoading(false)
+            setError(error)
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+  
+          return result.accessToken;
         } else {
-          // type === 'cancel'
+          setLoading(false)
+        return { cancelled: true };
         }
       } catch ({ message }) {
         alert(`Facebook Login Error: ${message}`);
       }
     }
+
+
+
    signInWithGoogleAsync = async()=> {
     setLoading(true)
     try {
@@ -112,11 +150,8 @@ export default function SignupOptions({navigation}) {
         iosClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
         scopes: ['profile', 'email'],
       });
-  
       if (result.type === 'success') {
-
         var cred = firebase.auth.GoogleAuthProvider.credential(result);
-
         firebase.auth().signInWithCredential(cred).then((credential)=>{
             //User Succsessfully signed in
             dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
@@ -129,12 +164,8 @@ export default function SignupOptions({navigation}) {
    setLoading(false)
    setError(err)
     })
-    
     }
-
   });
-
-
         }).catch((error) => {
           setLoading(false)
           setError(error)
