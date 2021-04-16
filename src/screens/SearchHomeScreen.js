@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext,useEffect} from 'react';
 import { StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity} from 'react-native';
 const {width, height} = Dimensions.get("window")
 import { dbh } from "../../firebase";
@@ -369,11 +369,15 @@ export default function SearchHomeScreen({navigation}) {
   const [bathrooms,setBathrooms] = useState("")
   const [bathroomsPlus,setBathroomsPlus] = useState("")
   const [sqft,setSqft] = useState("")
-
+  const [ammenities,setAmenities] = useState([])
   const [bedroomVisible, setbedroomVisible] = React.useState(false);
   const [bathroomVisible, setbathroomVisible] = React.useState(false);
   const [sqftVisible,setSqftVisible] = React.useState(false);
 
+
+   useEffect(() => {
+    FindAmenities()
+   },[property])
   const showBathroomEdit = () => {
     if(property.details.numBathrooms == null || property.details.numBathrooms == ""){
       setBathrooms("0")
@@ -391,6 +395,45 @@ export default function SearchHomeScreen({navigation}) {
     
     setbathroomVisible(true)
   }
+
+  function arrayUnique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+}
+
+const FindAmenities = ()=>{
+  setAmenities([])
+  if(Object.keys(property).length === 0){
+     return
+  }
+  let CondominiumAmmenities = property.condominium.ammenities
+  let nearbyAmmenities = property.nearby.ammenities
+  let fullAmenities =  arrayUnique(CondominiumAmmenities.concat(nearbyAmmenities))
+  let finalArray = []
+    fullAmenities.forEach((item,index)=>{
+             if(item == null || item == ""){
+              return 
+             }
+            const itemState = {name:item,selected:true}
+          
+              // setAmenities(currentArray)
+              
+              finalArray.push(itemState)
+              return
+  })
+  setAmenities(prevArray => [...prevArray, ...finalArray])
+  console.log(fullAmenities)
+  console.log(ammenities)
+  console.log(property)
+}
+
   const showBedroomEdit = () => {
 
     if(property.details.numBedrooms == null || property.details.numBedrooms == ""){
@@ -496,8 +539,10 @@ export default function SearchHomeScreen({navigation}) {
                setpropertyNotFound(true)
                setisFetching(false)
              }else{
-                   setisFetching(false)
+                   
                    setproperty(obj.listings[0])
+                  
+                   setisFetching(false)
                    setpropertyFound(true)
                   
                    console.log(JSON.stringify(obj.listings[0]))
@@ -508,8 +553,10 @@ export default function SearchHomeScreen({navigation}) {
              setpropertyNotFound(true)
           })
           }else{
-            setisFetching(false)
+            
             setproperty(obj.listings[0])
+           
+            setisFetching(false)
             setpropertyFound(true)
            
             console.log(JSON.stringify(obj.listings[0]))
@@ -520,8 +567,10 @@ export default function SearchHomeScreen({navigation}) {
           setpropertyNotFound(true)
         })
      }else{
-       setisFetching(false)
+       
        setproperty(obj.listings[0])
+       
+       setisFetching(false)
        setpropertyFound(true)
      
        console.log(JSON.stringify(obj.listings[0]))
@@ -667,16 +716,10 @@ const handleSqftTextChange = (e) =>{
   setSqft(e)
 }
 
-const [loaded] = useFonts({
-  'Poppins-Medium':require('../../assets/fonts/Poppins/Poppins-Medium.ttf'),
-  'Poppins-Regular':require('../../assets/fonts/Poppins/Poppins-Regular.ttf'),
-  'Poppins-Bold':require('../../assets/fonts/Poppins/Poppins-Bold.ttf'),
-  'Poppins-Thin':require('../../assets/fonts/Poppins/Poppins-Thin.ttf'),
-
- })
 
 
-if(isLoading || !loaded){
+
+if(isLoading){
 return <Loader text=""/>;
 }
 
@@ -812,7 +855,15 @@ searchResults.data.map((result,index) => (
 </View>
 
 
-<TouchableOpacity onPress={() =>navigation.navigate("upgrades")} style={{marginTop:"20%",alignItems:"center"}}>
+<TouchableOpacity onPress={() =>{
+  if(ammenities.length > 0){
+    navigation.navigate("ammenities")
+    console.log(ammenities)
+  }else{
+    navigation.navigate("upgrades")
+    console.log(ammenities)
+  }
+  }} style={{marginTop:"20%",alignItems:"center"}}>
       <View style={{paddingVertical:2,paddingHorizontal:20,borderRadius:30,flexDirection:"row",borderWidth:3,borderColor:"gray",justifyContent:"center",alignItems:"center"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:20,color:"gray"}}>Next</Text></View>
     </TouchableOpacity>
 </View>
