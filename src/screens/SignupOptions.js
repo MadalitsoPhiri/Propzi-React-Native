@@ -17,7 +17,7 @@ import { AntDesign, Entypo, FontAwesome} from '@expo/vector-icons';
 import PropziLogo from "../../assets/PropziLogo.svg";
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Google from 'expo-google-app-auth';
-import * as Facebook from 'expo-facebook';
+// import * as Facebook from 'expo-facebook';
 import Loader from "../components/Loader";
 import { firebase,dbh} from "../../firebase";
 
@@ -81,8 +81,6 @@ export default function SignupOptions({navigation}) {
    
     handlepress = async()=> {
       try {
-
-
         if (Platform.OS === 'ios') {
           await Facebook.initializeAsync({
             appId: '845016889691335',
@@ -96,7 +94,7 @@ export default function SignupOptions({navigation}) {
           } = await Facebook.logInWithReadPermissionsAsync({
             permissions: ['public_profile'],
           });
-          const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        
         }
         else{
           await Facebook.initializeAsync({
@@ -111,14 +109,14 @@ export default function SignupOptions({navigation}) {
           } = await Facebook.logInWithReadPermissionsAsync({
             permissions: ['public_profile'],
           });
-          const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
         }
 
-      
-      
 
-        if (result.type === 'success') {
+        if (type === 'success') {
           // Get the user's name using Facebook's Graph API
+          const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+          // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+          
           var cred = firebase.auth.FacebookAuthProvider.credential(result);
 
           firebase.auth().signInWithCredential(cred).then((credential)=>{
