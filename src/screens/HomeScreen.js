@@ -1,11 +1,10 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
   TouchableOpacity,
-  Pressable,
   FlatList,
   Dimensions,
 } from "react-native";
@@ -17,18 +16,22 @@ import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
 import { randomizeArray } from "../utils/helper";
-import { Ionicons,AntDesign,Feather,Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
 const { width } = Dimensions.get("screen");
 
-
 export default function HomeScreen({ navigation }) {
-  const { isPropertyDataLoaded,Properties,setProperties,defaultHome, setdefaultHome } = useContext(PropertyDataContext);
-  const property = Properties[0]
+  const {
+    isPropertyDataLoaded,
+    Properties,
+    setProperties,
+    defaultHome,
+    setdefaultHome,
+  } = useContext(PropertyDataContext);
+  const property = Properties[0];
   const { communityData, isLoading } = useContext(CommunityDataContext);
   const communityDevelopments = randomizeArray(communityData.slice(0, 6));
- 
 
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
@@ -42,29 +45,28 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.date}>
             {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
-          <TouchableOpacity onPress={()=>{
-            navigation.navigate("changeDefault",{list:[...Properties]})
-          }} style={styles.addressContainer}>
-            <View style={{flex:1}}><Text style={styles.address}>Address</Text>
-          <Text
-            style={styles.actualAddress}
-          >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
-          <View>
-          <Entypo name="chevron-with-circle-right" size={28} color="gray" />
-          </View>
-  
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("changeDefault", { list: [...Properties] });
+            }}
+            style={styles.addressContainer}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={styles.address}>Address</Text>
+              <Text style={styles.actualAddress}>
+                {property.repliers.address.unitNumber == ""
+                  ? `${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`
+                  : `${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}
+              </Text>
+            </View>
+            <View>
+              <Entypo name="chevron-with-circle-right" size={28} color="gray" />
+            </View>
           </TouchableOpacity>
-          {/* <Pressable onPress={() => navigation.navigate("manual")}>
-            <Text
-              style={{ alignSelf: "flex-end", borderWidth: 1, padding: 10 }}
-            >
-              Add property
-            </Text>
-          </Pressable> */}
         </View>
 
-        <HomeCard  properties={Properties} navigation={navigation}/>
-        {console.log(Properties)}
+        <HomeCard properties={Properties} navigation={navigation} />
+
         <Button
           title={"See Your Report"}
           width={btnSize.LARGE_WIDTH}
@@ -104,6 +106,7 @@ export default function HomeScreen({ navigation }) {
                     propziImpact={communityDevelopment.propziImpact}
                     key={i}
                     to={navigation}
+                    projectURL={communityDevelopment.projectUrl}
                   />
                 );
               }
@@ -132,28 +135,27 @@ const styles = StyleSheet.create({
   },
   todayContainer: {
     marginTop: 20,
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
   },
   today: {
     fontSize: 36,
     fontWeight: "bold",
-    fontFamily:"Poppins-Bold",
-   
+    fontFamily: "Poppins-Bold",
   },
   date: {
     fontSize: 17,
     marginTop: 5,
-    fontFamily:"Poppins-Medium"
+    fontFamily: "Poppins-Medium",
   },
   address: {
     marginTop: 10,
     fontSize: 16,
-    fontFamily:"Poppins-Medium",
+    fontFamily: "Poppins-Medium",
   },
   actualAddress: {
     fontWeight: "300",
-    fontFamily:"Poppins-Medium",
-    color:"gray"
+    fontFamily: "Poppins-Medium",
+    color: "gray",
   },
   learnMore: {
     textAlign: "center",
@@ -167,50 +169,57 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
     marginTop: 30,
-    paddingHorizontal:16,
-    fontFamily:"Poppins-Medium",
+    paddingHorizontal: 16,
+    fontFamily: "Poppins-Medium",
   },
 
   smallCardContainer: {
     marginTop: 24,
-    paddingHorizontal:16
+    paddingHorizontal: 16,
   },
 
   homeOffers: {
     // marginBottom: 400,
-    paddingHorizontal:16
+    paddingHorizontal: 16,
   },
 
   homeSubHeading: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
-    paddingHorizontal:16
+    paddingHorizontal: 16,
   },
 
   homeOffers: {
     flex: 1,
-    paddingHorizontal:16
+    paddingHorizontal: 16,
   },
 
   pill: {
     flex: 1,
-    height: 35,
+    height: 30,
     backgroundColor: "#C4C4C4",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,
     margin: "1%",
     marginTop: "5%",
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
   },
-  addressContainer:{
-    paddingVertical:10,paddingHorizontal:10,borderColor: 'rgba(158, 150, 158, .5)',borderWidth:1,backgroundColor:"white",
-    borderRadius:10,shadowColor:"#000",
-     shadowOffset:{width:5,height:10},
-     shadowOpacity:0.08,
-     shadowRadius:12,marginTop:16,
-    flexDirection:"row",alignItems:"center", elevation:8},
-   
-  
+  addressContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderColor: "rgba(158, 150, 158, .5)",
+    borderWidth: 1,
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 5, height: 10 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    marginTop: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    elevation: 8,
+  },
 });

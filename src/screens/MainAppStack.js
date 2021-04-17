@@ -15,12 +15,15 @@ import Loader from "../components/Loader";
 import PropertyType from "./PropertyType";
 import changeDefault from "./changeDefault";
 import CondoSearchScreen from "./CondoSearchScreen";
-import {Entypo} from "@expo/vector-icons";
+import AmmenitiesScreen from "./AmmenitiesScreen";
+import UpgradesScreen from "./UpgradesScreen";
+import UniqueScreen from "./UniqueScreen";
+import { Entypo,AntDesign } from "@expo/vector-icons";
+import { CardWebView } from "../components/CardWebView";
 
 const { width, height } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
-
 
 export default MainAppStack = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
@@ -45,9 +48,8 @@ export default MainAppStack = ({ navigation }) => {
       });
   }, []);
 
-
   if (isLoading) {
-    return <Loader text=""/>;
+    return <Loader text="" />;
   }
   return hasProperty ? (
     <Stack.Navigator
@@ -70,14 +72,14 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
+          
         }}
       />
       <Stack.Screen
@@ -93,19 +95,19 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
+              <AntDesign name="menuunfold"
                 width={25}
                 height={25}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
+              
             </TouchableOpacity>
           ),
         }}
       />
 
-
-<Stack.Screen
+      <Stack.Screen
         name="search"
         component={SearchHomeScreen}
         options={{
@@ -118,9 +120,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -128,13 +129,41 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       )
         }}
       />
 
 
+
 <Stack.Screen
+        name="ammenities"
+        component={AmmenitiesScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
+        }}
+      />
+
+      <Stack.Screen
         name="changeDefault"
         component={changeDefault}
         options={{
@@ -147,9 +176,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -157,13 +185,39 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       )
         }}
       />
 
+      <Stack.Screen
+        name="WebView"
+        component={CardWebView}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
+        }}
+      />
 
-<Stack.Screen
+      <Stack.Screen
         name="propertyType"
         component={PropertyType}
         options={{
@@ -176,22 +230,21 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
-          ),    headerLeft: ({size}) =>(
+          ),
+          headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
-                      ),
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
         }}
       />
 
-
-<Stack.Screen
+      <Stack.Screen
         name="condoSearch"
         component={CondoSearchScreen}
         options={{
@@ -202,11 +255,10 @@ export default MainAppStack = ({ navigation }) => {
               style={{ marginBottom: "5%" }}
             />
           ),
-          headerRight: ({}) => (
+          headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -214,14 +266,14 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
-          )
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="upgrades"
-        component={PropziUpgradesScreen}
+        component={UpgradesScreen}
         options={{
           headerTitle: (props) => (
             <PropziLogo
@@ -232,14 +284,46 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
-          ),headerLeft: null
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
+        }}
+      />
+
+
+
+<Stack.Screen
+        name="unique"
+        component={UniqueScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
         }}
       />
     </Stack.Navigator>
@@ -264,9 +348,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -275,6 +358,35 @@ export default MainAppStack = ({ navigation }) => {
         }}
       />
 
+
+
+
+<Stack.Screen
+        name="ammenities"
+        component={AmmenitiesScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
+        }}
+      />
       <Stack.Screen
         name="Main"
         component={TabNavigator}
@@ -288,14 +400,14 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
-          ),headerLeft: null
+          ),
+          headerLeft: null,
         }}
       />
 
@@ -312,9 +424,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -322,13 +433,12 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
                       )
         }}
       />
 
-
-<Stack.Screen
+      <Stack.Screen
         name="propertyType"
         component={PropertyType}
         options={{
@@ -341,19 +451,18 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
+          
         }}
       />
 
-
-<Stack.Screen
+      <Stack.Screen
         name="condoSearch"
         component={CondoSearchScreen}
         options={{
@@ -364,11 +473,10 @@ export default MainAppStack = ({ navigation }) => {
               style={{ marginBottom: "5%" }}
             />
           ),
-          headerRight: ({}) => (
+          headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -376,12 +484,12 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({size}) =>(
            
-<TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-with-circle-left" size={32} style={{ marginLeft: 20 }} color="#6FCF97"/></TouchableOpacity>
-          )
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="manual"
         component={ManualAddHomeScreen}
         options={{
@@ -394,20 +502,20 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
+          
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="upgrades"
-        component={PropziUpgradesScreen}
+        component={UpgradesScreen}
         options={{
           headerTitle: (props) => (
             <PropziLogo
@@ -415,21 +523,23 @@ export default MainAppStack = ({ navigation }) => {
               width={width * 0.2}
               style={{ marginBottom: "5%" }}
             />
-          ),
-          headerRight: (props) => (
+          ),headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
-          ),headerLeft: null
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      ),
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="visit"
         component={PropziVisit}
         options={{
@@ -442,16 +552,44 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <BarsIcon
-                width={25}
-                height={25}
+              <AntDesign name="menufold"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
-          ),headerLeft: null
+          ),
+          headerLeft: null,
         }}
       />
+
+<Stack.Screen
+        name="unique"
+        component={UniqueScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
+        }}
+      />
+
     </Stack.Navigator>
   );
 };
