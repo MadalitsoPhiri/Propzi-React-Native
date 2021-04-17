@@ -888,7 +888,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
     navigation.navigate("upgrades")
     console.log(ammenities)
   }}} style={{marginTop:"20%",alignItems:"center"}}>
-            <View style={{paddingVertical:2,paddingHorizontal:20,borderRadius:30,flexDirection:"row",borderWidth:3,borderColor:"gray",justifyContent:"center",alignItems:"center"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:20,color:"gray"}}>Next</Text></View>
+           <View style={{alignSelf:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
           </TouchableOpacity>
 </View>
   </View>:null}
