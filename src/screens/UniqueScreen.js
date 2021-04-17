@@ -1,4 +1,4 @@
-import React,{useState,useContext,useEffect} from 'react';
+import React,{useState,useContext,useEffect,useRef} from 'react';
 import { StyleSheet, Text, View,Dimensions,SafeAreaView,TouchableOpacity,ScrollView,TouchableRipple} from 'react-native';
 import { Chip,Divider } from 'react-native-paper';
 import { dbh } from "../../firebase";
@@ -58,11 +58,26 @@ export default function UniqueScreen({navigation}){
     const [isLoading,setLoading] = useState(false)
     const {user,setUser,property,setproperty} = useContext(AuthContext)
     const [ammenities,setAmenities] = useState([])
+    const didMount = useRef(false);
     
+
+
     useEffect(()=>{
+      if(didMount.current){
+        handlePropertyAdding()
+      }else{
+        didMount.current = true;
+      }
+     
+    },[property])
+
+    useEffect(()=>{
+      
         FindAmenities()
+        
       },[])
 
+      
  
     
     
@@ -163,6 +178,7 @@ export default function UniqueScreen({navigation}){
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
+          setLoading(false)
       });
 
 
@@ -218,8 +234,8 @@ export default function UniqueScreen({navigation}){
       return <Loader text="adding property..."/>;
     }
       
-    return(<SafeAreaView style={{marginTop:"10%",height:"100%"}}>
-         <ScrollView showsVerticalScrollIndicator={false}>
+    return(<SafeAreaView style={{height:"100%"}}>
+         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%"}}>
          <Text style={styles.heading}>What makes your home unique?</Text>
     <Text style={styles.subheading}>Choose details about your home that best describes your home</Text>
           
@@ -237,7 +253,7 @@ export default function UniqueScreen({navigation}){
                 temp["uniqueFeatures"] = ammenities
                 console.log(temp)
                 setproperty(temp)
-                handlePropertyAdding()
+                // handlePropertyAdding()
                 }} style={{alignSelf:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Finish</Text></TouchableOpacity> 
          
             </ScrollView>

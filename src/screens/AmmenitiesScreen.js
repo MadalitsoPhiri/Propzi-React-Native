@@ -49,8 +49,8 @@ export default function AmmenitiesScreen({navigation}){
         console.log(ammenities)
       }
      
-return (<SafeAreaView style={{marginTop:"10%",height:"100%"}}>
-<ScrollView showsVerticalScrollIndicator={false}>
+return (<SafeAreaView style={{height:"100%"}}>
+<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%"}}>
     {property.class == "CondoProperty" ?<Text style={styles.heading}>Are these the latest amenities in your condo building?</Text>:<Text style={styles.heading}>Are these the latest amenities in your house?</Text>}
     <Text style={styles.subheading}>These amenities were listed on the latest MLS listing for your home.</Text>
     {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal:16}} style={{marginTop:"12%"}}><View style={styles.scrollContainer}>

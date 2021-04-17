@@ -515,7 +515,7 @@ export default MainAppStack = ({ navigation }) => {
 
       <Stack.Screen
         name="upgrades"
-        component={PropziUpgradesScreen}
+        component={UpgradesScreen}
         options={{
           headerTitle: (props) => (
             <PropziLogo
@@ -532,7 +532,10 @@ export default MainAppStack = ({ navigation }) => {
               />
             </TouchableOpacity>
           ),
-          headerLeft: null,
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      ),
         }}
       />
 
@@ -559,6 +562,34 @@ export default MainAppStack = ({ navigation }) => {
           headerLeft: null,
         }}
       />
+
+<Stack.Screen
+        name="unique"
+        component={UniqueScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
+        }}
+      />
+
     </Stack.Navigator>
   );
 };

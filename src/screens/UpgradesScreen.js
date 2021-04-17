@@ -44,11 +44,11 @@ export default function UpgradesScreen({navigation}){
         })
         setAmenities(prevArray => [...prevArray, ...finalArray])
         console.log(fullAmenities)
-        console.log(ammenities)
+        // console.log("Ammenities",ammenities)
       }
      
-return (<SafeAreaView style={{marginTop:"10%",height:"100%"}}>
-<ScrollView showsVerticalScrollIndicator={false}>
+return (<SafeAreaView style={{height:"100%"}}>
+<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%"}}>
     <Text style={styles.heading}>Have you done any home upgrades?</Text>
     <Text style={styles.subheading}>Choose renovations that you in your home since you moved in</Text>
     {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal:16}} style={{marginTop:"12%"}}><View style={styles.scrollContainer}>
@@ -57,6 +57,7 @@ return (<SafeAreaView style={{marginTop:"10%",height:"100%"}}>
             let newState = [...ammenities];
             newState[index].selected = !item.selected
             setAmenities(newState)
+            console.log("Ammenities",ammenities)
           }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
         ))}
             </View></ScrollView>:null}
