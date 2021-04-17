@@ -5,7 +5,6 @@ import { colors } from "../../styles";
 import Button from "../Button";
 import FinanceIcon from "../../../assets/FinanceHome.svg";
 import { AntDesign } from "@expo/vector-icons";
-import FinanceIcon from '../../../assets/FinanceHome.svg'
 import { Tab, Tabs, TabHeading } from 'native-base';
 export default function HomeFinanceOffersCard({
   width,
