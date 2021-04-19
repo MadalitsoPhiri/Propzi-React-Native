@@ -3,6 +3,9 @@
     "name": "Propzi",
     "slug": "propzi",
     "version": "1.0.5",
+    "facebookScheme": "fb845016889691335",
+    "facebookAppId": "845016889691335",
+    "facebookDisplayName": "propzi-ios", 
     "orientation": "portrait",
     "icon": "./assets/Propzi-Logo.png",
     "splash": {
