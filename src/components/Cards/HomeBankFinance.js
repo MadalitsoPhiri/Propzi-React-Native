@@ -5,7 +5,7 @@ import { colors } from "../../styles";
 import Button from "../Button";
 import FinanceIcon from "../../../assets/FinanceHome.svg";
 import { AntDesign } from "@expo/vector-icons";
-import { Tab, Tabs, TabHeading } from 'native-base';
+import { Tab, Tabs, TabHeading,ScrollableTab } from 'native-base';
 export default function HomeFinanceOffersCard({
   width,
   title,
@@ -22,11 +22,13 @@ export default function HomeFinanceOffersCard({
         </View>
 
 
-        <Tabs>
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#35d1b9', }} renderTabBar={()=> <ScrollableTab />}>
           <Tab  activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading><View style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
           </View></TabHeading>}>
+            
             <View style={{marginTop:10}}>
+<View  style={[styles.cardContainer, { width }]}>
 
             
           <View style={styles.cardHeader}>
@@ -75,6 +77,8 @@ export default function HomeFinanceOffersCard({
           </Text>
         </TouchableOpacity>
       </View>
+      
+</View>
       </View>
           </Tab>
 
@@ -84,7 +88,7 @@ export default function HomeFinanceOffersCard({
           </View>
           </TabHeading>}>
           <View style={{marginTop:10}}>
-
+          <View  style={[styles.cardContainer, { width }]}>
             
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
@@ -128,6 +132,7 @@ export default function HomeFinanceOffersCard({
         </TouchableOpacity>
       </View>
       </View>
+      </View>
           </Tab>
           <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
             <View style={styles.pill}>
@@ -135,7 +140,7 @@ export default function HomeFinanceOffersCard({
           </View>
           </TabHeading>}>
           <View style={{marginTop:10}}>
-
+          <View  style={[styles.cardContainer, { width }]}>
             
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
@@ -179,6 +184,7 @@ export default function HomeFinanceOffersCard({
         </TouchableOpacity>
       </View>
       </View>
+      </View>
           </Tab>
           <Tab heading={ <TabHeading>
             <View style={styles.pill}>
@@ -186,7 +192,7 @@ export default function HomeFinanceOffersCard({
           </View>
           </TabHeading>}>
           <View style={{marginTop:10}}>
-
+          <View  style={[styles.cardContainer, { width }]}>
             
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
@@ -228,6 +234,7 @@ export default function HomeFinanceOffersCard({
             See details, rates and fees
           </Text>
         </TouchableOpacity>
+      </View>
       </View>
       </View>
           </Tab>
