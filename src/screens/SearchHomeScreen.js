@@ -378,6 +378,8 @@ export default function SearchHomeScreen({navigation}) {
    useEffect(() => {
     FindAmenities()
    },[property])
+
+
   const showBathroomEdit = () => {
     if(property.details.numBathrooms == null || property.details.numBathrooms == ""){
       setBathrooms("0")
@@ -860,11 +862,16 @@ searchResults.data.map((result,index) => (
     navigation.navigate("ammenities")
     console.log(ammenities)
   }else{
-    navigation.navigate("upgrades")
-    console.log(ammenities)
+    let temp = {...property}
+                temp["ammenities"] = ammenities
+                console.log(temp)
+                setproperty(temp)
+                console.log("Ammenities",ammenities)
+                navigation.navigate("upgrades")
+    
   }
   }} style={{marginTop:"20%",alignItems:"center"}}>
-      <View style={{paddingVertical:2,paddingHorizontal:20,borderRadius:30,flexDirection:"row",borderWidth:3,borderColor:"gray",justifyContent:"center",alignItems:"center"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:20,color:"gray"}}>Next</Text></View>
+      <View style={{alignSelf:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
     </TouchableOpacity>
 </View>
 </View>:null}

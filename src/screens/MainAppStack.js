@@ -458,6 +458,10 @@ export default MainAppStack = ({ navigation }) => {
               />
             </TouchableOpacity>
           ),
+          headerLeft: ({size}) =>(
+           
+            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
+                      )
           
         }}
       />

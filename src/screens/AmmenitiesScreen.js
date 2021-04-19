@@ -34,7 +34,7 @@ export default function AmmenitiesScreen({navigation}){
         let fullAmenities =  arrayUnique(CondominiumAmmenities.concat(nearbyAmmenities))
         let finalArray = []
           fullAmenities.forEach((item,index)=>{
-                   if(item == null || item == ""){
+                   if(item == null || item == "" || item == undefined){
                     return 
                    }
                   const itemState = {name:item,selected:true}
