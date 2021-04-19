@@ -92,9 +92,8 @@ export default function SignupOptions({navigation}) {
    
     handlepress = async()=> {
       try {
- 
           await Facebook.initializeAsync({
-            appId: Platform.OS === 'ios'?'845016889691335':'185801686567133',
+            appId: Platform.OS === 'ios' ? '845016889691335':'185801686567133',
           });
           const {
             type,
@@ -106,18 +105,17 @@ export default function SignupOptions({navigation}) {
             permissions: ['public_profile'],
           });
         
-        
-
-        
-
-
+     
+     
+  
+  
         if (type === 'success') {
           // Get the user's name using Facebook's Graph API
           const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
           
-          var cred = firebase.auth.FacebookAuthProvider.credential(token);
-
+          var cred = firebase.auth.FacebookAuthProvider.credential(result);
+  
           firebase.auth().signInWithCredential(cred).then((credential)=>{
               //User Succsessfully signed in
               dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
@@ -192,8 +190,6 @@ export default function SignupOptions({navigation}) {
     
       }
     }
-
-
 
    signInWithGoogleAsync = async()=> {
     setLoading(true)
