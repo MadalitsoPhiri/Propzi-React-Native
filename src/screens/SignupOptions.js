@@ -17,13 +17,12 @@ import { AntDesign, Entypo, FontAwesome} from '@expo/vector-icons';
 import PropziLogo from "../../assets/PropziLogo.svg";
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Google from 'expo-google-app-auth';
-// import * as Facebook from 'expo-facebook';
+import * as Facebook from 'expo-facebook';
 import Loader from "../components/Loader";
 import { firebase,dbh} from "../../firebase";
 
 // TODO:// Configure the title
 const {width,height} = Dimensions.get("window") 
-// var provider = new firebase.auth.GoogleAuthProvider();
 export default function SignupOptions({navigation}) {
   const [isLoading,setLoading] = useState(false);
 
@@ -74,16 +73,28 @@ export default function SignupOptions({navigation}) {
           // handle that the user canceled the sign-in flow
         }
         else {
-          setError(e)
+          Alert.alert(
+            "Alert Title",
+            e.message,
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+          );
+      
         }
       }
     }
    
     handlepress = async()=> {
       try {
-        if (Platform.OS === 'ios') {
+ 
           await Facebook.initializeAsync({
-            appId: '845016889691335',
+            appId: Platform.OS === 'ios'?'845016889691335':'185801686567133',
           });
           const {
             type,
@@ -95,21 +106,9 @@ export default function SignupOptions({navigation}) {
             permissions: ['public_profile'],
           });
         
-        }
-        else{
-          await Facebook.initializeAsync({
-            appId: '185801686567133',
-          });
-          const {
-            type,
-            token,
-            expirationDate,
-            permissions,
-            declinedPermissions,
-          } = await Facebook.logInWithReadPermissionsAsync({
-            permissions: ['public_profile'],
-          });
-        }
+        
+
+        
 
 
         if (type === 'success') {
@@ -117,7 +116,7 @@ export default function SignupOptions({navigation}) {
           const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
           
-          var cred = firebase.auth.FacebookAuthProvider.credential(result);
+          var cred = firebase.auth.FacebookAuthProvider.credential(token);
 
           firebase.auth().signInWithCredential(cred).then((credential)=>{
               //User Succsessfully signed in
@@ -129,7 +128,18 @@ export default function SignupOptions({navigation}) {
           
       },(err)=>{
      setLoading(false)
-     setError(err)
+     Alert.alert(
+      "Alert Title",
+      err.message,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
       })
       
       }
@@ -139,7 +149,18 @@ export default function SignupOptions({navigation}) {
   
           }).catch((error) => {
             setLoading(false)
-            setError(error)
+            Alert.alert(
+              "Alert Title",
+              error.message,
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+              ]
+            );
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -156,7 +177,19 @@ export default function SignupOptions({navigation}) {
         return { cancelled: true };
         }
       } catch ({ message }) {
-        // alert(`Facebook Login Error: ${message}`);
+        Alert.alert(
+          "Alert Title",
+          message,
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+          ]
+        );
+    
       }
     }
 
