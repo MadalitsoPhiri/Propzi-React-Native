@@ -14,20 +14,21 @@ export default function HomeFinanceOffersCard({
   APR,
 }) {
   return (
-    <View style={[styles.cardContainer, { width }]}>
-
+    <View>
+ {/* style={[styles.cardContainer, { width }]} */}
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
           
-        
 
-         
         </View>
 
 
         <Tabs>
-          <Tab heading={ <TabHeading><View style={styles.pill}>
+          <Tab  activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading><View style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
           </View></TabHeading>}>
+            <View style={{marginTop:10}}>
+
+            
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
           <AntDesign
@@ -74,13 +75,17 @@ export default function HomeFinanceOffersCard({
           </Text>
         </TouchableOpacity>
       </View>
+      </View>
           </Tab>
 
-          <Tab heading={ <TabHeading>
+          <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
             <View style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>Scotiabank</Text>
           </View>
           </TabHeading>}>
+          <View style={{marginTop:10}}>
+
+            
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
           <Text style={{ marginRight: 15 }}>icon</Text>
@@ -122,12 +127,16 @@ export default function HomeFinanceOffersCard({
           </Text>
         </TouchableOpacity>
       </View>
+      </View>
           </Tab>
-          <Tab heading={ <TabHeading>
+          <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
             <View style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
           </View>
           </TabHeading>}>
+          <View style={{marginTop:10}}>
+
+            
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
           <Text style={{ marginRight: 15 }}>icon</Text>
@@ -169,12 +178,16 @@ export default function HomeFinanceOffersCard({
           </Text>
         </TouchableOpacity>
       </View>
+      </View>
           </Tab>
           <Tab heading={ <TabHeading>
             <View style={styles.pill}>
             <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
           </View>
           </TabHeading>}>
+          <View style={{marginTop:10}}>
+
+            
           <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
           <Text style={{ marginRight: 15 }}>icon</Text>
@@ -215,6 +228,7 @@ export default function HomeFinanceOffersCard({
             See details, rates and fees
           </Text>
         </TouchableOpacity>
+      </View>
       </View>
           </Tab>
         </Tabs>
