@@ -23,7 +23,7 @@
       "buildNumber": "1.0.5",
       "config": {
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.520048464069-fp3fgl8lfp7b1q9unqiq94cugv74km72"
+          "reservedClientId": "com.googleusercontent.apps.520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0"
         }
       },
       "googleServicesFile": "./GoogleService-Info.plist"

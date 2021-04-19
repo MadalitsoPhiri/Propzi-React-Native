@@ -59,7 +59,7 @@ export default function SignupOptions({navigation}) {
 
       }).catch((error) => {
         setLoading(false)
-        setError(error)
+      
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -164,10 +164,12 @@ export default function SignupOptions({navigation}) {
 
    signInWithGoogleAsync = async()=> {
     setLoading(true)
+    //ios auth client id standalone 520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0.apps.googleusercontent.com
     try {
       const result = await Google.logInAsync({
         androidClientId: `520048464069-drl8djviqeoa9crvdv5q05ighkb5eq1m.apps.googleusercontent.com`,
         iosClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
+        iosStandaloneAppClientId :"520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0.apps.googleusercontent.com",
         scopes: ['profile', 'email'],
       });
       if (result.type === 'success') {
