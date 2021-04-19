@@ -156,7 +156,7 @@ export default function SignupOptions({navigation}) {
         return { cancelled: true };
         }
       } catch ({ message }) {
-        alert(`Facebook Login Error: ${message}`);
+        // alert(`Facebook Login Error: ${message}`);
       }
     }
 
