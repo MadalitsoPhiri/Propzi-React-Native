@@ -5,7 +5,7 @@
     "version": "1.0.5",
     "facebookScheme": "fb845016889691335",
     "facebookAppId": "845016889691335",
-    "facebookDisplayName": "propzi-ios", 
+    "facebookDisplayName": "propzi-ios",
     "orientation": "portrait",
     "icon": "./assets/Propzi-Logo.png",
     "splash": {
@@ -23,7 +23,7 @@
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "bundleIdentifier": "propzi.com.Propzi-Mobile-App",
-      "buildNumber": "1.0.6",
+      "buildNumber": "1.0.7",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0"
