@@ -105,7 +105,6 @@ export default function HomeScreen({ navigation }) {
                     category={communityDevelopment.category}
                     propziImpact={communityDevelopment.propziImpact}
                     key={i}
-                    to={navigation}
                     projectURL={communityDevelopment.projectUrl}
                   />
                 );

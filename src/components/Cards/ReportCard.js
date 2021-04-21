@@ -7,8 +7,8 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { colors } from "../../styles";
+import { useNavigation } from "@react-navigation/native";
 const { width } = Dimensions.get("screen");
 
 const ReportCard = ({
@@ -20,11 +20,15 @@ const ReportCard = ({
   propziImpact,
   category,
   projectURL,
-  to,
 }) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => to.navigate("WebView", { projectURL })}
+      onPress={() =>
+        projectURL && projectURL !== ""
+          ? navigation.navigate("WebView", { projectURL })
+          : null
+      }
       style={styles.container}
     >
       <View>
