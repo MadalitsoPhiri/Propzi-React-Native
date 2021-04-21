@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext,useEffect} from 'react';
 import {Keyboard,StyleSheet, Text,TextInput, View ,Dimensions,ScrollView,Animated,SafeAreaView,TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 const {width, height} = Dimensions.get("window")
 import { dbh } from "../../firebase";
@@ -377,22 +377,56 @@ export default function CondoSearchScreen({navigation}) {
   const [bathrooms,setBathrooms] = useState("")
   const [bathroomsPlus,setBathroomsPlus] = useState("")
   const [sqft,setSqft] = useState("")
-
+  const [ammenities,setAmenities] = useState([])
   const [bedroomVisible, setbedroomVisible] = React.useState(false);
   const [bathroomVisible, setbathroomVisible] = React.useState(false);
   const [sqftVisible,setSqftVisible] = React.useState(false);
   const [unitNumber,setUnitNumber] = React.useState(null)
   const [currrentUnitNumber,setCurrentUnitNumber] = React.useState("")
 
+  useEffect(() => {
+    FindAmenities()
+   },[property])
+
+  function arrayUnique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+}
 
 
-  const [loaded] = useFonts({
-    'Poppins-Medium':require('../../assets/fonts/Poppins/Poppins-Medium.ttf'),
-    'Poppins-Regular':require('../../assets/fonts/Poppins/Poppins-Regular.ttf'),
-    'Poppins-Bold':require('../../assets/fonts/Poppins/Poppins-Bold.ttf'),
-    'Poppins-Thin':require('../../assets/fonts/Poppins/Poppins-Thin.ttf'),
-
-   })
+  const FindAmenities = ()=>{
+    setAmenities([])
+    if(Object.keys(property).length === 0){
+       return
+    }
+    let CondominiumAmmenities = property.condominium.ammenities
+    let nearbyAmmenities = property.nearby.ammenities
+    let fullAmenities =  arrayUnique(CondominiumAmmenities.concat(nearbyAmmenities))
+    let finalArray = []
+      fullAmenities.forEach((item,index)=>{
+               if(item == null || item == ""){
+                return 
+               }
+              const itemState = {name:item,selected:true}
+            
+                // setAmenities(currentArray)
+                
+                finalArray.push(itemState)
+                return
+    })
+    setAmenities(prevArray => [...prevArray, ...finalArray])
+    console.log(fullAmenities)
+    console.log(ammenities)
+    console.log(property)
+  }
+ 
 
   const showBathroomEdit = () => {
     if(property.details.numBathrooms == null || property.details.numBathrooms == ""){
@@ -687,13 +721,13 @@ const handleBathroomPlusEdit = (e) =>{
 const handleSqftTextChange = (e) =>{
   setSqft(e)
 }
-if(isLoading || !loaded){
+if(isLoading){
 return <Loader text=""/>;
 }
 if(unitNumber == null){
 return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}><View style={{height:"100%"}}>
-       
-    <Text style={{padding:16,fontFamily:"Poppins-Regular",fontSize:16}}>Unit Number:</Text>
+       <Text style={{fontFamily:"Poppins-Medium",lineHeight:42,fontSize:28,paddingHorizontal:18,marginTop:"15%"}}>Let's start by finding your home</Text>
+    <Text style={{padding:16,fontFamily:"Poppins-Medium",fontSize:16}}>Enter your Unit Number</Text>
     
    
     <View style={[styles.resultsContainer]}>
@@ -703,8 +737,14 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
    
 
       <View style={{justifyContent: "center",alignItems: "center",marginTop:"10%"}}>
-          <TouchableOpacity onPress={() =>setUnitNumber(currrentUnitNumber)}><Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/></TouchableOpacity>
-          <Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
+      {/* <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/> */}
+        
+       
+
+          <TouchableOpacity onPress={() =>setUnitNumber(currrentUnitNumber)} style={{marginTop:"20%",alignItems:"center"}}>
+            <View style={{paddingVertical:2,paddingHorizontal:20,borderRadius:30,flexDirection:"row",borderWidth:3,borderColor:"gray",justifyContent:"center",alignItems:"center"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:20,color:"gray"}}>Next</Text></View>
+          </TouchableOpacity>
+          
       </View>
       
 </View></TouchableWithoutFeedback>)
@@ -716,13 +756,14 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
 
       <ScrollView style={{height:"100%"}}>
       <Animated.View>
+      <Text style={{fontFamily:"Poppins-Medium",lineHeight:42,fontSize:28,paddingHorizontal:18,marginTop:"15%"}}>Let's start by finding your home</Text>
       <View style={[styles.resultsContainer,{marginTop:"10%"}]}> 
-      <TextInput placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true} style={{height:50,paddingHorizontal:16}}/>
+      <TextInput placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true} style={{height:50,paddingHorizontal:16,fontFamily:"Poppins-Medium"}}/>
       {noResults ? <Text style={{fontSize:20,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>no results</Text>:null}
       <ScrollView contentContainerStyle={{paddingBottom: searchResults ? "5%":"0%"}}>
       {searchResults && searchResults.data ? 
       searchResults.data.map((result,index) => (
-        <TouchableOpacity onPress={()=>handleSelect(index)}style={{height:40}}><Text key={index} style={{color:"gray",fontSize:13,padding:20}}>{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleSelect(index)}style={{height:40}}><Text key={index} style={{color:"gray",fontSize:13,padding:20,fontFamily:"Poppins-Medium"}}>{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text></TouchableOpacity>
       ))
       :null}
        
@@ -783,7 +824,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
       </Dialog>
         </Portal>
       </Animated.View>
-      <Text style={{fontSize:14,padding:16,textAlign:"center",color:"#828282",marginTop:"5%"}}>Enter your address and we will try to search for it automatically.</Text>
+      <Text style={{fontSize:14,padding:20,textAlign:"center",color:"#828282",marginTop:"5%",fontFamily:"Poppins-Medium"}}>Enter your address and we will try to search for it automatically.</Text>
       {isFetching ? <View style={{marginTop:"20%"}}>
         <ActivityIndicator size="large" color="#46D0B6"/>
         <Text style={{fontSize:15,marginTop:"5%",marginHorizontal:20,textAlign:"center"}}>finding your home</Text>
@@ -796,54 +837,59 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
           </View>
         :null}
         {propertyFound ? <View style={{padding:20,marginBottom:"20%"}}>
-    <Text style={{fontSize:24}}>Home Details</Text>
+    <Text style={{fontSize:20,fontFamily:"Poppins-Medium"}}>Please Confirm Home Details Below</Text>
 
 
 
 <View>
 <View style={{marginTop:"10%"}}>
   <View style={{marginBottom:"5%"}}>
-  <Text style={{fontWeight:"500",fontSize:16}}>Address</Text>
-    <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{property.address.streetNumber} {property.address.streetName}  {property.address.neighborhood} {property.address.district} {property.address.state}</Text>
+  <Text style={{fontWeight:"500",fontSize:16,fontFamily:"Poppins-Medium"}}>Address</Text>
+    <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%",fontFamily:"Poppins-Medium"}}>{property.address.streetNumber} {property.address.streetName}  {property.address.neighborhood} {property.address.district} {property.address.state}</Text>
   </View>
 <View style={{flexDirection:"row"}}> 
     <View style={{flex:1}}>
-       <Text style={{fontWeight:"500",fontSize:16}}>Bedrooms</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` number of Bedrooms ${property.details.numBedrooms} + ${property.details.numBedroomsPlus == "" || property.details.numBedroomsPlus == null ?"0":property.details.numBedroomsPlus}`}</Text>
+       <Text style={{fontWeight:"500",fontSize:16,fontFamily:"Poppins-Medium"}}>Bedrooms</Text>
+       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%",fontFamily:"Poppins-Medium"}}>{` number of Bedrooms ${property.details.numBedrooms} + ${property.details.numBedroomsPlus == "" || property.details.numBedroomsPlus == null ?"0":property.details.numBedroomsPlus}`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
-        <TouchableOpacity onPress={showBedroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
+        <TouchableOpacity onPress={showBedroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20,fontFamily:"Poppins-Bold",fontFamily:"Poppins-Bold"}}>Edit</Text></TouchableOpacity>
       </View>
     </View>
 
     <View style={{flexDirection:"row",marginTop:"5%"}}> 
     <View style={{flex:1}}>
-       <Text style={{fontWeight:"500",fontSize:16}}>Bathrooms</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{`number of Bathrooms ${property.details.numBathrooms} + ${property.details.numBathroomsPlus == "" || property.details.numBathroomsPlus == null?"0":property.details.numBathroomsPlus}`}</Text>
+       <Text style={{fontSize:16,fontFamily:"Poppins-Medium"}}>Bathrooms</Text>
+       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%",fontFamily:"Poppins-Medium"}}>{`number of Bathrooms ${property.details.numBathrooms} + ${property.details.numBathroomsPlus == "" || property.details.numBathroomsPlus == null?"0":property.details.numBathroomsPlus}`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
-        <TouchableOpacity onPress={showBathroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
+        <TouchableOpacity onPress={showBathroomEdit}style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20,fontFamily:"Poppins-Bold"}}>Edit</Text></TouchableOpacity>
       </View>
     </View>
 
 
     <View style={{flexDirection:"row",marginTop:"5%"}}> 
     <View style={{flex:1}}>
-       <Text style={{fontWeight:"500",fontSize:16}}>Space:Main Interior</Text>
-       <Text style={{fontWeight:"500",fontSize:14,color:"#A4A4A4",marginTop:"5%"}}>{` Sqft: ${property.details.sqft == null || property.details.sqft == "" ? "----": property.details.sqft }`}</Text>
+       <Text style={{fontSize:16,fontFamily:"Poppins-Medium"}}>Space:Main Interior</Text>
+       <Text style={{fontSize:14,color:"#A4A4A4",marginTop:"5%",fontFamily:"Poppins-Medium"}}>{` Sqft: ${property.details.sqft == null || property.details.sqft == "" ? "----": property.details.sqft }`}</Text>
       </View>
       <View style={{flex:0.5,flexDirection:"row",alignItems:"center",justifyContent: "center"}}>
-        <TouchableOpacity onPress={showSqftDialog} style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20}}>Edit</Text></TouchableOpacity>
+        <TouchableOpacity onPress={showSqftDialog} style={{borderRadius:10, backgroundColor:"#34D1B6",flexDirection:"row",alignItems: "center",justifyContent: "center"}}><Text style={{color:"#ffffff",paddingVertical:10,paddingHorizontal:20,fontFamily:"Poppins-Bold"}}>Edit</Text></TouchableOpacity>
         </View>
 
     </View>
 </View>
     
 
-<TouchableOpacity style={styles.addHomeButton} onPress={()=>{navigation.navigate("upgrades")}}>
-<Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/>
-<Text style={{fontFamily:"Poppins-Regular",fontSize:18,color:"gray"}}>Next</Text>
-</TouchableOpacity>
+<TouchableOpacity onPress={() =>{if(ammenities.length > 0){
+    navigation.navigate("ammenities")
+    console.log(ammenities)
+  }else{
+    navigation.navigate("upgrades")
+    console.log(ammenities)
+  }}} style={{marginTop:"20%",alignItems:"center"}}>
+           <View style={{alignSelf:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
+          </TouchableOpacity>
 </View>
   </View>:null}
         </ScrollView>

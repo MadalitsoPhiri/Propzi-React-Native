@@ -11,6 +11,7 @@ import {Entypo} from "@expo/vector-icons";
 
 
 const {width} = Dimensions.get("window");
+
 const BORDER_WIDTH = 2
 
 
@@ -80,7 +81,7 @@ export default function PropziUpgradesScreen({navigation}){
         streetName: property.address.streetName,
         streetNumber: property.address.streetNumber,
         unitNumber: property.address.unitNumber,
-        Ammenities:ammenities,
+        Ammenities:propammenities,
         repliers:property,
         isDefault:true
 

@@ -5,7 +5,7 @@ import { colors } from "../../styles";
 import Button from "../Button";
 import FinanceIcon from "../../../assets/FinanceHome.svg";
 import { AntDesign } from "@expo/vector-icons";
-
+import { Tab, Tabs, TabHeading,ScrollableTab } from 'native-base';
 export default function HomeFinanceOffersCard({
   width,
   title,
@@ -14,8 +14,24 @@ export default function HomeFinanceOffersCard({
   APR,
 }) {
   return (
-    <View style={[styles.cardContainer, { width }]}>
-      <View style={styles.cardHeader}>
+    <View>
+ {/* style={[styles.cardContainer, { width }]} */}
+<View style={{ flexDirection: "row",paddingHorizontal:16 }}>
+          
+
+        </View>
+
+
+        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#35d1b9', }} renderTabBar={()=> <ScrollableTab />}>
+          <Tab  activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading><View style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
+          </View></TabHeading>}>
+            
+            <View style={{marginTop:10}}>
+<View  style={[styles.cardContainer, { width }]}>
+
+            
+          <View style={styles.cardHeader}>
         <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
           <AntDesign
             name="warning"
@@ -31,11 +47,11 @@ export default function HomeFinanceOffersCard({
       <View style={styles.line}></View>
       <View style={styles.cardBody}>
         <View style={styles.cardBodyLeft}>
-          <Text style={styles.cardBodyLeftTitle}>{title}</Text>
+          <Text style={styles.cardBodyLeftTitle}>Special Mortgage Rates</Text>
           <View style={{ alignItems: "center" }}>
-            <Text>Term: {term}</Text>
-            <Text>Special Rate: {specialRate}</Text>
-            <Text>APR: {APR}</Text>
+            <Text>Term: 5 Year Fixed</Text>
+            <Text>Special Rate: 2.4%</Text>
+            <Text>APR: 2.6%</Text>
           </View>
         </View>
         <View style={styles.cardBodyRight}>
@@ -61,6 +77,169 @@ export default function HomeFinanceOffersCard({
           </Text>
         </TouchableOpacity>
       </View>
+      
+</View>
+      </View>
+          </Tab>
+
+          <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
+            <View style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>Scotiabank</Text>
+          </View>
+          </TabHeading>}>
+          <View style={{marginTop:10}}>
+          <View  style={[styles.cardContainer, { width }]}>
+            
+          <View style={styles.cardHeader}>
+        <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
+          <Text style={{ marginRight: 15 }}>icon</Text>
+          <Text style={styles.headerText}>Your approval odds are fair</Text>
+        </View>
+
+        <Text>icon</Text>
+      </View>
+      <View style={styles.line}></View>
+      <View style={styles.cardBody}>
+        <View style={styles.cardBodyLeft}>
+          <Text style={styles.cardBodyLeftTitle}>Scotiabank Special Mortgage Rates</Text>
+          <View style={{ alignItems: "center" }}>
+            <Text>Term:10 Year Fixed</Text>
+            <Text>Special Rate:.8%</Text>
+            <Text>APR:"3.0%</Text>
+          </View>
+        </View>
+        <View style={styles.cardBodyRight}>
+          <FinanceIcon />
+        </View>
+      </View>
+      <View style={styles.cardFooter}>
+        <Button
+          title="Apply Now"
+          borderRadius={50}
+          width={"75%"}
+          paddingVertical={9}
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              textAlign: "center",
+              color: colors.PRIMARY_COLOR,
+              marginTop: 10,
+            }}
+          >
+            See details, rates and fees
+          </Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </View>
+          </Tab>
+          <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
+            <View style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
+          </View>
+          </TabHeading>}>
+          <View style={{marginTop:10}}>
+          <View  style={[styles.cardContainer, { width }]}>
+            
+          <View style={styles.cardHeader}>
+        <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
+          <Text style={{ marginRight: 15 }}>icon</Text>
+          <Text style={styles.headerText}>Your approval odds are fair</Text>
+        </View>
+
+        <Text>icon</Text>
+      </View>
+      <View style={styles.line}></View>
+      <View style={styles.cardBody}>
+        <View style={styles.cardBodyLeft}>
+          <Text style={styles.cardBodyLeftTitle}>BMO Special Mortgage Rates</Text>
+          <View style={{ alignItems: "center" }}>
+            <Text>Term:5 Year Fixed</Text>
+            <Text>Special Rate:2.4%</Text>
+            <Text>APR:4.0%</Text>
+          </View>
+        </View>
+        <View style={styles.cardBodyRight}>
+          <FinanceIcon />
+        </View>
+      </View>
+      <View style={styles.cardFooter}>
+        <Button
+          title="Apply Now"
+          borderRadius={50}
+          width={"75%"}
+          paddingVertical={9}
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              textAlign: "center",
+              color: colors.PRIMARY_COLOR,
+              marginTop: 10,
+            }}
+          >
+            See details, rates and fees
+          </Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </View>
+          </Tab>
+          <Tab heading={ <TabHeading>
+            <View style={styles.pill}>
+            <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
+          </View>
+          </TabHeading>}>
+          <View style={{marginTop:10}}>
+          <View  style={[styles.cardContainer, { width }]}>
+            
+          <View style={styles.cardHeader}>
+        <View style={[styles.cardHeader, { paddingLeft: 0 }]}>
+          <Text style={{ marginRight: 15 }}>icon</Text>
+          <Text style={styles.headerText}>Your approval odds are fair</Text>
+        </View>
+
+        <Text>icon</Text>
+      </View>
+      <View style={styles.line}></View>
+      <View style={styles.cardBody}>
+        <View style={styles.cardBodyLeft}>
+          <Text style={styles.cardBodyLeftTitle}>CIBC Special Mortgage Rates</Text>
+          <View style={{ alignItems: "center" }}>
+            <Text>Term:8 Year Fixed</Text>
+            <Text>Special Rate:2.4%</Text>
+            <Text>APR:4.8%</Text>
+          </View>
+        </View>
+        <View style={styles.cardBodyRight}>
+          <FinanceIcon />
+        </View>
+      </View>
+      <View style={styles.cardFooter}>
+        <Button
+          title="Apply Now"
+          borderRadius={50}
+          width={"75%"}
+          paddingVertical={9}
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              textAlign: "center",
+              color: colors.PRIMARY_COLOR,
+              marginTop: 10,
+            }}
+          >
+            See details, rates and fees
+          </Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </View>
+          </Tab>
+        </Tabs>
+   
     </View>
   );
 }
@@ -120,5 +299,16 @@ const styles = StyleSheet.create({
 
   cardFooter: {
     marginTop: 20,
+  },
+  pill: {
+    flex: 1,
+    height: 35,
+    backgroundColor: "#C4C4C4",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+    margin: "1%",
+    marginTop: "5%",
+    paddingHorizontal: 10,
   },
 });
