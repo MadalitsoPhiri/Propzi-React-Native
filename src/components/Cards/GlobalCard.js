@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { colors } from "../../styles";
 import PropTypes from "prop-types";
+import { useNavigation } from "@react-navigation/native";
 
 export default function GlobalCard({
   imgUrl,
@@ -17,13 +18,13 @@ export default function GlobalCard({
   from,
   desc,
   propziImpact,
-  to,
   projectURL,
 }) {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => to.navigate("WebView", { projectURL })}
+      onPress={() => navigation.navigate("WebView", { projectURL })}
     >
       <View style={styles.cardImage}>
         <Image source={{ uri: imgUrl }} style={styles.cardImage} />
