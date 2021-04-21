@@ -749,7 +749,7 @@ const ReportScreen = ({ navigation }) => {
                   <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.projectUrl}
                     data={homeRenovation}
                     renderItem={({ item, index }) => (
                       <View>
@@ -815,7 +815,7 @@ const ReportScreen = ({ navigation }) => {
                     bounces={false}
                     showsHorizontalScrollIndicator={false}
                     data={economics}
-                    keyExtractor={(item) => item.mlsNumber}
+                    keyExtractor={(item) => item.img}
                     renderItem={({ item, index }) => (
                       <View style={{ marginHorizontal: 4 }}>
                         <ReportCard
@@ -877,7 +877,7 @@ const ReportScreen = ({ navigation }) => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={community}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.projectUrl}
                     renderItem={({ item, index }) => {
                       return (
                         <ReportCard
@@ -893,7 +893,6 @@ const ReportScreen = ({ navigation }) => {
                           key={index}
                           title={item.heading}
                           projectURL={item.projectUrl}
-                          to={navigation}
                         />
                       );
                     }}
