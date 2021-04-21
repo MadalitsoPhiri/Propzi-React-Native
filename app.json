@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Propzi",
+    "slug": "propzi",
+    "version": "1.0.5",
+    "facebookScheme": "fb845016889691335",
+    "facebookAppId": "845016889691335",
+    "facebookDisplayName": "propzi-ios",
+    "orientation": "portrait",
+    "icon": "./assets/Propzi-Logo.png",
+    "splash": {
+      "image": "./assets/Propzi-Logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "propzi.com.Propzi-Mobile-App",
+      "buildNumber": "1.0.7",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0"
+        }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "android": {
+      "package": "propzi.com.PropziMobileApp",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/Propzi-Logo.png"
+    },
+    "description": ""
+  }
+}

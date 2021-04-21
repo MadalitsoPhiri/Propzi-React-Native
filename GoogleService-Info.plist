@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>520048464069-fp3fgl8lfp7b1q9unqiq94cugv74km72.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.520048464069-fp3fgl8lfp7b1q9unqiq94cugv74km72</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDeRU8JL0NmNyuZ0gYd4I0ihRnL2t1nf-k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>520048464069</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>propzi.com.Propzi-Mobile-App</string>
+	<key>PROJECT_ID</key>
+	<string>propzi-1e9c2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>propzi-1e9c2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:520048464069:ios:6b91c2df91dc4b80d4e0ac</string>
+	<key>DATABASE_URL</key>
+	<string>https://propzi-1e9c2.firebaseio.com</string>
+</dict>
+</plist>

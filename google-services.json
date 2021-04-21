@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "520048464069",
+    "firebase_url": "https://propzi-1e9c2.firebaseio.com",
+    "project_id": "propzi-1e9c2",
+    "storage_bucket": "propzi-1e9c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520048464069:android:fd4951efade647fad4e0ac",
+        "android_client_info": {
+          "package_name": "propzi.com.PropziMobileApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520048464069-ua8k6vtk8734ssecstv4qfumvnfv7ibs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "propzi.com.PropziMobileApp",
+            "certificate_hash": "0c6708adeaaf20d501ef57a782298095772c17d9"
+          }
+        },
+        {
+          "client_id": "520048464069-o0g1hdvfbha6l0te5rn85opract2n7l7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz83gjAFP_PYQo9l_hIFGF71rb-uv9uMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520048464069-o0g1hdvfbha6l0te5rn85opract2n7l7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "520048464069-b409776fhvpcok4morbhqrbah3qupqpj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.google.cloud.solutions.flexenv.PlayChat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
