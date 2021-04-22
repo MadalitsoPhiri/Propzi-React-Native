@@ -21,10 +21,6 @@ import * as Facebook from 'expo-facebook';
 import Loader from "../components/Loader";
 import * as Crypto from 'expo-crypto';
 import { firebase,dbh} from "../../firebase";
-<<<<<<< HEAD
-import HomeBankFinance from "../components/Cards/HomeBankFinance";
-=======
->>>>>>> d6a4732d63dab639bdb91622b182ea7fbb3f7222
 
 // TODO:// Configure the title
 const {width,height} = Dimensions.get("window") 
