@@ -22,7 +22,7 @@ export default function HomeFinanceOffersCard({
         {/* </View> */}
 
 
-        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#35d1b9', }} >
+        <Tabs >
         <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="TD">
             <View style={{marginTop:10}}>
             <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
