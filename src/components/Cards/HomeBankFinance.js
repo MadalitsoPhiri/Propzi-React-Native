@@ -5,7 +5,7 @@ import { colors } from "../../styles";
 import Button from "../Button";
 import FinanceIcon from "../../../assets/FinanceHome.svg";
 import { AntDesign } from "@expo/vector-icons";
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
+import { Container, Header, Content, Tab, Tabs,ScrollableTab } from 'native-base';
 export default function HomeFinanceOffersCard({
   width,
   title,
@@ -22,8 +22,8 @@ export default function HomeFinanceOffersCard({
         {/* </View> */}
 
 
-        <Tabs >
-        <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="TD">
+        <Tabs tabDefaultBg={{backgroundColor:'black'}} tabBarUnderlineStyle={{ backgroundColor: 'none'}}  renderTabBar={()=> <ScrollableTab />}>
+        <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="TD">
             <View style={{marginTop:10}}>
             <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
@@ -82,7 +82,7 @@ export default function HomeFinanceOffersCard({
       </View>
           </Tab>
 
-          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="Scotiabank">
+          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="Scotiabank">
           <View style={{marginTop:10}}>
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
@@ -133,7 +133,7 @@ export default function HomeFinanceOffersCard({
       </View>
       </View>
           </Tab>
-          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="BMO">
+          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="BMO">
           <View style={{marginTop:10}}>
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
@@ -184,7 +184,7 @@ export default function HomeFinanceOffersCard({
       </View>
       </View>
           </Tab>
-          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="CIBC">
+          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="CIBC">
           <View style={{marginTop:10}}>
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
