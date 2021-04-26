@@ -105,7 +105,6 @@ export default function HomeScreen({ navigation }) {
                     category={communityDevelopment.category}
                     propziImpact={communityDevelopment.propziImpact}
                     key={i}
-                    to={navigation}
                     projectURL={communityDevelopment.projectUrl}
                   />
                 );
@@ -118,7 +117,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.homeHeading}>Your home finance offers</Text>
         <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View style={{ marginHorizontal: 4 }}>
+        <View style={{ marginHorizontal: 4,marginTop:6 }}>
 <HomeBankFinance/>
 </View>
        

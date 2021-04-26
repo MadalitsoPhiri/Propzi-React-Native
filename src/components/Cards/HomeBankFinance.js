@@ -5,7 +5,7 @@ import { colors } from "../../styles";
 import Button from "../Button";
 import FinanceIcon from "../../../assets/FinanceHome.svg";
 import { AntDesign } from "@expo/vector-icons";
-import { Tab, Tabs, TabHeading,ScrollableTab } from 'native-base';
+import { Container, Header, Content, Tab, Tabs } from 'native-base';
 export default function HomeFinanceOffersCard({
   width,
   title,
@@ -14,20 +14,19 @@ export default function HomeFinanceOffersCard({
   APR,
 }) {
   return (
-    <View>
+    <View  style={{marginTop:100}}>
+
  {/* style={[styles.cardContainer, { width }]} */}
-<View style={{ flexDirection: "row",paddingHorizontal:16 }}>
-          
+        
 
-        </View>
+        {/* </View> */}
 
 
-        <Tabs tabBarUnderlineStyle={{ backgroundColor: '#35d1b9', }} renderTabBar={()=> <ScrollableTab />}>
-          <Tab  activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading><View style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
-          </View></TabHeading>}>
-            
+        <Tabs >
+        <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="TD">
             <View style={{marginTop:10}}>
+            <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
+
 <View  style={[styles.cardContainer, { width }]}>
 
             
@@ -79,15 +78,14 @@ export default function HomeFinanceOffersCard({
       </View>
       
 </View>
+</View>
       </View>
           </Tab>
 
-          <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
-            <View style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>Scotiabank</Text>
-          </View>
-          </TabHeading>}>
+          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="Scotiabank">
           <View style={{marginTop:10}}>
+<View style={{ flexDirection: "row",paddingHorizontal:16 }}>
+
           <View  style={[styles.cardContainer, { width }]}>
             
           <View style={styles.cardHeader}>
@@ -133,13 +131,12 @@ export default function HomeFinanceOffersCard({
       </View>
       </View>
       </View>
+      </View>
           </Tab>
-          <Tab activeTabStyle={{backgroundColor: '#35d1b9'}} activeTextStyle={{color: '#fff', fontWeight: 'normal'}} heading={ <TabHeading>
-            <View style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
-          </View>
-          </TabHeading>}>
+          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="BMO">
           <View style={{marginTop:10}}>
+<View style={{ flexDirection: "row",paddingHorizontal:16 }}>
+
           <View  style={[styles.cardContainer, { width }]}>
             
           <View style={styles.cardHeader}>
@@ -185,13 +182,12 @@ export default function HomeFinanceOffersCard({
       </View>
       </View>
       </View>
+      </View>
           </Tab>
-          <Tab heading={ <TabHeading>
-            <View style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
-          </View>
-          </TabHeading>}>
+          <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '"#C4C4C4',borderRadius:50,height: 35,}} heading="CIBC">
           <View style={{marginTop:10}}>
+<View style={{ flexDirection: "row",paddingHorizontal:16 }}>
+
           <View  style={[styles.cardContainer, { width }]}>
             
           <View style={styles.cardHeader}>
@@ -237,9 +233,10 @@ export default function HomeFinanceOffersCard({
       </View>
       </View>
       </View>
+      </View>
           </Tab>
         </Tabs>
-   
+    
     </View>
   );
 }
@@ -312,3 +309,49 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+
+
+
+
+
+
+
+
+
+// import React, { useState } from 'react';
+// import { Container, Content, Text, Tabs, Tab, ScrollableTab  } from 'native-base';
+
+// export const TabsExample = (props) => {
+//   const [tabPage, setTabPage] = useState(0);
+
+//   const onChangeTab = (changeTabProps) => {
+// 		const newTabIndex = changeTabProps.i;
+//     setTabPage(newTabIndex);
+//   };
+
+//   return (
+//     <Container>
+//       <Content>
+//         <Tabs 
+//         activeTabStyle={{backgroundColor:'red'}}
+      
+//           page={tabPage} 
+//           onChangeTab={onChangeTab}
+//         >
+//           <Tab activeTextStyle={{color:'white'}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:20,width:100,}} tabStyle={{backgroundColor: 'grey',borderRadius:20,width:100}} heading="Tab 1">
+//             <Text>tab 1</Text>
+//           </Tab>
+//           <Tab activeTextStyle={{color:'white'}} activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:20,width:100}}  tabStyle={{backgroundColor: 'grey',borderRadius:20,width:100}} heading="Tab 2">
+//             <Text>tab 2</Text>
+//           </Tab>
+//         </Tabs>
+//       </Content>
+//     </Container>
+//   )
+// }
+
+
+
+
+

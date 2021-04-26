@@ -12,14 +12,20 @@ const CommunitDataProvider = ({ children }) => {
   let newArray;
   useEffect(() => {
     setIsLoading(true);
-    dbh.collection("Communit").onSnapshot((docs) => {
-      docs.forEach((doc) => {
-        communityList.push(doc.data());
-        newArray = randomizeArray(communityList);
-        setCommunityData(newArray);
-        setIsLoading(false);
+    dbh
+      .collection("Communit")
+      .get()
+      .then((docs) => {
+        docs.forEach((doc) => {
+          communityList.push(doc.data());
+          newArray = randomizeArray(communityList);
+          setCommunityData(newArray);
+          setIsLoading(false);
+        });
+      })
+      .catch((error) => {
+        console.warn(error.message);
       });
-    });
   }, []);
 
   return (

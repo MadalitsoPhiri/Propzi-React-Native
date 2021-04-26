@@ -72,14 +72,14 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          
         }}
       />
       <Stack.Screen
@@ -95,13 +95,13 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menuunfold"
+              <AntDesign
+                name="menuunfold"
                 width={25}
                 height={25}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
-              
             </TouchableOpacity>
           ),
         }}
@@ -120,23 +120,28 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
-
-
-<Stack.Screen
+      <Stack.Screen
         name="ammenities"
         component={AmmenitiesScreen}
         options={{
@@ -149,17 +154,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -176,17 +188,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -203,17 +222,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -230,17 +256,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -257,17 +290,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -284,23 +324,28 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
-
-
-<Stack.Screen
+      <Stack.Screen
         name="unique"
         component={UniqueScreen}
         options={{
@@ -313,17 +358,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>
@@ -348,7 +400,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -358,10 +411,7 @@ export default MainAppStack = ({ navigation }) => {
         }}
       />
 
-
-
-
-<Stack.Screen
+      <Stack.Screen
         name="ammenities"
         component={AmmenitiesScreen}
         options={{
@@ -374,17 +424,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
       <Stack.Screen
@@ -400,7 +457,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -424,17 +482,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -451,7 +516,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -476,17 +542,24 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -503,14 +576,48 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          
+        }}
+      />
+
+      <Stack.Screen
+        name="WebView"
+        component={CardWebView}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.1}
+              width={width * 0.2}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AntDesign
+                name="menufold"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -524,19 +631,27 @@ export default MainAppStack = ({ navigation }) => {
               width={width * 0.2}
               style={{ marginBottom: "5%" }}
             />
-          ),headerRight: (props) => (
+          ),
+          headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      ),
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
 
@@ -553,7 +668,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -564,7 +680,7 @@ export default MainAppStack = ({ navigation }) => {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="unique"
         component={UniqueScreen}
         options={{
@@ -577,20 +693,26 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign name="menufold"
+              <AntDesign
+                name="menufold"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
             </TouchableOpacity>
           ),
-          headerLeft: ({size}) =>(
-           
-            <TouchableOpacity onPress={() => navigation.goBack()}><Entypo name="chevron-thin-left" size={32} style={{ marginLeft: 20 }} color="gray"/></TouchableOpacity>
-                      )
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Entypo
+                name="chevron-thin-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="gray"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
-
     </Stack.Navigator>
   );
 };
