@@ -208,7 +208,8 @@ export default function SignupOptions({navigation}) {
       setLoading(true)
       try {
           await Facebook.initializeAsync({
-            appId: Platform.OS === 'ios' ? '845016889691335':'185801686567133',
+            // appId: Platform.OS === 'ios' ? '845016889691335':'185801686567133',
+            appId:'845016889691335',
           });
           const {
             type,
@@ -225,11 +226,11 @@ export default function SignupOptions({navigation}) {
   
   
         if (type === 'success') {
-          // Get the user's name using Facebook's Graph API
-          const result = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+         
+          
           // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
           
-          var cred = firebase.auth.FacebookAuthProvider.credential(result);
+          var cred = firebase.auth.FacebookAuthProvider.credential(token);
   
           firebase.auth().signInWithCredential(cred).then((credential)=>{
               //User Succsessfully signed in
@@ -284,7 +285,7 @@ export default function SignupOptions({navigation}) {
             // ...
           });
   
-          return result.accessToken;
+    
         } else {
           setLoading(false)
         return { cancelled: true };

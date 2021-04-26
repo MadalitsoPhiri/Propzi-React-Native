@@ -29,7 +29,7 @@ export default function UpgradesScreen({navigation}){
   
       const FindAmenities = ()=>{
         setAmenities([])
-        let fullAmenities = ["New Roof","Hardwood Floors","Hardwood Floors","Exterior Paint","Swimming Pool","Interior Paint","Landscaping","Driveway Interlocking","Front Lawn","Bathroom Tiles"]
+        let fullAmenities = ["Finished Basement","Open Layout","Landscaping","Driveway Interlocking","New Garage Doors","Exterior Wall Resurfacing","New Lighting Fixtures","Installed Hardwood Floors","New HVAC","Energy Efficient Appliances","New Windows","Laundry Room Accessibility","New Bathtub/Shower","Kitchen Remodelling","Deck/Patio Addition","Basement Remodelling"]
         let finalArray = []
           fullAmenities.forEach((item,index)=>{
                    if(item == null || item == ""){

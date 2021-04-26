@@ -210,7 +210,7 @@ export default function UniqueScreen({navigation}){
     const FindAmenities = ()=>{
       setAmenities([])
       
-      let fullAmenities =  ["New Roof","Hardwood Floors","Hardwood Floors","Exterior Paint","Swimming Pool","Interior Paint","Landscaping","Driveway Interlocking","Front Lawn","Bathroom Tiles"]
+      let fullAmenities =  ["Beautiful Front Door","Cozy","Great for Hosting","Bike Racks","Tesla/Car Charger","Solar Roof","Bright & Sunny","Smart Home","Breakfast Bar"]
       let finalArray = []
         fullAmenities.forEach((item,index)=>{
                  if(item == null || item == ""){
