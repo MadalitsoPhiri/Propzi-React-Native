@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.homeHeading}>Your home finance offers</Text>
         <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View style={{ marginHorizontal: 4,marginTop:6 }}>
+        <View style={{ marginHorizontal: 4,marginTop:2 }}>
 <HomeBankFinance/>
 </View>
        
