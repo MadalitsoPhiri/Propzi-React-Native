@@ -4,18 +4,13 @@ import { Text, View, StyleSheet, Image,RefreshControl } from 'react-native';
 import { Card,Button } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-export default function Network() {
- const [refreshing, setRefreshing] = React.useState(false);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-
+const Network = (props) => {
+ 
   
   return (
     <View>
-    <Card>
+     <Card>
     <View  style={styles.container}>
      <MaterialCommunityIcons name="wifi-strength-1" size={75} color="#35d1b9" />
 
@@ -29,9 +24,10 @@ export default function Network() {
       <View style={{marginTop:17}}>
       <Text style={{marginTop:5,color:'grey'}}><AntDesign name="checkcircleo" size={14} color="grey" /> Check Your Modem and Router</Text>
       <Text style={{marginTop:5,color:'grey'}}><AntDesign name="checkcircleo" size={14} color="grey" /> Reconnect to Wi-Fi</Text>
-            <Text style={{marginTop:5,color:'grey'}}><AntDesign name="checkcircleo" size={14} color="grey" /> Refresh Page</Text>
       </View>
-     
+      <Button  mode="contained" onPress={props.onCheck} style={{backgroundColor:'#35d1b9',marginTop:25}}>
+   Reload 
+  </Button>
     </View>
       </Card>
     </View>
@@ -53,3 +49,4 @@ const styles = StyleSheet.create({
   },
 
 });
+export default Network
