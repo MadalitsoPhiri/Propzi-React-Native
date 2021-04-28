@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import TabNavigator from "../utils/navigation/TabNavigator.js";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AuthContext } from "../components/providers/AuthProvider";
+import Network from "../components/Network";
 import { dbh } from "../../firebase";
 import PropziLogo from "../../assets/PropziLogo.svg";
 import BarsIcon from "../../assets/bars-solid.svg";
@@ -20,7 +21,7 @@ import UpgradesScreen from "./UpgradesScreen";
 import UniqueScreen from "./UniqueScreen";
 import { Entypo,AntDesign } from "@expo/vector-icons";
 import { CardWebView } from "../components/CardWebView";
-
+import {checkConnected} from "../utils/detectconnection";
 const { width, height } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
@@ -28,8 +29,11 @@ const Stack = createStackNavigator();
 export default MainAppStack = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
   const [hasProperty, setHasProperty] = useState(false);
+  const [hasInternetConnection,setHasInternetConnection] = useState(true);
+  const [connectStatus,setConnectStatus] = useState(false)
   const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
+  const checkProperty = ()=>{
+    setLoading(true);
     dbh
       .collection("UserDetails")
       .doc(user.uid)
@@ -46,8 +50,38 @@ export default MainAppStack = ({ navigation }) => {
         setLoading(false);
         console.log(e);
       });
+  }
+
+  function checkConnection (){
+    checkConnected().then((res)=>{
+      if(res){
+        setHasInternetConnection(true)
+        checkProperty()
+      }else{
+        setHasInternetConnection(false)
+      }
+ })
+  }
+ 
+
+  useEffect(() => {
+
+    //check for internet connection
+   
+
+    // if(checkConnected().then(res=>res)){
+    // checkProperty()
+    // }
+    checkConnection()
+ 
+      
+    
   }, []);
 
+  if(!hasInternetConnection){
+    
+    return <Network/>;
+  }
   if (isLoading) {
     return <Loader text="" />;
   }

@@ -1,5 +1,6 @@
 import React,{ useContext } from "react";
 import {View,Text,StyleSheet,ScrollView,Dimensions,Animated} from "react-native";
+import Network from "../components/Network";
 
 
 import SignupOptions from  "./SignupOptions";
