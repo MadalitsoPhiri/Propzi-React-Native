@@ -7,7 +7,7 @@ import Animated, { useAnimatedGestureHandler,useAnimatedStyle,useSharedValue, wi
 import {getYForX, interpolatePath, parse,ReText,round} from "react-native-redash";
 import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
-import  * as path from "svg-path-properties";
+// import  * as path from "svg-path-properties";
 import {scaleTime,scaleLinear} from 'd3-scale';
 
 
@@ -77,15 +77,15 @@ const graphPath2 = parse(line2)
 
 
 
-export default function App() {
+export default function Graph() {
   
 
   // const scaleLabel = scale.scaleQuantile().domain([data[0].y,data[data.length -1].y]).range(data.map((item,index)=>{return data[index].y}))
   const active = useSharedValue(false);
-  const x = useSharedValue(0);
-  const y = useSharedValue(0);
-  const x2 = useSharedValue(0);
-  const y2 = useSharedValue(0);
+  const x = useSharedValue(graphRightLimit);
+  const y = useSharedValue(getYForX(graphPath,x.value));
+  const x2 = useSharedValue(graphRightLimit);
+  const y2 = useSharedValue(getYForX(graphPath,x2.value));
  
   
   const onGestureEvent = useAnimatedGestureHandler({
@@ -160,11 +160,11 @@ export default function App() {
     <SafeAreaView style={styles.root}>
       <View style={styles.topBar}>
         <View style={{marginHorizontal:10,alignItems:"center"}}> 
-        <Text  style={styles.TopBarPriceTitle}>Average Sold Price</Text>
+        <Text  style={styles.TopBarPriceTitle}>Propzi Price</Text>
         <ReText style={[style3,{fontWeight:"600"}]} text={AverageSoldPrice}/>
         </View>
         <View style={{marginHorizontal:10,alignItems:"center"}}>
-          <Text style={styles.TopBarPriceTitle}>Possible Selling Price</Text>
+          <Text style={styles.TopBarPriceTitle}>Average Sold Price</Text>
           <ReText style={[style3,{fontWeight:"600"}]} text={PossibleSellingPrice}/>
           </View>
         

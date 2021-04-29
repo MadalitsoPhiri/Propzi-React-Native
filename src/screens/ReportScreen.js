@@ -23,6 +23,7 @@ import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
 import RecentSaleCard from "../components/Cards/RecentSales";
+import Graph from "./graph";
 import {
   arrowOne,
   arrowTwo,
@@ -232,9 +233,9 @@ const ReportScreen = ({ navigation }) => {
               )}
             </Pressable>
           </View>
-
+          <Graph/>
           {/* Toggle address avg price text */}
-          {shouldShow4 ? (
+          {/* {shouldShow4 ? (
             // Propzi heading and Date picker plus date select logic
             <>
               <View style={styles.propziHeadingAndDateMadal}>
@@ -482,7 +483,7 @@ const ReportScreen = ({ navigation }) => {
                 </View>
               </View>
             </Pressable>
-          )}
+          )} */}
 
           <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 10 }}>
             <Text style={{ fontSize: 23, fontWeight: "500" }}>Report</Text>

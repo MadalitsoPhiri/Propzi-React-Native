@@ -1,6 +1,7 @@
 import React,{ useContext } from "react";
 import {View,Text,StyleSheet,ScrollView,Dimensions,Animated} from "react-native";
 import Network from "../components/Network";
+import Graph from "./graph"
 
 
 import SignupOptions from  "./SignupOptions";
@@ -13,9 +14,7 @@ const CaroselData = [1,2,3]
 
 export default function OffersScreen({ data, to }) {
   
-return (<View style={{justifyContent:"center",alignItems:"center",flex:1}}>
-  <Text>OffersScreen</Text>
-</View>)
+return <Graph/>
 }
 
 
