@@ -14,7 +14,7 @@ export default function HomeFinanceOffersCard({
   APR,
 }) {
   return (
-    <View  style={{marginTop:100}}>
+    <View  style={{marginTop:20}}>
 
  {/* style={[styles.cardContainer, { width }]} */}
         
@@ -22,9 +22,9 @@ export default function HomeFinanceOffersCard({
         {/* </View> */}
 
 
-        <Tabs tabDefaultBg={{backgroundColor:'black'}} tabBarUnderlineStyle={{ backgroundColor: 'none'}}  renderTabBar={()=> <ScrollableTab />}>
+        <Tabs  tabContainerStyle={{ borderBottomWidth: 0 }} tabDefaultBg={{backgroundColor:'black'}} tabBarUnderlineStyle={{ backgroundColor: 'none'}}  renderTabBar={()=> <ScrollableTab />}>
         <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="TD">
-            <View style={{marginTop:10}}>
+            <View >
             <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
 <View  style={[styles.cardContainer, { width }]}>
@@ -83,7 +83,7 @@ export default function HomeFinanceOffersCard({
           </Tab>
 
           <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="Scotiabank">
-          <View style={{marginTop:10}}>
+          <View >
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
           <View  style={[styles.cardContainer, { width }]}>
@@ -134,7 +134,7 @@ export default function HomeFinanceOffersCard({
       </View>
           </Tab>
           <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="BMO">
-          <View style={{marginTop:10}}>
+          <View >
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
           <View  style={[styles.cardContainer, { width }]}>
@@ -185,7 +185,7 @@ export default function HomeFinanceOffersCard({
       </View>
           </Tab>
           <Tab       textStyle={{fontSize: 12, color: "white"}} activeTextStyle={{fontSize: 12, color: "white"}}  activeTabStyle={{backgroundColor:'#35d1b9',borderRadius:50,width:100,height: 35,}} tabStyle={{backgroundColor: '#C4C4C4',borderRadius:50,height: 35,}} heading="CIBC">
-          <View style={{marginTop:10}}>
+          <View >
 <View style={{ flexDirection: "row",paddingHorizontal:16 }}>
 
           <View  style={[styles.cardContainer, { width }]}>

@@ -14,6 +14,7 @@ import HomeScreen from "../../screens/HomeScreen";
 import ReportScreen from "../../screens/ReportScreen";
 import OffersScreen from "../../screens/OffersScreen";
 import SignUpScreen from "../../screens/SignUpScreen";
+import Detailspage from "../../screens/Detailspage";
 import LoginScreen from "../../screens/LoginScreen";
 import Intro from "../../screens/Intro";
 
@@ -35,6 +36,8 @@ const MainStackNavigator = () => {
           },
         }}
       />
+      <Stack.Screen name="detailspage" component={Detailspage} />
+
       <Stack.Screen name="Intro" component={Intro} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignUpScreen} />

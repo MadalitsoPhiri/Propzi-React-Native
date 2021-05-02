@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Users\victor c\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add native-base --save
 
 PATH: 
   C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\victor c\AppData\Local\Microsoft\WindowsApps;C:\Users\victor c\AppData\Roaming\npm;C:\Users\victor c\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\victor c\Desktop\Propzi-app-react-native-dev\node_modules\@babel\generator\node_modules\.bin'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\victor c\Desktop\Propzi-app-react-native-dev\node_modules\react-native-pager-view\src'
 
 npm manifest: 
   {

@@ -1,11 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions,TouchableOpacity } from "react-native";
 import { colors } from "../../styles";
+import { useNavigation } from "@react-navigation/native";
+
 const { width } = Dimensions.get("screen");
 
 const RecentSales = ({ imgUrl, title, address, desc, soldFor }) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+    style={styles.cardcontainer}
+    onPress={() => navigation.navigate("detailspage", { projectURL })}
+  >
       <Image
         source={{ uri: imgUrl }}
         style={[styles.image, { resizeMode: "cover" }]}
@@ -29,12 +35,12 @@ const RecentSales = ({ imgUrl, title, address, desc, soldFor }) => {
           </Text>
         </View>
       ) : null}
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  cardcontainer: {
     position: "relative",
     width: width * 0.7,
     marginHorizontal: 20,
