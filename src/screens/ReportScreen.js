@@ -38,9 +38,10 @@ import {
 } from "../utils/helper";
 
 import { colors } from "../styles";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
-
+// const { screenwidth } = Dimensions.get("screen");
 const ReportScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const { property } = useContext(PropertyDataContext);
@@ -679,34 +680,53 @@ const ReportScreen = ({ navigation }) => {
                 />
 
                 {recentSales?.length > 0 ? (
-                  <FlatList
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={recentSales}
-                    keyExtractor={(item) => item.mlsNumber}
-                    renderItem={({ item }) => {
-                      return (
-                        <RecentSaleCard
-                          imgUrl={
-                            `${item.images.length > 0}`
-                              ? `https://cdn.repliers.io/${item.images[0]}`
-                              : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
-                          }
-                          title={`${item?.address?.streetNumber} ${
-                            item?.address?.streetName
-                          }, ${
-                            item?.address?.unitNumber
-                              ? "Unit " + item?.address?.unitNumber
-                              : ""
-                          }`}
-                          address={`${item?.address?.neighborhood}, ${item?.address?.city}`}
-                          desc={item.details.description}
-                          soldFor={item?.soldPrice}
-                          key={item.mlsNumber}
-                        />
-                      );
-                    }}
-                  />
+                <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={recentSales}
+                keyExtractor={(item) => item.mlsNumber}
+                renderItem={({ item }) => {
+                  return(
+<TouchableOpacity  onPress={() => navigation.navigate("detailspage", { item })}   style={{   backgroundColor:'#f3f3f3',
+    width: 230,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius:16,
+    
+    justifyContent: 'center',
+    alignItems: 'center',marginLeft:20,marginRight:20}}  >
+     
+<Image source={{uri: `https://cdn.repliers.io/${item.images[0]}`}}  style={{ width: "100%",
+    height:150,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: "#f3f3f3",
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,}} />
+
+      <View style={styles.cardBody}>
+        <Text style={styles.cardTitle}>{item.address.streetNumber} {item.address.streetName},  Unit {item.address.unitNumber}</Text>
+        <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
+          {item.address.neighborhood},{item.address.city}
+        </Text>
+        <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20 }}>
+          {item.details.description.substr(0, 89) + "..."}
+          <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
+        </Text>
+      </View>
+      {item.soldPrice !== "" && item.soldPrice ? (
+        <View style={styles.cardFooter}>
+          <Text style={styles.propziImpactTitle}>Sold for:</Text>
+          <Text style={[styles.propziImpact, { color: colors.PRIMARY_COLOR }]}>
+            ${item.soldPrice}
+          </Text>
+        </View>
+      ) : null}
+
+</TouchableOpacity>
+              )  }
+              }
+                />
+              
                 ) : (
                   <Text style={{ textAlign: "center", color: "red" }}>
                     No Data
@@ -926,6 +946,7 @@ const ReportScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  
   topSectionArrowContainer: {
     width: 60,
     height: 60,
@@ -1020,6 +1041,65 @@ const styles = StyleSheet.create({
     top: -20,
     left: 0,
     right: 0,
+  },
+  cardcontainer: {
+    position: "relative",
+    width: "55%",
+    // marginHorizontal: 20,
+    overflow: "hidden",
+    borderRadius: 16,
+    backgroundColor:'#f3f3f3'
+  },
+
+  image: {
+    width: "100%",
+    // height: (screenwidth - 25 * 2) / 1.7,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: "#f3f3f3",
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+  },
+
+  cardBody: {
+    padding: 10,
+  },
+
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 5,
+    marginTop: 10,
+  },
+
+  cardFooter: {
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
+    marginVertical: 20,
+    marginTop: 10,
+    shadowColor: "#00000021",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 7.49,
+    elevation: 12,
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    borderRadius: 16,
+    // width: screenwidth * 0.4,
+    height: 30,
+    alignItems: "center",
+  },
+
+  propziImpactTitle: {
+    fontSize: 12,
+  },
+
+  propziImpact: {
+    fontSize: 12,
+    marginLeft: 5,
   },
 });
 

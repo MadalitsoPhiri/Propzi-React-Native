@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image,RefreshControl } from 'react-native';
+import { Text, View, StyleSheet, Image,RefreshControl,SafeAreaView  } from 'react-native';
 
 import { Card,Button } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -9,10 +9,9 @@ const Network = (props) => {
  
   
   return (
-    <View>
-     <Card>
-    <View  style={styles.container}>
-     <MaterialCommunityIcons name="wifi-strength-1" size={75} color="#35d1b9" />
+    
+    <SafeAreaView   style={styles.container}>
+     <MaterialCommunityIcons name="wifi-strength-1" size={100} color="#CDCDCD" />
 
 
       <Text style={styles.paragraph}>
@@ -28,9 +27,8 @@ const Network = (props) => {
       <Button  mode="contained" onPress={props.onCheck} style={{backgroundColor:'#35d1b9',marginTop:25}}>
    Reload 
   </Button>
-    </View>
-      </Card>
-    </View>
+    </SafeAreaView >
+    
   );
 }
 
