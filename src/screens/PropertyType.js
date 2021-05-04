@@ -26,7 +26,7 @@ export default function PropertyType({navigation}){
             <View style={{flexDirection:"row",width,paddingHorizontal:"15%"}}>
             <TouchableOpacity style={styles.tileContainer} onPress={()=>{navigation.navigate("search")}}>
                <View style={styles.tile}/>
-               <Text style={{marginTop:"5%",fontFamily:"Poppins-Medium",fontSize:18,textAlign:"center"}}>Detached TownHome</Text>
+               <Text style={{marginTop:"5%",fontFamily:"Poppins-Medium",fontSize:18,textAlign:"center"}}>Detached</Text>
            </TouchableOpacity>
            <TouchableOpacity style={styles.tileContainer} onPress={()=>{navigation.navigate("search")}}>
                <View style={styles.tile}/>

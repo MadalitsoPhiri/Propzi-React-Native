@@ -20,18 +20,30 @@ const d3 = {
 let {width,height} = Dimensions.get("window");
 
 
+function simplify(value)
+{
+    if(value>=1000000)
+    {
+        value=(value/1000000)+"M"
+    }
+    else if(value>=1000)
+    {
+        value=(value/1000)+"K";
+    }
+    return value;
+}
+
 
  height = height  *  0.25;
  const SideBarWidth = 80;
-const cursorRadius = 8;
+const cursorRadius = 5;
 const graphRightLimit = width - 20
+const graphLeftLimit = SideBarWidth - 15
 const verticalPadding = 10;
-const cursorLeftLimit = 80;
-const cursorRightLimit = graphRightLimit;
 const labelWidth = 100;
 const data = [
-  {x:new Date(2018,9,1),y:185000},
-  {x:new Date(2018,9,16),y:160000},
+  {x:new Date(2018,9,1),y:160000},
+  {x:new Date(2018,9,16),y:185000},
   {x:new Date(2018,9,17),y:250000},
   {x:new Date(2018,10,1),y:300000},
   {x:new Date(2018,10,2),y:450000},
@@ -53,9 +65,63 @@ const min1 = Math.min(...data.map(item=>item.y))
 const min2 = Math.min(...data2.map(item=>item.y))
 const max2 = Math.max(...data2.map(item=>item.y))
 
-const scaleX = scaleTime().domain([data[0].x,data[data.length-1].x]).range([SideBarWidth,graphRightLimit]);
-const scaleY = scaleLinear().domain([data[0].y,data[data.length-1].y]).range([height - verticalPadding,verticalPadding]);
+function ScaledYValues (){
+  const range1 = max1 - min1
+  const range2 = max2 - min2
+  const MaxMin = [max1,max2,min2,min1]
+  // const max = Math.max(...MaxMin.map(item=>item.y))
+  const min = Math.min(MaxMin)
+  const interval = data.length - 1
+  let previousValue;
+ 
+  if(range1 > range2){
+    console.log("using range1")
+    console.log("min:",min1)
+    const intervalValue = range1/interval
+    console.log(intervalValue)
+    const final = []
+  //use range1 
+   data.forEach(()=>{
+     console.log(previousValue)
+         if(previousValue == null){
+           previousValue = min1
+           final.push(simplify(previousValue))
+         }else{
+          previousValue =  previousValue + intervalValue
+          final.push(simplify(previousValue))
+         
+         }
+         
+   })
+   console.log(final)
+    return final 
+  }else{
+    console.log("using range1")
+    console.log("min:",min2)
+    //use range2
 
+    const intervalValue = range2/interval
+    const final = []
+  //use range1 
+   data2.forEach(()=>{
+         if(previousValue == null){
+          previousValue = min2
+           final.push(simplify(previousValue))
+         }else{
+          final.push(simplify(previousValue))
+          previousValue =  previousValue + intervalValue
+         }
+        
+   })
+    return final 
+  }
+}
+
+const scaleX = scaleTime().domain([data[0].x,data[data.length-1].x]).range([graphLeftLimit,graphRightLimit]);
+const scaleY = scaleLinear().domain([data[0].y,data[data.length-1].y]).range([height - verticalPadding,verticalPadding]);
+const scaleX2 = scaleTime().domain([data2[0].x,data2[data2.length-1].x]).range([graphLeftLimit,graphRightLimit]);
+const scaleY2 = scaleLinear().domain([data2[0].y,data2[data2.length-1].y]).range([height - verticalPadding,verticalPadding]);
+const yScale = ScaledYValues().reverse()
 const line = d3.shape.line()
 .x(d => scaleX(d.x))
 .y(d => scaleY(d.y))
@@ -64,8 +130,8 @@ const line = d3.shape.line()
 
 
 const line2 = d3.shape.line()
-.x(d => scaleX(d.x))
-.y(d => scaleY(d.y))
+.x(d => scaleX2(d.x))
+.y(d => scaleY2(d.y))
 .curve(d3.shape.curveBasis)
 (data2)
 
@@ -97,13 +163,13 @@ export default function Graph() {
    
    
   
-    if(event.x < cursorLeftLimit || event.x > cursorRightLimit ){
+    if(event.x < graphLeftLimit || event.x > graphRightLimit ){
      console.log("out of bounds")
     }else{
       x.value = event.x
       x2.value = event.x
       y.value = getYForX(graphPath,x.value);
-      y2.value = getYForX(graphPath2,x.value);
+      y2.value = getYForX(graphPath2,x2.value);
     }
     // console.log(x.value)
     // console.log(event.x)
@@ -160,12 +226,12 @@ export default function Graph() {
     <SafeAreaView style={styles.root}>
       <View style={styles.topBar}>
         <View style={{marginHorizontal:10,alignItems:"center"}}> 
-        <Text  style={styles.TopBarPriceTitle}>Propzi Price</Text>
-        <ReText style={[style3,{fontWeight:"600"}]} text={AverageSoldPrice}/>
+        <Text  style={[styles.TopBarPriceTitle,{fontFamily:"Poppins-Bold",fontSize:13}]}>Propzi Price</Text>
+        <ReText style={[style3,{fontFamily:"Poppins-Bold",color:"gray",fontSize:12}]} text={AverageSoldPrice}/>
         </View>
         <View style={{marginHorizontal:10,alignItems:"center"}}>
-          <Text style={styles.TopBarPriceTitle}>Average Sold Price</Text>
-          <ReText style={[style3,{fontWeight:"600"}]} text={PossibleSellingPrice}/>
+          <Text style={[styles.TopBarPriceTitle,{fontFamily:"Poppins-Bold",fontSize:13}]}>Average Sold Price</Text>
+          <ReText style={[style3,{fontFamily:"Poppins-Bold",color:"gray",fontSize:12}]} text={PossibleSellingPrice}/>
           </View>
         
       </View>
@@ -178,9 +244,9 @@ export default function Graph() {
           
         </View> */}
         <View style={[{zIndex:-1,justifyContent:"space-between",height}]}>
-          {data.reverse().map((item,idex)=>{
+          {yScale.map((item,idex)=>{
             return (<View style={{flexDirection:"row",alignItems:"center"}}>
-              <Text style={[styles.Yvalues,{paddingHorizontal:16}]}>{`${item.y} k`}</Text>
+              <Text style={[styles.Yvalues,{paddingHorizontal:16,fontFamily:"Poppins-Bold"}]}>{item}</Text>
               <View style={{borderWidth:0.5,borderColor:"transparent",width,opacity:0.6,justifyContent:"center"}}>
                 <View style={{borderWidth:0.5,borderColor:"gray",width:"100%",opacity:0.3}}></View>
               </View >
@@ -213,10 +279,10 @@ export default function Graph() {
 
 </Defs>
          <Path d={line} stroke="#34D0B8" strokeWidth="2"/>
-         <Path d={`${line} L ${graphRightLimit } 0  L ${graphRightLimit } ${height} L 0 ${height}`} fill="url(#primary)"/>
+         <Path d={`${line} L ${graphRightLimit } 0  L ${graphRightLimit } ${height} L ${graphLeftLimit} ${height}`} fill="url(#primary)"/>
 
          <Path d={line2} stroke="gray" strokeWidth="2"/>
-         <Path d={`${line2} L ${graphRightLimit } 0  L ${graphRightLimit } ${height} L 0 ${height}`} fill="url(#secondary)"/>
+         <Path d={`${line2} L ${graphRightLimit } 0  L ${graphRightLimit } ${height} L ${graphLeftLimit} ${height}`} fill="url(#secondary)"/>
       
        <Animated.View  style={[styles.cursor,style]}/>
        <Animated.View  style={[styles.cursor2,style2]}/>
@@ -230,8 +296,14 @@ export default function Graph() {
        </Animated.View>
        </PanGestureHandler>
       
-          
+      
        
+      </View>
+      <View style={{justifyContent:"space-between",width,flexDirection:"row",paddingLeft:graphLeftLimit,marginTop:20,paddingRight:20}}>
+        {data.map((item,index)=>{
+          return <Text style={{fontFamily:"Poppins-Bold",fontSize:12,color:"gray"}}>{item.x.toLocaleString('default', { month: 'short' })}</Text>
+        })}
+    
       </View>
     </SafeAreaView>
   );
@@ -239,13 +311,14 @@ export default function Graph() {
 
 const styles = StyleSheet.create({
  root:{
-   flex:1
+   flex:1,
+  
  },
  container:{
  flexDirection:"row",
  height,
  width:"100%",
- marginTop:60,
+ marginTop:"5%",
  },
  cursor:{
    width:cursorRadius  *  2,

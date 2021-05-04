@@ -19,7 +19,7 @@ import CondoSearchScreen from "./CondoSearchScreen";
 import AmmenitiesScreen from "./AmmenitiesScreen";
 import UpgradesScreen from "./UpgradesScreen";
 import UniqueScreen from "./UniqueScreen";
-import { Entypo,AntDesign } from "@expo/vector-icons";
+import { Entypo,AntDesign,MaterialIcons} from "@expo/vector-icons";
 import { CardWebView } from "../components/CardWebView";
 import {checkConnected} from "../utils/detectconnection";
 const { width, height } = Dimensions.get("window");
@@ -106,8 +106,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+              <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -129,10 +129,9 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menuunfold"
-                width={25}
-                height={25}
+             <MaterialIcons
+                name="menu"
+                size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
               />
@@ -154,8 +153,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -188,8 +187,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+            <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -222,8 +221,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -256,8 +255,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+            <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -290,8 +289,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -324,8 +323,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -358,8 +357,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -392,8 +391,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+            <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -434,8 +433,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -458,8 +457,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -491,8 +490,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+              <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -516,8 +515,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -550,8 +549,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+              <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -576,8 +575,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+              <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -610,8 +609,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -634,8 +633,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+            <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -668,8 +667,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -702,8 +701,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
@@ -727,8 +726,8 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <AntDesign
-                name="menufold"
+             <MaterialIcons
+                name="menu"
                 size={height * 0.04}
                 style={{ marginRight: 15 }}
                 color={"black"}
