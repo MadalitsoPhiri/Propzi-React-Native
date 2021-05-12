@@ -99,8 +99,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+              height={height * 0.070}
+              width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -122,10 +122,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+            width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -146,10 +146,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+            width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -163,11 +163,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -180,8 +180,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+            height={height * 0.070}
+            width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -197,11 +197,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -214,8 +214,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+            height={height * 0.070}
+            width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -231,11 +231,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -248,8 +248,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+            height={height * 0.070}
+            width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -265,11 +265,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -282,10 +282,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+            width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -299,11 +299,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+              <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -316,10 +316,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+              width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -333,11 +333,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+                <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -350,8 +350,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+              height={height * 0.05}
+              width={width * 0.125}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -367,11 +367,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -384,8 +384,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+            height={height * 0.070}
+            width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -401,11 +401,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+              <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -420,130 +420,15 @@ export default MainAppStack = ({ navigation }) => {
         },
       }}
     >
-      <Stack.Screen
-        name="notFound"
-        component={NotFoundHomeScreen}
-        options={{
-          headerTitle: (props) => (
-            <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
-          ),
-          headerRight: (props) => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-             <MaterialIcons
-                name="menu"
-                size={height * 0.04}
-                style={{ marginRight: 15 }}
-                color={"black"}
-              />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-
-      <Stack.Screen
-        name="ammenities"
-        component={AmmenitiesScreen}
-        options={{
-          headerTitle: (props) => (
-            <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
-          ),
-          headerRight: (props) => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-             <MaterialIcons
-                name="menu"
-                size={height * 0.04}
-                style={{ marginRight: 15 }}
-                color={"black"}
-              />
-            </TouchableOpacity>
-          ),
-          headerLeft: ({ size }) => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
-                size={32}
-                style={{ marginLeft: 20 }}
-                color="gray"
-              />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="Main"
-        component={TabNavigator}
-        options={{
-          headerTitle: (props) => (
-            <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
-          ),
-          headerRight: (props) => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <MaterialIcons
-                name="menu"
-                size={height * 0.04}
-                style={{ marginRight: 15 }}
-                color={"black"}
-              />
-            </TouchableOpacity>
-          ),
-          headerLeft: null,
-        }}
-      />
-
-      <Stack.Screen
-        name="search"
-        component={SearchHomeScreen}
-        options={{
-          headerTitle: (props) => (
-            <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
-          ),
-          headerRight: (props) => (
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-             <MaterialIcons
-                name="menu"
-                size={height * 0.04}
-                style={{ marginRight: 15 }}
-                color={"black"}
-              />
-            </TouchableOpacity>
-          ),
-          headerLeft: ({ size }) => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
-                size={32}
-                style={{ marginLeft: 20 }}
-                color="gray"
-              />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-
+      
       <Stack.Screen
         name="propertyType"
         component={PropertyType}
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+            height={height * 0.070}
+            width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -563,15 +448,108 @@ export default MainAppStack = ({ navigation }) => {
       />
 
       <Stack.Screen
+        name="ammenities"
+        component={AmmenitiesScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.05}
+              width={width * 0.125}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+             <MaterialIcons
+                name="menu"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <MaterialIcons
+                name="chevron-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="black"
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Main"
+        component={TabNavigator}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+            height={height * 0.070}
+              width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <MaterialIcons
+                name="menu"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: null,
+        }}
+      />
+
+      <Stack.Screen
+        name="search"
+        component={SearchHomeScreen}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+            height={height * 0.05}
+            width={width * 0.125}
+            style={{ marginBottom: "5%" }}
+          />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+             <MaterialIcons
+                name="menu"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+               <MaterialIcons
+                name="chevron-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="black"
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+
+      <Stack.Screen
         name="condoSearch"
         component={CondoSearchScreen}
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+              width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -585,11 +563,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+              <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -602,10 +580,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+            width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -626,8 +604,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+            height={height * 0.070}
+            width={width * 0.150}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -643,11 +621,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -660,10 +638,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.05}
+            width={width * 0.125}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -677,11 +655,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),
@@ -694,10 +672,10 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
-              style={{ marginBottom: "5%" }}
-            />
+            height={height * 0.070}
+            width={width * 0.150}
+            style={{ marginBottom: "5%" }}
+          />
           ),
           headerRight: (props) => (
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -719,8 +697,8 @@ export default MainAppStack = ({ navigation }) => {
         options={{
           headerTitle: (props) => (
             <PropziLogo
-              height={height * 0.1}
-              width={width * 0.2}
+              height={height * 0.05}
+              width={width * 0.125}
               style={{ marginBottom: "5%" }}
             />
           ),
@@ -736,11 +714,11 @@ export default MainAppStack = ({ navigation }) => {
           ),
           headerLeft: ({ size }) => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-thin-left"
+               <MaterialIcons
+                name="chevron-left"
                 size={32}
                 style={{ marginLeft: 20 }}
-                color="gray"
+                color="black"
               />
             </TouchableOpacity>
           ),

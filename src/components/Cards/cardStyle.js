@@ -43,6 +43,7 @@ export const styles = {
     fontSize: 14,
     color: "#000000",
     fontWeight: "bold",
+    fontFamily:"Poppins-Medium"
   },
 
   updateText: {
@@ -53,6 +54,7 @@ export const styles = {
     fontSize: 12,
     marginTop: 2,
     color: "#979797",
+    fontFamily:"Poppins-Regular"
   },
 
   groupMembersContent: {

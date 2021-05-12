@@ -323,7 +323,7 @@ const cleanAddress = (raw)=>{
               }
               
           }
-         streetName = streetNameArray.join(" ").toLowerCase()
+         streetName = streetNameArray.join("").toLowerCase()
    
          return {streetNumber,streetName}
          
@@ -661,7 +661,7 @@ export default function CondoSearchScreen({navigation}) {
   }
   const getAddressPreview = (term)=>{
     const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
-  const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA`;
+  const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA&stateFilter=ON`;
     const OPTIONS = {
       method: "GET",
       headers: {

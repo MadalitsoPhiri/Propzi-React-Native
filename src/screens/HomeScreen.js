@@ -16,11 +16,12 @@ import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
 import { randomizeArray } from "../utils/helper";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo,MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
-const { width } = Dimensions.get("screen");
-
+const { width,height} = Dimensions.get("screen");
+const cardIconHeight = height * 0.1
+const cardIconWidth = width * 0.3
 export default function HomeScreen({ navigation }) {
   const {
     isPropertyDataLoaded,
@@ -59,8 +60,8 @@ export default function HomeScreen({ navigation }) {
                   : `${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}
               </Text>
             </View>
-            <View>
-              <Entypo name="chevron-with-circle-right" size={28} color="gray" />
+            <View style={{marginRight:"2%"}}>
+              <MaterialIcons name="chevron-right" size={35} color="black" />
             </View>
           </TouchableOpacity>
         </View>
@@ -113,15 +114,15 @@ export default function HomeScreen({ navigation }) {
           : null}
       </View>
 
-      <View style={styles.homeOffers}>
-        <Text style={styles.homeHeading}>Your home finance offers</Text>
+      
+        <Text style={styles.homeHeading}>Your home offers</Text>
         <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View >
-<HomeBankFinance/>
-</View>
        
-      </View>
+<HomeBankFinance/>
+
+       
+   
     </ScrollView>
   );
 }
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 30,
     paddingHorizontal: 16,
-    fontFamily: "Poppins-Medium",
+    fontFamily: "Poppins-Bold",
   },
 
   smallCardContainer: {
@@ -177,16 +178,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
-  homeOffers: {
-    // marginBottom: 400,
-    paddingHorizontal: 16,
-  },
+  
 
   homeSubHeading: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
     paddingHorizontal: 16,
+    fontFamily:"Poppins-Medium"
   },
 
   homeOffers: {

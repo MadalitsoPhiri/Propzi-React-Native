@@ -41,25 +41,19 @@ const graphRightLimit = width - 20
 const graphLeftLimit = SideBarWidth - 15
 const verticalPadding = 10;
 const labelWidth = 100;
-const data = [
-  {x:new Date(2018,9,1),y:160000},
-  {x:new Date(2018,9,16),y:185000},
-  {x:new Date(2018,9,17),y:250000},
-  {x:new Date(2018,10,1),y:300000},
-  {x:new Date(2018,10,2),y:450000},
-  {x:new Date(2018,10,5),y:480000},
-];
 
-const data2 = [
-  {x:new Date(2018,9,1),y:185000},
-  {x:new Date(2018,9,16),y:200000},
-  {x:new Date(2018,9,17),y:250000},
-  {x:new Date(2018,10,1),y:300000},
-  {x:new Date(2018,10,2),y:350000},
-  {x:new Date(2018,10,5),y:480000},
-];
 
-//These are the highest and lowest values for the graph
+
+
+
+
+// const lineLength = properties.getTotalLength();
+
+
+
+export default function Graph(props) {
+  const {data,data2} = props.graphData;
+  //These are the highest and lowest values for the graph
 const max1 = Math.max(...data.map(item=>item.y))
 const min1 = Math.min(...data.map(item=>item.y))
 const min2 = Math.min(...data2.map(item=>item.y))
@@ -139,12 +133,6 @@ const graphPath = parse(line)
 const graphPath2 = parse(line2)
 
 
-// const lineLength = properties.getTotalLength();
-
-
-
-export default function Graph() {
-  
 
   // const scaleLabel = scale.scaleQuantile().domain([data[0].y,data[data.length -1].y]).range(data.map((item,index)=>{return data[index].y}))
   const active = useSharedValue(false);
@@ -245,11 +233,13 @@ export default function Graph() {
         </View> */}
         <View style={[{zIndex:-1,justifyContent:"space-between",height}]}>
           {yScale.map((item,idex)=>{
-            return (<View style={{flexDirection:"row",alignItems:"center"}}>
+            return (<View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
               <Text style={[styles.Yvalues,{paddingHorizontal:16,fontFamily:"Poppins-Bold"}]}>{item}</Text>
-              <View style={{borderWidth:0.5,borderColor:"transparent",width,opacity:0.6,justifyContent:"center"}}>
+              <View style={{borderWidth:0.5,borderColor:"transparent",width:"100%",opacity:0.6,justifyContent:"center"}}>
                 <View style={{borderWidth:0.5,borderColor:"gray",width:"100%",opacity:0.3}}></View>
-              </View >
+              </View>
+             
+              
               </View>)
           })}
           

@@ -21,9 +21,51 @@ import * as Facebook from 'expo-facebook';
 import Loader from "../components/Loader";
 import * as Crypto from 'expo-crypto';
 import { firebase,dbh} from "../../firebase";
+import {actuatedNormalize} from "../utils/fontUtilities";
 
 // TODO:// Configure the title
-const {width,height} = Dimensions.get("window") 
+const {width,height} = Dimensions.get("window")
+const LogoHeight = height * 0.05 
+const LogoWidth = width * 0.2
+function calculateHeaderTextSize(){
+  if(width == 375 && height == 667){
+  // for iphone 8
+  return 20
+  }else if(width == 414 && height == 896){
+  return 25
+  }else{
+    return 25
+  }
+}
+
+function calculateButtonTextSize(){
+  if(width <= 375 && height <= 667){
+  // for phones like iphone 8
+  return 12
+  }else if(width <= 414 && height <= 896){
+    //for phones like iphone 11
+  return 15
+  }else{
+    return 15
+  }
+}
+
+
+function calculatePrivacyTextSize(){
+  if(width <= 375 && height <= 667){
+  // for phones like iphone 8
+  return 9.7
+  }else if(width <= 414 && height <= 896){
+    //for phones like iphone 11
+  return 11
+  }else{
+    return 11
+  }
+}
+const buttonTextSize = calculateButtonTextSize()
+const buttonIconHeight = height * 0.025
+const headerSize = calculateHeaderTextSize()
+const PrivacyTextSize = calculatePrivacyTextSize()
 export default function SignupOptions({navigation}) {
   const [isLoading,setLoading] = useState(false);
 
@@ -128,80 +170,7 @@ export default function SignupOptions({navigation}) {
                 // ...
             });
   
-//       try {
-//         const cred = await AppleAuthentication.signInAsync({
-//           requestedScopes: [
-//             AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-//             AppleAuthentication.AppleAuthenticationScope.EMAIL,
-//           ],
-//         });
-//         // signed in
-//         setLoading(true)
 
-        
-//         firebase.auth().signInWithCredential(cred).then((credential)=>{
-//           //User Succsessfully signed in
-//           dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
-//   if (docSnapshot.size == 0) {
-//     dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
-//       fullName:credential.user.displayName,phone:credential.user.phoneNumber,email:credential.user.email,clientIsMobile:true
-//   }).then((obj)=>{
-      
-//   },(err)=>{
-//  setLoading(false)
-//  setError(err)
-//   })
-  
-//   }
-
-// });
-
-
-//       }).catch((error) => {
-//         setLoading(false)
-//         Alert.alert(
-//           "Error",
-//           error.message,
-//           [
-//             {
-//               text: "Cancel",
-//               onPress: () => console.log("Cancel Pressed"),
-//               style: "cancel"
-//             },
-//             { text: "OK", onPress: () => console.log("OK Pressed") }
-//           ]
-//         );
-//         // Handle Errors here.
-//         var errorCode = error.code;
-//         var errorMessage = error.message;
-//         // The email of the user's account used.
-//         var email = error.email;
-//         // The firebase.auth.AuthCredential type that was used.
-//         var credential = error.credential;
-//         // ...
-//       });
-//       } catch (e) {
-//         if (e.code === 'ERR_CANCELED') {
-//           // handle that the user canceled the sign-in flow
-//           setLoading(false)
-//         }
-//         else {
-//           setLoading(false)
-//           Alert.alert(
-//             "Error",
-//             e.message,
-//             [
-//               {
-//                 text: "Cancel",
-//                 onPress: () => console.log("Cancel Pressed"),
-//                 style: "cancel"
-//               },
-//               { text: "OK", onPress: () => console.log("OK Pressed") }
-//             ]
-//           );
-      
-//         }
-//       }
     }
    
     handlepress = async()=> {
@@ -365,44 +334,49 @@ export default function SignupOptions({navigation}) {
     return <Loader text=""/>;
   }
   return (
-    <SafeAreaView style={{backgroundColor:"#fff"}}>
-    <ScrollView style={[styles.authContainer]}>
+    <SafeAreaView style={{backgroundColor:"#fff",height}}>
+    {/* <ScrollView style={[styles.authContainer]}> */}
+    <View style={styles.Header}> 
     <PropziLogo
-              height={54}
-              width={97}
-              style={{marginHorizontal:20,marginVertical:"5%" }}
+              height={LogoHeight}
+              width={LogoWidth}
             />
-<Text style={[styles.headerText,{marginHorizontal:20}]}> Discover the true value of your home</Text>
+            <View style={{flexDirection:"row",alignItems:"flex-start"}}>
+            <Text style={[styles.headerText]}> Discover the true value of your home</Text> 
+            </View>
 
-<View style={{marginTop:20,marginHorizontal:20,height:Platform.OS === 'ios' ?"100%":height * 0.667}}>
-  
-  {Platform.OS === 'ios' ?<TouchableOpacity onPress={handleAppleClick} style={{backgroundColor:"#000000",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+    </View>
     
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <AntDesign name="apple1" size={20} color="white" />
+
+<View style={styles.body}>
+  
+  {Platform.OS === 'ios' ?<TouchableOpacity onPress={handleAppleClick}  style={[styles.signInButton,{ backgroundColor:"#000000"}]}>
+    
+    <View style={styles.container1}>
+    <AntDesign name="apple1" size={buttonIconHeight} color="white" />
 
 
       
-<Text style={{color:"white",marginLeft:16,fontWeight:"700",fontSize:15}}>Sign in with Apple</Text> 
+<Text style={[styles.buttonText,{color:"white"}]}>Sign in with Apple</Text> 
     </View>
      
-      <Entypo name="chevron-right" size={24} color="white" />
+      <Entypo name="chevron-right" size={buttonIconHeight} color="white" />
   
  
   </TouchableOpacity>:null}
 
 
-  <TouchableOpacity onPress={handlepress} style={{backgroundColor:"#4c659d",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+  <TouchableOpacity onPress={handlepress}  style={[styles.signInButton,{ backgroundColor:"#4267B2"}]} >
     
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <AntDesign name="facebook-square" size={24} color="white" />
+    <View style={styles.container1}>
+    <AntDesign name="facebook-square" size={buttonIconHeight} color="white" />
 
 
       
-<Text style={{color:"white",marginLeft:16,fontWeight:"700",fontSize:15,lineHeight:23}}>Continue with Facebook</Text> 
+<Text style={[styles.buttonText,{color:"white"}]}>Continue with Facebook</Text> 
     </View>
      
-      <Entypo name="chevron-right" size={24} color="white" />
+      <Entypo name="chevron-right" size={buttonIconHeight} color="white" />
   
  
   </TouchableOpacity>
@@ -410,45 +384,48 @@ export default function SignupOptions({navigation}) {
 
 
 
-  <TouchableOpacity onPress={signInWithGoogleAsync} style={{backgroundColor:"#5e93ef",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+  <TouchableOpacity onPress={signInWithGoogleAsync} style={[styles.signInButton,{ backgroundColor:"#4285F4"}]}>
     
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <AntDesign name="google" size={24} color="white" />
+    <View style={styles.container1}>
+    <AntDesign name="google" size={buttonIconHeight} color="white" />
 
 
       
-<Text style={{color:"white",marginLeft:16,fontWeight:"700",fontSize:15,lineHeight:23}}>Sign in with Google</Text> 
+<Text style={[styles.buttonText,{color:"white"}]}>Continue with Google</Text> 
     </View>
      
-      <Entypo name="chevron-right" size={24} color="white" />
+      <Entypo name="chevron-right" size={buttonIconHeight} color="white" />
   
  
   </TouchableOpacity>
 
 
-  <TouchableOpacity onPress={()=>{navigation.navigate("login")}} style={{backgroundColor:"#f1f1fb",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+  <TouchableOpacity onPress={()=>{navigation.navigate("signUp")}} style={[styles.signInButton,{ backgroundColor:"#f1f1fb"}]}>
     
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <FontAwesome name="envelope" size={20} color="#c0c7d9" />
+    <View style={styles.container1}>
+    <FontAwesome name="envelope" size={buttonIconHeight} color="#c0c7d9" />
 
 
       
-<Text style={{color:"#686874",marginLeft:16,fontWeight:"700",fontSize:15,lineHeight:23}}>Continue with email</Text> 
+<Text style={[styles.buttonText,{color:"#686874"}]}>Continue with email</Text> 
     </View>
      
-      <Entypo name="chevron-right" size={24} color="#c0c7d9" />
+      <Entypo name="chevron-right" size={buttonIconHeight} color="#c0c7d9" />
   
  
   </TouchableOpacity>
-  
 
-    
-   
-  <Text style={{color:"grey",fontSize:11,position:"absolute",bottom:0,marginTop:20,textAlign:"center"}}>By using this app, you agree to the <Text style={{fontWeight:"bold"}}>Terms and Conditions</Text> and <Text style={{fontWeight:"bold"}}>Privacy Policy</Text>.You also agree to receive product related emails from Propzi which you can unsubscribe at any time.</Text>
-</View>
+  <TouchableOpacity onPress={()=>{navigation.navigate("login")}} style={{marginTop:"10%",paddingHorizontal:10,flexDirection:"row",alignItems:"center",alignSelf:"flex-start"}}>
+     <Text  style={{color:"#686874",fontSize:buttonTextSize,fontFamily:"Poppins-Regular",marginRight:10}}>Log in to existing account</Text>
+     <Entypo name="chevron-right" size={buttonIconHeight} color="#c0c7d9" />
 
-    </ScrollView>
-    
+  </TouchableOpacity>
+  </View>
+
+    {/* </ScrollView> */}
+    <View style={styles.footer}>
+    <Text style={{color:"#c0c7d9",fontFamily:"Poppins-Regular",fontSize:PrivacyTextSize,textAlign:"center",alignItems:"flex-end",marginBottom:"5%"}}>By using this app, you agree to the <Text style={{fontFamily:"Poppins-Regular",color:"#686874"}}>Terms and Conditions</Text> and <Text style={{color:"#686874",fontFamily:"Poppins-Regular"}}>Privacy Policy</Text>.You also agree to receive product related emails from Propzi which you can unsubscribe at any time.</Text>
+    </View>
     </SafeAreaView>
   );
 
@@ -472,15 +449,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent:"center"
   },
-
+  buttonText:{
+    fontFamily:"Poppins-Medium",marginLeft:16,fontWeight:"700",fontSize:buttonTextSize,lineHeight:23
+  },
   headerText:{
     fontWeight:"bold",
-    fontSize:28,
+    fontSize:headerSize,
     marginBottom:"7%",
     fontFamily:"Poppins-Bold",
-    textAlign:"left",
-    lineHeight:42
+    lineHeight:42,
+   
   },
-
+ footer:{
+  flex:0.5,
+  paddingHorizontal:"5%",
+  justifyContent:"flex-end"
+ },
+ Header:{
+   paddingHorizontal:"10%",
+   flex:0.8,
+   justifyContent:"space-around",
+ },
+ body:{
+   flex:1,
+   paddingHorizontal:"10%",
+   justifyContent:"flex-start",
+   
+ },
+ signInButton:{
+   marginVertical:"2%",
+   borderRadius:12,
+   padding:"4%",
+   flexDirection:"row",
+   justifyContent:"space-between",
+  alignItems:"center"
+ },
+ container1:{
+  justifyContent:"space-between",
+  flexDirection:"row",
+  alignItems:"center"
+ }
 
 });

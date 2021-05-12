@@ -182,9 +182,23 @@ const ReportScreen = ({ navigation }) => {
   }
 
   // Graph Data Here
-  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-  const data = [900000, 912000, 913000, 917000, 916000, 921000];
-  const data1 = [892000, 902000, 907000, 915000, 912000, 918000];
+  const data = [
+    {x:new Date(2018,9,1),y:160000},
+    {x:new Date(2018,9,16),y:185000},
+    {x:new Date(2018,9,17),y:250000},
+    {x:new Date(2018,10,1),y:300000},
+    {x:new Date(2018,10,2),y:450000},
+    {x:new Date(2018,10,5),y:480000},
+  ];
+  
+  const data2 = [
+    {x:new Date(2018,9,1),y:185000},
+    {x:new Date(2018,9,16),y:200000},
+    {x:new Date(2018,9,17),y:250000},
+    {x:new Date(2018,10,1),y:300000},
+    {x:new Date(2018,10,2),y:350000},
+    {x:new Date(2018,10,5),y:480000},
+  ];
 
   return (
     <SafeAreaView>
@@ -195,46 +209,8 @@ const ReportScreen = ({ navigation }) => {
       >
         <View style={styles.root}>
           {/* Address and Arrow */}
-          <View style={styles.topSection}>
-            <View>
-              <ModalDropdown
-                defaultValue={userAddresses && userAddresses[0]}
-                options={userAddresses}
-                dropdownStyle={{
-                  paddingHorizontal: 10,
-                  marginTop: 2,
-                  width: width - 40,
-                }}
-                dropdownTextStyle={{ fontSize: 18, fontWeight: "500" }}
-                textStyle={{ fontSize: 20, fontWeight: "500", marginBottom: 5 }}
-                onTouchStart={() => setModalVisible(!modalVisible)}
-              />
-              {/* <Text style={styles.title}>{"45 Bristol Rd, Mississauga"}</Text> */}
-              <Text style={styles.stitle}>Last Updated at 12/28/2020.</Text>
-            </View>
-
-            <Pressable
-              style={styles.topSectionArrowContainer}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              {modalVisible ? (
-                <View>
-                  <Image
-                    source={require("../../assets/icons/up1.png")}
-                    style={{ width: 25, height: 25 }}
-                  />
-                </View>
-              ) : (
-                <View>
-                  <Image
-                    source={require("../../assets/icons/down1.png")}
-                    style={{ width: 25, height: 25 }}
-                  />
-                </View>
-              )}
-            </Pressable>
-          </View>
-          <Graph/>
+          
+          <Graph graphData={{data,data2}}/>
           {/* Toggle address avg price text */}
           {/* {shouldShow4 ? (
             // Propzi heading and Date picker plus date select logic
@@ -487,7 +463,7 @@ const ReportScreen = ({ navigation }) => {
           )} */}
 
           <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 10 }}>
-            <Text style={{ fontSize: 23, fontWeight: "500" }}>Report</Text>
+            <Text style={{ fontSize: 23, fontFamily:"Poppins-Bold" }}>Report</Text>
           </View>
 
           {/* Tabs start here */}
@@ -992,6 +968,7 @@ const styles = StyleSheet.create({
   pillName: {
     fontSize: 14,
     color: "white",
+    fontFamily:"Poppins-Medium"
   },
   pills: {
     backgroundColor: colors.SECONDARY_COLOR,
