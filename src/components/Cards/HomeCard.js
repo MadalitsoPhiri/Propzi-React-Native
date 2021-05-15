@@ -3,6 +3,7 @@ import {View,Text,StyleSheet,ScrollView,Dimensions,Animated,Pressable} from "rea
 import { Ionicons,AntDesign,Feather,Entypo } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PropertyDataContext } from "../providers/PropertyDataProvider";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -12,7 +13,21 @@ const {width,height} = Dimensions.get("screen")
 
 
 export default function HomeCard({ properties, to, navigation }) {
-  const {defaultHome, setdefaultHome } = useContext(PropertyDataContext);
+  const {defaultProperty, setdefaultHome,Properties ,setFocusedProperty} = useContext(PropertyDataContext);
+
+  async function setDefaultProperty(id){
+    try{
+        await AsyncStorage.setItem('@defaultProperty',id);
+        setdefaultHome(id)
+       
+    }catch{
+      console.log('Error @checkOnboarding:',err)
+    }
+
+    
+  }
+
+ 
   let CaroselData = []
   if(properties.length > 5){
     CaroselData = properties.slice(0,5)
@@ -22,10 +37,18 @@ export default function HomeCard({ properties, to, navigation }) {
   
   const scrollX = new Animated.Value(0)
   let position = Animated.divide(scrollX, width)
+  React.useEffect(()=>{
+    setFocusedProperty(properties[position.__getValue()])
+    console.log("The Animated Value is: ",properties[position.__getValue()])
+  },[position])
+
+  React.useEffect(()=>{
+   
+  },[defaultProperty])
 return (<View style={{width,marginTop:15,marginBottom:30}}>
 
 
-<ScrollView horizontal pagingEnabled contentContainerStyle={{marginBottom:20}} onScroll={Animated.event(
+<ScrollView horizontal pagingEnabled contentContainerStyle={{}} onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { x: scrollX } } }]
                     )} showsHorizontalScrollIndicator={false}>
                       {properties.map((data,index)=>{
@@ -35,12 +58,12 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                         }
               
                         return  <View style={styles.carouselItem} key={index}>
-                          <View style={{flexDirection:"row",justifyContent:"space-between",marginVertical:10}}>
-                            <View  style={[{paddingHorizontal:15,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1}]}>
+                          <View style={{flexDirection:"row",justifyContent:"flex-end",marginVertical:10}}>
+                            {/* <View  style={[{paddingHorizontal:15,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1}]}>
                             <Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"gray"}}>{data.repliers.address.unitNumber == "" ? `${data.streetNumber} ${data.streetName}`:`${data.repliers.address.unitNumber}, ${data.streetNumber} ${data.streetName}`}</Text>
-                            </View>
+                            </View> */}
                          
-                           {data.isDefault ? <Pressable style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>Default</Text></Pressable>:null}
+                           {data.identity == defaultProperty ? <View style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,left:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>default</Text></View>:<Pressable onPress={()=>setDefaultProperty(data.identity)} style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>pin to default</Text></Pressable>}
                            </View>
                         
                         <View style={styles.cardHeader}>

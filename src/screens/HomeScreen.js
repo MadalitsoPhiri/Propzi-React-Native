@@ -27,13 +27,15 @@ export default function HomeScreen({ navigation }) {
     isPropertyDataLoaded,
     Properties,
     setProperties,
-    defaultHome,
+    defaultProperty,
     setdefaultHome,
+    setFocusedProperty,
+    focusedProperty,
   } = useContext(PropertyDataContext);
   const property = Properties[0];
   const { communityData, isLoading } = useContext(CommunityDataContext);
   const communityDevelopments = randomizeArray(communityData.slice(0, 6));
-
+  console.log("The DEFAULT is :",defaultProperty)
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
   }
@@ -55,9 +57,9 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flex: 1 }}>
               <Text style={styles.address}>Address</Text>
               <Text style={styles.actualAddress}>
-                {property.repliers.address.unitNumber == ""
-                  ? `${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`
-                  : `${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}
+                {focusedProperty.repliers.address.unitNumber == ""
+                  ? `${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`
+                  : `${focusedProperty.repliers.address.unitNumber}, ${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`}
               </Text>
             </View>
             <View style={{marginRight:"2%"}}>
@@ -66,10 +68,10 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <HomeCard properties={Properties} navigation={navigation} />
+        <HomeCard properties={Properties} navigation={navigation}  />
 
         <Button
-          title={"See Your Report"}
+          title={"See Your Propzi Report"}
           width={btnSize.LARGE_WIDTH}
           borderRadius={50}
           onPress={() => navigation.navigate("Report")}

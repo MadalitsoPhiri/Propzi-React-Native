@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { firebase, dbh } from "../../../firebase";
 import { AuthContext } from "./AuthProvider";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const PropertyDataContext = React.createContext({});
 
@@ -10,44 +11,63 @@ export const PropertyDataProvider = ({ children }) => {
   const [property, setProperty] = useState({});
   const [repliers, setRepliers] = useState({});
   const [Properties, setProperties] = useState([]);
-  const [PropertiesDocId, setPropertiesDocid] = useState([]);
+  const [focusedProperty,setFocusedProperty] = useState(null);
 
-  const [defaultHome, setdefaultHome] = useState(0);
+  const [defaultProperty, setdefaultHome] = useState(0);
+  function checkDefaultProperty(id){
+    try{
+   const value = AsyncStorage.getItem('@defaultProperty',(err,result)=>setdefaultHome(result));
+         
+        if (value !== null){
 
+            
+        console.log("it worked",id)
+        }else{
+          setdefaultHome(id)
+          console.log("it did not work ",id)
+        }
+
+    }catch(err){
+    console.log('Error @checkOnboarding:',err)
+    }finally{
+      // setLoading(false)
+    }
+}
   useEffect(() => {
     dbh
       .collection("UserDetails")
       .doc(user.uid)
       .collection("Property")
       .onSnapshot((querySnapshot) => {
-        let defaultProperty = []
-        let otherProperties = []
+        
+        let Properties = []
      
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
-          if(doc.data().isDefault){
             let data = doc.data()
-            data["id"] = doc.id
-            defaultProperty.push(data);
+            data["identity"] = doc.id
+           
+            Properties.push(data);
 
-          }else{
-            let data = doc.data()
-            data["id"] = doc.id
-            otherProperties.push(data);
-          }
+        
+          
+          
         
           setRepliers(doc.data().repliers.address);
         });
         
-        setProperty(defaultProperty[0]);
-        setProperties([...defaultProperty,...otherProperties]);
+        setProperty(Properties[0]);
+        
+        checkDefaultProperty(Properties[0].identity)
+        setFocusedProperty(Properties[0])
+        setProperties([...Properties]);
         setisPropertyDataLoaded(true);
       });
   }, []);
 
   return (
     <PropertyDataContext.Provider
-      value={{ isPropertyDataLoaded, property, repliers,Properties, setProperties,defaultHome,setdefaultHome}}
+      value={{setFocusedProperty,focusedProperty, isPropertyDataLoaded, property, repliers,Properties, setProperties,defaultProperty,setdefaultHome}}
     >
       {children}
     </PropertyDataContext.Provider>

@@ -254,7 +254,7 @@ export default function UniqueScreen({navigation}){
                 console.log(temp)
                 setproperty(temp)
                 // handlePropertyAdding()
-                }} style={{alignSelf:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Finish</Text></TouchableOpacity> 
+                }} style={{marginHorizontal:"10%",alignItems:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Finish</Text></TouchableOpacity> 
          
             </ScrollView>
         

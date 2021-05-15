@@ -66,7 +66,7 @@ return (<SafeAreaView style={{height:"100%"}}>
                 temp["upgrades"] = ammenities
                 console.log(temp)
                 setproperty(temp)
-                navigation.navigate("unique")}} style={{alignSelf:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
+                navigation.navigate("unique")}} style={{marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10,marginHorizontal:"10%",alignItems:"center"}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
                 </ScrollView>
 </SafeAreaView>)
 }

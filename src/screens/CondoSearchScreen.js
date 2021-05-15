@@ -736,13 +736,13 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
       </View>
    
 
-      <View style={{justifyContent: "center",alignItems: "center",marginTop:"10%"}}>
+      <View style={{marginTop:"10%",marginHorizontal:"10%"}}>
       {/* <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/> */}
         
        
 
-          <TouchableOpacity onPress={() =>setUnitNumber(currrentUnitNumber)} style={{marginTop:"20%",alignItems:"center"}}>
-            <View style={{paddingVertical:2,paddingHorizontal:20,borderRadius:30,flexDirection:"row",borderWidth:3,borderColor:"gray",justifyContent:"center",alignItems:"center"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:20,color:"gray"}}>Next</Text></View>
+          <TouchableOpacity onPress={() =>setUnitNumber(currrentUnitNumber)} style={{marginTop:"20%"}}>
+          <View style={{alignItems:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
           </TouchableOpacity>
           
       </View>
@@ -759,7 +759,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
       <Text style={{fontFamily:"Poppins-Medium",lineHeight:42,fontSize:28,paddingHorizontal:18,marginTop:"15%"}}>Let's start by finding your home</Text>
       <View style={[styles.resultsContainer,{marginTop:"10%"}]}> 
       <TextInput placeholder="Search Address..." onChangeText={handleSearch} value={searchValue}editable={isFetching?false:true} style={{height:50,paddingHorizontal:16,fontFamily:"Poppins-Medium"}}/>
-      {noResults ? <Text style={{fontSize:20,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>no results</Text>:null}
+      {noResults ? <Text style={{fontFamily:"Poppins-Regular",color:"gray",fontSize:15,justifyContent:"center",alignItems:"center",flexDirection:"row",width:"100%",textAlign:"center",marginBottom:"5%"}}>please enter your street address above</Text>:null}
       <ScrollView contentContainerStyle={{paddingBottom: searchResults ? "5%":"0%"}}>
       {searchResults && searchResults.data ? 
       searchResults.data.map((result,index) => (
@@ -837,7 +837,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
           </View>
         :null}
         {propertyFound ? <View style={{padding:20,marginBottom:"20%"}}>
-    <Text style={{fontSize:20,fontFamily:"Poppins-Medium"}}>Please Confirm Home Details Below</Text>
+    <Text style={{fontSize:15,fontFamily:"Poppins-Bold"}}>Please Confirm Home Details Below</Text>
 
 
 
@@ -887,8 +887,8 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
   }else{
     navigation.navigate("upgrades")
     console.log(ammenities)
-  }}} style={{marginTop:"20%",alignItems:"center"}}>
-           <View style={{alignSelf:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
+  }}} style={{marginTop:"20%",marginHorizontal:"5%"}}>
+            <View style={{alignItems:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
           </TouchableOpacity>
 </View>
   </View>:null}

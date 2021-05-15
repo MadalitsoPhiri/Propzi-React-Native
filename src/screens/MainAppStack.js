@@ -666,6 +666,44 @@ export default MainAppStack = ({ navigation }) => {
         }}
       />
 
+
+
+
+
+<Stack.Screen
+        name="changeDefault"
+        component={changeDefault}
+        options={{
+          headerTitle: (props) => (
+            <PropziLogo
+            height={height * 0.070}
+            width={width * 0.150}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+             <MaterialIcons
+                name="menu"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+               <MaterialIcons
+                name="chevron-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="black"
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
       <Stack.Screen
         name="visit"
         component={PropziVisit}

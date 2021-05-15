@@ -47,7 +47,7 @@ const TabNavigator = () => {
           </Tabs.Navigator>
         </RecentSaleProvider>
       </CommunityDataProvider>
-    </PropertyDataProvider>
+      </PropertyDataProvider>
   );
 };
 

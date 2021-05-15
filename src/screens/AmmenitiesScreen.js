@@ -68,7 +68,7 @@ return (<SafeAreaView style={{height:"100%"}}>
                 console.log(temp)
                 setproperty(temp)
                 navigation.navigate("upgrades")
-                }} style={{alignSelf:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
+                }} style={{alignItems:"center",marginTop:"25%",marginHorizontal:"10%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
 </ScrollView>
 </SafeAreaView>)
 }
