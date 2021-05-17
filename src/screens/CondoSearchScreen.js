@@ -422,9 +422,20 @@ export default function CondoSearchScreen({navigation}) {
                 return
     })
     setAmenities(prevArray => [...prevArray, ...finalArray])
-    console.log(fullAmenities)
-    console.log(ammenities)
-    console.log(property)
+    // console.log(fullAmenities)
+    // console.log(ammenities)
+    // console.log(property)
+  }
+
+
+  const findLastSoldListing = (obj)=>{
+    console.log("Repliers Property Listings:",obj)
+       obj.forEach((item,index)=>{
+            if(item.soldPrice != null && item.soldPrice != "0.00" && item.soldPrice != ""){
+               return item
+            }
+       })
+       return obj[0];
   }
  
 
@@ -523,38 +534,38 @@ export default function CondoSearchScreen({navigation}) {
 
   const getPropertyDetails = (raw)=>{
      const {streetNumber,streetName} = cleanAddress(raw)
-     console.log(streetName)
-     console.log(streetNumber)
+    //  console.log(streetName)
+    //  console.log(streetNumber)
     const REPLIERS_OPTIONS = {
       method: "GET",
       headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
     };
 
-    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale`;
+    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale&lastStatus=Sld`;
 
-    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U&class=condo&type=sale`;
+    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U&class=condo&type=sale&lastStatus=Sld`;
 
-    const ACHEIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale`;
+    const ARCHIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale&lastStatus=Sld`;
 
      console.log(REPLIERS_ENDPOINT_WITHOUT_STATUS_U)
     fetch(REPLIERS_ENDPOINT_WITHOUT_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json())
 .then(obj=>{
-     console.log(obj)
+    //  console.log(obj)
      if(obj.listings.length == 0){
         //try another end point
         fetch(REPLIERS_ENDPOINT_WITH_STATUS_U,REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
           if(obj.listings.length == 0){
           // try yet another end point
-           fetch(ACHEIVED_LISTING_URL,REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
+           fetch(ARCHIVED_LISTING_URL,REPLIERS_OPTIONS).then(res=>res.json()).then(obj=>{
              if(obj.listings.length == 0){
                setpropertyNotFound(true)
                setisFetching(false)
              }else{
                    setisFetching(false)
-                   setproperty(obj.listings[0])
+                   setproperty(findLastSoldListing(obj.listings))
                    setpropertyFound(true)
                   
-                   console.log(JSON.stringify(obj.listings[0]))
+                   console.log(JSON.stringify(findLastSoldListing(obj.listings)))
              }
            }).catch(err=>{
              console.log(err)
@@ -562,10 +573,10 @@ export default function CondoSearchScreen({navigation}) {
           })
           }else{
             setisFetching(false)
-            setproperty(obj.listings[0])
+            setproperty(findLastSoldListing(obj.listings))
             setpropertyFound(true)
            
-            console.log(JSON.stringify(obj.listings[0]))
+            console.log(JSON.stringify(findLastSoldListing(obj.listings)))
           }
         }).catch(err=>{
           console.log(err.message)
@@ -573,10 +584,10 @@ export default function CondoSearchScreen({navigation}) {
         })
      }else{
        setisFetching(false)
-       setproperty(obj.listings[0])
+       setproperty(findLastSoldListing(obj.listings))
        setpropertyFound(true)
      
-       console.log(JSON.stringify(obj.listings[0]))
+       console.log(JSON.stringify(findLastSoldListing(obj.listings)))
      }
 }).catch(err=>{
   console.log(err.message)

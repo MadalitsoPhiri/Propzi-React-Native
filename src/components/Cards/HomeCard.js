@@ -12,6 +12,7 @@ const {width,height} = Dimensions.get("screen")
 
 
 
+
 export default function HomeCard({ properties, to, navigation }) {
   const {defaultProperty, setdefaultHome,Properties ,setFocusedProperty} = useContext(PropertyDataContext);
 
@@ -81,8 +82,8 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                   
                         <View style={styles.cardFooter}>
                           <View>
-                            <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Propzi Visit</Text>
-                            <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
+                            <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Last Sold Date</Text>
+                            <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{new Date(data.repliers.soldDate).toLocaleDateString("en-US")}</Text>
                           </View>
                           <View>
                             <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Last Sold Price</Text>
