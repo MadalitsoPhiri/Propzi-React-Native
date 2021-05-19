@@ -40,28 +40,33 @@ export const PropertyDataProvider = ({ children }) => {
       .collection("Property")
       .onSnapshot((querySnapshot) => {
         
-        let Properties = []
-     
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-            let data = doc.data()
-            data["identity"] = doc.id
-           
-            Properties.push(data);
+        if(querySnapshot.empty){
 
-        
+        }else{
+          let Properties = []
+     
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+              let data = doc.data()
+              data["identity"] = doc.id
+             
+              Properties.push(data);
+  
           
+            
+            
           
+            setRepliers(doc.data().repliers.address);
+          });
+          
+          setProperty(Properties[0]);
+          
+          checkDefaultProperty(Properties[0].identity)
+          setFocusedProperty(Properties[0])
+          setProperties([...Properties]);
+          setisPropertyDataLoaded(true);
+        }
         
-          setRepliers(doc.data().repliers.address);
-        });
-        
-        setProperty(Properties[0]);
-        
-        checkDefaultProperty(Properties[0].identity)
-        setFocusedProperty(Properties[0])
-        setProperties([...Properties]);
-        setisPropertyDataLoaded(true);
       });
   }, []);
 

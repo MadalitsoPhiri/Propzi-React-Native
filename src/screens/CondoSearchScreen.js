@@ -753,7 +753,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
        
 
           <TouchableOpacity onPress={() =>setUnitNumber(currrentUnitNumber)} style={{marginTop:"20%"}}>
-          <View style={{alignItems:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
+          <View style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
           </TouchableOpacity>
           
       </View>
@@ -899,7 +899,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
     navigation.navigate("upgrades")
     console.log(ammenities)
   }}} style={{marginTop:"20%",marginHorizontal:"5%"}}>
-            <View style={{alignItems:"center",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
+            <View style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></View>
           </TouchableOpacity>
 </View>
   </View>:null}
@@ -935,12 +935,17 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:10,
+    borderRadius:6,
     backgroundColor:"#34D1B6",
     height:50,
     width:width - 50,
     alignSelf:"center",
-    marginTop:"10%"
+    marginTop:"10%",
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:10},
+    shadowOpacity:0.15,
+    shadowRadius:12,
+    elevation:7
   },
   pill:{
     flex:1,

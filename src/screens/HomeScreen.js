@@ -70,12 +70,10 @@ export default function HomeScreen({ navigation }) {
 
         <HomeCard properties={Properties} navigation={navigation}  />
 
-        <Button
-          title={"See Your Propzi Report"}
-          width={btnSize.LARGE_WIDTH}
-          borderRadius={50}
-          onPress={() => navigation.navigate("Report")}
-        />
+        <TouchableOpacity onPress={()=>{
+               
+                navigation.navigate("Report")
+                }} style={styles.continueButton}><Text style={{color:"#fff",fontSize:15,fontFamily:"Poppins-Bold"}}>See Your Propzi Report</Text></TouchableOpacity>
 
         <TouchableOpacity>
           <Text style={styles.learnMore}>
@@ -165,6 +163,7 @@ const styles = StyleSheet.create({
     color: colors.PRIMARY_COLOR,
     fontSize: 16,
     fontWeight: "bold",
+    fontFamily: "Poppins-Medium",
   },
 
   homeHeading: {
@@ -221,5 +220,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     elevation: 8,
+  },
+  continueButton:{
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:30,
+    backgroundColor:"#34D1B6",
+    height:50,
+    width:width - 50,
+    alignSelf:"center",
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:10},
+    shadowOpacity:0.15,
+    shadowRadius:12,
+    elevation:7,
+    marginVertical:"5%"
   },
 });

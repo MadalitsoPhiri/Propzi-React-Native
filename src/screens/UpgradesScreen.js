@@ -1,10 +1,10 @@
 import React,{useState,useContext,useEffect}from 'react';
-import {View,Text,StyleSheet,ScrollView,TouchableOpacity,SafeAreaView} from "react-native";
+import {View,Text,StyleSheet,ScrollView,TouchableOpacity,SafeAreaView,Dimensions} from "react-native";
 import { Chip,Divider } from 'react-native-paper';
 import {AuthContext} from "../components/providers/AuthProvider";
 
 
-
+const {width} = Dimensions.get("window")
 const BORDER_WIDTH = 2
 export default function UpgradesScreen({navigation}){
     const {user,setUser,property,setproperty} = useContext(AuthContext)
@@ -58,7 +58,10 @@ return (<SafeAreaView style={{height:"100%"}}>
             newState[index].selected = !item.selected
             setAmenities(newState)
             console.log("Ammenities",ammenities)
-          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
+          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6", shadowOffset:{width:5,height:10},
+          shadowOpacity:0.15,
+          shadowRadius:12,
+          elevation:7}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
         ))}
             </View></ScrollView>:null}
             <TouchableOpacity onPress={()=>{
@@ -66,7 +69,7 @@ return (<SafeAreaView style={{height:"100%"}}>
                 temp["upgrades"] = ammenities
                 console.log(temp)
                 setproperty(temp)
-                navigation.navigate("unique")}} style={{marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10,marginHorizontal:"10%",alignItems:"center"}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
+                navigation.navigate("unique")}} style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
                 </ScrollView>
 </SafeAreaView>)
 }
@@ -78,6 +81,22 @@ const styles = StyleSheet.create({
      lineHeight:42,
      paddingHorizontal:"8%",
  },
+ continueButton:{
+  flexDirection:"row",
+  justifyContent:"center",
+  alignItems:"center",
+  borderRadius:6,
+  backgroundColor:"#34D1B6",
+  height:50,
+  width:width - 50,
+  alignSelf:"center",
+  marginTop:"10%",
+  shadowColor:"#000",
+  shadowOffset:{width:5,height:10},
+  shadowOpacity:0.15,
+  shadowRadius:12,
+  elevation:7
+},
  subheading:{
      fontFamily:"Poppins-Regular",
      fontSize:13,
@@ -88,6 +107,8 @@ const styles = StyleSheet.create({
  scrollContainer:{
     flexWrap: "wrap",
     flexDirection:'row',
-    width:500
+    width:500,
+    marginBottom:"10%",
+    marginTop:"5%"
   }
 })
