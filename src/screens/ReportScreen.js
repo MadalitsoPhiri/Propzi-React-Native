@@ -24,7 +24,7 @@ import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
 import RecentSaleCard from "../components/Cards/RecentSales";
-import { MaterialCommunityIcons,Ionicons,FontAwesome  } from '@expo/vector-icons'; 
+import {Ionicons,FontAwesome,MaterialIcons  } from '@expo/vector-icons'; 
 import Graph from "./graph";
 import {
   arrowOne,
@@ -434,10 +434,10 @@ const ReportScreen = ({ navigation }) => {
         <Text style={styles.recentSalesSubHeading}>
           {item.address.neighborhood},{item.address.city}
         </Text>
-        <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20,fontFamily:"Poppins-Regular" }}>
+        {/* <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20,fontFamily:"Poppins-Regular" }}>
           {item.details.description.substr(0, 89) + "..."}
           <Text style={{ color: colors.PRIMARY_COLOR,fontFamily:"Poppins-Regular" }}>Read more</Text>
-        </Text>
+        </Text> */}
       </View>
      
       <View style={{width:"100%",flexDirection:"row",justifyContent:"space-around",alignItems:"center",padding:20,marginBottom:"5%"}}>
@@ -450,20 +450,40 @@ const ReportScreen = ({ navigation }) => {
          <Text style={{textAlign:"center",fontSize:11,fontFamily:"Poppins-Medium",color:"gray"}}>{`${item.details.numBathrooms}`+`${item.details.numBathroomsPlus ? "+"+item.details.numBedroomsPlus:"" }`+" Bathrooms"}</Text>
        </View>
        <View style={{justifyContent:"center",alignContent:"center"}}>
-         <MaterialCommunityIcons name="garage" color="black" size={cardIconSize} style={{alignSelf:"center",marginBottom:"10%"}}/>
+         <MaterialIcons  name="square-foot" color="black" size={cardIconSize} style={{alignSelf:"center",marginBottom:"10%"}}/>
        <View ></View>
-         <Text style={{textAlign:"center",fontSize:11,fontFamily:"Poppins-Medium",color:"gray"}}>{`${item.details.numGarageSpaces ? parseInt(item.details.numGarageSpaces):"0" }`+" Garage"}</Text>
+         <Text style={{textAlign:"center",fontSize:11,fontFamily:"Poppins-Medium",color:"gray"}}>{`${item.details.numGarageSpaces ? parseInt(item.details.sqft):"----" }`+" Sqft"}</Text>
        </View>
       </View>
 
-      {item.soldPrice !== "" && item.soldPrice ? (
+      {/* {item.soldPrice !== "" && item.soldPrice ? (
         <View style={styles.cardFooter}>
           <Text style={styles.propziImpactTitle}>Sold for:</Text>
           <Text style={[styles.propziImpact]}>
             ${round(item.soldPrice).toLocaleString("en-US",{currency:"USD"})}
           </Text>
         </View>
-      ) : null}
+      
+      ) : null} */}
+
+<View style={styles.cardFooter}>
+                          <View>
+                            <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Sold Date</Text>
+                            <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{new Date(item.soldDate).toLocaleDateString("en-US")}</Text>
+                          </View>
+                          <View>
+                            <Text style={{ fontFamily:"Poppins-Medium",textAlign:"center"}}>Sold Price</Text>
+                            <Text>
+                              {console.log("last:",item.soldPrice)}
+                              {item.soldPrice == null || item.soldPrice == "0.00" || item.soldPrice == "" ? (
+                                 <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
+                               
+                              ) : (
+                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{'$'+ Math.round(item.soldPrice).toLocaleString()}</Text>
+                              )}
+                            </Text>
+                          </View>
+</View>
 
 </TouchableOpacity>
               )  }
@@ -560,8 +580,8 @@ const ReportScreen = ({ navigation }) => {
           <View
             style={{
               marginTop: -10,
-              paddingHorizontal: 20,
-              paddingVertical: 10,
+              // paddingHorizontal: 20,
+              // paddingVertical: 10,
             }}
           >
             {shouldShow1 ? (
@@ -579,10 +599,12 @@ const ReportScreen = ({ navigation }) => {
                     bounces={false}
                     showsHorizontalScrollIndicator={false}
                     data={economics}
+                    pagingEnabled
                     keyExtractor={(item) => item.img}
                     renderItem={({ item, index }) => (
-                      <View style={{ marginHorizontal: 4 }}>
+                      <View style={{}}>
                         <ReportCard
+                          id={item.id}
                           title={item.indicator}
                           imgUrl={item.img}
                           dataSource={item.dataSource}
@@ -592,6 +614,8 @@ const ReportScreen = ({ navigation }) => {
                           index={index}
                           key={index}
                           width={width - 29}
+                          type={"Economic Indicators"}
+                          likeInfo={item.likeInfo}
                         />
                       </View>
                     )}
@@ -622,8 +646,8 @@ const ReportScreen = ({ navigation }) => {
           <View
             style={{
               marginTop: -10,
-              paddingHorizontal: 20,
-              paddingVertical: 10,
+              // paddingHorizontal: 20,
+              // paddingVertical: 10,
             }}
           >
             {shouldShow2 ? (
@@ -641,10 +665,12 @@ const ReportScreen = ({ navigation }) => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={community}
+                    pagingEnabled
                     keyExtractor={(item) => item.projectUrl}
                     renderItem={({ item, index }) => {
                       return (
                         <ReportCard
+                          id={item.id}
                           imgUrl={
                             item.img
                               ? item.img
@@ -657,6 +683,8 @@ const ReportScreen = ({ navigation }) => {
                           key={index}
                           title={item.heading}
                           projectURL={item.projectUrl}
+                          type={"Community Developments"}
+                          likeInfo={item.likeInfo}
                         />
                       );
                     }}
@@ -874,6 +902,11 @@ const styles = StyleSheet.create({
     
 
  },
+ cardFooter: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  padding:16
+},
 });
 
 export default ReportScreen;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,12 +6,20 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { colors } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
+import {AntDesign } from '@expo/vector-icons';
 const { width } = Dimensions.get("screen");
+import { AuthContext } from "../providers/AuthProvider";
+import { set } from "react-native-reanimated";
+import { firebase, dbh } from "../../../firebase";
+
+
 
 const ReportCard = ({
+  id,
   imgUrl,
   isHigh = false,
   title,
@@ -20,18 +28,102 @@ const ReportCard = ({
   propziImpact,
   category,
   projectURL,
+  type,
+  likeInfo,
 }) => {
   const navigation = useNavigation();
+  const { user, setUser } = useContext(AuthContext);
+const [Liked,setLiked] = useState(false)
+const  [Disliked,setDisliked] = useState(false)
+const [likes,setlikes] = useState(0)
+const [dislikes,setdislikes] = useState(0)
+const LikeIconSize = width*0.055
+const search = (element) => element == user.uid;
+useEffect(()=>{
+  //check like info
+  if(likeInfo.likedIds.findIndex(search)  > -1){
+    setLiked(true)
+  }
+
+  if(likeInfo.dislikedIds.findIndex(search) > -1){
+   setDisliked(true)
+  }
+  setlikes(likeInfo.likes)
+  setdislikes(likeInfo.dislikes)
+
+},[])
+
+const handleLike = ()=>{
+  //like has been clicked
+ if(!Liked){
+
+  // //make firebase call
+  // if(type=="Economic Indicators"){
+  // //its the economics collection
+   
+  // }else if(type=="Community Developments"){
+  // //its the community collection
+  // let initialLikesArray = likeInfo.likedIds
+  // let initialDislikesArray = likeInfo.dislikedIds
+  // initialLikesArray.push(user.uid)
+  // let updatedObject = {}
+  // if(likeInfo.dislikedIds.includes(user.uid)){
+  //  //had disliked before
+  //  updatedObject.likedIds = initialLikesArray
+  //  updatedObject.likes = likeInfo.likes + 1
+  
+  //  let indexOfDislike  = initialDislikesArray.findIndex(search)
+  //  indexOfDislike == -1 ? console.log("indexOfDislike: ",indexOfDislike): delete initialDislikesArray[indexOfDislike]; 
+  //  updatedObject.dislikes = likeInfo.dislikes - 1
+  //  updatedObject.dislikedIds = initialDislikesArray
+  // }else{
+  //   updatedObject.likedIds = initialLikesArray
+  //   updatedObject.likes = likeInfo.likes + 1
+  // }
+ 
+  // dbh
+  // .collection("Communit").doc(id).update(updatedObject).then(()=>{
+  //   setLiked(true)
+  //   setlikes(likes+1)
+  //   setDisliked(false)
+    
+   
+  // })
+  // }else{
+
+  // }
+    setLiked(true)
+    setlikes(likes+1)
+    setDisliked(false)
+    setdislikes(dislikes<=0?0:dislikes-1)
+ }
+}
+
+
+
+const handleDisLike = ()=>{
+  // dislike has been clicked
+ if(!Disliked){
+  setDisliked(true)
+  setdislikes(dislikes+1)
+  setLiked(false)
+  setlikes(likes<=0?0:likes-1)
+ }
+}
+
   return (
-    <TouchableOpacity
+    <View
+
+      style={styles.container}
+    >
+      <View>
+      <TouchableOpacity
       onPress={() =>
         projectURL && projectURL !== ""
           ? navigation.navigate("WebView", { projectURL })
           : null
       }
-      style={styles.container}
     >
-      <View>
         <Image
           source={{ uri: imgUrl }}
           style={[styles.image, { resizeMode: "cover" }]}
@@ -50,8 +142,10 @@ const ReportCard = ({
             <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
           </Text>
         </View>
+        </TouchableOpacity>
+        <View style={[styles.cardFooter,{justifyContent:"space-between"}]}>
         {propziImpact !== "" && propziImpact ? (
-          <View style={styles.cardFooter}>
+          <View style={[styles.propziImpactContainer,{flexDirection:"row"}]}>
             <Text style={styles.propziImpactTitle}>Propzi Impact:</Text>
             <Text
               style={[
@@ -62,22 +156,63 @@ const ReportCard = ({
               {propziImpact}
             </Text>
           </View>
-        ) : null}
+        ) : <View style={{flex:1}}></View>}
+        <View style={styles.LikeContainer}>
+          <TouchableOpacity onPress={handleLike} style={styles.likeIconConatiner}>
+           {Liked ? <AntDesign name="like1" size={LikeIconSize} color="black" />:<AntDesign name="like2" size={LikeIconSize} color="black" />} 
+           <Text style={styles.LikeText}>Like</Text>
+           <Text  style={styles.LikeCount}>{likes}</Text>
+          </TouchableOpacity>
+       <TouchableOpacity onPress={handleDisLike} style={styles.likeIconConatiner}>
+       {Disliked ? <AntDesign name="dislike1" size={LikeIconSize} color="black" />:<AntDesign name="dislike2" size={LikeIconSize} color="black" />}
+       <Text style={styles.LikeText}>Dislike</Text>
+       <Text  style={styles.LikeCount}>{dislikes}</Text>
+       </TouchableOpacity>
+       
+        </View>
+     
+        </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
-    width: width * 0.7,
-    marginHorizontal: 20,
-    overflow: "hidden",
-    borderRadius: 16,
-    backgroundColor: "#f3f3f3",
+    // position: "relative",
+    // width: width * 0.7,
+    // marginHorizontal: 20,
+    // overflow: "hidden",
+    // borderRadius: 16,
+    // backgroundColor: "#f3f3f3",
+    width:width - 32,
+    backgroundColor:"white",
+    borderRadius:17,
+    alignSelf:"center",
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:10},
+    shadowOpacity:0.08,
+    shadowRadius:16,
+    justifyContent:"center",
+    borderWidth:1,
+    borderColor: 'rgba(158, 150, 158, .5)',
+    elevation:8,
+    marginHorizontal:16,
+    marginBottom:25
   },
 
+  likeIconConatiner:{
+    justifyContent:"center",
+    alignItems:"center"
+  },
+ LikeCount:{
+  fontFamily:"Poppins-Medium",
+  fontSize:12
+ },
+ LikeText:{
+ fontFamily:"Poppins-Medium",
+ fontSize:12,padding:"2%"
+ },
   image: {
     width: "100%",
     height: (width - 25 * 2) / 1.7,
@@ -100,10 +235,17 @@ const styles = StyleSheet.create({
   },
 
   cardFooter: {
+    flexDirection:"row",
+   justifyContent:"space-between",
+   alignItems:"center",
+   paddingHorizontal:16,
+   paddingVertical:"8%"
+  },
+
+  propziImpactContainer:{
+    flex:1,
     paddingHorizontal: 10,
     marginHorizontal: 10,
-    marginVertical: 20,
-    marginTop: 10,
     shadowColor: "#00000021",
     shadowOffset: {
       width: 0,
@@ -128,7 +270,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft: 5,
   },
+  LikeContainer:{
+    flex:1,
+    flexDirection:"row",
+    justifyContent:"space-around",
+    alignItems:"center"
 
+  },
   tag: {
     alignItems: "center",
     justifyContent: "space-between",

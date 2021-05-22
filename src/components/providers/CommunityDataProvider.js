@@ -14,18 +14,23 @@ const CommunitDataProvider = ({ children }) => {
     setIsLoading(true);
     dbh
       .collection("Communit")
-      .get()
-      .then((docs) => {
-        docs.forEach((doc) => {
-          communityList.push(doc.data());
-          newArray = randomizeArray(communityList);
-          setCommunityData(newArray);
-          setIsLoading(false);
-        });
+      .onSnapshot((querySnapshot) => {
+        if(querySnapshot.empty){
+
+        }else{
+          querySnapshot.forEach((doc) => {
+              communityList.push(doc.data());
+              newArray = randomizeArray(communityList);
+              setCommunityData(newArray);
+              setIsLoading(false);
+            });
+          
+        }
       })
-      .catch((error) => {
-        console.warn(error.message);
-      });
+     
+      // .catch((error) => {
+      //   console.warn(error.message);
+      // });
   }, []);
 
   return (
