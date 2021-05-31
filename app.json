@@ -6,13 +6,13 @@
     "facebookScheme": "fb845016889691335",
     "facebookAppId": "845016889691335",
     "facebookDisplayName": "propzi-ios",
-    "orientation": "portrait",
     "icon": "./assets/Propzi-Logo.png",
     "splash": {
       "image": "./assets/Propzi-Logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "orientation": "portrait",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,6 +23,7 @@
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "bundleIdentifier": "propzi.com.Propzi-Mobile-App",
+      "requireFullScreen": true,
       "buildNumber": "1.0.7",
       "config": {
         "googleSignIn": {

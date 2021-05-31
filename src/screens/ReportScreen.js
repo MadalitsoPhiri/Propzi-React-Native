@@ -23,6 +23,7 @@ import Loader from "../components/Loader";
 import ReportRectangleCard from "../components/Cards/ReportRectangleCard";
 import ReportRectangleCollapse from "../components/Cards/ReportRectangleCollapse";
 import ReportCard from "../components/Cards/ReportCard";
+import CommunityCard from "../components/Cards/CommunityCard";
 import RecentSaleCard from "../components/Cards/RecentSales";
 import {Ionicons,FontAwesome,MaterialIcons  } from '@expo/vector-icons'; 
 import Graph from "./graph";
@@ -80,6 +81,7 @@ const ReportScreen = ({ navigation }) => {
 
   // SET IMAGE THUMBNAIL
   useEffect(() => {
+    console.log("Fucking user id: ",user.uid)
     const communityThumbnailsData = createImageThumbnailArray(communityData);
     setCommunityThumbnails(communityThumbnailsData);
     const recentSalesImageThumbnails = createImageThumbnailArrayFromRepliers(
@@ -213,7 +215,7 @@ const ReportScreen = ({ navigation }) => {
         <View style={styles.root}>
           {/* Address and Arrow */}
           
-          <Graph graphData={{data,data2}}/>
+          {/* <Graph graphData={{data,data2}}/> */}
 
 
           <View style={{ marginLeft: 20, marginTop: 30, marginBottom: 10 }}>
@@ -645,7 +647,6 @@ const ReportScreen = ({ navigation }) => {
           {/* Community development */}
           <View
             style={{
-              marginTop: -10,
               // paddingHorizontal: 20,
               // paddingVertical: 10,
             }}
@@ -669,22 +670,24 @@ const ReportScreen = ({ navigation }) => {
                     keyExtractor={(item) => item.projectUrl}
                     renderItem={({ item, index }) => {
                       return (
-                        <ReportCard
+                        <CommunityCard
                           id={item.id}
-                          imgUrl={
-                            item.img
-                              ? item.img
-                              : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
-                          }
-                          propziImpact={item.propziImpact}
-                          dataSource={item.dataSource}
-                          desc={item.description}
-                          category={item.category}
+                          data={item}
+                          user={user}
+                          // imgUrl={
+                          //   item.cardImage
+                          //     ? item.cardImage
+                          //     : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
+                          // }
+                          // propziImpact={item.propziImpact}
+                          // dataSource={item.dataSource}
+                          // desc={item.description}
+                          // category={item.category}
                           key={index}
-                          title={item.heading}
-                          projectURL={item.projectUrl}
-                          type={"Community Developments"}
-                          likeInfo={item.likeInfo}
+                          // title={item.heading}
+                          // projectURL={item.projectUrl}
+                          // type={"Community Developments"}
+                          // likeInfo={item.likeInfo}
                         />
                       );
                     }}

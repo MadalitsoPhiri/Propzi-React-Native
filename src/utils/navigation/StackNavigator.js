@@ -20,7 +20,8 @@ import Intro from "../../screens/Intro";
 
 const Stack = createStackNavigator();
 const { width, height } = Dimensions.get("window");
-const MainStackNavigator = () => {
+const MainStackNavigator = ({route}) => {
+
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen
@@ -45,7 +46,8 @@ const MainStackNavigator = () => {
   );
 };
 
-const ReportStackNavigator = () => {
+const ReportStackNavigator = ({route}) => {
+  const {user} = route.params
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen
@@ -65,7 +67,7 @@ const ReportStackNavigator = () => {
   );
 };
 
-const OffersStackNavigator = () => {
+const OffersStackNavigator = ({route}) => {
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen

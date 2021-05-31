@@ -96,6 +96,7 @@ export default MainAppStack = ({ navigation }) => {
       <Stack.Screen
         name="Main"
         component={TabNavigator}
+        initialParams={{ user }}
         options={{
           headerTitle: (props) => (
             <PropziLogo

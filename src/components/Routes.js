@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
+
 const LoadingScreen = () => {
 return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}><ActivityIndicator size="large" color="#46D0B6"/></View>);
 }
@@ -48,7 +49,9 @@ const checkOnboarding = async () => {
 
  
     useEffect(() => {
-      
+       
+        // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+       
         firebase.auth().onAuthStateChanged((User) => {
           if (User != null) {
              setUser(User)
