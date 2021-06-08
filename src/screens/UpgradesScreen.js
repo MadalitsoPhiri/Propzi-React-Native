@@ -48,7 +48,7 @@ export default function UpgradesScreen({navigation}){
       }
      
 return (<SafeAreaView style={{height:"100%"}}>
-<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%"}}>
+<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%",justifyContent:"space-between",flex:1}}>
     <Text style={styles.heading}>Have you done any home upgrades?</Text>
     <Text style={styles.subheading}>Choose renovations that you in your home since you moved in</Text>
     {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal:16}} style={{marginTop:"12%"}}><View style={styles.scrollContainer}>
@@ -90,11 +90,12 @@ const styles = StyleSheet.create({
   height:50,
   width:width - 50,
   alignSelf:"center",
+  marginTop:"10%",
   shadowColor:"#000",
   shadowOffset:{width:5,height:10},
   shadowOpacity:0.15,
   shadowRadius:12,
-  elevation:7
+  elevation:7,
 },
  subheading:{
      fontFamily:"Poppins-Regular",
