@@ -58,7 +58,7 @@ return (<SafeAreaView style={{height:"100%"}}>
             newState[index].selected = !item.selected
             setAmenities(newState)
             console.log("Ammenities",ammenities)
-          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6", shadowOffset:{width:5,height:10},
+          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"4%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6", shadowOffset:{width:5,height:10},
           shadowOpacity:0.15,
           shadowRadius:12,
           elevation:7}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   height:50,
   width:width - 50,
   alignSelf:"center",
-  marginTop:"10%",
   shadowColor:"#000",
   shadowOffset:{width:5,height:10},
   shadowOpacity:0.15,
@@ -107,8 +106,8 @@ const styles = StyleSheet.create({
  scrollContainer:{
     flexWrap: "wrap",
     flexDirection:'row',
-    width:500,
-    marginBottom:"10%",
+    width:1200,
+    marginBottom:"5%",
     marginTop:"5%"
   }
 })

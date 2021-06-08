@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   scrollContainer:{
     flexWrap: "wrap",
     flexDirection:'row',
-    width:700
+    width:800
   },
   heading:{
     fontFamily:"Poppins-Medium",
@@ -123,7 +123,7 @@ export default function UniqueScreen({navigation}){
         streetName: property.address.streetName,
         streetNumber: property.address.streetNumber,
         unitNumber: property.address.unitNumber,
-        Ammenities:property.ammenities,
+        // Ammenities:property.ammenities,
         Upgrades:property.upgrades,
         UniqueFeatures:property.uniqueFeatures,
         repliers:property,

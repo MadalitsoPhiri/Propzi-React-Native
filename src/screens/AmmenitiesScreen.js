@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
  scrollContainer:{
     flexWrap: "wrap",
     flexDirection:'row',
-    width:500,
+    width:600,
     marginBottom:"10%",
     marginTop:"5%"
   }

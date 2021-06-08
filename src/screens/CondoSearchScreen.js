@@ -736,7 +736,8 @@ if(isLoading){
 return <Loader text=""/>;
 }
 if(unitNumber == null){
-return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}><View style={{height:"100%"}}>
+return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}><View style={{height:"100%",justifyContent:"space-between"}}>
+       <View>
        <Text style={{fontFamily:"Poppins-Medium",lineHeight:42,fontSize:28,paddingHorizontal:18,marginTop:"15%"}}>Let's start by finding your home</Text>
     <Text style={{padding:16,fontFamily:"Poppins-Medium",fontSize:16}}>Enter your Unit Number</Text>
     
@@ -745,9 +746,10 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
 
       <TextInput onSubmitEditing={Keyboard.dismiss} placeholder="Unit Number..." onChangeText={handleUnitNumberChange} value={currrentUnitNumber} keyboardType='numeric' style={{height:50,paddingHorizontal:16}} />
       </View>
+     </View>
    
 
-      <View style={{marginTop:"10%",marginHorizontal:"10%"}}>
+      <View style={{marginTop:"10%",marginHorizontal:"10%",marginBottom:"15%"}}>
       {/* <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/> */}
         
        
@@ -847,7 +849,7 @@ return ( <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}
           <TouchableOpacity style={styles.continueButton} onPress={() =>navigation.navigate("manual")}><Text style={{color:"white",fontSize:18}}>Continue</Text></TouchableOpacity>
           </View>
         :null}
-        {propertyFound ? <View style={{padding:20,marginBottom:"20%"}}>
+        {propertyFound ? <View style={{paddingHorizontal:20,marginBottom:"10%"}}>
     <Text style={{fontSize:15,fontFamily:"Poppins-Bold"}}>Please Confirm Home Details Below</Text>
 
 
