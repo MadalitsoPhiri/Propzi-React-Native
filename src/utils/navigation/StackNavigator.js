@@ -47,7 +47,7 @@ const MainStackNavigator = ({route}) => {
 };
 
 const ReportStackNavigator = ({route}) => {
-  const {user} = route.params
+ 
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen

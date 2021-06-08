@@ -81,7 +81,7 @@ const ReportScreen = ({ navigation }) => {
 
   // SET IMAGE THUMBNAIL
   useEffect(() => {
-    console.log("Fucking user id: ",user.uid)
+    console.log("user id: ",user.uid)
     const communityThumbnailsData = createImageThumbnailArray(communityData);
     setCommunityThumbnails(communityThumbnailsData);
     const recentSalesImageThumbnails = createImageThumbnailArrayFromRepliers(
@@ -670,25 +670,40 @@ const ReportScreen = ({ navigation }) => {
                     keyExtractor={(item) => item.projectUrl}
                     renderItem={({ item, index }) => {
                       return (
-                        <CommunityCard
-                          id={item.id}
-                          data={item}
-                          user={user}
-                          // imgUrl={
-                          //   item.cardImage
-                          //     ? item.cardImage
-                          //     : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
-                          // }
-                          // propziImpact={item.propziImpact}
-                          // dataSource={item.dataSource}
-                          // desc={item.description}
-                          // category={item.category}
-                          key={index}
-                          // title={item.heading}
-                          // projectURL={item.projectUrl}
-                          // type={"Community Developments"}
-                          // likeInfo={item.likeInfo}
-                        />
+                        // <CommunityCard
+                        //   id={item.id}
+                        //   data={item}
+                        //   user={user}
+                        //   // imgUrl={
+                        //   //   item.cardImage
+                        //   //     ? item.cardImage
+                        //   //     : "http://www.bioeconomycorporation.my/wp-content/uploads/2015/01/default-placeholder-1024x1024-700x700.png"
+                        //   // }
+                        //   // propziImpact={item.propziImpact}
+                        //   // dataSource={item.dataSource}
+                        //   // desc={item.description}
+                        //   // category={item.category}
+                        //   key={index}
+                        //   // title={item.heading}
+                        //   // projectURL={item.projectUrl}
+                        //   // type={"Community Developments"}
+                        //   // likeInfo={item.likeInfo}
+                        // />
+                        <ReportCard
+                        id={item.id}
+                        title={item.heading}
+                        imgUrl={item.cardImage}
+                        dataSource={item.dataSource}
+                        category={item.category}
+                        propziImpact={item.propziImpact}
+                        projectURL={item.projectUrl}
+                        desc={item.description}
+                        index={index}
+                        key={index}
+                        width={width - 29}
+                        type={"Community Developments"}
+                        likeInfo={item.likeInfo}
+                      />
                       );
                     }}
                   />

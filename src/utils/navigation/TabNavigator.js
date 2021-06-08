@@ -19,7 +19,7 @@ const Tabs = createBottomTabNavigator();
 //src/components/providers/PropertyDataProvider.js
 
 const TabNavigator = ({route}) => {
-  const { user } = route.params;
+
   return (
     <PropertyDataProvider>
       <CommunityDataProvider>
@@ -45,9 +45,9 @@ const TabNavigator = ({route}) => {
               },
             })}
           >
-            <Tabs.Screen name="Home" component={MainStackNavigator} initialParams={{user}}/>
-            <Tabs.Screen name="Report" component={ReportStackNavigator} initialParams={user}/>
-            <Tabs.Screen name="Offers" component={OffersStackNavigator} initialParams={user}/>
+            <Tabs.Screen name="Home" component={MainStackNavigator} />
+            <Tabs.Screen name="Report" component={ReportStackNavigator} />
+            <Tabs.Screen name="Offers" component={OffersStackNavigator} />
           </Tabs.Navigator>
         </RecentSaleProvider>
       </CommunityDataProvider>

@@ -96,8 +96,8 @@ export default function HomeScreen({ navigation }) {
                 return (
                   <GlobalCard
                     imgUrl={
-                      communityDevelopment.img != ""
-                        ? communityDevelopment.img
+                      communityDevelopment.cardImage != ""
+                        ? communityDevelopment.cardImage
                         : null
                     }
                     from={communityDevelopment.dataSource}

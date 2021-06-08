@@ -49,7 +49,7 @@ useEffect(()=>{
   }
   setlikes(data.likeInfo.likes)
   setdislikes(data.likeInfo.dislikes)
-  console.log("Fucking data is: ",data)
+  console.log("data is: ",data)
 
 
 },[])
@@ -119,8 +119,8 @@ const handleDisLike = ()=>{
       <View>
       <TouchableOpacity
       onPress={() =>
-        projectURL && projectURL !== ""
-          ? navigation.navigate("WebView", { projectURL })
+        data.projectUrl && data.projectUrl !== ""
+          ? navigation.navigate("WebView", { projectURL:data.projectUrl })
           : null
       }
     >
@@ -128,12 +128,13 @@ const handleDisLike = ()=>{
           source={{ uri: data.cardImage }}
           style={[styles.image, { resizeMode: "cover" }]}
         />
+        {console.log("the image url",data.cardImage)}
         <View style={styles.tag}>
           <Text style={styles.tagName}>{data.category}</Text>
         </View>
 
         <View style={styles.cardBody}>
-          <Text style={styles.cardTitle}>{data.title}</Text>
+          <Text style={styles.cardTitle}>{data.heading}</Text>
           <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
             From: {data.dataSource}
           </Text>
