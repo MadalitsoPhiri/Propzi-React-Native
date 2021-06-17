@@ -13,8 +13,9 @@ const {width,height} = Dimensions.get("screen")
 
 
 
-export default function HomeCard({ properties, to, navigation }) {
+export default function HomeCard({ properties,addressSetter, to, navigation }) {
   const {defaultProperty, setdefaultHome,Properties ,setFocusedProperty} = useContext(PropertyDataContext);
+  const [currentScrollIndex,setCurrentScrollIndex] = React.useState(0)
 
   async function setDefaultProperty(id){
     try{
@@ -46,12 +47,31 @@ export default function HomeCard({ properties, to, navigation }) {
   React.useEffect(()=>{
    
   },[defaultProperty])
+
+  function handleOnScroll(e){
+    scrollX.Value = e.nativeEvent.contentOffset.x
+    //calculate screenIndex by contentOffset and screen width
+    console.log('currentScreenIndex', parseInt(e.nativeEvent.contentOffset.x/Dimensions.get('window').width));
+    let limit = properties.length - 1
+    let currentIndex = parseInt(e.nativeEvent.contentOffset.x/Dimensions.get('window').width)
+    if(currentIndex <= limit ){
+      addressSetter(parseInt(e.nativeEvent.contentOffset.x/Dimensions.get('window').width))
+    }
+    
+
+
+
+
+  }
 return (<View style={{width,marginTop:15,marginBottom:30}}>
 
 
 <ScrollView horizontal pagingEnabled contentContainerStyle={{}} onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { x: scrollX } } }]
-                    )} showsHorizontalScrollIndicator={false}>
+      [{ nativeEvent: { contentOffset: { x: scrollX} } }],{
+        listener: event => {
+          handleOnScroll(event);
+        }
+      })} showsHorizontalScrollIndicator={false}>
                       {properties.map((data,index)=>{
                        
                         if(index>3){

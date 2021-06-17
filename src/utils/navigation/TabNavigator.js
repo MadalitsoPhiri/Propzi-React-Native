@@ -15,6 +15,7 @@ import { colors } from "../../styles";
 import { PropertyDataProvider } from "../../components/providers/PropertyDataProvider";
 import CommunityDataProvider from "../../components/providers/CommunityDataProvider";
 import RecentSaleProvider from "../../components/providers/RecentSaleProvider";
+import {HomeScreenProvider} from "../../components/providers/HomeScreenProvider";
 const Tabs = createBottomTabNavigator();
 //src/components/providers/PropertyDataProvider.js
 
@@ -49,6 +50,7 @@ const TabNavigator = ({route}) => {
             <Tabs.Screen name="Report" component={ReportStackNavigator} />
             <Tabs.Screen name="Offers" component={OffersStackNavigator} />
           </Tabs.Navigator>
+          
         </RecentSaleProvider>
       </CommunityDataProvider>
       </PropertyDataProvider>

@@ -667,7 +667,7 @@ const ReportScreen = ({ navigation }) => {
                     showsHorizontalScrollIndicator={false}
                     data={community}
                     pagingEnabled
-                    keyExtractor={(item) => item.projectUrl}
+                    keyExtractor={(item) => item.id}
                     renderItem={({ item, index }) => {
                       return (
                         // <CommunityCard

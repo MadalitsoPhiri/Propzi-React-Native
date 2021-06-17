@@ -15,6 +15,7 @@ import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
+import { AuthContext } from "../components/providers/AuthProvider";
 import { randomizeArray } from "../utils/helper";
 import { Entypo,MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
@@ -34,6 +35,7 @@ export default function HomeScreen({ navigation }) {
   } = useContext(PropertyDataContext);
   const property = Properties[0];
   const { communityData, isLoading } = useContext(CommunityDataContext);
+  const { currentHomeCardIndex,setCurrentHomeCardIndex} = useContext(AuthContext);
   const communityDevelopments = randomizeArray(communityData.slice(0, 6));
   console.log("The DEFAULT is :",defaultProperty)
   if (!isPropertyDataLoaded) {
@@ -57,9 +59,9 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flex: 1 }}>
               <Text style={styles.address}>Address</Text>
               <Text style={styles.actualAddress}>
-                {focusedProperty.repliers.address.unitNumber == ""
-                  ? `${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`
-                  : `${focusedProperty.repliers.address.unitNumber}, ${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`}
+                {Properties[currentHomeCardIndex].repliers.address.unitNumber == ""
+                  ? `${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`
+                  : `${Properties[currentHomeCardIndex].repliers.address.unitNumber}, ${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`}
               </Text>
             </View>
             <View style={{marginRight:"2%"}}>
@@ -68,7 +70,7 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <HomeCard properties={Properties} navigation={navigation}  />
+        <HomeCard properties={Properties} navigation={navigation} addressSetter={setCurrentHomeCardIndex} />
 
         <TouchableOpacity onPress={()=>{
                
@@ -124,6 +126,7 @@ export default function HomeScreen({ navigation }) {
        
    
     </ScrollView>
+  
   );
 }
 
