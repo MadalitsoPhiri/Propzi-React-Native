@@ -9,6 +9,8 @@ import {
   ScrollView,
   SafeAreaView,
   Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { firebase, dbh } from "../../firebase";
 import GoogleIcon from "../../assets/google-icon.svg";
@@ -19,6 +21,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { Ionicons } from "@expo/vector-icons";
 import * as Google from "expo-google-app-auth";
 import Loader from "../components/Loader";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const { width, height } = Dimensions.get("window");
 
@@ -68,11 +71,8 @@ export default function LoginScreen({ navigation }) {
   }
   return (
     <SafeAreaView>
-      <ScrollView style={styles.authContainer}>
-        <KeyboardAvoidingView
-          behavior="padding"
-          keyboardVerticalOffset={Platform.OS === "ios" ? 2 : 200}
-        >
+      <KeyboardAwareScrollView extraHeight={120} enableOnAndroid={true}>
+        <View style={styles.authContainer}>
           <Text style={styles.title}>Login to Propzi</Text>
           <Text
             style={{
@@ -198,8 +198,8 @@ export default function LoginScreen({ navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

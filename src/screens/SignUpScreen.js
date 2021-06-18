@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import { btnSize, colors } from "../styles";
 import EmailIcon from "../../assets/envelope-regular.svg";
@@ -21,6 +19,7 @@ import * as yup from "yup";
 import { firebase, dbh } from "../../firebase";
 import Loader from "../components/Loader";
 import { ActivityIndicator } from "react-native-paper";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SignUpSchema = yup.object({
   fullName: yup.string().required("full name is required"),
@@ -92,12 +91,9 @@ export default function SignUpScreen({ navigation }) {
   }
 
   return (
-    <ScrollView style={styles.authContainer}>
-      <KeyboardAvoidingView
-        behavior="padding"
-        keyboardVerticalOffset={Platform.OS === "ios" ? 2 : 200}
-      >
-        {/* Logo */}
+    <KeyboardAwareScrollView extraHeight={120} enableOnAndroid={true}>
+      {/* Logo */}
+      <View style={styles.authContainer}>
         <Formik
           initialValues={{
             fullName: "",
@@ -390,8 +386,8 @@ export default function SignUpScreen({ navigation }) {
             </View>
           )}
         </Formik>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 // TODO:// Add responsiveness to small card
