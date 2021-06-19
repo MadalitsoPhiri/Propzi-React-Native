@@ -445,8 +445,10 @@ export default function CondoSearchScreen({ navigation }) {
   const [sqftVisible, setSqftVisible] = React.useState(false);
   const [unitNumber, setUnitNumber] = React.useState(null);
   const [currrentUnitNumber, setCurrentUnitNumber] = React.useState("");
-  const [onBlur, setOnBlur] = React.useState(true)
-  const [onFocus, setOnFocus] = React.useState(false)
+  const [onBlur, setOnBlur] = React.useState(true);
+  const [onFocus, setOnFocus] = React.useState(false);
+
+  const SearchRef = React.useRef();
 
   useEffect(() => {
     FindAmenities();
@@ -807,90 +809,96 @@ export default function CondoSearchScreen({ navigation }) {
   }
   if (unitNumber == null) {
     return (
-      <KeyboardAwareScrollView extraHeight={320} enableOnAndroid={true}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={{ height: "100%", justifyContent: "space-between" }}>
-            <View>
-              <Text
-                style={{
-                  fontFamily: "Poppins-Medium",
-                  lineHeight: 42,
-                  fontSize: 28,
-                  paddingHorizontal: 18,
-                  marginTop: "15%",
-                }}
-              >
-                Let's start by finding your home
-              </Text>
-              <Text
-                style={{
-                  padding: 16,
-                  fontFamily: "Poppins-Medium",
-                  fontSize: 16,
-                }}
-              >
-                Enter your Unit Number
-              </Text>
-
-              <View style={[styles.resultsContainer]}>
-                <TextInput
-                  onBlur={() => {
-                    setOnBlur(true);
-                    setOnFocus(false);
-                  }}
-                  onFocus={() => {
-                    setOnBlur(false);
-                    setOnFocus(true);
-                  }}
-                  onSubmitEditing={Keyboard.dismiss}
-                  placeholder="Unit Number..."
-                  onChangeText={handleUnitNumberChange}
-                  value={currrentUnitNumber}
-                  keyboardType="numeric"
-                  style={{ height: 50, paddingHorizontal: 16 }}
-                />
-              </View>
-            </View>
-
-            <View
+      <KeyboardAwareScrollView
+        keyboardDismissMode="none"
+        keyboardShouldPersistTaps="always"
+        extraHeight={320}
+        enableOnAndroid={true}
+      >
+        <View style={{ height: "100%", justifyContent: "space-between" }}>
+          <View>
+            <Text
               style={{
-                marginTop: "10%",
-                marginHorizontal: "10%",
-                marginBottom: "15%",
+                fontFamily: "Poppins-Medium",
+                lineHeight: 42,
+                fontSize: 28,
+                paddingHorizontal: 18,
+                marginTop: "15%",
               }}
             >
-              {/* <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/> */}
+              Let's start by finding your home
+            </Text>
+            <Text
+              style={{
+                padding: 16,
+                fontFamily: "Poppins-Medium",
+                fontSize: 16,
+              }}
+            >
+              Enter your Unit Number
+            </Text>
 
-              <TouchableOpacity
-                onPress={() => setUnitNumber(currrentUnitNumber)}
-                style={{ marginTop: onFocus? '10%': '90%'}}
-              >
-                <View style={styles.continueButton}>
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 18,
-                      fontFamily: "Poppins-Bold",
-                    }}
-                  >
-                    Next
-                  </Text>
-                </View>
-              </TouchableOpacity>
+            <View style={[styles.resultsContainer]}>
+              <TextInput
+                onBlur={() => {
+                  setOnBlur(true);
+                  setOnFocus(false);
+                }}
+                onFocus={() => {
+                  setOnBlur(false);
+                  setOnFocus(true);
+                }}
+                onSubmitEditing={() => {
+                  setUnitNumber(currrentUnitNumber);
+                  Keyboard.dismiss();
+                }}
+                placeholder="Unit Number..."
+                onChangeText={handleUnitNumberChange}
+                value={currrentUnitNumber}
+                keyboardType="numeric"
+                style={{ height: 50, paddingHorizontal: 16 }}
+              />
             </View>
           </View>
-        </TouchableWithoutFeedback>
+
+          <View
+            style={{
+              marginTop: "10%",
+              marginHorizontal: "10%",
+              marginBottom: "15%",
+            }}
+          >
+            {/* <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/> */}
+
+            <TouchableOpacity
+              onPress={() => {
+                setUnitNumber(currrentUnitNumber);
+                Keyboard.dismiss();
+                // SearchRef.current.focus()
+              }}
+              style={{ marginTop: onFocus ? "10%" : "90%" }}
+            >
+              <View style={styles.continueButton}>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 18,
+                    fontFamily: "Poppins-Bold",
+                  }}
+                >
+                  Next
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       </KeyboardAwareScrollView>
     );
   }
   return (
     <Provider>
       <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView
-          extraHeight={120}
-          enableOnAndroid={true}
-          style={{ height: "100%" }}
-        >
+        <ScrollView keyboardDismissMode="on-drag" style={{ height: "100%" }}>
           <Animated.View>
             <Text
               style={{
@@ -905,6 +913,7 @@ export default function CondoSearchScreen({ navigation }) {
             </Text>
             <View style={[styles.resultsContainer, { marginTop: "10%" }]}>
               <TextInput
+                autoFocus={true}
                 placeholder="Search Address..."
                 onChangeText={handleSearch}
                 value={searchValue}
@@ -1382,7 +1391,7 @@ export default function CondoSearchScreen({ navigation }) {
               </View>
             </View>
           ) : null}
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </SafeAreaView>
     </Provider>
   );
