@@ -93,7 +93,7 @@ const ReportScreen = ({ navigation }) => {
   // GET ECONOMIC DATA
   useEffect(() => {
     const subscriber = dbh
-      .collection("Economics/Country/EconomicIndicator")
+      .collection("DailyEconomicIndicator")
       .onSnapshot((querySnapshot) => {
         const users = [];
 
@@ -112,26 +112,26 @@ const ReportScreen = ({ navigation }) => {
     return () => subscriber();
   }, []);
 
-  useEffect(() => {
-    const subscriber1 = dbh
-      .collection("Economics/Toronto/EconomicIndicator")
-      .onSnapshot((querySnapshot) => {
-        const users1 = [];
+  // useEffect(() => {
+  //   const subscriber1 = dbh
+  //     .collection("Economics/Toronto/EconomicIndicator")
+  //     .onSnapshot((querySnapshot) => {
+  //       const users1 = [];
 
-        querySnapshot.forEach((documentSnapshot) => {
-          users1.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
+  //       querySnapshot.forEach((documentSnapshot) => {
+  //         users1.push({
+  //           ...documentSnapshot.data(),
+  //           key: documentSnapshot.id,
+  //         });
+  //       });
 
-        setEconomics((users) => users.concat(users1));
-        setLoading(false);
-      });
+  //       setEconomics((users) => users.concat(users1));
+  //       setLoading(false);
+  //     });
 
-    // Unsubscribe from events when no longer in use
-    return () => subscriber1();
-  }, []);
+  //   // Unsubscribe from events when no longer in use
+  //   return () => subscriber1();
+  // }, []);
 
   // Get user Addresses
   useEffect(() => {
@@ -186,7 +186,7 @@ const ReportScreen = ({ navigation }) => {
     return <Loader />;
   }
 
-  // Graph Data Here
+  // Graph Test Data Here
   const data = [
     {x:new Date(2018,9,1),y:160000},
     {x:new Date(2018,9,16),y:185000},
@@ -602,19 +602,19 @@ const ReportScreen = ({ navigation }) => {
                     showsHorizontalScrollIndicator={false}
                     data={economics}
                     pagingEnabled
-                    keyExtractor={(item) => item.img}
+                    keyExtractor={(item) => item.id}
                     renderItem={({ item, index }) => (
                       <View style={{}}>
                         <ReportCard
                           id={item.id}
-                          title={item.indicator}
-                          imgUrl={item.img}
+                          title={item.categoryIndicator}
+                          imgUrl={item.imgUrl}
                           dataSource={item.dataSource}
                           category={item.categoryIndicator}
                           propziImpact={item.propziImpact}
                           desc={item.description}
                           index={index}
-                          key={index}
+                          key={item.id}
                           width={width - 29}
                           type={"Economic Indicators"}
                           likeInfo={item.likeInfo}

@@ -9,7 +9,7 @@ const CommunitDataProvider = ({ children }) => {
   const [communityData, setCommunityData] = useState([]);
 
   const communityList = [];
-  let newArray;
+
   useEffect(() => {
     setIsLoading(true);
     dbh
