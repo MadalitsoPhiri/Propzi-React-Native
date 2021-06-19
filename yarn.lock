@@ -6770,6 +6770,11 @@ react-native-sfsymbols@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-sfsymbols/-/react-native-sfsymbols-1.0.0.tgz#6b79fbba28c92fe8d6086502dbd07f905f1a3971"
   integrity sha512-KIJaApcOMLWRTGzq5ynr6DIqxo/8J/NrRuL4QrJrW1NM29pDJn+dSqnLxqDR+5bjnB7J8pCxm0NC4IW+sA40yg==
 
+react-native-size-matters@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.4.0.tgz#01bfd0d59454318f4e0b13fe9c1eb0523d70f2e0"
+  integrity sha512-8/C0htHrFWeUm9N8JegmadovUfgTWkGBkDPZ1N3YkXtDWb+98Ya2gThiKcu445r8c7YhcrBfnHz/mYsXIusaOQ==
+
 react-native-svg-transformer@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz#43c8e176f5a11f16f39b87a64018e0ac090ffbdb"

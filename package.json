@@ -52,6 +52,7 @@
     "react-native-redash": "^16.0.11",
     "react-native-screens": "~3.0.0",
     "react-native-sfsymbols": "^1.0.0",
+    "react-native-size-matters": "^0.4.0",
     "react-native-svg": "12.1.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-web": "~0.13.12",

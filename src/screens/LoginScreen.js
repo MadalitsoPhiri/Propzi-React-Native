@@ -22,6 +22,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Google from "expo-google-app-auth";
 import Loader from "../components/Loader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 const { width, height } = Dimensions.get("window");
 
@@ -70,137 +71,138 @@ export default function LoginScreen({ navigation }) {
     return <Loader text="" />;
   }
   return (
-    <SafeAreaView>
-      <KeyboardAwareScrollView extraHeight={120} enableOnAndroid={true}>
-        <View style={styles.authContainer}>
-          <Text style={styles.title}>Login to Propzi</Text>
-          <Text
-            style={{
-              color: "#4F4F4F",
-              fontSize: 15,
-              marginBottom: "8%",
-            }}
-          >
-            Get your value for free whenever you want
-          </Text>
+    <View style={styles.authContainer}>
+      <KeyboardAwareScrollView
+        extraHeight={moderateScale(220)}
+        enableOnAndroid={true}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.title}>Login to Propzi</Text>
+        <Text
+          style={{
+            color: "#4F4F4F",
+            fontSize: 15,
+            marginBottom: "8%",
+          }}
+        >
+          Get your value for free whenever you want
+        </Text>
 
-          <View>
-            <Text style={styles.label}>Email Address</Text>
-            <View style={[styles.input, { width: "100%" }]}>
-              <EmailIcon
-                height={20}
-                width={20}
-                style={{ marginRight: "5%", color: "#BDBDBD" }}
-              />
-              <TextInput
-                placeholder={"Enter Email"}
-                autoCorrect={true}
-                onChangeText={handleOnEmailChange}
-                value={email}
-                style={{
-                  fontSize: 17,
-                  fontWeight: "500",
-                  color: "#4F4F4F",
-                  marginRight: "12%",
-                }}
-              />
-            </View>
-          </View>
-
-          <View>
-            <Text style={styles.label}>Password</Text>
-            <View style={[styles.input, { width: "100%" }]}>
-              <LockIcon
-                height={20}
-                width={20}
-                style={{ marginRight: "5%", color: "#BDBDBD" }}
-              />
-              <TextInput
-                placeholder={"Password"}
-                autoCorrect={true}
-                onChangeText={handleOnPasswordChange}
-                secureTextEntry={isHidden ? true : false}
-                value={password}
-                style={{
-                  fontSize: 17,
-                  fontWeight: "500",
-                  color: "#4F4F4F",
-                  flex: 1,
-                  marginRight: "5%",
-                }}
-              />
-
-              <TouchableOpacity onPress={setHiddenValue}>
-                {isHidden ? (
-                  <Text
-                    style={{ flex: 0.2, textAlign: "right", color: "#4F4F4F" }}
-                  >
-                    Show
-                  </Text>
-                ) : (
-                  <Text
-                    style={{ flex: 0.2, textAlign: "right", color: "#4F4F4F" }}
-                  >
-                    Hide
-                  </Text>
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {Error ? (
-            <Text style={{ marginTop: "5%", color: "red" }}>
-              {Error.message}
-            </Text>
-          ) : null}
-          <TouchableOpacity onPress={handleLogin} style={styles.authBtn}>
-            <Text
+        <View>
+          <Text style={styles.label}>Email Address</Text>
+          <View style={[styles.input, { width: "100%" }]}>
+            <EmailIcon
+              height={20}
+              width={20}
+              style={{ marginRight: "5%", color: "#BDBDBD" }}
+            />
+            <TextInput
+              placeholder={"Enter Email"}
+              autoCorrect={true}
+              onChangeText={handleOnEmailChange}
+              value={email}
               style={{
-                color: "white",
-                marginVertical: 13,
                 fontSize: 17,
-                fontWeight: "700",
-                justifyContent: "center",
-                alignItems: "center",
+                fontWeight: "500",
+                color: "#4F4F4F",
+                marginRight: "12%",
               }}
-            >
-              Login
-            </Text>
-          </TouchableOpacity>
+            />
+          </View>
+        </View>
 
-          <View style={{ alignItems: "center" }}>
-            <Text style={{ color: "#4F4F4F", marginBottom: "2%" }}>
-              Can't log into your account?
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("forgot")}>
-              <Text
-                style={{
-                  color: "#6FCF97",
-                }}
-              >
-                Get help accessing your account.
-              </Text>
-            </TouchableOpacity>
+        <View>
+          <Text style={styles.label}>Password</Text>
+          <View style={[styles.input, { width: "100%" }]}>
+            <LockIcon
+              height={20}
+              width={20}
+              style={{ marginRight: "5%", color: "#BDBDBD" }}
+            />
+            <TextInput
+              placeholder={"Password"}
+              autoCorrect={true}
+              onChangeText={handleOnPasswordChange}
+              secureTextEntry={isHidden ? true : false}
+              value={password}
+              style={{
+                fontSize: 17,
+                fontWeight: "500",
+                color: "#4F4F4F",
+                flex: 1,
+                marginRight: "5%",
+              }}
+            />
 
-            <Text
-              style={{ color: "#4F4F4F", marginBottom: "2%", marginTop: "10%" }}
-            >
-              Don't have an account?
-            </Text>
-            <TouchableOpacity onPress={() => navigation.replace("signUp")}>
-              <Text
-                style={{
-                  color: "#6FCF97",
-                  marginBottom: "20%",
-                }}
-              >
-                Sign up.
-              </Text>
+            <TouchableOpacity onPress={setHiddenValue}>
+              {isHidden ? (
+                <Text
+                  style={{ flex: 0.2, textAlign: "right", color: "#4F4F4F" }}
+                >
+                  Show
+                </Text>
+              ) : (
+                <Text
+                  style={{ flex: 0.2, textAlign: "right", color: "#4F4F4F" }}
+                >
+                  Hide
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>
+
+        {Error ? (
+          <Text style={{ marginTop: "5%", color: "red" }}>{Error.message}</Text>
+        ) : null}
+        <TouchableOpacity onPress={handleLogin} style={styles.authBtn}>
+          <Text
+            style={{
+              color: "white",
+              marginVertical: 13,
+              fontSize: 17,
+              fontWeight: "700",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            Login
+          </Text>
+        </TouchableOpacity>
+
+        <View style={{ alignItems: "center" }}>
+          <Text style={{ color: "#4F4F4F", marginBottom: "2%" }}>
+            Can't log into your account?
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("forgot")}>
+            <Text
+              style={{
+                color: "#6FCF97",
+              }}
+            >
+              Get help accessing your account.
+            </Text>
+          </TouchableOpacity>
+
+          <Text
+            style={{ color: "#4F4F4F", marginBottom: "2%", marginTop: "10%" }}
+          >
+            Don't have an account?
+          </Text>
+          <TouchableOpacity onPress={() => navigation.replace("signUp")}>
+            <Text
+              style={{
+                color: "#6FCF97",
+                marginBottom: "20%",
+              }}
+            >
+              Sign up.
+            </Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 // TODO:// Add responsiveness to small card

@@ -35,6 +35,7 @@
     "android": {
       "package": "propzi.com.PropziMobileApp",
       "versionCode": 1,
+      "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

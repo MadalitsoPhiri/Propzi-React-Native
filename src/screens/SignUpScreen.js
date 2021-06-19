@@ -91,7 +91,7 @@ export default function SignUpScreen({ navigation }) {
   }
 
   return (
-    <KeyboardAwareScrollView extraHeight={120} enableOnAndroid={true}>
+    <KeyboardAwareScrollView extraHeight={220} enableOnAndroid={true}>
       {/* Logo */}
       <View style={styles.authContainer}>
         <Formik
