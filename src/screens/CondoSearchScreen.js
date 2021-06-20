@@ -418,7 +418,7 @@ const cleanAddress = (raw) => {
       //
     }
   } else {
-    console.log("Error addressArray larger than expected!");
+    // console.log("Error addressArray larger than expected!");
     streetNumber = postGridAddress[0];
     streetName = postGridAddress[1];
     return { streetNumber, streetName };
@@ -445,6 +445,8 @@ export default function CondoSearchScreen({ navigation }) {
   const [sqftVisible, setSqftVisible] = React.useState(false);
   const [unitNumber, setUnitNumber] = React.useState(null);
   const [currrentUnitNumber, setCurrentUnitNumber] = React.useState("");
+  const [currrentUnitNumberErr, setCurrentUnitNumberErr] =
+    React.useState(false);
   const [onBlur, setOnBlur] = React.useState(true);
   const [onFocus, setOnFocus] = React.useState(false);
 
@@ -692,6 +694,7 @@ export default function CondoSearchScreen({ navigation }) {
 
   const handleUnitNumberChange = (e) => {
     setCurrentUnitNumber(e.trim());
+    setCurrentUnitNumberErr(false);
   };
 
   const handleSelect = (index) => {
@@ -745,12 +748,14 @@ export default function CondoSearchScreen({ navigation }) {
   const getAddressPreview = (term) => {
     const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
     const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA&stateFilter=ON`;
+    
     const OPTIONS = {
       method: "GET",
       headers: {
         "x-api-key": APK_KEY,
       },
     };
+    
     fetch(END_POINT, OPTIONS)
       .then((res) => res.json())
       .then((data) => {
@@ -838,8 +843,15 @@ export default function CondoSearchScreen({ navigation }) {
               Enter your Unit Number
             </Text>
 
-            <View style={[styles.resultsContainer]}>
+            <View
+              style={
+                currrentUnitNumberErr
+                  ? [styles.resultsContainer, styles.err]
+                  : [styles.resultsContainer]
+              }
+            >
               <TextInput
+                autoFocus={true}
                 onBlur={() => {
                   setOnBlur(true);
                   setOnFocus(false);
@@ -849,15 +861,27 @@ export default function CondoSearchScreen({ navigation }) {
                   setOnFocus(true);
                 }}
                 onSubmitEditing={() => {
-                  setUnitNumber(currrentUnitNumber);
-                  Keyboard.dismiss();
+                  if (currrentUnitNumber === "") {
+                    setCurrentUnitNumberErr(true);
+                  } else {
+                    setUnitNumber(currrentUnitNumber);
+                    Keyboard.dismiss();
+                  }
                 }}
                 placeholder="Unit Number..."
                 onChangeText={handleUnitNumberChange}
                 value={currrentUnitNumber}
                 keyboardType="numeric"
-                style={{ height: 50, paddingHorizontal: 16 }}
+                style={{
+                  height: 50,
+                  paddingHorizontal: 16,
+                }}
               />
+              {currrentUnitNumberErr ? (
+                <Text style={{ color: "#FF5555", paddingLeft: 15 }}>
+                  Unit Number can't be empty
+                </Text>
+              ) : null}
             </View>
           </View>
 
@@ -872,8 +896,12 @@ export default function CondoSearchScreen({ navigation }) {
 
             <TouchableOpacity
               onPress={() => {
-                setUnitNumber(currrentUnitNumber);
-                Keyboard.dismiss();
+                if (currrentUnitNumber === "") {
+                  setCurrentUnitNumberErr(true);
+                } else {
+                  setUnitNumber(currrentUnitNumber);
+                  Keyboard.dismiss();
+                }
                 // SearchRef.current.focus()
               }}
               style={{ marginTop: onFocus ? "10%" : "90%" }}
@@ -1365,10 +1393,10 @@ export default function CondoSearchScreen({ navigation }) {
                   onPress={() => {
                     if (ammenities.length > 0) {
                       navigation.navigate("ammenities");
-                      console.log(ammenities);
+                      // console.log(ammenities);
                     } else {
                       navigation.navigate("upgrades");
-                      console.log(ammenities);
+                      // console.log(ammenities);
                     }
                   }}
                   style={{
@@ -1405,6 +1433,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
+  err: { borderColor: "red" },
   resultsContainer: {
     backgroundColor: "#F7F7F7",
     borderRadius: 10,

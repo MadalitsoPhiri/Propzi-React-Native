@@ -15,32 +15,58 @@ import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
-import { AuthContext } from "../components/providers/AuthProvider";
 import { randomizeArray } from "../utils/helper";
-import { Entypo,MaterialIcons } from "@expo/vector-icons";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
-const { width,height} = Dimensions.get("screen");
-const cardIconHeight = height * 0.1
-const cardIconWidth = width * 0.3
+import { dbh } from "../../firebase";
+
+const { width, height } = Dimensions.get("screen");
+
 export default function HomeScreen({ navigation }) {
-  const {
-    isPropertyDataLoaded,
-    Properties,
-    setProperties,
-    defaultProperty,
-    setdefaultHome,
-    setFocusedProperty,
-    focusedProperty,
-  } = useContext(PropertyDataContext);
-  const property = Properties[0];
+  const { isPropertyDataLoaded, Properties, focusedProperty } =
+    useContext(PropertyDataContext);
   const { communityData, isLoading } = useContext(CommunityDataContext);
-  const { currentHomeCardIndex,setCurrentHomeCardIndex} = useContext(AuthContext);
-  const communityDevelopments = randomizeArray(communityData.slice(0, 6));
-  console.log("The DEFAULT is :",defaultProperty)
+  // community Developments Data state
+  const [communityDevelopmentsData, setCommunityDevelopments] = React.useState(
+    []
+  );
+  
+  React.useEffect(() => {
+    const communityList = [];
+
+    dbh
+    .collection("Communit")
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.empty) {
+      } else {
+        querySnapshot.forEach((doc) => {
+          communityList.push(doc.data());
+
+          // const communityDevelopments = randomizeArray(communityData.slice(0, 6));
+          // newArray = randomizeArray(communityList);
+          // setCommunityData(communityList);
+          // setIsLoading(false);
+        });
+        
+        setCommunityDevelopments(randomizeArray(communityList.slice(0, 6)));
+        }
+      })
+      .catch((error) => {
+        // console.warn(error.message);
+      });
+  }, []);
+
+  const property = Properties[0];
+
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
   }
+
+  const testFunc = () => {
+    setCommunityDevelopments(communityDevelopments);
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -59,23 +85,31 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flex: 1 }}>
               <Text style={styles.address}>Address</Text>
               <Text style={styles.actualAddress}>
-                {Properties[currentHomeCardIndex].repliers.address.unitNumber == ""
-                  ? `${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`
-                  : `${Properties[currentHomeCardIndex].repliers.address.unitNumber}, ${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`}
+                {focusedProperty.repliers.address.unitNumber == ""
+                  ? `${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`
+                  : `${focusedProperty.repliers.address.unitNumber}, ${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`}
               </Text>
             </View>
-            <View style={{marginRight:"2%"}}>
+            <View style={{ marginRight: "2%" }}>
               <MaterialIcons name="chevron-right" size={35} color="black" />
             </View>
           </TouchableOpacity>
         </View>
 
-        <HomeCard properties={Properties} navigation={navigation} addressSetter={setCurrentHomeCardIndex} />
+        <HomeCard properties={Properties} navigation={navigation} />
 
-        <TouchableOpacity onPress={()=>{
-               
-                navigation.navigate("Report")
-                }} style={styles.continueButton}><Text style={{color:"#fff",fontSize:15,fontFamily:"Poppins-Bold"}}>See Your Propzi Report</Text></TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Report");
+          }}
+          style={styles.continueButton}
+        >
+          <Text
+            style={{ color: "#fff", fontSize: 15, fontFamily: "Poppins-Bold" }}
+          >
+            See Your Propzi Report
+          </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity>
           <Text style={styles.learnMore}>
@@ -89,8 +123,9 @@ export default function HomeScreen({ navigation }) {
           <SmallCard />
         </View>
         {isLoading && <Loader />}
-        {communityDevelopments?.length > 0
-          ? communityDevelopments?.map((communityDevelopment, i) => {
+
+        {communityDevelopmentsData.length > 0
+          ? communityDevelopmentsData.map((communityDevelopment, i) => {
               if (
                 communityDevelopment.city.toLowerCase() ==
                 property.city.toLowerCase()
@@ -116,17 +151,11 @@ export default function HomeScreen({ navigation }) {
           : null}
       </View>
 
-      
-        <Text style={styles.homeHeading}>Your home offers</Text>
-        <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
+      <Text style={styles.homeHeading}>Your home offers</Text>
+      <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-       
-<HomeBankFinance/>
-
-       
-   
+      <HomeBankFinance />
     </ScrollView>
-  
   );
 }
 
@@ -182,14 +211,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
-  
-
   homeSubHeading: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
     paddingHorizontal: 16,
-    fontFamily:"Poppins-Medium"
+    fontFamily: "Poppins-Medium",
   },
 
   homeOffers: {
@@ -224,20 +251,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 8,
   },
-  continueButton:{
-    flexDirection:"row",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:30,
-    backgroundColor:"#34D1B6",
-    height:50,
-    width:width - 50,
-    alignSelf:"center",
-    shadowColor:"#000",
-    shadowOffset:{width:5,height:10},
-    shadowOpacity:0.15,
-    shadowRadius:12,
-    elevation:7,
-    marginVertical:"5%"
+  continueButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    backgroundColor: "#34D1B6",
+    height: 50,
+    width: width - 50,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 5, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 7,
+    marginVertical: "5%",
   },
 });

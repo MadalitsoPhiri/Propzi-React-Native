@@ -331,6 +331,7 @@ const Input = ({
   return (
     <View style={[styles.input, { width: width }]}>
       <TextInput
+        autoFocus={true}
         autoCompleteType={"street-address"}
         placeholder={placeholder}
         autoCorrect={true}
@@ -407,7 +408,7 @@ const cleanAddress = (raw) => {
       //
     }
   } else {
-    console.log("Error addressArray larger than expected!");
+    // console.log("Error addressArray larger than expected!");
     streetNumber = postGridAddress[0];
     streetName = postGridAddress[1];
     return { streetNumber, streetName };
@@ -422,7 +423,6 @@ export default function SearchHomeScreen({ navigation }) {
   const [propertyFound, setpropertyFound] = useState(false);
   const [propertyNotFound, setpropertyNotFound] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { user, setUser, property, setproperty } = useContext(AuthContext);
   const [bedroom, setBedroom] = useState("");
   const [bedroomPlus, setBedroomPlus] = useState("");
   const [bathrooms, setBathrooms] = useState("");
@@ -433,8 +433,12 @@ export default function SearchHomeScreen({ navigation }) {
   const [bathroomVisible, setbathroomVisible] = React.useState(false);
   const [sqftVisible, setSqftVisible] = React.useState(false);
 
+  const textRef = React.useRef();
+  const { user, setUser, property, setproperty } = useContext(AuthContext);
+
   useEffect(() => {
     FindAmenities();
+    textRef.current.focus()
   }, [property]);
 
   const showBathroomEdit = () => {
@@ -493,13 +497,13 @@ export default function SearchHomeScreen({ navigation }) {
       return;
     });
     setAmenities((prevArray) => [...prevArray, ...finalArray]);
-    console.log(fullAmenities);
-    console.log(ammenities);
-    console.log(property);
+    // console.log(fullAmenities);
+    // console.log(ammenities);
+    // console.log(property);
   };
 
   const findLastSoldListing = (obj) => {
-    console.log("Repliers Property Listings:", obj);
+    // console.log("Repliers Property Listings:", obj);
     obj.forEach((item, index) => {
       if (
         item.soldPrice != null &&
@@ -591,8 +595,8 @@ export default function SearchHomeScreen({ navigation }) {
 
   const getPropertyDetails = (raw) => {
     const { streetNumber, streetName } = cleanAddress(raw);
-    console.log(streetName);
-    console.log(streetNumber);
+    // console.log(streetName);
+    // console.log(streetNumber);
     const REPLIERS_OPTIONS = {
       method: "GET",
       headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
@@ -628,13 +632,13 @@ export default function SearchHomeScreen({ navigation }) {
                       setisFetching(false);
                       setpropertyFound(true);
 
-                      console.log(
-                        JSON.stringify(findLastSoldListing(obj.listings))
-                      );
+                      // console.log(
+                      //   JSON.stringify(findLastSoldListing(obj.listings))
+                      // );
                     }
                   })
                   .catch((err) => {
-                    console.log(err);
+                    // console.log(err);
                     setisFetching(false);
                     setpropertyNotFound(true);
                   });
@@ -644,11 +648,11 @@ export default function SearchHomeScreen({ navigation }) {
                 setisFetching(false);
                 setpropertyFound(true);
 
-                console.log(JSON.stringify(findLastSoldListing(obj.listings)));
+                // console.log(JSON.stringify(findLastSoldListing(obj.listings)));
               }
             })
             .catch((err) => {
-              console.log(err.message);
+              // console.log(err.message);
               setisFetching(false);
               setpropertyNotFound(true);
             });
@@ -658,11 +662,11 @@ export default function SearchHomeScreen({ navigation }) {
           setisFetching(false);
           setpropertyFound(true);
 
-          console.log(JSON.stringify(findLastSoldListing(obj.listings)));
+          // console.log(JSON.stringify(findLastSoldListing(obj.listings)));
         }
       })
       .catch((err) => {
-        console.log(err.message);
+        // console.log(err.message);
         setisFetching(false);
         setpropertyNotFound(true);
       });
@@ -723,7 +727,7 @@ export default function SearchHomeScreen({ navigation }) {
           });
         },
         (err) => {
-          console.log(err.message);
+          // console.log(err.message);
           setLoading(false);
         }
       );
@@ -740,7 +744,7 @@ export default function SearchHomeScreen({ navigation }) {
     fetch(END_POINT, OPTIONS)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.data.length == 0) {
           setSearchResults(null);
           setnoResults(true);
@@ -817,6 +821,8 @@ export default function SearchHomeScreen({ navigation }) {
             </Text>
             <View style={[styles.resultsContainer, { marginTop: "10%" }]}>
               <TextInput
+                autoFocus={true} 
+                ref={textRef}
                 placeholder="Search Address..."
                 onChangeText={handleSearch}
                 value={searchValue}
@@ -1268,13 +1274,13 @@ export default function SearchHomeScreen({ navigation }) {
                   onPress={() => {
                     if (ammenities.length > 0) {
                       navigation.navigate("ammenities");
-                      console.log(ammenities);
+                      // console.log(ammenities);
                     } else {
                       let temp = { ...property };
                       temp["ammenities"] = ammenities;
-                      console.log(temp);
+                      // console.log(temp);
                       setproperty(temp);
-                      console.log("Ammenities", ammenities);
+                      // console.log("Ammenities", ammenities);
                       navigation.navigate("upgrades");
                     }
                   }}
