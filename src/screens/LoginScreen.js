@@ -22,7 +22,6 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Google from "expo-google-app-auth";
 import Loader from "../components/Loader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 const { width, height } = Dimensions.get("window");
 
@@ -73,7 +72,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.authContainer}>
       <KeyboardAwareScrollView
-        extraHeight={moderateScale(220)}
+        extraHeight={220}
         enableOnAndroid={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

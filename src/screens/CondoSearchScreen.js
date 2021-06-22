@@ -28,7 +28,6 @@ import Loader from "../components/Loader";
 import { useFonts } from "expo-font";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 const StreetSuffix = [
   "ANX",
@@ -1398,7 +1397,7 @@ export default function CondoSearchScreen({ navigation }) {
                     }
                   }}
                   style={{
-                    marginTop: moderateScale(100),
+                    marginTop: 100,
                     marginHorizontal: "5%",
                   }}
                 >
