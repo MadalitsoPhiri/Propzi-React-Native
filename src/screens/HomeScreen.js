@@ -15,42 +15,58 @@ import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
+import { AuthContext } from "../components/providers/AuthProvider";
 import { randomizeArray } from "../utils/helper";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
+import { RecentSalesContext } from "../components/providers/RecentSaleProvider";
 import { dbh } from "../../firebase";
 
 const { width, height } = Dimensions.get("screen");
-
+const cardIconHeight = height * 0.1;
+const cardIconWidth = width * 0.3;
 export default function HomeScreen({ navigation }) {
-  const { isPropertyDataLoaded, Properties, focusedProperty } =
-    useContext(PropertyDataContext);
+  const {
+    isPropertyDataLoaded,
+    Properties,
+    setProperties,
+    defaultProperty,
+    setdefaultHome,
+    setFocusedProperty,
+    focusedProperty,
+  } = useContext(PropertyDataContext);
+  const { recentSales } = useContext(RecentSalesContext);
+
+  const property = Properties[0];
   const { communityData, isLoading } = useContext(CommunityDataContext);
-  // community Developments Data state
-  const [communityDevelopmentsData, setCommunityDevelopments] = React.useState(
-    []
-  );
-  
+  const { currentHomeCardIndex, setCurrentHomeCardIndex } =
+    useContext(AuthContext);
+  const communityDevelopments = randomizeArray(communityData.slice(0, 6));
+
+  // console.log("The DEFAULT is :", defaultProperty);
+  if (!isPropertyDataLoaded) {
+    return <Loader text="" />;
+  }
+
   React.useEffect(() => {
+    console.log("+++++++++++++++++++++++++++++++++");
+    console.log(recentSales);
+    console.log("+++++++++++++++++++++++++++++++++");
+
     const communityList = [];
 
     dbh
-    .collection("Communit")
-    .get()
-    .then((querySnapshot) => {
-      if (querySnapshot.empty) {
-      } else {
-        querySnapshot.forEach((doc) => {
-          communityList.push(doc.data());
+      .collection("Communit")
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) {
+        } else {
+          querySnapshot.forEach((doc) => {
+            communityList.push(doc.data());
+          });
 
-          // const communityDevelopments = randomizeArray(communityData.slice(0, 6));
-          // newArray = randomizeArray(communityList);
-          // setCommunityData(communityList);
-          // setIsLoading(false);
-        });
-        
-        setCommunityDevelopments(randomizeArray(communityList.slice(0, 6)));
+          setCommunityDevelopments(randomizeArray(communityList.slice(0, 6)));
         }
       })
       .catch((error) => {
@@ -58,14 +74,13 @@ export default function HomeScreen({ navigation }) {
       });
   }, []);
 
-  const property = Properties[0];
-
-  if (!isPropertyDataLoaded) {
-    return <Loader text="" />;
-  }
-
-  const testFunc = () => {
-    setCommunityDevelopments(communityDevelopments);
+  const moneyFormat = (price, sign = "$") => {
+    const pieces = parseFloat(price).toFixed(2).split("");
+    let ii = pieces.length - 3;
+    while ((ii -= 3) > 0) {
+      pieces.splice(ii, 0, ",");
+    }
+    return sign + pieces.join("");
   };
 
   return (
@@ -85,9 +100,10 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flex: 1 }}>
               <Text style={styles.address}>Address</Text>
               <Text style={styles.actualAddress}>
-                {focusedProperty.repliers.address.unitNumber == ""
-                  ? `${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`
-                  : `${focusedProperty.repliers.address.unitNumber}, ${focusedProperty.streetNumber} ${focusedProperty.streetName}, ${focusedProperty.neighbourhood}, ${focusedProperty.city}`}
+                {Properties[currentHomeCardIndex].repliers.address.unitNumber ==
+                ""
+                  ? `${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`
+                  : `${Properties[currentHomeCardIndex].repliers.address.unitNumber}, ${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`}
               </Text>
             </View>
             <View style={{ marginRight: "2%" }}>
@@ -96,7 +112,11 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <HomeCard properties={Properties} navigation={navigation} />
+        <HomeCard
+          properties={Properties}
+          navigation={navigation}
+          addressSetter={setCurrentHomeCardIndex}
+        />
 
         <TouchableOpacity
           onPress={() => {
@@ -123,9 +143,32 @@ export default function HomeScreen({ navigation }) {
           <SmallCard />
         </View>
         {isLoading && <Loader />}
+        {recentSales.lenght !== 0 && (
+          <FlatList
+            data={randomizeArray(recentSales).slice(0, 1)}
+            keyExtractor={(item) => item.mlsNumber}
+            contentContainerStyle={{}}
+            renderItem={({ item }) => {
+              return (
+                <GlobalCard
+                  item={item}
+                  imgUrl={`https://cdn.repliers.io/${item.images[0]}`}
+                  from={`${item.address.neighborhood},${item.address.city}`}
+                  desc={item.details.description}
+                  title={`${item.address.streetNumber} ${item.address.streetName},  Unit ${item.address.unitNumber}`}
+                  category={`Recent Sales`}
+                  propziImpact={""}
+                  soldPrice={moneyFormat(item.soldPrice)}
+                  key={2}
+                  projectURL={`recent sales`}
+                />
+              );
+            }}
+          />
+        )}
 
-        {communityDevelopmentsData.length > 0
-          ? communityDevelopmentsData.map((communityDevelopment, i) => {
+        {communityDevelopments?.length > 0
+          ? communityDevelopments?.map((communityDevelopment, i) => {
               if (
                 communityDevelopment.city.toLowerCase() ==
                 property.city.toLowerCase()
@@ -142,6 +185,7 @@ export default function HomeScreen({ navigation }) {
                     title={communityDevelopment.heading}
                     category={communityDevelopment.category}
                     propziImpact={communityDevelopment.propziImpact}
+                    soldPrice=""
                     key={i}
                     projectURL={communityDevelopment.projectUrl}
                   />

@@ -19,12 +19,17 @@ export default function GlobalCard({
   desc,
   propziImpact,
   projectURL,
+  soldPrice,
+  item,
 }) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("WebView", { projectURL })}
+      onPress={() => {
+        if (soldPrice === "") navigation.navigate("WebView", { projectURL });
+        else navigation.navigate("detailspage", { item })
+      }}
     >
       <View style={styles.cardImage}>
         <Image source={{ uri: imgUrl }} style={styles.cardImage} />
@@ -46,6 +51,16 @@ export default function GlobalCard({
             <Text>
               Propzi Impact:
               <Text style={styles.propziImpactInner}> {propziImpact}</Text>
+            </Text>
+          </TouchableOpacity>
+        )}
+        {soldPrice === "" ? null : (
+          <TouchableOpacity
+            style={styles.propziImpact}
+          >
+            <Text>
+              Sold Price:
+              <Text style={styles.propziImpactInner}> {soldPrice}</Text>
             </Text>
           </TouchableOpacity>
         )}

@@ -755,7 +755,7 @@ export default function CondoSearchScreen({ navigation }) {
         "x-api-key": APK_KEY,
       },
     };
-    
+
     fetch(END_POINT, OPTIONS)
       .then((res) => res.json())
       .then((data) => {
@@ -845,9 +845,7 @@ export default function CondoSearchScreen({ navigation }) {
 
             <View
               style={
-                currrentUnitNumberErr
-                  ? [styles.resultsContainer, styles.err]
-                  : [styles.resultsContainer]
+               [styles.resultsContainer]
               }
             >
               <TextInput
