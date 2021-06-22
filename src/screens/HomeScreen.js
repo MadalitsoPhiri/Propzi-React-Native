@@ -50,9 +50,6 @@ export default function HomeScreen({ navigation }) {
   }
 
   React.useEffect(() => {
-    console.log("+++++++++++++++++++++++++++++++++");
-    console.log(recentSales);
-    console.log("+++++++++++++++++++++++++++++++++");
 
     const communityList = [];
 
