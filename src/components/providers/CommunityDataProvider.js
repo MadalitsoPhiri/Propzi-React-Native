@@ -8,27 +8,23 @@ const CommunitDataProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [communityData, setCommunityData] = useState([]);
 
-  const communityList = [];
+ 
 
   useEffect(() => {
     setIsLoading(true);
     dbh
       .collection("Communit")
-      .get().then((querySnapshot) => {
-        if(querySnapshot.empty){
-
-        }else{
-          querySnapshot.forEach((doc) => {
-              communityList.push(doc.data());
+      .onSnapshot((querySnapshot) => {
+        const communityList = [];
+          querySnapshot.forEach((documentSnapshot) => {
+              communityList.push(documentSnapshot.data());
               // newArray = randomizeArray(communityList);
-              setCommunityData(communityList);
-              setIsLoading(false);
+            
             });
-          
-        }
-      }).catch((error) => {
-        console.warn(error.message);
-      });
+            setCommunityData(communityList);
+            setIsLoading(false);
+        
+      })
   }, []);
 
   return (

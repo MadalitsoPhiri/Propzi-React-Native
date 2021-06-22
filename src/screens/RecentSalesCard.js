@@ -5,6 +5,7 @@ import {AntDesign,Ionicons,MaterialIcons,FontAwesome} from '@expo/vector-icons';
 const {width,height} = Dimensions.get("window");
 const CARD_HEIGHT = height * 0.4
 const CARD_WIDTH = width * 0.6
+const LIKE_BUTTON_SIZE = CARD_WIDTH * 0.09
 const IMAGE_WIDTH = CARD_WIDTH - 1 // subtracting 1 becuase of the border width
 const IMAGE_HEIGHT = "100%"
 const imgUrl = "https://qph.fs.quoracdn.net/main-qimg-fea3205ddaf22e96874d3bad78c85cbe"
@@ -15,7 +16,7 @@ const numBathrooms = "3"
 const sqft = "500"
 const soldDate = "5/31/2021"
 const soldPrice = "$516,500"
-const cardIconSize = CARD_WIDTH  * 0.12
+const cardIconSize = CARD_WIDTH  * 0.1
 
 const testingData = {
 
@@ -47,9 +48,10 @@ const styles = StyleSheet.create({
          backgroundColor:"white",
          borderBottomRightRadius: 17,
          borderBottomLeftRadius: 17,
-         justifyContent:"center",
-         alignItems:"flex-start",
-         paddingHorizontal:16
+         justifyContent:"space-between",
+         alignItems:"center",
+         paddingHorizontal:16,
+         flexDirection:"row"
         },
         cardMiddle:{
            flex:1,
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
         },
         imageContainer:{
             flex:1,
-            backgroundColor:"red",
+            backgroundColor:"orange",
             borderTopRightRadius: 17,
             borderTopLeftRadius: 17,
             flexDirection:"row",
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
             marginTop:"2%"
         },
         infoContainer:{
-            justifyContent:"space-evenly",
+            justifyContent:"space-between",
             flexDirection:"row",
             alignItems:"center",
             marginTop:"10%"
@@ -114,36 +116,51 @@ const styles = StyleSheet.create({
             fontFamily:"Poppins-Medium",
             fontSize:12,
             color:"gray"
+        },
+        lastSoldTextTitle:{
+            fontFamily:"Poppins-Medium",
+            color:"gray",
+            fontSize:12
+        },
+        lastSoldText:{
+            fontFamily:"Poppins-Medium",
+            color:"gray",
+            fontSize:12
+        },
+        soldDataConatainer:{
+            justifyContent:"center",
+            alignItems:"center"
         }
+        
 
        
     })
 
-export default RecentSalesCard = ()=>{
+export default RecentSalesCard = ({data})=>{
     return <View style={styles.container}>
          <View style={styles.cardBody}>
                   <View style={styles.imageContainer}>
-                  <Image source={{ uri: imgUrl }}style={[StyleSheet.absoluteFill,styles.image]} />
+                  <Image source={{uri: `https://cdn.repliers.io/${data.images[0]}` }}style={[StyleSheet.absoluteFill,styles.image]} />
                  
                   </View>
                   <View style={styles.cardMiddle}> 
-                  <Text style={styles.titleText}>{address}</Text>
-                  <Text style={styles.sourceText}>{neighbourhoodCity}</Text>
+                  <Text style={styles.titleText}>{data.address.streetNumber} {data.address.streetName},  Unit {data.address.unitNumber}</Text>
+                  <Text style={styles.sourceText}>{data.address.neighborhood},{data.address.city}</Text>
                   <View style={styles.infoContainer}>
                       <View>
                       <Ionicons name="md-bed" size={cardIconSize} color="black" style={{alignSelf:"center",marginBottom:"10%"}} />
-                      <Text style={styles.infoText}>{`${numBedrooms} Beds`}</Text>
+                      <Text style={styles.infoText}>{`${data.details.numBedrooms}`+`${data.details.numBedroomsPlus ? "+"+data.details.numBedroomsPlus:"" }`+" Beds"}</Text>
                       </View>
 
                       <View>
                       <FontAwesome name="bathtub" size={cardIconSize} color="black" style={{alignSelf:"center",marginBottom:"10%"}}/>
-                      <Text style={styles.infoText}>{`${numBathrooms} Baths`}</Text>
+                      <Text style={styles.infoText}>{`${data.details.numBathrooms}`+`${data.details.numBathroomsPlus ? "+"+data.details.numBedroomsPlus:"" }`+" Baths"}</Text>
                       </View>
 
 
                       <View>
                       <MaterialIcons  name="square-foot" color="black" size={cardIconSize} style={{alignSelf:"center",marginBottom:"10%"}}/>
-                      <Text style={styles.infoText}>{`${sqft} sqft`}</Text>
+                      <Text style={styles.infoText}>{`${data.details.numGarageSpaces ? parseInt(data.details.sqft):"----" }`+" Sqft"}</Text>
                       </View>
 
                   </View>
@@ -152,7 +169,23 @@ export default RecentSalesCard = ()=>{
          </View>
          <View style={styles.cardFooter}>
             {/* Here is where the like feature will live */}
-            <AntDesign name="hearto" size={24} color="black" />
+            {/* <AntDesign name="hearto" size={24} color="black" /> */}
+            <View style={styles.soldDataConatainer}>
+              {/* Last sold Date */}
+              <Text style={styles.lastSoldTextTitle}>Sold Date</Text>
+              <Text style={styles.lastSoldText}>{new Date(data.soldDate).toLocaleDateString("en-US")}</Text>
+            </View>
+            <View style={styles.soldDataConatainer}>
+             {/* Last sold Price */}
+             <Text style={styles.lastSoldTextTitle}>Price</Text>
+             <Text style={styles.lastSoldText}> {console.log("last:",data.soldPrice)}
+                              {data.soldPrice == null || data.soldPrice == "0.00" || data.soldPrice == "" ? (
+                                 <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>Not Available</Text>
+                               
+                              ) : (
+                                <Text style={{ fontFamily:"Poppins-Medium",color:"gray",textAlign:"center"}}>{'$'+ Math.round(data.soldPrice).toLocaleString()}</Text>
+                              )}</Text>
+            </View>
          </View>
     
              

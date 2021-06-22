@@ -116,10 +116,16 @@ const styles = StyleSheet.create({
        
     })
 
-export default EconomicIndicatorCard = ({data})=>{
+const findIndex = (array,userId)=>{
+
+}
+
+export default CommunityDevelopmentCard = ({data})=>{
     const [Likes,setLikes] = useState(0)
-    const {user} = useContext(AuthContext);
     const [Liked,setLiked] = useState(false)
+    const {user} = useContext(AuthContext);
+    const [likedIds,setLikedIds] = useState([])
+    const dummyArray = [user.uid]
     const indexCallback = (value)=>{
         return value == user.uid 
     }
@@ -144,7 +150,7 @@ export default EconomicIndicatorCard = ({data})=>{
         console.log("item id:",data.id)
         console.log("likedIds : ", updateObject.likedIds)
         console.log("userindex:",userLikeIndex)
-        dbh.collection("DailyEconomicIndicator").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
+        dbh.collection("Communit").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
 
             // setLiked(false)
             // setLikes((prev)=>{
@@ -183,7 +189,7 @@ export default EconomicIndicatorCard = ({data})=>{
         console.log("item id:",data.id)
         console.log("likedIds : ", updateObject.likedIds)
         console.log("userindex:",userLikeIndex)
-        dbh.collection("DailyEconomicIndicator").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
+        dbh.collection("Communit").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
 
             // setLiked(false)
             // setLikes((prev)=>{
@@ -231,13 +237,13 @@ export default EconomicIndicatorCard = ({data})=>{
     return <View style={styles.container}>
          <View style={styles.cardBody}>
                   <View style={styles.imageContainer}>
-                  <Image source={{ uri: data.imgUrl }}style={[StyleSheet.absoluteFill,styles.image]} />
-                  {/* <View style={styles.categoryBadge}>
+                  <Image source={{ uri: data.cardImage }}style={[StyleSheet.absoluteFill,styles.image]} />
+                  <View style={styles.categoryBadge}>
                       <Text style={styles.categoryBadgeText} numberOfLines={1}>{data.category}</Text>
-                  </View> */}
+                  </View>
                   </View>
                   <View style={styles.cardMiddle}> 
-                  <Text style={styles.titleText}>{title}</Text>
+                  <Text style={styles.titleText}>{data.heading}</Text>
                   <Text style={styles.sourceText} numberOfLines={2}>{data.dataSource}</Text>
                   <Text styles={styles.descriptionText}numberOfLines={4} ellipsizeMode='tail'>{data.description}</Text>
                   </View>
