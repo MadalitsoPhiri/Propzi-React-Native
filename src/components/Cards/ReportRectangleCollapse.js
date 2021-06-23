@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image,Dimensions } from "react-native";
 import { styles } from "./cardStyle";
-
+const {width} = Dimensions.get("window")
 const ReportRectangleCollapse = ({
   dropDownIcon,
   title,
@@ -11,7 +11,7 @@ const ReportRectangleCollapse = ({
 }) => {
   return (
     <TouchableOpacity
-      style={[styles.card, { marginBottom: 30, backgroundColor, height: 90 }]}
+      style={[styles.card, { marginBottom: 30, backgroundColor, height: 90,width:width-32,alignSelf:"center" }]}
       onPress={onPress}
     >
       <View style={styles.cardContent}>

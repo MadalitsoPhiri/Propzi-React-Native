@@ -23,12 +23,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius:100,
     height:35,
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:10},
+    shadowOpacity:0.15,
+    shadowRadius:12,
+    elevation:7,
 
+  },
+  continueButton:{
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:6,
+    backgroundColor:"#34D1B6",
+    height:50,
+    width:width - 50,
+    alignSelf:"center",
+    marginTop:"10%",
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:10},
+    shadowOpacity:0.15,
+    shadowRadius:12,
+    elevation:7,
   },
   scrollContainer:{
     flexWrap: "wrap",
     flexDirection:'row',
-    width:700
+    width:800
   },
   heading:{
     fontFamily:"Poppins-Medium",
@@ -46,7 +67,9 @@ subheading:{
 scrollContainer:{
    flexWrap: "wrap",
    flexDirection:'row',
-   width:500
+   width:500,
+   marginBottom:"10%",
+   marginTop:"5%"
  }
 
 })
@@ -100,7 +123,7 @@ export default function UniqueScreen({navigation}){
         streetName: property.address.streetName,
         streetNumber: property.address.streetNumber,
         unitNumber: property.address.unitNumber,
-        Ammenities:property.ammenities,
+        // Ammenities:property.ammenities,
         Upgrades:property.upgrades,
         UniqueFeatures:property.uniqueFeatures,
         repliers:property,
@@ -210,7 +233,7 @@ export default function UniqueScreen({navigation}){
     const FindAmenities = ()=>{
       setAmenities([])
       
-      let fullAmenities =  ["New Roof","Hardwood Floors","Hardwood Floors","Exterior Paint","Swimming Pool","Interior Paint","Landscaping","Driveway Interlocking","Front Lawn","Bathroom Tiles"]
+      let fullAmenities =  ["Beautiful Front Door","Cozy","Great for Hosting","Bike Racks","Tesla/Car Charger","Solar Roof","Bright & Sunny","Smart Home","Breakfast Bar"]
       let finalArray = []
         fullAmenities.forEach((item,index)=>{
                  if(item == null || item == ""){
@@ -235,7 +258,7 @@ export default function UniqueScreen({navigation}){
     }
       
     return(<SafeAreaView style={{height:"100%"}}>
-         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%"}}>
+         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%",justifyContent:"space-between",flex:1}}>
          <Text style={styles.heading}>What makes your home unique?</Text>
     <Text style={styles.subheading}>Choose details about your home that best describes your home</Text>
           
@@ -245,7 +268,11 @@ export default function UniqueScreen({navigation}){
             let newState = [...ammenities];
             newState[index].selected = !item.selected
             setAmenities(newState)
-          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
+          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6",shadowColor:"#000",
+          shadowOffset:{width:5,height:10},
+          shadowOpacity:0.15,
+          shadowRadius:12,
+          elevation:7}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
         ))}
             </View></ScrollView>:null}
             <TouchableOpacity onPress={()=>{
@@ -254,7 +281,7 @@ export default function UniqueScreen({navigation}){
                 console.log(temp)
                 setproperty(temp)
                 // handlePropertyAdding()
-                }} style={{alignSelf:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Finish</Text></TouchableOpacity> 
+                }} style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Finish</Text></TouchableOpacity> 
          
             </ScrollView>
         

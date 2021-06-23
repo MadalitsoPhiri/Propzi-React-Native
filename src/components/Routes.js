@@ -4,12 +4,11 @@ import {View} from "react-native";
 import {AuthContext} from "./providers/AuthProvider";
 import {firebase} from "../../firebase";
 import AuthStack from "../screens/AuthStack.js"
-import MainAppStack from "../screens/MainAppStack.js";
 import MainAppDrawerNavigator from "../utils/navigation/MainAppDrawerNavigator";
-import checkIfFirstLaunch from "../utils/navigation/checkFirstRun.js";
 import IntroStack from "../screens/IntroStack";
 import {ActivityIndicator} from "react-native-paper";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 
@@ -50,7 +49,9 @@ const checkOnboarding = async () => {
 
  
     useEffect(() => {
-      
+       
+        // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+       
         firebase.auth().onAuthStateChanged((User) => {
           if (User != null) {
              setUser(User)

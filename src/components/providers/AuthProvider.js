@@ -7,6 +7,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isFirstLaunch, setisFirstLaunch] = useState(false);
   const [property,setproperty] = useState({})
+  const [currentHomeCardIndex,setCurrentHomeCardIndex] = useState(0);
+
   return (
     <AuthContext.Provider
       value={{
@@ -36,6 +38,8 @@ export const AuthProvider = ({ children }) => {
             }),
             (err) => console.log(err);
         },
+        currentHomeCardIndex,
+        setCurrentHomeCardIndex
       }}
     >
       {children}

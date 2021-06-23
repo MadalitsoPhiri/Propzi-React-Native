@@ -15,58 +15,70 @@ import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
+import { AuthContext } from "../components/providers/AuthProvider";
 import { randomizeArray } from "../utils/helper";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
-const { width } = Dimensions.get("screen");
+import { RecentSalesContext } from "../components/providers/RecentSaleProvider";
+import { dbh } from "../../firebase";
 
+const { width, height } = Dimensions.get("screen");
+const cardIconHeight = height * 0.1;
+const cardIconWidth = width * 0.3;
 export default function HomeScreen({ navigation }) {
   const {
     isPropertyDataLoaded,
     Properties,
     setProperties,
-    defaultHome,
+    defaultProperty,
     setdefaultHome,
+    setFocusedProperty,
+    focusedProperty,
   } = useContext(PropertyDataContext);
+  const { recentSales } = useContext(RecentSalesContext);
+
   const property = Properties[0];
   const { communityData, isLoading } = useContext(CommunityDataContext);
+  const { currentHomeCardIndex, setCurrentHomeCardIndex } =
+    useContext(AuthContext);
   const communityDevelopments = randomizeArray(communityData.slice(0, 6));
 
+  // console.log("The DEFAULT is :", defaultProperty);
   if (!isPropertyDataLoaded) {
     return <Loader text="" />;
   }
 
-  const HomeBankOffersCardData = [
-    {
-      id: "1",
-      title: "Special Mortgage Rates",
-      term: "5 Year Fixed",
-      specialRate: "2.4%",
-      APR: "2.6%",
-    },
-    {
-      id: "2",
-      title: "Scotiabank Special Mortgage Rates",
-      term: "10 Year Fixed",
-      specialRate: ".8%",
-      APR: "3.0%",
-    },
-    {
-      id: "3",
-      title: "BMO Special Mortgage Rates",
-      term: "5 Year Fixed",
-      specialRate: "2.4%",
-      APR: "4.0%",
-    },
-    {
-      id: "4",
-      title: "CIBC Special Mortgage Rates",
-      term: "8 Year Fixed",
-      specialRate: "2.4%",
-      APR: "4.8%",
-    },
-  ];
+  React.useEffect(() => {
+
+    const communityList = [];
+
+    dbh
+      .collection("Communit")
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) {
+        } else {
+          querySnapshot.forEach((doc) => {
+            communityList.push(doc.data());
+          });
+
+          setCommunityDevelopments(randomizeArray(communityList.slice(0, 6)));
+        }
+      })
+      .catch((error) => {
+        // console.warn(error.message);
+      });
+  }, []);
+
+  const moneyFormat = (price, sign = "$") => {
+    const pieces = parseFloat(price).toFixed(2).split("");
+    let ii = pieces.length - 3;
+    while ((ii -= 3) > 0) {
+      pieces.splice(ii, 0, ",");
+    }
+    return sign + pieces.join("");
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -85,25 +97,36 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flex: 1 }}>
               <Text style={styles.address}>Address</Text>
               <Text style={styles.actualAddress}>
-                {property.repliers.address.unitNumber == ""
-                  ? `${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`
-                  : `${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}
+                {Properties[currentHomeCardIndex].repliers.address.unitNumber ==
+                ""
+                  ? `${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`
+                  : `${Properties[currentHomeCardIndex].repliers.address.unitNumber}, ${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`}
               </Text>
             </View>
-            <View>
-              <Entypo name="chevron-with-circle-right" size={28} color="gray" />
+            <View style={{ marginRight: "2%" }}>
+              <MaterialIcons name="chevron-right" size={35} color="black" />
             </View>
           </TouchableOpacity>
         </View>
 
-        <HomeCard properties={Properties} navigation={navigation} />
-
-        <Button
-          title={"See Your Report"}
-          width={btnSize.LARGE_WIDTH}
-          borderRadius={50}
-          onPress={() => navigation.navigate("Report")}
+        <HomeCard
+          properties={Properties}
+          navigation={navigation}
+          addressSetter={setCurrentHomeCardIndex}
         />
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Report");
+          }}
+          style={styles.continueButton}
+        >
+          <Text
+            style={{ color: "#fff", fontSize: 15, fontFamily: "Poppins-Bold" }}
+          >
+            See Your Propzi Report
+          </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity>
           <Text style={styles.learnMore}>
@@ -117,6 +140,30 @@ export default function HomeScreen({ navigation }) {
           <SmallCard />
         </View>
         {isLoading && <Loader />}
+        {recentSales.lenght !== 0 && (
+          <FlatList
+            data={randomizeArray(recentSales).slice(0, 1)}
+            keyExtractor={(item) => item.mlsNumber}
+            contentContainerStyle={{}}
+            renderItem={({ item }) => {
+              return (
+                <GlobalCard
+                  item={item}
+                  imgUrl={`https://cdn.repliers.io/${item.images[0]}`}
+                  from={`${item.address.neighborhood},${item.address.city}`}
+                  desc={item.details.description}
+                  title={`${item.address.streetNumber} ${item.address.streetName},  Unit ${item.address.unitNumber}`}
+                  category={`Recent Sales`}
+                  propziImpact={""}
+                  soldPrice={moneyFormat(item.soldPrice)}
+                  key={2}
+                  projectURL={`recent sales`}
+                />
+              );
+            }}
+          />
+        )}
+
         {communityDevelopments?.length > 0
           ? communityDevelopments?.map((communityDevelopment, i) => {
               if (
@@ -126,8 +173,8 @@ export default function HomeScreen({ navigation }) {
                 return (
                   <GlobalCard
                     imgUrl={
-                      communityDevelopment.img != ""
-                        ? communityDevelopment.img
+                      communityDevelopment.cardImage != ""
+                        ? communityDevelopment.cardImage
                         : null
                     }
                     from={communityDevelopment.dataSource}
@@ -135,8 +182,8 @@ export default function HomeScreen({ navigation }) {
                     title={communityDevelopment.heading}
                     category={communityDevelopment.category}
                     propziImpact={communityDevelopment.propziImpact}
+                    soldPrice=""
                     key={i}
-                    to={navigation}
                     projectURL={communityDevelopment.projectUrl}
                   />
                 );
@@ -145,47 +192,10 @@ export default function HomeScreen({ navigation }) {
           : null}
       </View>
 
-      <View style={styles.homeOffers}>
-        <Text style={styles.homeHeading}>Your home finance offers</Text>
-        <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
+      <Text style={styles.homeHeading}>Your home offers</Text>
+      <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-        <View style={{ flexDirection: "row", paddingHorizontal: 16 }}>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>TD</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 11, color: "white" }}>Scotiabank</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>BMO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.pill}>
-            <Text style={{ fontSize: 12, color: "white" }}>CIBC</Text>
-          </TouchableOpacity>
-        </View>
-
-        <>
-          <FlatList
-            horizontal
-            pagingEnabled
-            bounces={false}
-            data={HomeBankOffersCardData}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={{ marginHorizontal: 4 }}>
-                <HomeBankFinance
-                  title={item.title}
-                  term={item.term}
-                  specialRate={item.specialRate}
-                  APR={item.APR}
-                  key={item.id}
-                  width={width - 40}
-                />
-              </View>
-            )}
-          />
-        </>
-      </View>
+      <HomeBankFinance />
     </ScrollView>
   );
 }
@@ -226,6 +236,7 @@ const styles = StyleSheet.create({
     color: colors.PRIMARY_COLOR,
     fontSize: 16,
     fontWeight: "bold",
+    fontFamily: "Poppins-Medium",
   },
 
   homeHeading: {
@@ -233,16 +244,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 30,
     paddingHorizontal: 16,
-    fontFamily: "Poppins-Medium",
+    fontFamily: "Poppins-Bold",
   },
 
   smallCardContainer: {
     marginTop: 24,
-    paddingHorizontal: 16,
-  },
-
-  homeOffers: {
-    // marginBottom: 400,
     paddingHorizontal: 16,
   },
 
@@ -251,6 +257,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: colors.PRIMARY_COLOR,
     paddingHorizontal: 16,
+    fontFamily: "Poppins-Medium",
   },
 
   homeOffers: {
@@ -284,5 +291,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     elevation: 8,
+  },
+  continueButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    backgroundColor: "#34D1B6",
+    height: 50,
+    width: width - 50,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 5, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 7,
+    marginVertical: "5%",
   },
 });

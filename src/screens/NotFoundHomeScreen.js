@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity ,Image } from "react-native";
 import SearchInput from "../components/Input";
 import Button from "../components/Button";
 import { colors, btnSize } from "../styles";
 import { EvilIcons } from "@expo/vector-icons";
-
+// import PropziLogo from "../../assets/propzi-img/notfound.jpg";
+import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function NotFoundHomeScreen({ navigation }) {
   return (
@@ -24,11 +25,12 @@ export default function NotFoundHomeScreen({ navigation }) {
       </View> */}
 
       <View style={{ alignItems: "center" }}>
+      <FontAwesome name="home" size={145} color="#CDCDCD" />
         <Text style={styles.title}>
           Oops! You dont have a home yet.
         </Text>
 
-        <Text style={{ fontSize: 20, textAlign: "center", paddingHorizontal:16}}>
+        <Text style={{ fontSize: 15, textAlign: "center",color:'grey', paddingHorizontal:16}}>
           To see your propzi score you need to add atleast one home or property.
         </Text>
       </View>
@@ -37,8 +39,9 @@ export default function NotFoundHomeScreen({ navigation }) {
         <Button
           title={"Add Your Home"}
           borderRadius={6}
+          backgroundColor={'green'}
           width={btnSize.MEDIUM_WIDTH}
-          marginTop={30}
+          marginTop={15}
           onPress={()=>navigation.replace("propertyType")}
         />
       </View>
@@ -73,10 +76,10 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 25,
+    fontSize: 15,
     textAlign: "center",
-    marginBottom: 20,
-    marginTop: 40,
+    marginBottom: 10,
+    marginTop: 10,
     fontWeight: "500",
     paddingHorizontal:16
   },

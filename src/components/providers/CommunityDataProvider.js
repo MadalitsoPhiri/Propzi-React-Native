@@ -8,18 +8,23 @@ const CommunitDataProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [communityData, setCommunityData] = useState([]);
 
-  const communityList = [];
-  let newArray;
+ 
+
   useEffect(() => {
     setIsLoading(true);
-    dbh.collection("Communit").onSnapshot((docs) => {
-      docs.forEach((doc) => {
-        communityList.push(doc.data());
-        newArray = randomizeArray(communityList);
-        setCommunityData(newArray);
-        setIsLoading(false);
-      });
-    });
+    dbh
+      .collection("Communit")
+      .onSnapshot((querySnapshot) => {
+        const communityList = [];
+          querySnapshot.forEach((documentSnapshot) => {
+              communityList.push(documentSnapshot.data());
+              // newArray = randomizeArray(communityList);
+            
+            });
+            setCommunityData(communityList);
+            setIsLoading(false);
+        
+      })
   }, []);
 
   return (

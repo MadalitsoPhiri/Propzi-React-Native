@@ -11,55 +11,155 @@ import {
   SafeAreaView,
   Alert,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
-import { AntDesign, Entypo, FontAwesome} from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 import PropziLogo from "../../assets/PropziLogo.svg";
-import * as AppleAuthentication from 'expo-apple-authentication';
-import * as Google from 'expo-google-app-auth';
-import * as Facebook from 'expo-facebook';
+import * as AppleAuthentication from "expo-apple-authentication";
+import * as Google from "expo-google-app-auth";
+import * as Facebook from "expo-facebook";
 import Loader from "../components/Loader";
-import { firebase,dbh} from "../../firebase";
+import * as Crypto from "expo-crypto";
+import { firebase, dbh } from "../../firebase";
+import { actuatedNormalize } from "../utils/fontUtilities";
 
 // TODO:// Configure the title
-const {width,height} = Dimensions.get("window") 
-var provider = new firebase.auth.GoogleAuthProvider();
-export default function SignupOptions({navigation}) {
-  const [isLoading,setLoading] = useState(false);
+const { width, height } = Dimensions.get("window");
+const LogoHeight = height * 0.05;
+const LogoWidth = width * 0.2;
+function calculateHeaderTextSize() {
+  if (width == 375 && height == 667) {
+    // for iphone 8
+    return 20;
+  } else if (width == 414 && height == 896) {
+    return 25;
+  } else {
+    return 25;
+  }
+}
 
-    async function handleAppleClick(){
-      try {
-        const cred = await AppleAuthentication.signInAsync({
+function calculateButtonTextSize() {
+  if (width <= 375 && height <= 667) {
+    // for phones like iphone 8
+    return 12;
+  } else if (width <= 414 && height <= 896) {
+    //for phones like iphone 11
+    return 15;
+  } else {
+    return 15;
+  }
+}
+
+function calculatePrivacyTextSize() {
+  if (width <= 375 && height <= 667) {
+    // for phones like iphone 8
+    return 9.7;
+  } else if (width <= 414 && height <= 896) {
+    //for phones like iphone 11
+    return 11;
+  } else {
+    return 11;
+  }
+}
+const buttonTextSize = calculateButtonTextSize();
+const buttonIconHeight = height * 0.025;
+const headerSize = calculateHeaderTextSize();
+const PrivacyTextSize = calculatePrivacyTextSize();
+export default function SignupOptions({ navigation }) {
+  const [isLoading, setLoading] = useState(false);
+
+  async function handleAppleClick() {
+    setLoading(true);
+    const nonce = Math.random().toString(36).substring(2, 10);
+
+    return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce)
+      .then((hashedNonce) =>
+        AppleAuthentication.signInAsync({
           requestedScopes: [
             AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
             AppleAuthentication.AppleAuthenticationScope.EMAIL,
           ],
+          nonce: hashedNonce,
+        })
+      )
+      .then((appleCredential) => {
+        const { identityToken } = appleCredential;
+        const provider = new firebase.auth.OAuthProvider("apple.com");
+        const credential = provider.credential({
+          idToken: identityToken,
+          rawNonce: nonce,
         });
-        // signed in
-        setLoading(true)
-
-        
-        firebase.auth().signInWithCredential(cred).then((credential)=>{
-          //User Succsessfully signed in
-          dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
-  if (docSnapshot.size == 0) {
-    dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
-      fullName:credential.user.displayName,phone:credential.user.phoneNumber,email:credential.user.email,clientIsMobile:true
-  }).then((obj)=>{
-      
-  },(err)=>{
- setLoading(false)
- setError(err)
-  })
-  
-  }
-
-});
-
-
-      }).catch((error) => {
-        setLoading(false)
-        setError(error)
+        return firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((credential) => {
+            //User Succsessfully signed in
+            dbh
+              .collection("UserDetails")
+              .doc(credential.user.uid)
+              .collection("User")
+              .get()
+              .then((docSnapshot) => {
+                if (docSnapshot.size == 0) {
+                  dbh
+                    .collection(`UserDetails/${credential.user.uid}/User`)
+                    .add({
+                      fullName: credential.user.displayName,
+                      phone: credential.user.phoneNumber,
+                      email: credential.user.email,
+                      clientIsMobile: true,
+                    })
+                    .then(
+                      (obj) => {},
+                      (err) => {
+                        setLoading(false);
+                        Alert.alert("Error", err.message, [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () => console.log("OK Pressed"),
+                          },
+                        ]);
+                      }
+                    );
+                }
+              });
+          })
+          .catch((error) => {
+            setLoading(false);
+            Alert.alert("Error", error.message, [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              { text: "OK", onPress: () => console.log("OK Pressed") },
+            ]);
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+      })
+      .catch((error) => {
+        // ...
+        setLoading(false);
+        Alert.alert("Error", error.message, [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -69,219 +169,380 @@ export default function SignupOptions({navigation}) {
         var credential = error.credential;
         // ...
       });
-      } catch (e) {
-        if (e.code === 'ERR_CANCELED') {
-          // handle that the user canceled the sign-in flow
-        }
-        else {
-          setError(e)
-        }
-      }
-    }
-   
-    handlepress = async()=> {
-      try {
-        await Facebook.initializeAsync({
-          appId: '185801686567133',
+  }
+
+  handlepress = async () => {
+    setLoading(true);
+    try {
+      await Facebook.initializeAsync({
+        // appId: Platform.OS === 'ios' ? '845016889691335':'185801686567133',
+        appId: "845016889691335",
+      });
+      const { type, token, expirationDate, permissions, declinedPermissions } =
+        await Facebook.logInWithReadPermissionsAsync({
+          permissions: ["public_profile"],
         });
-        const {
-          type,
-          token,
-          expirationDate,
-          permissions,
-          declinedPermissions,
-        } = await Facebook.logInWithReadPermissionsAsync({
-          permissions: ['public_profile'],
-        });
-        if (type === 'success') {
-          // Get the user's name using Facebook's Graph API
-          const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-          Alert.alert('Logged in!', `testing the facebook login ${(await response.json()).name}!`);
-        } else {
-          // type === 'cancel'
-        }
-      } catch ({ message }) {
-        alert(`Facebook Login Error: ${message}`);
+
+      if (type === "success") {
+        // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+
+        var cred = firebase.auth.FacebookAuthProvider.credential(token);
+
+        firebase
+          .auth()
+          .signInWithCredential(cred)
+          .then((credential) => {
+            //User Succsessfully signed in
+            dbh
+              .collection("UserDetails")
+              .doc(credential.user.uid)
+              .collection("User")
+              .get()
+              .then((docSnapshot) => {
+                if (docSnapshot.size == 0) {
+                  dbh
+                    .collection(`UserDetails/${credential.user.uid}/User`)
+                    .add({
+                      fullName: credential.user.displayName,
+                      phone: credential.user.phoneNumber,
+                      email: credential.user.email,
+                      clientIsMobile: true,
+                    })
+                    .then(
+                      (obj) => {},
+                      (err) => {
+                        setLoading(false);
+                        Alert.alert("Alert Title", err.message, [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () => console.log("OK Pressed"),
+                          },
+                        ]);
+                      }
+                    );
+                }
+              });
+          })
+          .catch((error) => {
+            setLoading(false);
+            Alert.alert("Alert Title", error.message, [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              { text: "OK", onPress: () => console.log("OK Pressed") },
+            ]);
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+      } else {
+        setLoading(false);
+        return { cancelled: true };
       }
+    } catch ({ message }) {
+      setLoading(false);
+      Alert.alert("Alert Title", message, [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
     }
-   signInWithGoogleAsync = async()=> {
-    setLoading(true)
+  };
+
+  signInWithGoogleAsync = async () => {
+    setLoading(true);
+    //ios auth client id standalone 520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0.apps.googleusercontent.com
     try {
       const result = await Google.logInAsync({
         androidClientId: `520048464069-drl8djviqeoa9crvdv5q05ighkb5eq1m.apps.googleusercontent.com`,
         iosClientId: `520048464069-sniestaiiavj4fa9ct390dkaogj16ad6.apps.googleusercontent.com`,
-        scopes: ['profile', 'email'],
+        iosStandaloneAppClientId:
+          "520048464069-3smfj9dv9rhld1l5dm3qrkivnq7i3hh0.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
       });
-  
-      if (result.type === 'success') {
-
+      if (result.type === "success") {
         var cred = firebase.auth.GoogleAuthProvider.credential(result);
-
-        firebase.auth().signInWithCredential(cred).then((credential)=>{
+        firebase
+          .auth()
+          .signInWithCredential(cred)
+          .then((credential) => {
             //User Succsessfully signed in
-            dbh.collection("UserDetails").doc(credential.user.uid).collection("User").get().then((docSnapshot) => {
-    if (docSnapshot.size == 0) {
-      dbh.collection(`UserDetails/${credential.user.uid}/User`).add({
-        fullName:credential.user.displayName,phone:credential.user.phoneNumber,email:credential.user.email,clientIsMobile:true
-    }).then((obj)=>{
-        
-    },(err)=>{
-   setLoading(false)
-   setError(err)
-    })
-    
-    }
-
-  });
-
-
-        }).catch((error) => {
-          setLoading(false)
-          setError(error)
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-        });
+            dbh
+              .collection("UserDetails")
+              .doc(credential.user.uid)
+              .collection("User")
+              .get()
+              .then((docSnapshot) => {
+                if (docSnapshot.size == 0) {
+                  dbh
+                    .collection(`UserDetails/${credential.user.uid}/User`)
+                    .add({
+                      fullName: credential.user.displayName,
+                      phone: credential.user.phoneNumber,
+                      email: credential.user.email,
+                      clientIsMobile: true,
+                    })
+                    .then(
+                      (obj) => {},
+                      (err) => {
+                        setLoading(false);
+                        setError(err);
+                      }
+                    );
+                }
+              });
+          })
+          .catch((error) => {
+            setLoading(false);
+            setError(error);
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
 
         return result.accessToken;
       } else {
-        setLoading(false)
+        setLoading(false);
         return { cancelled: true };
-        
       }
     } catch (e) {
-      setLoading(false)
-      setError(e)
+      setLoading(false);
+      setError(e);
       return { error: true };
     }
-  }
-
+  };
 
   if (isLoading) {
-    return <Loader text=""/>;
+    return <Loader text="" />;
   }
   return (
-    <SafeAreaView style={{backgroundColor:"#fff"}}>
-    <ScrollView style={[styles.authContainer]}>
-    <PropziLogo
-              height={54}
-              width={97}
-              style={{marginHorizontal:20,marginVertical:"5%" }}
+    <SafeAreaView style={{ backgroundColor: "#fff", height }}>
+      {/* <ScrollView style={[styles.authContainer]}> */}
+      <View style={styles.Header}>
+        <PropziLogo height={LogoHeight} width={LogoWidth} />
+        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+          <Text style={[styles.headerText]}>
+            {" "}
+            Discover the true value of your home
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.body}>
+        {Platform.OS === "ios" ? (
+          <TouchableOpacity
+            onPress={handleAppleClick}
+            style={[styles.signInButton, { backgroundColor: "#000000" }]}
+          >
+            <View style={styles.container1}>
+              <AntDesign name="apple1" size={buttonIconHeight} color="white" />
+
+              <Text style={[styles.buttonText, { color: "white" }]}>
+                Sign in with Apple
+              </Text>
+            </View>
+
+            <Entypo
+              name="chevron-right"
+              size={buttonIconHeight}
+              color="white"
             />
-<Text style={[styles.headerText,{marginHorizontal:20}]}> Discover the true value of your home</Text>
+          </TouchableOpacity>
+        ) : null}
 
-<View style={{marginTop:20,marginHorizontal:20,height:Platform.OS === 'ios' ?"100%":height * 0.667}}>
-  
-  {Platform.OS === 'ios' ?<TouchableOpacity onPress={handleAppleClick} style={{backgroundColor:"#000000",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-    
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <AntDesign name="apple1" size={20} color="white" />
+        <TouchableOpacity
+          onPress={handlepress}
+          style={[styles.signInButton, { backgroundColor: "#4267B2" }]}
+        >
+          <View style={styles.container1}>
+            <AntDesign
+              name="facebook-square"
+              size={buttonIconHeight}
+              color="white"
+            />
 
+            <Text style={[styles.buttonText, { color: "white" }]}>
+              Continue with Facebook
+            </Text>
+          </View>
 
-      
-<Text style={{color:"white",marginLeft:16,fontWeight:"700",fontSize:15}}>Sign in with Apple</Text> 
-    </View>
-     
-      <Entypo name="chevron-right" size={24} color="white" />
-  
- 
-  </TouchableOpacity>:null}
+          <Entypo name="chevron-right" size={buttonIconHeight} color="white" />
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={signInWithGoogleAsync}
+          style={[styles.signInButton, { backgroundColor: "#4285F4" }]}
+        >
+          <View style={styles.container1}>
+            <AntDesign name="google" size={buttonIconHeight} color="white" />
 
-  <TouchableOpacity onPress={handlepress} style={{backgroundColor:"#4c659d",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-    
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <AntDesign name="facebook-square" size={24} color="white" />
+            <Text style={[styles.buttonText, { color: "white" }]}>
+              Continue with Google
+            </Text>
+          </View>
 
+          <Entypo name="chevron-right" size={buttonIconHeight} color="white" />
+        </TouchableOpacity>
 
-      
-<Text style={{color:"white",marginLeft:16,fontWeight:"700",fontSize:15,lineHeight:23}}>Continue with Facebook</Text> 
-    </View>
-     
-      <Entypo name="chevron-right" size={24} color="white" />
-  
- 
-  </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("signUp");
+          }}
+          style={[styles.signInButton, { backgroundColor: "#f1f1fb" }]}
+        >
+          <View style={styles.container1}>
+            <FontAwesome
+              name="envelope"
+              size={buttonIconHeight}
+              color="#c0c7d9"
+            />
 
+            <Text style={[styles.buttonText, { color: "#686874" }]}>
+              Continue with email
+            </Text>
+          </View>
 
+          <Entypo
+            name="chevron-right"
+            size={buttonIconHeight}
+            color="#c0c7d9"
+          />
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("login");
+          }}
+          style={{
+            marginTop: "10%",
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            alignSelf: "flex-start",
+          }}
+        >
+          <Text
+            style={{
+              color: "#686874",
+              fontSize: buttonTextSize,
+              fontFamily: "Poppins-Regular",
+              marginRight: 10,
+            }}
+          >
+            Log in to existing account
+          </Text>
+          <Entypo
+            name="chevron-right"
+            size={buttonIconHeight}
+            color="#c0c7d9"
+          />
+        </TouchableOpacity>
+      </View>
 
-  <TouchableOpacity onPress={signInWithGoogleAsync} style={{backgroundColor:"#5e93ef",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-    
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <AntDesign name="google" size={24} color="white" />
-
-
-      
-<Text style={{color:"white",marginLeft:16,fontWeight:"700",fontSize:15,lineHeight:23}}>Sign in with Google</Text> 
-    </View>
-     
-      <Entypo name="chevron-right" size={24} color="white" />
-  
- 
-  </TouchableOpacity>
-
-
-  <TouchableOpacity onPress={()=>{navigation.navigate("login")}} style={{backgroundColor:"#f1f1fb",marginVertical:7,borderRadius:12,padding:13,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-    
-    <View style={{justifyContent:"space-between",flexDirection:"row"}}>
-    <FontAwesome name="envelope" size={20} color="#c0c7d9" />
-
-
-      
-<Text style={{color:"#686874",marginLeft:16,fontWeight:"700",fontSize:15,lineHeight:23}}>Continue with email</Text> 
-    </View>
-     
-      <Entypo name="chevron-right" size={24} color="#c0c7d9" />
-  
- 
-  </TouchableOpacity>
-  
-
-    
-   
-  <Text style={{color:"grey",fontSize:11,position:"absolute",bottom:0,marginTop:20,textAlign:"center"}}>By using this app, you agree to the <Text style={{fontWeight:"bold"}}>Terms and Conditions</Text> and <Text style={{fontWeight:"bold"}}>Privacy Policy</Text>.You also agree to receive product related emails from Propzi which you can unsubscribe at any time.</Text>
-</View>
-
-    </ScrollView>
-    
+      {/* </ScrollView> */}
+      <View style={styles.footer}>
+        <Text
+          style={{
+            color: "#c0c7d9",
+            fontFamily: "Poppins-Regular",
+            fontSize: PrivacyTextSize,
+            textAlign: "center",
+            alignItems: "flex-end",
+            marginBottom: "5%",
+          }}
+        >
+          By using this app, you agree to the{" "}
+          <Text style={{ fontFamily: "Poppins-Regular", color: "#686874" }}>
+            Terms and Conditions
+          </Text>{" "}
+          and{" "}
+          <Text style={{ color: "#686874", fontFamily: "Poppins-Regular" }}>
+            Privacy Policy
+          </Text>
+          .You also agree to receive product related emails from Propzi which
+          you can unsubscribe at any time.
+        </Text>
+      </View>
     </SafeAreaView>
   );
-
-
- 
 }
 // TODO:// Add responsiveness to small card
 const styles = StyleSheet.create({
   authContainer: {
     paddingLeft: 20,
-    paddingRight:20,
+    paddingRight: 20,
     height,
-    paddingTop:"2%",
-   backgroundColor:"#fff"
+    paddingTop: "2%",
+    backgroundColor: "#fff",
   },
 
-  buttonContainer:{
+  buttonContainer: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingVertical:10,
-    flexDirection: 'row',
-    justifyContent:"center"
+    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "center",
   },
-
-  headerText:{
-    fontWeight:"bold",
-    fontSize:28,
-    marginBottom:"7%",
-    fontFamily:"Poppins-Bold",
-    textAlign:"left",
-    lineHeight:42
+  buttonText: {
+    fontFamily: "Poppins-Medium",
+    marginLeft: 16,
+    fontWeight: "700",
+    fontSize: buttonTextSize,
+    lineHeight: 23,
   },
-
-
+  headerText: {
+    fontWeight: "bold",
+    fontSize: headerSize,
+    marginBottom: "7%",
+    fontFamily: "Poppins-Bold",
+    lineHeight: 42,
+  },
+  footer: {
+    flex: 0.5,
+    paddingHorizontal: "5%",
+    justifyContent: "flex-end",
+  },
+  Header: {
+    paddingHorizontal: "10%",
+    flex: 0.8,
+    justifyContent: "space-around",
+  },
+  body: {
+    flex: 1,
+    paddingHorizontal: "10%",
+    justifyContent: "flex-start",
+  },
+  signInButton: {
+    marginVertical: "2%",
+    borderRadius: 12,
+    padding: "4%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  container1: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });

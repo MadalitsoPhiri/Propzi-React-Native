@@ -1,10 +1,10 @@
 import React,{useState,useContext,useEffect}from 'react';
-import {View,Text,StyleSheet,ScrollView,TouchableOpacity,SafeAreaView} from "react-native";
+import {View,Text,StyleSheet,ScrollView,TouchableOpacity,SafeAreaView,Dimensions} from "react-native";
 import { Chip,Divider } from 'react-native-paper';
 import {AuthContext} from "../components/providers/AuthProvider";
 
 
-
+const {width,height} = Dimensions.get("window");
 const BORDER_WIDTH = 2
 export default function AmmenitiesScreen({navigation}){
     const {user,setUser,property,setproperty} = useContext(AuthContext)
@@ -34,7 +34,7 @@ export default function AmmenitiesScreen({navigation}){
         let fullAmenities =  arrayUnique(CondominiumAmmenities.concat(nearbyAmmenities))
         let finalArray = []
           fullAmenities.forEach((item,index)=>{
-                   if(item == null || item == ""){
+                   if(item == null || item == "" || item == undefined){
                     return 
                    }
                   const itemState = {name:item,selected:true}
@@ -50,16 +50,20 @@ export default function AmmenitiesScreen({navigation}){
       }
      
 return (<SafeAreaView style={{height:"100%"}}>
-<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%"}}>
+<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical:"10%",justifyContent:"space-between"}}>
     {property.class == "CondoProperty" ?<Text style={styles.heading}>Are these the latest amenities in your condo building?</Text>:<Text style={styles.heading}>Are these the latest amenities in your house?</Text>}
     <Text style={styles.subheading}>These amenities were listed on the latest MLS listing for your home.</Text>
+    
     {ammenities.length != 0 ? <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal:16}} style={{marginTop:"12%"}}><View style={styles.scrollContainer}>
           {ammenities.map((item, index) => (
           <Chip key={index} icon="" onPress={() => {
             let newState = [...ammenities];
             newState[index].selected = !item.selected
             setAmenities(newState)
-          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6"}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
+          }} style={{backgroundColor:item.selected ? "#46D0B6":"#D6F5EF",marginLeft:16,marginBottom:"7%",borderWidth:BORDER_WIDTH,borderColor:"#46D0B6", shadowOffset:{width:5,height:10},
+          shadowOpacity:0.15,
+          shadowRadius:12,
+          elevation:7}} ><Text style={{color:item.selected ? "#ffffff":"#46D0B6",fontSize:16,fontFamily:"Poppins-Regular"}}>{item.name}</Text></Chip>
         ))}
             </View></ScrollView>:null}
             <TouchableOpacity onPress={()=>{
@@ -68,7 +72,7 @@ return (<SafeAreaView style={{height:"100%"}}>
                 console.log(temp)
                 setproperty(temp)
                 navigation.navigate("upgrades")
-                }} style={{alignSelf:"center",marginTop:"25%",backgroundColor:"#46D0B6",borderRadius:20,paddingHorizontal:30,paddingVertical:10}}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
+                }} style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
 </ScrollView>
 </SafeAreaView>)
 }
@@ -80,6 +84,22 @@ const styles = StyleSheet.create({
      lineHeight:42,
      paddingHorizontal:"8%",
  },
+ continueButton:{
+  flexDirection:"row",
+  justifyContent:"center",
+  alignItems:"center",
+  borderRadius:6,
+  backgroundColor:"#34D1B6",
+  height:50,
+  width:width - 50,
+  alignSelf:"center",
+  marginTop:"10%",
+  shadowColor:"#000",
+  shadowOffset:{width:5,height:10},
+  shadowOpacity:0.15,
+  shadowRadius:12,
+  elevation:7,
+},
  subheading:{
      fontFamily:"Poppins-Regular",
      fontSize:13,
@@ -90,6 +110,8 @@ const styles = StyleSheet.create({
  scrollContainer:{
     flexWrap: "wrap",
     flexDirection:'row',
-    width:500
+    width:600,
+    marginBottom:"10%",
+    marginTop:"5%"
   }
 })

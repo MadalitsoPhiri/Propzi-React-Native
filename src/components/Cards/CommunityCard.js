@@ -12,27 +12,26 @@ import { colors } from "../../styles";
 import { useNavigation } from "@react-navigation/native";
 import {AntDesign } from '@expo/vector-icons';
 const { width } = Dimensions.get("screen");
-import { AuthContext } from "../providers/AuthProvider";
 import { set } from "react-native-reanimated";
 import { firebase, dbh } from "../../../firebase";
 
 
 
-const ReportCard = ({
+const CommunityCard = ({
   id,
-  imgUrl,
-  isHigh = false,
-  title,
-  dataSource,
-  desc,
-  propziImpact,
-  category,
-  projectURL,
-  type,
-  likeInfo,
+  data,
+  user
+//   imgUrl,
+//   isHigh = false,
+//   title,
+//   dataSource,
+//   desc,
+//   propziImpact,
+//   category,
+//   projectURL,
+//   likeInfo,
 }) => {
   const navigation = useNavigation();
-  const { user, setUser } = useContext(AuthContext);
 const [Liked,setLiked] = useState(false)
 const  [Disliked,setDisliked] = useState(false)
 const [likes,setlikes] = useState(0)
@@ -40,62 +39,63 @@ const [dislikes,setdislikes] = useState(0)
 const LikeIconSize = width*0.055
 const search = (element) => element == user.uid;
 useEffect(()=>{
-  // //check like info
-  // if(likeInfo.likedIds.findIndex(search)  > -1){
-  //   setLiked(true)
-  // }
+  //check like info
+  if(data.likeInfo.likedIds.findIndex(search)  > -1){
+    setLiked(true)
+  }
 
-  // if(likeInfo.dislikedIds.findIndex(search) > -1){
-  //  setDisliked(true)
-  // }
-  // setlikes(likeInfo.likes)
-  // setdislikes(likeInfo.dislikes)
-   console.log()
+  if(data.likeInfo.dislikedIds.findIndex(search) > -1){
+   setDisliked(true)
+  }
+  setlikes(data.likeInfo.likes)
+  setdislikes(data.likeInfo.dislikes)
+  console.log("data is: ",data)
+
+
 },[])
 
 const handleLike = ()=>{
   //like has been clicked
  if(!Liked){
 
-  // //make firebase call
-  // if(type=="Economic Indicators"){
-  // //its the economics collection
-   
-  // }else if(type=="Community Developments"){
-  // //its the community collection
-  // let initialLikesArray = likeInfo.likedIds
-  // let initialDislikesArray = likeInfo.dislikedIds
-  // initialLikesArray.push(user.uid)
-  // let updatedObject = {}
-  // if(likeInfo.dislikedIds.includes(user.uid)){
-  //  //had disliked before
-  //  updatedObject.likedIds = initialLikesArray
-  //  updatedObject.likes = likeInfo.likes + 1
+  //make firebase call
+  console.log("Like Clicked : " ,data.likeInfo.dislikedIds)
+  //its the community collection
+  let initialLikesArray = data.likeInfo.likedIds
+  let initialDislikesArray = data.likeInfo.dislikedIds
+  let fullDataObject = {...data}
+
+  let updatedObject = {}
+  initialLikesArray.findIndex(search) < 0 &&  initialLikesArray.push(user.uid)
+
+  if(data.likeInfo.dislikedIds.findIndex(search) > -1){
+   //had disliked before
+   updatedObject.likedIds = initialLikesArray
+   updatedObject.likes = data.likeInfo.likes + 1
   
-  //  let indexOfDislike  = initialDislikesArray.findIndex(search)
-  //  indexOfDislike == -1 ? console.log("indexOfDislike: ",indexOfDislike): delete initialDislikesArray[indexOfDislike]; 
-  //  updatedObject.dislikes = likeInfo.dislikes - 1
-  //  updatedObject.dislikedIds = initialDislikesArray
-  // }else{
-  //   updatedObject.likedIds = initialLikesArray
-  //   updatedObject.likes = likeInfo.likes + 1
-  // }
- 
-  // dbh
-  // .collection("Communit").doc(id).update(updatedObject).then(()=>{
-  //   setLiked(true)
-  //   setlikes(likes+1)
-  //   setDisliked(false)
+   let indexOfDislike  = initialDislikesArray.findIndex(search)
+   indexOfDislike == -1 ? console.log("indexOfDislike: ",indexOfDislike): delete initialDislikesArray[indexOfDislike]; 
+   updatedObject.dislikes = data.likeInfo.dislikes - 1
+   updatedObject.dislikedIds = initialDislikesArray
+  }else{
+    updatedObject.likedIds = initialLikesArray
+    updatedObject.likes = data.likeInfo.likes + 1
+  
+  }
+  console.log("Like Clicked : " ,updatedObject)
+  console.log("Liked item id : " ,data.id)
+//   dbh.collection("Communit").doc(data.id).update({likeInfo:updatedObject}).then(()=>{
+//     setLiked(true)
+//     setlikes(likes+1)
+//     setDisliked(false)
     
    
-  // })
-  // }else{
-
-  // }
-    setLiked(true)
-    setlikes(likes+1)
-    setDisliked(false)
-    setdislikes(dislikes<=0?0:dislikes-1)
+//   })
+ 
+//     setLiked(true)
+//     setlikes(likes+1)
+//     setDisliked(false)
+//     setdislikes(dislikes<=0?0:dislikes-1)
  }
 }
 
@@ -119,32 +119,33 @@ const handleDisLike = ()=>{
       <View>
       <TouchableOpacity
       onPress={() =>
-        projectURL && projectURL !== ""
-          ? navigation.navigate("WebView", { projectURL })
+        data.projectUrl && data.projectUrl !== ""
+          ? navigation.navigate("WebView", { projectURL:data.projectUrl })
           : null
       }
     >
         <Image
-          source={{ uri: imgUrl }}
+          source={{ uri: data.cardImage }}
           style={[styles.image, { resizeMode: "cover" }]}
         />
+        {console.log("the image url",data.cardImage)}
         <View style={styles.tag}>
-          <Text style={styles.tagName}>{category}</Text>
+          <Text style={styles.tagName}>{data.category}</Text>
         </View>
 
         <View style={styles.cardBody}>
-          <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={styles.cardTitle}>{data.heading}</Text>
           <Text style={{ color: "#788490", marginBottom: 4, fontSize: 12 }}>
-            From: {dataSource}
+            From: {data.dataSource}
           </Text>
           <Text style={{ color: "#1f2123", fontSize: 13, lineHeight: 20 }}>
-            {desc?.substr(0, 89) + "..."}
+            {data.description?.substr(0, 89) + "..."}
             <Text style={{ color: colors.PRIMARY_COLOR }}>Read more</Text>
           </Text>
         </View>
         </TouchableOpacity>
         <View style={[styles.cardFooter,{justifyContent:"space-between"}]}>
-        {propziImpact !== "" && propziImpact ? (
+        {data.propziImpact !== "" && data.propziImpact ? (
           <View style={[styles.propziImpactContainer,{flexDirection:"row"}]}>
             <Text style={styles.propziImpactTitle}>Propzi Impact:</Text>
             <Text
@@ -153,7 +154,7 @@ const handleDisLike = ()=>{
                 { color: isHigh ? colors.PRIMARY_COLOR : "red" },
               ]}
             >
-              {propziImpact}
+              {data.propziImpact}
             </Text>
           </View>
         ) : <View style={{flex:1}}></View>}
@@ -294,4 +295,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ReportCard;
+export default CommunityCard;

@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Image,Dimensions} from "react-native";
 import { styles } from "./cardStyle";
-
+const {width} = Dimensions.get("window")
 const ReportRectangleCard = ({
   onPress,
   imagesArray = [],
@@ -15,7 +15,7 @@ const ReportRectangleCard = ({
     <TouchableOpacity
       style={[
         styles.card,
-        { marginBottom: 5, backgroundColor: backgroundColor },
+        { marginBottom: 5, backgroundColor: backgroundColor,width:width-32,alignSelf:"center" },
       ]}
       onPress={onPress}
     >

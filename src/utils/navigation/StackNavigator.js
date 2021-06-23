@@ -14,12 +14,14 @@ import HomeScreen from "../../screens/HomeScreen";
 import ReportScreen from "../../screens/ReportScreen";
 import OffersScreen from "../../screens/OffersScreen";
 import SignUpScreen from "../../screens/SignUpScreen";
+import Detailspage from "../../screens/Detailspage";
 import LoginScreen from "../../screens/LoginScreen";
 import Intro from "../../screens/Intro";
 
 const Stack = createStackNavigator();
 const { width, height } = Dimensions.get("window");
-const MainStackNavigator = () => {
+const MainStackNavigator = ({route}) => {
+
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen
@@ -35,6 +37,8 @@ const MainStackNavigator = () => {
           },
         }}
       />
+      <Stack.Screen name="detailspage" component={Detailspage} />
+
       <Stack.Screen name="Intro" component={Intro} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignUpScreen} />
@@ -42,7 +46,8 @@ const MainStackNavigator = () => {
   );
 };
 
-const ReportStackNavigator = () => {
+const ReportStackNavigator = ({route}) => {
+ 
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen
@@ -62,7 +67,7 @@ const ReportStackNavigator = () => {
   );
 };
 
-const OffersStackNavigator = () => {
+const OffersStackNavigator = ({route}) => {
   return (
     <Stack.Navigator headerMode={false}>
       <Stack.Screen
