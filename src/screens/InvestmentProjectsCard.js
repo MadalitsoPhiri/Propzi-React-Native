@@ -121,7 +121,7 @@ const findIndex = (array,userId)=>{
 
 }
 
-export default CommunityDevelopmentCard = ({data})=>{
+export default InvestmentProjectsCard = ({data})=>{
     const [Likes,setLikes] = useState(0)
     const [Liked,setLiked] = useState(false)
     const [requesting,setRequesting] = useState(false)
@@ -132,45 +132,45 @@ export default CommunityDevelopmentCard = ({data})=>{
     const indexCallback = (value)=>{
         return value == user.uid 
     }
-    const userLikeIndex = data.likeInfo.likedIds.findIndex(indexCallback)
+    // const userLikeIndex = data.likeInfo.likedIds.findIndex(indexCallback)
     const handleUnlike = ()=>{
-        let updateObject = {
-            ...data.likeInfo
-        }
-        updateObject.likes  = data.likeInfo.likes === 0 ? 0 : data.likeInfo.likes - 1
-        //remove the userid
+    //     let updateObject = {
+    //         ...data.likeInfo
+    //     }
+    //     updateObject.likes  = data.likeInfo.likes === 0 ? 0 : data.likeInfo.likes - 1
+    //     //remove the userid
         
      
           
             
 
-            updateObject.likedIds = updateObject.likedIds.filter((item)=>{
-                return item == user.id
-            });
+    //         updateObject.likedIds = updateObject.likedIds.filter((item)=>{
+    //             return item == user.id
+    //         });
 
         
-        console.log("UpdateObject",updateObject)
-        console.log("item id:",data.id)
-        console.log("likedIds : ", updateObject.likedIds)
-        console.log("userindex:",userLikeIndex)
-        setLiked(false)
-        setRequesting(true)
-        dbh.collection("Communit").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
-            setRequesting(false)
-            // setLiked(false)
-            // setLikes((prev)=>{
-            //   return prev - 1  
-            // }
+    //     console.log("UpdateObject",updateObject)
+    //     console.log("item id:",data.id)
+    //     console.log("likedIds : ", updateObject.likedIds)
+    //     console.log("userindex:",userLikeIndex)
+    //     setLiked(false)
+    //     setRequesting(true)
+    //     dbh.collection("Communit").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
+    //         setRequesting(false)
+    //         // setLiked(false)
+    //         // setLikes((prev)=>{
+    //         //   return prev - 1  
+    //         // }
             
-            // )
-            console.log("Success disliking")
+    //         // )
+    //         console.log("Success disliking")
            
 
             
     
-    }).catch((err)=>{
-       console.log(err)
-    })
+    // }).catch((err)=>{
+    //    console.log(err)
+    // })
    
     }
 
@@ -178,53 +178,53 @@ export default CommunityDevelopmentCard = ({data})=>{
 
 
     const handleLike = ()=>{
-        let updateObject = {
-            ...data.likeInfo
-        }
-        updateObject.likes  = data.likeInfo.likes  + 1
-        //remove the userid
+    //     let updateObject = {
+    //         ...data.likeInfo
+    //     }
+    //     updateObject.likes  = data.likeInfo.likes  + 1
+    //     //remove the userid
         
-        if(userLikeIndex <= -1){
+    //     if(userLikeIndex <= -1){
           
             
 
-          updateObject.likedIds.push(user.uid)
-        }
-        console.log("UpdateObject",updateObject)
-        console.log("item id:",data.id)
-        console.log("likedIds : ", updateObject.likedIds)
-        console.log("userindex:",userLikeIndex)
-        setLiked(true)
-        dbh.collection("Communit").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
+    //       updateObject.likedIds.push(user.uid)
+    //     }
+    //     console.log("UpdateObject",updateObject)
+    //     console.log("item id:",data.id)
+    //     console.log("likedIds : ", updateObject.likedIds)
+    //     console.log("userindex:",userLikeIndex)
+    //     setLiked(true)
+    //     dbh.collection("Communit").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
 
-            // setLiked(false)
-            // setLikes((prev)=>{
-            //   return prev - 1  
-            // }
+    //         // setLiked(false)
+    //         // setLikes((prev)=>{
+    //         //   return prev - 1  
+    //         // }
             
-            // )
-            console.log("Success liking")
+    //         // )
+    //         console.log("Success liking")
            
 
             
     
-    }).catch((err)=>{
-        console.log(err)
-    })
+    // }).catch((err)=>{
+    //     console.log(err)
+    // })
     }
 
 
 
 
-    useEffect(()=>{
-      // run code when card first mounts
-      setLikes(data.likeInfo.likes)
-      if(userLikeIndex >= 0){
-        setLiked(true)
-      }else{
-          setLiked(false)
-      }
-    },[])
+    // useEffect(()=>{
+    //   // run code when card first mounts
+    //   setLikes(data.likeInfo.likes)
+    //   if(userLikeIndex >= 0){
+    //     setLiked(true)
+    //   }else{
+    //       setLiked(false)
+    //   }
+    // },[])
 
     const handleLikeTapped = ()=>{
         //check if iiked 
@@ -245,23 +245,23 @@ export default CommunityDevelopmentCard = ({data})=>{
     }
     return <View style={styles.container}>
         <TouchableWithoutFeedback
-      onPress={() =>
-        data.projectUrl && data.projectUrl !== ""
-          ? navigation.navigate("WebView", { projectURL:data.projectUrl })
-          : null
+      onPress={() => console.log("clicked")
+        // data.projectUrl && data.projectUrl !== ""
+        //   ? navigation.navigate("WebView", { projectURL:data.projectUrl })
+        //   : null
       }
     >
          <View style={styles.cardBody}>
                   <View style={styles.imageContainer}>
-                  <Image source={{ uri: data.cardImage }}style={[StyleSheet.absoluteFill,styles.image]} />
+                  <Image source={{ uri: data.thumbnailUrl }}style={[StyleSheet.absoluteFill,styles.image]} />
                   <View style={styles.categoryBadge}>
-                      <Text style={styles.categoryBadgeText} numberOfLines={1}>{data.category}</Text>
+                      <Text style={styles.categoryBadgeText} numberOfLines={1}>{data.status}</Text>
                   </View>
                   </View>
                   <View style={styles.cardMiddle}> 
-                  <Text style={styles.titleText}>{data.heading}</Text>
-                  <Text style={styles.sourceText} numberOfLines={2}>{data.dataSource}</Text>
-                  <Text styles={styles.descriptionText}numberOfLines={4} ellipsizeMode='tail'>{data.description}</Text>
+                  <Text style={styles.titleText}>{data.title}</Text>
+                  {/* <Text style={styles.sourceText} numberOfLines={2}>{data.dataSource}</Text> */}
+                  <Text styles={styles.descriptionText}numberOfLines={4} ellipsizeMode='tail'>{data.caption}</Text>
                   </View>
 
          </View>
@@ -274,7 +274,8 @@ export default CommunityDevelopmentCard = ({data})=>{
             {Liked ? <AntDesign name="heart" size={LIKE_BUTTON_SIZE} color="black" /> :<AntDesign name="hearto" size={LIKE_BUTTON_SIZE} color="black" />}
             
             <Text style={styles.likesText}>
-                {data.likeInfo.likes.toString()}
+                {/* {data.likeInfo.likes.toString()} */}
+                0
             </Text>
             </View>
             </TouchableWithoutFeedback>

@@ -15,7 +15,7 @@ export const PropertyDataProvider = ({ children }) => {
   const [focusedProperty,setFocusedProperty] = useState(null);
   const [EconomicIndicators,setEconomicIndicators] = useState([])
   const [isRecentSalesLoading, setIsRecentSalesLoading] = useState(false);
-  
+  const [investmentProjects,setInvestmentProjects] = useState([])
 
 
 
@@ -74,6 +74,24 @@ export const PropertyDataProvider = ({ children }) => {
      });
    }
 
+   const getInvestmentProjectsData = ()=>{
+    dbh
+     .collection("InvestmentProjects")
+     .onSnapshot((querySnapshot) => {
+       const users = [];
+
+       querySnapshot.forEach((documentSnapshot) => {
+         users.push({
+           ...documentSnapshot.data(),
+           key: documentSnapshot.id,
+         });
+       });
+
+       setInvestmentProjects(users);
+      
+     });
+   }
+
   const [defaultProperty, setdefaultHome] = useState(0);
   function checkDefaultProperty(id){
     try{
@@ -99,11 +117,12 @@ export const PropertyDataProvider = ({ children }) => {
       
        getEconomicData()
        getUserDetails()
-
+       getInvestmentProjectsData()
      
       return ()=>{
         getEconomicData()
         getUserDetails()
+        getInvestmentProjectsData()
       }
   }, []);
 
@@ -119,7 +138,7 @@ export const PropertyDataProvider = ({ children }) => {
 
   return (
     <PropertyDataContext.Provider
-      value={{EconomicIndicators,setFocusedProperty,focusedProperty, isPropertyDataLoaded, property, repliers,Properties, setProperties,defaultProperty,setdefaultHome}}
+      value={{EconomicIndicators,setFocusedProperty,focusedProperty, isPropertyDataLoaded, property, repliers,Properties, setProperties,defaultProperty,setdefaultHome,investmentProjects}}
     >
       {children}
     </PropertyDataContext.Provider>

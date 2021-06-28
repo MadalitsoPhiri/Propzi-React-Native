@@ -15,7 +15,6 @@ import { dbh } from "../../firebase";
 import { AuthContext } from "../components/providers/AuthProvider";
 import PropziVisit from "./PropziVisit";
 import PropziUpgradesScreen from "./PropziUpgradesScreen";
-import axios from "axios";
 import {
   ActivityIndicator,
   Modal,
@@ -416,7 +415,7 @@ const cleanAddress = (raw) => {
   }
 };
 
-export default function SearchHomeScreen({ navigation }) {
+export default function SearchPropertyScreen({ navigation }) {
   const [searchResults, setSearchResults] = useState(null);
   const [noResults, setnoResults] = useState(false);
   const [isFetching, setisFetching] = useState(false);
@@ -735,34 +734,28 @@ export default function SearchHomeScreen({ navigation }) {
   };
   const getAddressPreview = (term) => {
     const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
-    
-    const END_POINT = "https://api.postgrid.com/v1/addver/completions";
+    const END_POINT = `https://api.repliers.io/listings/?keywords=${term}&status=U&condition=EXACT&operator=AND`;
     const OPTIONS = {
-      method: "POST",
-      headers: {
-        "x-api-key": APK_KEY,
-      },
+      method: "GET",
+      headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
     };
-    axios.post(END_POINT,{"partialStreet":term},OPTIONS)
-    .then((response) => {
-      console.log("postgrid response: ",response);
-    }, (error) => {
-      console.log("postgrid error:",error);
-    });
-    // fetch(END_POINT, requestOptions)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log("postgrid response:",data);
-    //     // if (data.data.length == 0) {
-    //     //   setSearchResults(null);
-    //     //   setnoResults(true);
-    //     // } else {
-    //     //   setSearchResults(data);
-    //     // }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    fetch(END_POINT, OPTIONS)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("api request result: ",data);
+        if (data.listings == undefined) {
+          setSearchResults(null);
+          setnoResults(true);
+        } else {
+          setnoResults(false);
+          setSearchResults(data.listings);
+          console.log("results data: ",data)
+        }
+      })
+      .catch((err) => {
+        setnoResults(true);
+        console.log(err);
+      });
   };
 
   const onMLSSelected = () => {
@@ -863,8 +856,8 @@ export default function SearchHomeScreen({ navigation }) {
                   paddingBottom: searchResults ? "5%" : "0%",
                 }}
               >
-                {searchResults && searchResults.data
-                  ? searchResults.data.map((result, index) => (
+                {searchResults
+                  ? searchResults.map((result, index) => (
                       <TouchableOpacity
                         onPress={() => handleSelect(index)}
                         style={{ height: 40 }}
@@ -877,7 +870,7 @@ export default function SearchHomeScreen({ navigation }) {
                             padding: 20,
                             fontFamily: "Poppins-Medium",
                           }}
-                        >{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text>
+                        >{result.address.unitNumber?`${result.address.unitNumber}, ${result.address.streetNumber}, ${result.address.streetName}`:`${result.address.streetNumber}, ${result.address.streetName}`}</Text>
                       </TouchableOpacity>
                     ))
                   : null}

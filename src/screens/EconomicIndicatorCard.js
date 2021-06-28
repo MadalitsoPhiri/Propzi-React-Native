@@ -1,6 +1,7 @@
 import React,{useContext,useEffect,useState} from "react";
 import {View,Text,StyleSheet, SafeAreaView, ScrollView,Dimensions,Image,TouchableWithoutFeedback} from "react-native";
 import {AntDesign } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../components/providers/AuthProvider";
 import { dbh } from "../../firebase/index"
 
@@ -14,9 +15,7 @@ const imgUrl = "https://storage.googleapis.com/community_card_photos/DTAH_11-Wel
 const title = "Dr. Lillian McGregor Park"
 const description = "A new park at 25 Wellesley St. W. will be a 1.6-acre L-shaped park bordered by Wellesey Streen west to the north dmfndjndjndfndjjdfjjdjdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
 const dataSource = "from City of Toronto"
-const testingData = {
 
-}
 
 const styles = StyleSheet.create({
         container:{
@@ -118,8 +117,10 @@ const styles = StyleSheet.create({
 
 export default EconomicIndicatorCard = ({data})=>{
     const [Likes,setLikes] = useState(0)
+    const [requesting,setRequesting] = useState(false)
     const {user} = useContext(AuthContext);
     const [Liked,setLiked] = useState(false)
+    const navigation = useNavigation();
     const indexCallback = (value)=>{
         return value == user.uid 
     }
@@ -144,8 +145,10 @@ export default EconomicIndicatorCard = ({data})=>{
         console.log("item id:",data.id)
         console.log("likedIds : ", updateObject.likedIds)
         console.log("userindex:",userLikeIndex)
+        setLiked(false)
+        setRequesting(true)
         dbh.collection("DailyEconomicIndicator").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
-
+            setRequesting(false)
             // setLiked(false)
             // setLikes((prev)=>{
             //   return prev - 1  
@@ -153,7 +156,7 @@ export default EconomicIndicatorCard = ({data})=>{
             
             // )
             console.log("Success disliking")
-            setLiked(false)
+           
 
             
     
@@ -183,6 +186,7 @@ export default EconomicIndicatorCard = ({data})=>{
         console.log("item id:",data.id)
         console.log("likedIds : ", updateObject.likedIds)
         console.log("userindex:",userLikeIndex)
+        setLiked(true)
         dbh.collection("DailyEconomicIndicator").doc(`${data.id}`).update({'likeInfo':updateObject}).then(()=>{
 
             // setLiked(false)
@@ -192,7 +196,7 @@ export default EconomicIndicatorCard = ({data})=>{
             
             // )
             console.log("Success liking")
-            setLiked(true)
+           
 
             
     
@@ -215,34 +219,45 @@ export default EconomicIndicatorCard = ({data})=>{
     },[])
 
     const handleLikeTapped = ()=>{
-        //check if iiked 
-        if(Liked){
+        if(!requesting){
+            if(Liked){
 
-            handleUnlike()
-        
-        }else{
-        //    setLiked(true)
-        //    setLikes((prev)=>{
-        //     return prev + 1 
-        //   })
-        handleLike()
+                handleUnlike()
+            
+            }else{
+            //    setLiked(true)
+            //    setLikes((prev)=>{
+            //     return prev + 1 
+            //   })
+            handleLike()
+            }
         }
+        //check if iiked 
+     
     }
     return <View style={styles.container}>
+          <TouchableWithoutFeedback
+      onPress={() =>
+        data.projectUrl && data.projectUrl !== ""
+          ? navigation.navigate("WebView", { projectURL:data.projectUrl })
+          : null
+      }
+    >
          <View style={styles.cardBody}>
                   <View style={styles.imageContainer}>
                   <Image source={{ uri: data.imgUrl }}style={[StyleSheet.absoluteFill,styles.image]} />
-                  {/* <View style={styles.categoryBadge}>
+                  <View style={styles.categoryBadge}>
                       <Text style={styles.categoryBadgeText} numberOfLines={1}>{data.category}</Text>
-                  </View> */}
+                  </View>
                   </View>
                   <View style={styles.cardMiddle}> 
-                  <Text style={styles.titleText}>{title}</Text>
-                  <Text style={styles.sourceText} numberOfLines={2}>{data.dataSource}</Text>
+                  <Text style={styles.titleText} numberOfLines={2}>{data.titleIndicator}</Text>
+                  <Text style={styles.sourceText} numberOfLines={2}>{`From: ${data.dataSource}`}</Text>
                   <Text styles={styles.descriptionText}numberOfLines={4} ellipsizeMode='tail'>{data.description}</Text>
                   </View>
 
          </View>
+         </TouchableWithoutFeedback>
          <View style={styles.cardFooter}>
             {/* Here is where the like feature will live */}
             <TouchableWithoutFeedback onPress={handleLikeTapped}>

@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import { dbh } from "../../firebase/index"
 import axios from "axios"
 import CommunityDevelopmentCard from "./CommunityDevelopmentCard"
+import InvestmentProjectsCard from "./InvestmentProjectsCard"
 
 
 const styles = StyleSheet.create({
@@ -37,7 +38,7 @@ categoryScrollView:{
     })
 
 export default ReportScreen = ()=>{
-    const {EconomicIndicators} = useContext(PropertyDataContext);
+    const {EconomicIndicators,investmentProjects} = useContext(PropertyDataContext);
     const { recentSales } = useContext(RecentSalesContext);
     const { communityData } = useContext(CommunityDataContext);
 
@@ -92,6 +93,21 @@ export default ReportScreen = ()=>{
                     keyExtractor={(item) => item.id}
                     renderItem={({ item, index }) => {
                       return <CommunityDevelopmentCard data={item}/>}}/>
+
+
+<View style={styles.blockContainer}>
+                <Text style={styles.subHeading}>Investment Projects</Text>
+            </View>
+           
+
+            <FlatList
+                style={styles.categoryScrollView}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={investmentProjects}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => {
+                      return <InvestmentProjectsCard data={item}/>}}/>
      
           </ScrollView>
     </ SafeAreaView>

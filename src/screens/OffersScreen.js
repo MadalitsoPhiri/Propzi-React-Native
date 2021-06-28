@@ -8,6 +8,7 @@ import { Divider} from 'react-native-paper';
 import { color } from "react-native-reanimated";
 import { Entypo,MaterialIcons } from "@expo/vector-icons";
 import ReportScreenOld from "./ReportScreenOld";
+import SearchPropertyScreen from "./SearchPropertyScreen";
 
 
 
@@ -93,6 +94,7 @@ export default function OffersScreen() {
    </ScrollView>
  </View>)
 // return <ReportScreenOld/>
+// return <SearchPropertyScreen/>
 }
 
 

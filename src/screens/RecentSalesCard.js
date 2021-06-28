@@ -1,6 +1,7 @@
 import React,{useContext,useEffect,useState} from "react";
-import {View,Text,StyleSheet, SafeAreaView, ScrollView,Dimensions,Image} from "react-native";
+import {View,Text,StyleSheet, SafeAreaView, ScrollView,Dimensions,Image,TouchableWithoutFeedback} from "react-native";
 import {AntDesign,Ionicons,MaterialIcons,FontAwesome} from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 const {width,height} = Dimensions.get("window");
 const CARD_HEIGHT = height * 0.4
@@ -137,7 +138,12 @@ const styles = StyleSheet.create({
     })
 
 export default RecentSalesCard = ({data})=>{
+    const navigation = useNavigation()
     return <View style={styles.container}>
+        <TouchableWithoutFeedback
+    style={styles.cardcontainer}
+    onPress={() => navigation.navigate("detailspage", { item:data})}
+  >
          <View style={styles.cardBody}>
                   <View style={styles.imageContainer}>
                   <Image source={{uri: `https://cdn.repliers.io/${data.images[0]}` }}style={[StyleSheet.absoluteFill,styles.image]} />
@@ -167,6 +173,7 @@ export default RecentSalesCard = ({data})=>{
                   </View>
 
          </View>
+         </TouchableWithoutFeedback>
          <View style={styles.cardFooter}>
             {/* Here is where the like feature will live */}
             {/* <AntDesign name="hearto" size={24} color="black" /> */}
