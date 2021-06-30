@@ -106,6 +106,9 @@ export default function UniqueScreen({navigation}){
     
 
     const handlePropertyAdding = ()=>{
+      navigation.setOptions({
+        headerLeft: null,
+      });
       setLoading(true)
       const dataToSave = {
         bedrooms: property.details.numBedrooms,

@@ -328,6 +328,10 @@ const StreetSuffix = [
   "WAYS",
   "WL",
   "WLS",
+  "W",
+  "E",
+  "S",
+  "N"
 ];
 
 const Input = ({
@@ -357,9 +361,16 @@ const Input = ({
     </View>
   );
 };
+const findIsCondo = (arg)=>{
+   
+   return arg.includes("-")
+}
+
 
 const cleanAddress = (raw) => {
-  const postGridAddress = raw.split(" ");
+  let postGridAddress = raw.split(" ");
+  let isCondo = findIsCondo(postGridAddress[0])
+
   // ._dispatchInstances.memoizedProps.children[0].props.children.props.children.toLowerCase();
   let streetName;
   let streetNumber;
@@ -367,7 +378,7 @@ const cleanAddress = (raw) => {
   if (postGridAddress.length == 3) {
     let lastItem = postGridAddress[postGridAddress.length - 1];
 
-    if (StreetSuffix.includes(lastItem)) {
+    if (StreetSuffix.includes(lastItem.toUpperCase())) {
       streetNumber = postGridAddress[0];
       streetName = postGridAddress[1];
     } else {
@@ -377,30 +388,41 @@ const cleanAddress = (raw) => {
       postGridAddress.forEach((item) => {
         streetNameArray.push(item);
       });
-      streetName = streetNameArray.join(" ").toLowerCase();
+      streetName = streetNameArray.join(" ")
     }
 
-    return { streetNumber, streetName };
+    return { streetNumber, streetName:streetName.toLowerCase(), isCondo};
   } else if (postGridAddress.length > 3) {
     let lastItem = postGridAddress[postGridAddress.length - 1];
     let secondLastItem = postGridAddress[postGridAddress.length - 2];
 
-    if (StreetSuffix.includes(secondLastItem) && lastItem.length == 1) {
+    if (StreetSuffix.includes(secondLastItem.toUpperCase()) && lastItem.length == 1) {
       postGridAddress.pop();
       postGridAddress.pop();
 
       streetNumber = postGridAddress[0];
 
       let streetNameArray = [];
-      let index;
-      for (index = 0; index < postGridAddress.length; index++) {
-        if (index != 0) {
-          streetNameArray.push(postGridAddress[index]);
-        }
-      }
-      streetName = streetNameArray.join("").toLowerCase();
+      // let index;
+      // for (index = 0; index < postGridAddress.length; index++) {
+      //   if (index != 0) {
+      //     streetNameArray.push(postGridAddress[index]);
+      //   }
+      // }
 
-      return { streetNumber, streetName };
+      postGridAddress.forEach((item,index) => {
+        if(index != 0){
+          let current = item.toUpperCase();
+          if (StreetSuffix.includes(current)) {
+          } else {
+            streetNameArray.push(item);
+          }
+        }
+       
+      });
+      streetName = streetNameArray.join(" ")
+
+      return { streetNumber, streetName:streetName.toLowerCase(), isCondo};
     } else {
       streetNumber = postGridAddress[0];
       postGridAddress.shift();
@@ -412,15 +434,15 @@ const cleanAddress = (raw) => {
           streetNameArray.push(item);
         }
       });
-      streetName = streetNameArray.join(" ").toLowerCase();
-      return { streetNumber, streetName };
+      streetName = streetNameArray.join(" ")
+      return { streetNumber, streetName:streetName.toLowerCase(),isCondo };
       //
     }
   } else {
     // console.log("Error addressArray larger than expected!");
     streetNumber = postGridAddress[0];
     streetName = postGridAddress[1];
-    return { streetNumber, streetName };
+    return { streetNumber, streetName:streetName.toLowerCase(), isCondo};
   }
 };
 
@@ -607,20 +629,46 @@ export default function CondoSearchScreen({ navigation }) {
   };
 
   const getPropertyDetails = (raw) => {
-    const { streetNumber, streetName } = cleanAddress(raw);
-    //  console.log(streetName)
-    //  console.log(streetNumber)
+    const { streetNumber, streetName, isCondo} = cleanAddress(raw);
+    let unitNumber;
+    let streetNo;
+    if(isCondo){
+       let streetInfo = streetNumber.split("-");
+       unitNumber = streetInfo[0]
+       streetNo = streetInfo[1]
+    }
+     console.log("StreetName: ",streetName)
+     console.log("streetNumber: ",isCondo? streetNo:streetNumber)
+     console.log("isCondo: ",isCondo)
+     let REPLIERS_ENDPOINT_WITHOUT_STATUS_U;
+     let REPLIERS_ENDPOINT_WITH_STATUS_U ;
+     let ARCHIVED_LISTING_URL;
+ 
+    
+    if(isCondo){
+    REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNo}&unitNumber=${unitNumber}&class=condo&type=sale&lastStatus=Sld`;
+
+    REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNo}&unitNumber=${unitNumber}&status=U&class=condo&type=sale&lastStatus=Sld`;
+  
+    ARCHIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNo}&unitNumber=${unitNumber}&class=condo&type=sale&lastStatus=Sld`;
+    }else{
+      REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&class=residential&type=sale&lastStatus=Sld`;
+
+      REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&status=U&class=residential&type=sale&lastStatus=Sld`;
+  
+      ARCHIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&class=residential&type=sale&lastStatus=Sld`;
+    }
+
+    console.log("url1:", REPLIERS_ENDPOINT_WITHOUT_STATUS_U )
+    console.log("url2:", REPLIERS_ENDPOINT_WITH_STATUS_U )
+    console.log("url3:", ARCHIVED_LISTING_URL )
+
     const REPLIERS_OPTIONS = {
       method: "GET",
       headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
     };
 
-    const REPLIERS_ENDPOINT_WITHOUT_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale&lastStatus=Sld`;
-
-    const REPLIERS_ENDPOINT_WITH_STATUS_U = `https://api.repliers.io/listings/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&status=U&class=condo&type=sale&lastStatus=Sld`;
-
-    const ARCHIVED_LISTING_URL = `https://api.repliers.io/listings/archived/?streetName=${streetName}&streetNumber=${streetNumber}&unitNumber=${unitNumber}&class=condo&type=sale&lastStatus=Sld`;
-
+    
     // console.log(REPLIERS_ENDPOINT_WITHOUT_STATUS_U);
     fetch(REPLIERS_ENDPOINT_WITHOUT_STATUS_U, REPLIERS_OPTIONS)
       .then((res) => res.json())
@@ -644,9 +692,9 @@ export default function CondoSearchScreen({ navigation }) {
                       setproperty(findLastSoldListing(obj.listings));
                       setpropertyFound(true);
 
-                      // console.log(
-                      //   JSON.stringify(findLastSoldListing(obj.listings))
-                      // );
+                      console.log(
+                        JSON.stringify(findLastSoldListing(obj.listings))
+                      );
                     }
                   })
                   .catch((err) => {
@@ -658,11 +706,11 @@ export default function CondoSearchScreen({ navigation }) {
                 setproperty(findLastSoldListing(obj.listings));
                 setpropertyFound(true);
 
-                // console.log(JSON.stringify(findLastSoldListing(obj.listings)));
+                console.log(JSON.stringify(findLastSoldListing(obj.listings)));
               }
             })
             .catch((err) => {
-              // console.log(err.message);
+              console.log(err.message);
               setisFetching(false);
             });
         } else {
@@ -670,11 +718,11 @@ export default function CondoSearchScreen({ navigation }) {
           setproperty(findLastSoldListing(obj.listings));
           setpropertyFound(true);
 
-          // console.log(JSON.stringify(findLastSoldListing(obj.listings)));
+          console.log(JSON.stringify(findLastSoldListing(obj.listings)));
         }
       })
       .catch((err) => {
-        // console.log(err.message);
+        console.log(err.message);
         setisFetching(false);
       });
   };
@@ -698,55 +746,56 @@ export default function CondoSearchScreen({ navigation }) {
 
   const handleSelect = (index) => {
     setisFetching(true);
-    let RawAddress = searchResults.data[index].preview.address;
+    let RawAddress = searchResults.data[index].text;
     setsearchValue(RawAddress);
     setSearchResults(null);
     //Call Repliers
     getPropertyDetails(RawAddress);
   };
 
-  // const handlePropertyAdding = () => {
-  //   setLoading(true);
-  //   const dataToSave = {
-  //     bedrooms: property.details.numBedrooms,
-  //     bedroomsPlus: property.details.numBedroomsPlus,
-  //     bathrooms: property.details.numBathrooms,
-  //     numBathroomsPlus: property.details.numBathroomsPlus,
-  //     squareFeet: property.details.sqft,
-  //     propertyType: property.details.propertyType,
-  //     propertyClass: property.class,
-  //     area: property.address.area,
-  //     city: property.address.city,
-  //     cmaPrice: "",
-  //     propziPrice: "",
-  //     neighbourhood: property.address.neighborhood,
-  //     streetName: property.address.streetName,
-  //     streetNumber: property.address.streetNumber,
-  //     unitNumber: property.address.unitNumber,
-  //   };
+  const handlePropertyAdding = () => {
+    setLoading(true);
+    const dataToSave = {
+      bedrooms: property.details.numBedrooms,
+      bedroomsPlus: property.details.numBedroomsPlus,
+      bathrooms: property.details.numBathrooms,
+      numBathroomsPlus: property.details.numBathroomsPlus,
+      squareFeet: property.details.sqft,
+      propertyType: property.details.propertyType,
+      propertyClass: property.class,
+      area: property.address.area,
+      city: property.address.city,
+      cmaPrice: "",
+      propziPrice: "",
+      neighbourhood: property.address.neighborhood,
+      streetName: property.address.streetName,
+      streetNumber: property.address.streetNumber,
+      unitNumber: property.address.unitNumber,
+    };
 
-  //   dbh
-  //     .collection("UserDetails")
-  //     .doc(user.uid)
-  //     .collection("Property")
-  //     .add(dataToSave)
-  //     .then(
-  //       (info) => {
-  //         info.get().then((ds) => {
-  //           if (ds.data()) {
-  //             navigation.replace("Main");
-  //           }
-  //         });
-  //       },
-  //       (err) => {
-  //         // console.log(err.message);
-  //         setLoading(false);
-  //       }
-  //     );
-  // };
+    dbh
+      .collection("UserDetails")
+      .doc(user.uid)
+      .collection("Property")
+      .add(dataToSave)
+      .then(
+        (info) => {
+          info.get().then((ds) => {
+            if (ds.data()) {
+              navigation.replace("Main");
+            }
+          });
+        },
+        (err) => {
+          // console.log(err.message);
+          setLoading(false);
+        }
+      );
+  };
   const getAddressPreview = (term) => {
     const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
-    const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA&stateFilter=ON`;
+    // const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA&stateFilter=ON`;
+    const END_POINT = `https://api.postgrid.com/v1/intl_addver/completions?partialStreet=${term}&countriesFilter=CA&stateFilter=ON`;
     
     const OPTIONS = {
       method: "GET",
@@ -758,7 +807,7 @@ export default function CondoSearchScreen({ navigation }) {
     fetch(END_POINT, OPTIONS)
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log("postgrid international",data);
         if (data.data.length == 0) {
           setSearchResults(null);
           setnoResults(true);
@@ -811,115 +860,7 @@ export default function CondoSearchScreen({ navigation }) {
   if (isLoading) {
     return <Loader text="" />;
   }
-  if (unitNumber == null) {
-    return (
-      <KeyboardAwareScrollView
-        keyboardDismissMode="none"
-        keyboardShouldPersistTaps="always"
-        extraHeight={320}
-        enableOnAndroid={true}
-      >
-        <View style={{ height: "100%", justifyContent: "space-between" }}>
-          <View>
-            <Text
-              style={{
-                fontFamily: "Poppins-Medium",
-                lineHeight: 42,
-                fontSize: 28,
-                paddingHorizontal: 18,
-                marginTop: "15%",
-              }}
-            >
-              Let's start by finding your home
-            </Text>
-            <Text
-              style={{
-                padding: 16,
-                fontFamily: "Poppins-Medium",
-                fontSize: 16,
-              }}
-            >
-              Enter your Unit Number
-            </Text>
-
-            <View
-              style={
-               [styles.resultsContainer]
-              }
-            >
-              <TextInput
-                autoFocus={true}
-                onBlur={() => {
-                  setOnBlur(true);
-                  setOnFocus(false);
-                }}
-                onFocus={() => {
-                  setOnBlur(false);
-                  setOnFocus(true);
-                }}
-                onSubmitEditing={() => {
-                  if (currrentUnitNumber === "") {
-                    setCurrentUnitNumberErr(true);
-                  } else {
-                    setUnitNumber(currrentUnitNumber);
-                    Keyboard.dismiss();
-                  }
-                }}
-                placeholder="Unit Number..."
-                onChangeText={handleUnitNumberChange}
-                value={currrentUnitNumber}
-                keyboardType="numeric"
-                style={{
-                  height: 50,
-                  paddingHorizontal: 16,
-                }}
-              />
-              {currrentUnitNumberErr ? (
-                <Text style={{ color: "#FF5555", paddingLeft: 15 }}>
-                  Unit Number can't be empty
-                </Text>
-              ) : null}
-            </View>
-          </View>
-
-          <View
-            style={{
-              marginTop: "10%",
-              marginHorizontal: "10%",
-              marginBottom: "15%",
-            }}
-          >
-            {/* <Entypo name="chevron-with-circle-right" size={50} color="#6FCF97"/> */}
-
-            <TouchableOpacity
-              onPress={() => {
-                if (currrentUnitNumber === "") {
-                  setCurrentUnitNumberErr(true);
-                } else {
-                  setUnitNumber(currrentUnitNumber);
-                  Keyboard.dismiss();
-                }
-                // SearchRef.current.focus()
-              }}
-              style={{ marginTop: onFocus ? "10%" : "90%" }}
-            >
-              <View style={styles.continueButton}>
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 18,
-                    fontFamily: "Poppins-Bold",
-                  }}
-                >
-                  Next
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </KeyboardAwareScrollView>
-    );
-  }
+  
   return (
     <Provider>
       <SafeAreaView style={styles.container}>
@@ -985,7 +926,7 @@ export default function CondoSearchScreen({ navigation }) {
                             padding: 20,
                             fontFamily: "Poppins-Medium",
                           }}
-                        >{`${result.preview.address}, ${result.preview.city}, ${result.preview.pc}`}</Text>
+                        >{result.text} | {result.description}</Text>
                       </TouchableOpacity>
                     ))
                   : null}

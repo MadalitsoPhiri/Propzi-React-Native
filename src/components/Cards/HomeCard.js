@@ -122,7 +122,7 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                       })}
      
       <TouchableOpacity onPress={()=>{
-         navigation.navigate("propertyType")
+         navigation.navigate("condoSearch")
       }}>
       <View style={[styles.carouselItemCustom,{alignItems:"center",}]}>
       <View style={{marginBottom:10}}><Feather name="plus-circle" size={50} color="gray" /></View>
