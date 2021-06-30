@@ -736,33 +736,28 @@ export default function SearchHomeScreen({ navigation }) {
   const getAddressPreview = (term) => {
     const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
     
-    const END_POINT = "https://api.postgrid.com/v1/addver/completions";
+    const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA&stateFilter=ON`;
     const OPTIONS = {
-      method: "POST",
+      method: "GET",
       headers: {
         "x-api-key": APK_KEY,
       },
     };
-    axios.post(END_POINT,{"partialStreet":term},OPTIONS)
-    .then((response) => {
-      console.log("postgrid response: ",response);
-    }, (error) => {
-      console.log("postgrid error:",error);
-    });
-    // fetch(END_POINT, requestOptions)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log("postgrid response:",data);
-    //     // if (data.data.length == 0) {
-    //     //   setSearchResults(null);
-    //     //   setnoResults(true);
-    //     // } else {
-    //     //   setSearchResults(data);
-    //     // }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+
+    fetch(END_POINT, OPTIONS)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("postgrid response:",data);
+        if (data.data.length == 0) {
+          setSearchResults(null);
+          setnoResults(true);
+        } else {
+          setSearchResults(data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onMLSSelected = () => {

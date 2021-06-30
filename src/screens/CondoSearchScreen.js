@@ -705,45 +705,45 @@ export default function CondoSearchScreen({ navigation }) {
     getPropertyDetails(RawAddress);
   };
 
-  const handlePropertyAdding = () => {
-    setLoading(true);
-    const dataToSave = {
-      bedrooms: property.details.numBedrooms,
-      bedroomsPlus: property.details.numBedroomsPlus,
-      bathrooms: property.details.numBathrooms,
-      numBathroomsPlus: property.details.numBathroomsPlus,
-      squareFeet: property.details.sqft,
-      propertyType: property.details.propertyType,
-      propertyClass: property.class,
-      area: property.address.area,
-      city: property.address.city,
-      cmaPrice: "",
-      propziPrice: "",
-      neighbourhood: property.address.neighborhood,
-      streetName: property.address.streetName,
-      streetNumber: property.address.streetNumber,
-      unitNumber: property.address.unitNumber,
-    };
+  // const handlePropertyAdding = () => {
+  //   setLoading(true);
+  //   const dataToSave = {
+  //     bedrooms: property.details.numBedrooms,
+  //     bedroomsPlus: property.details.numBedroomsPlus,
+  //     bathrooms: property.details.numBathrooms,
+  //     numBathroomsPlus: property.details.numBathroomsPlus,
+  //     squareFeet: property.details.sqft,
+  //     propertyType: property.details.propertyType,
+  //     propertyClass: property.class,
+  //     area: property.address.area,
+  //     city: property.address.city,
+  //     cmaPrice: "",
+  //     propziPrice: "",
+  //     neighbourhood: property.address.neighborhood,
+  //     streetName: property.address.streetName,
+  //     streetNumber: property.address.streetNumber,
+  //     unitNumber: property.address.unitNumber,
+  //   };
 
-    dbh
-      .collection("UserDetails")
-      .doc(user.uid)
-      .collection("Property")
-      .add(dataToSave)
-      .then(
-        (info) => {
-          info.get().then((ds) => {
-            if (ds.data()) {
-              navigation.replace("Main");
-            }
-          });
-        },
-        (err) => {
-          // console.log(err.message);
-          setLoading(false);
-        }
-      );
-  };
+  //   dbh
+  //     .collection("UserDetails")
+  //     .doc(user.uid)
+  //     .collection("Property")
+  //     .add(dataToSave)
+  //     .then(
+  //       (info) => {
+  //         info.get().then((ds) => {
+  //           if (ds.data()) {
+  //             navigation.replace("Main");
+  //           }
+  //         });
+  //       },
+  //       (err) => {
+  //         // console.log(err.message);
+  //         setLoading(false);
+  //       }
+  //     );
+  // };
   const getAddressPreview = (term) => {
     const APK_KEY = "live_sk_dRCPsWquUqHFmErbqbFd7f";
     const END_POINT = `https://api.postgrid.com/v1/addver/completions?partialStreet=${term}&countryFilter=CA&stateFilter=ON`;
