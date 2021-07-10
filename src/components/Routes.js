@@ -8,6 +8,8 @@ import MainAppDrawerNavigator from "../utils/navigation/MainAppDrawerNavigator";
 import IntroStack from "../screens/IntroStack";
 import {ActivityIndicator} from "react-native-paper";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login,logout } from "../state/Authentication"
+import {useSelector,useDispatch} from "react-redux";
 
 
 
@@ -21,9 +23,11 @@ return(<View style={{flexDirection: "row",justifyContent:"center",alignItems:"ce
 
 
 export const Routes = () => {
+    const store = useSelector((state=>state))
+    console.log("store",store)
+    const auth = useSelector((state)=>state.auth)
+    const dispatch = useDispatch()
     const [loading,setLoading] = useState(true)
-    const {user,setUser} = useContext(AuthContext)
-const [isFirstLaunch, setisFirstLaunch] = useState(false);
 const [viewedOnboarding,setViewedOnboarding] = useState(false);
 
   
@@ -54,9 +58,9 @@ const checkOnboarding = async () => {
        
         firebase.auth().onAuthStateChanged((User) => {
           if (User != null) {
-             setUser(User)
+             dispatch(login(User))
           }else{
-            setUser(null)
+            dispatch(logout())
              
           }
     
@@ -84,7 +88,7 @@ const checkOnboarding = async () => {
     return(
 <NavigationContainer>
 
-{ user ? <MainAppDrawerNavigator/>:<AuthStack/>}
+{ auth.user ? <MainAppDrawerNavigator/>:<AuthStack/>}
 
  
 </NavigationContainer>

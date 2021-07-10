@@ -10,6 +10,7 @@ import { dbh } from "../../firebase/index"
 import axios from "axios"
 import CommunityDevelopmentCard from "./CommunityDevelopmentCard"
 import InvestmentProjectsCard from "./InvestmentProjectsCard"
+import {Provider,useSelector,useDispatch} from "react-redux";
 
 
 const styles = StyleSheet.create({
@@ -38,6 +39,7 @@ categoryScrollView:{
     })
 
 export default ReportScreen = ()=>{
+    const {user} = useSelector((state)=>state.auth)
     const {EconomicIndicators,investmentProjects} = useContext(PropertyDataContext);
     const { recentSales } = useContext(RecentSalesContext);
     const { communityData } = useContext(CommunityDataContext);

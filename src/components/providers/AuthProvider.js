@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { firebase } from "../../../firebase";
+import {useSelector,useDispatch} from "react-redux";
+import { login,logout } from "../../state/Authentication"
 
 export const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const {user} = useSelector((state)=>state.auth)
+  const dispatch = useDispatch()
   const [isFirstLaunch, setisFirstLaunch] = useState(false);
   const [property,setproperty] = useState({})
   const [currentHomeCardIndex,setCurrentHomeCardIndex] = useState(0);
@@ -13,28 +16,27 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        setUser,
         property,
         setproperty,
         isFirstLaunch,
         setisFirstLaunch,
-        login: (email, password) => {
+        signIn: (email, password) => {
           firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(
               (user) => {
-                setUser(user);
+               dispatch(login(user));
               },
               (err) => console.log(err)
             );
         },
-        logout: () => {
+        signOut: () => {
           firebase
             .auth()
             .signOut()
             .then(() => {
-              setUser(user);
+              dispatch(logout());
             }),
             (err) => console.log(err);
         },

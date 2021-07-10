@@ -16,6 +16,7 @@ import { colors, btnSize } from "../styles";
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
 import { AuthContext } from "../components/providers/AuthProvider";
+import { PropertyDataProvider } from "../components/providers/PropertyDataProvider";
 import { randomizeArray } from "../utils/helper";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
@@ -81,8 +82,9 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
+    
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <View>
+      {/* <View>
         <View style={styles.todayContainer}>
           <Text style={styles.today}>Today</Text>
           <Text style={styles.date}>
@@ -195,8 +197,9 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.homeHeading}>Your home offers</Text>
       <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-      <HomeBankFinance />
+      <HomeBankFinance /> */}
     </ScrollView>
+
   );
 }
 

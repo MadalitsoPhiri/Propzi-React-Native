@@ -22,12 +22,16 @@ import UniqueScreen from "./UniqueScreen";
 import { Entypo,AntDesign,MaterialIcons} from "@expo/vector-icons";
 import { CardWebView } from "../components/CardWebView";
 import {checkConnected} from "../utils/detectconnection";
+import {useSelector,useDispatch} from "react-redux";
+
+
 const { width, height } = Dimensions.get("window");
 
 const Stack = createStackNavigator();
 
 export default MainAppStack = ({ navigation }) => {
-  const { user, setUser } = useContext(AuthContext);
+
+  const {user} = useSelector((state)=>state.auth)
   const [hasProperty, setHasProperty] = useState(false);
   const [hasInternetConnection,setHasInternetConnection] = useState(true);
   const [connectStatus,setConnectStatus] = useState(false)
@@ -96,7 +100,6 @@ export default MainAppStack = ({ navigation }) => {
       <Stack.Screen
         name="Main"
         component={TabNavigator}
-        initialParams={{ user }}
         options={{
           headerTitle: (props) => (
             <PropziLogo

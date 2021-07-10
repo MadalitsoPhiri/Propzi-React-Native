@@ -25,7 +25,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const { width, height } = Dimensions.get("window");
 
-var provider = new firebase.auth.GoogleAuthProvider();
+
 
 // TODO:// Configure the title
 export default function LoginScreen({ navigation }) {

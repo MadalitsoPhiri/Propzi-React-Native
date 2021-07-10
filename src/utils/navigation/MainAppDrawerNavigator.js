@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet,Text} from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "../../screens/HomeScreen";
 import MainAppStack from "../../screens/MainAppStack.js";
@@ -18,6 +18,8 @@ const MainAppDrawerNavigator = () => {
       <Drawer.Screen name="Offers" component={OffersStackNavigator} />
     </Drawer.Navigator>
     </PropertyDataProvider>
+
+    // <Text>Logged In</Text>
   );
 };
 

@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { firebase, dbh } from "../../../firebase";
 import { AuthContext } from "./AuthProvider";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from "axios";
+import {useSelector,useDispatch} from "react-redux";
 
 export const PropertyDataContext = React.createContext({});
 
 export const PropertyDataProvider = ({ children }) => {
-  const { user, setUser } = useContext(AuthContext);
+  const auth = useSelector((state)=>state.auth)
   const [isPropertyDataLoaded, setisPropertyDataLoaded] = useState(false);
   const [property, setProperty] = useState({});
   const [repliers, setRepliers] = useState({});
@@ -18,11 +18,11 @@ export const PropertyDataProvider = ({ children }) => {
   const [investmentProjects,setInvestmentProjects] = useState([])
 
 
-
+   console.log("auth",auth)
   const getUserDetails = ()=>{
     dbh
     .collection("UserDetails")
-    .doc(user.uid)
+    .doc(auth.user.uid)
     .collection("Property")
     .onSnapshot((querySnapshot) => {
       

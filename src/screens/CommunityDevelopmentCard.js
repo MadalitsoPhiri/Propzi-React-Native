@@ -2,8 +2,9 @@ import React,{useContext,useEffect,useState} from "react";
 import {View,Text,StyleSheet, SafeAreaView, ScrollView,Dimensions,Image,TouchableWithoutFeedback} from "react-native";
 import {AntDesign } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../components/providers/AuthProvider";
 import { dbh } from "../../firebase/index"
+import {Provider,useSelector,useDispatch} from "react-redux";
+
 
 const {width,height} = Dimensions.get("window");
 const CARD_HEIGHT = height * 0.4
@@ -125,7 +126,7 @@ export default CommunityDevelopmentCard = ({data})=>{
     const [Likes,setLikes] = useState(0)
     const [Liked,setLiked] = useState(false)
     const [requesting,setRequesting] = useState(false)
-    const {user} = useContext(AuthContext);
+    const {user} = useSelector((state)=>state.auth)
     const [likedIds,setLikedIds] = useState([])
     const navigation = useNavigation();
     const dummyArray = [user.uid]
