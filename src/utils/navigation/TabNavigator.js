@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -16,13 +16,64 @@ import { PropertyDataProvider } from "../../components/providers/PropertyDataPro
 import CommunityDataProvider from "../../components/providers/CommunityDataProvider";
 import RecentSaleProvider from "../../components/providers/RecentSaleProvider";
 import {HomeScreenProvider} from "../../components/providers/HomeScreenProvider";
+import {getDefaultProperty,fetchPropertiesSuccess,fetchProperties,fetchPropertiesFailure} from "../../state/PropertySlice"
+import { useSelector,useDispatch} from "react-redux";
+import { dbh } from "../../../firebase";
 const Tabs = createBottomTabNavigator();
-//src/components/providers/PropertyDataProvider.js
 
 const TabNavigator = ({route}) => {
+  const user = useSelector(state=>state.auth.user)
+  const dispatch = useDispatch()
+
+  const getProperties =  ()=>{
+        dispatch(fetchProperties())
+        dbh
+        .collection("UserDetails")
+        .doc(user.uid)
+        .collection("Property")
+        .onSnapshot((querySnapshot) => {
+          
+          if(querySnapshot.empty){
+    
+          }else{
+            let Properties = []
+       
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+                let data = doc.data()
+                data["identity"] = doc.id
+               
+                Properties.push(data);
+    
+            
+              
+              
+            
+              
+            });
+            // setRepliers(Properties[0].repliers.address);
+            dispatch(fetchPropertiesSuccess(Properties))
+            console.log("Fetch properties Successful")
+           
+         
+          }
+          
+        })
+    }
+
+  useEffect(() => {
+    getProperties()
+    dispatch(getDefaultProperty())
+
+    return ()=>{
+      getProperties()
+    }
+  
+
+  }, [])
 
   return (
-    <PropertyDataProvider>
+   
       <CommunityDataProvider>
         <RecentSaleProvider>
           <Tabs.Navigator
@@ -53,7 +104,6 @@ const TabNavigator = ({route}) => {
           
         </RecentSaleProvider>
       </CommunityDataProvider>
-      </PropertyDataProvider>
   );
 };
 

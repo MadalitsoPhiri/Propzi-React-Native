@@ -2,13 +2,17 @@ import React,{useState,useContext,useEffect}from 'react';
 import {View,Text,StyleSheet,ScrollView,TouchableOpacity,SafeAreaView,Dimensions} from "react-native";
 import { Chip,Divider } from 'react-native-paper';
 import {AuthContext} from "../components/providers/AuthProvider";
+import {RepliersLookupSuccessful} from "../state/OnboardingSlice"
+import { useDispatch,useSelector } from "react-redux"; 
 
 
 const {width} = Dimensions.get("window")
 const BORDER_WIDTH = 2
 export default function UpgradesScreen({navigation}){
-    const {user,setUser,property,setproperty} = useContext(AuthContext)
-    const [ammenities,setAmenities] = useState([])
+  const {property} = useSelector(state=>state.onboarding)
+  const [ammenities,setAmenities] = useState([])
+  const dispatch = useDispatch()
+
 
 
     useEffect(()=>{
@@ -68,7 +72,7 @@ return (<SafeAreaView style={{height:"100%"}}>
                 let temp = {...property}
                 temp["upgrades"] = ammenities
                 console.log(temp)
-                setproperty(temp)
+                dispatch((RepliersLookupSuccessful(temp)));
                 navigation.navigate("unique")}} style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Next</Text></TouchableOpacity>
                 </ScrollView>
 </SafeAreaView>)

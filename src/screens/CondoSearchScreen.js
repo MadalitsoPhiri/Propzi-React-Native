@@ -28,6 +28,8 @@ import Loader from "../components/Loader";
 import { useFonts } from "expo-font";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {RepliersLookupSuccessful} from "../state/OnboardingSlice"
+import { useDispatch,useSelector } from "react-redux"; 
 
 const StreetSuffix = [
   "ANX",
@@ -454,7 +456,6 @@ export default function CondoSearchScreen({ navigation }) {
   const [propertyFound, setpropertyFound] = useState(false);
   const [propertyNotFound, setpropertyNotFound] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { user, setUser, property, setproperty } = useContext(AuthContext);
   const [bedroom, setBedroom] = useState("");
   const [bedroomPlus, setBedroomPlus] = useState("");
   const [bathrooms, setBathrooms] = useState("");
@@ -466,6 +467,9 @@ export default function CondoSearchScreen({ navigation }) {
   const [sqftVisible, setSqftVisible] = React.useState(false);
   const [unitNumber, setUnitNumber] = React.useState(null);
   const [currrentUnitNumber, setCurrentUnitNumber] = React.useState("");
+  const dispatch = useDispatch()
+  const {user} = useSelector(state=>state.auth)
+  const {property} = useSelector(state=>state.onboarding)
   const [currrentUnitNumberErr, setCurrentUnitNumberErr] =
     React.useState(false);
   const [onBlur, setOnBlur] = React.useState(true);
@@ -595,7 +599,7 @@ export default function CondoSearchScreen({ navigation }) {
     CurrentPropertyDetails.details.numBedrooms = bedroom;
     CurrentPropertyDetails.details.numBedroomsPlus = bedroomPlus;
 
-    setproperty(CurrentPropertyDetails);
+    dispatch((RepliersLookupSuccessful(CurrentPropertyDetails)));
 
     setbedroomVisible(false);
   };
@@ -611,7 +615,8 @@ export default function CondoSearchScreen({ navigation }) {
     let CurrentPropertyDetails = { ...property };
     CurrentPropertyDetails.details.numBathrooms = bathrooms;
     CurrentPropertyDetails.details.numBathroomsPlus = bathroomsPlus;
-    setproperty(CurrentPropertyDetails);
+    dispatch((RepliersLookupSuccessful(CurrentPropertyDetails)));
+    
 
     setbathroomVisible(false);
   };
@@ -623,7 +628,8 @@ export default function CondoSearchScreen({ navigation }) {
     let CurrentPropertyDetails = { ...property };
     CurrentPropertyDetails.details.sqft = sqft;
 
-    setproperty(CurrentPropertyDetails);
+
+    dispatch((RepliersLookupSuccessful(CurrentPropertyDetails)));
 
     setSqftVisible(false);
   };
@@ -689,7 +695,7 @@ export default function CondoSearchScreen({ navigation }) {
                       setisFetching(false);
                     } else {
                       setisFetching(false);
-                      setproperty(findLastSoldListing(obj.listings));
+                      dispatch((RepliersLookupSuccessful(findLastSoldListing(obj.listings))));
                       setpropertyFound(true);
 
                       console.log(
@@ -703,7 +709,7 @@ export default function CondoSearchScreen({ navigation }) {
                   });
               } else {
                 setisFetching(false);
-                setproperty(findLastSoldListing(obj.listings));
+                dispatch((RepliersLookupSuccessful(findLastSoldListing(obj.listings))));
                 setpropertyFound(true);
 
                 console.log(JSON.stringify(findLastSoldListing(obj.listings)));
@@ -715,7 +721,7 @@ export default function CondoSearchScreen({ navigation }) {
             });
         } else {
           setisFetching(false);
-          setproperty(findLastSoldListing(obj.listings));
+          dispatch((RepliersLookupSuccessful(findLastSoldListing(obj.listings))));
           setpropertyFound(true);
 
           console.log(JSON.stringify(findLastSoldListing(obj.listings)));

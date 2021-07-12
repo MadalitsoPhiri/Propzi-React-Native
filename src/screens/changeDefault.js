@@ -6,45 +6,32 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { dbh } from "../../firebase";
 import Loader from "../components/Loader";
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {setDefaultProperty} from "../state/PropertySlice"
+import { useSelector,useDispatch} from "react-redux";
 
 
 
 export default function changeDefault({navigation,route}){
 
 
-    const {user} = useContext(AuthContext);
-    const {defaultProperty,Properties,setdefaultHome} = useContext(PropertyDataContext);
-    const [isLoading,setLoading] = useState(false);
-    async function setDefaultProperty(id){
-      try{
-          await AsyncStorage.setItem('@defaultProperty',id);
-         
-      }catch{
-        console.log('Error @checkOnboarding:',err)
-      }finally{
-        setdefaultHome(id)
-      }
-  
-      
-    }
+    const {all,loading,error,defaultHome} = useSelector(state=>state.property.Properties)
+    const dispatch = useDispatch()
 
-   if (isLoading) {
-    return <Loader text="changing default..." />;
-  }
+ 
     return (<View style={{marginTop:"10%",flex:1}}>
       <ScrollView>
         <View>
         <Text style={{alignSelf:'center',fontSize:20,fontFamily:"Poppins-Medium"}}>Select a default property</Text>
         <View>
-            {Properties.map((property,index)=>{
-                return ( <TouchableOpacity onPress={()=>setDefaultProperty(property.identity)} style={styles.addressContainer}>
+            {all.map((property,index)=>{
+                return ( <TouchableOpacity onPress={()=> dispatch(setDefaultProperty(property.identity))} style={styles.addressContainer}>
                     <View style={{flex:1}}><Text style={styles.address}>Address</Text>
                     <Text
             style={styles.actualAddress}
           >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
                   <View>
-                  {property.identity == defaultProperty ?<MaterialIcons name="radio-button-checked" size={28} color="gray"/>:<MaterialIcons name="radio-button-unchecked" size={28} color="gray"/>}
+                  {property.identity == defaultHome ?<MaterialIcons name="radio-button-checked" size={28} color="gray"/> :<MaterialIcons name="radio-button-unchecked" size={28} color="gray"/> }
+                 
                   </View>
           
                   </TouchableOpacity>)

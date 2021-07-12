@@ -7,6 +7,8 @@ import {AuthContext} from "../components/providers/AuthProvider";
 import Loader from "../components/Loader";
 import { useFonts } from 'expo-font';
 import {Entypo} from "@expo/vector-icons";
+import {RepliersLookupSuccessful} from "../state/OnboardingSlice"
+import { useDispatch,useSelector } from "react-redux"; 
 
 
 
@@ -79,9 +81,12 @@ export default function UniqueScreen({navigation}){
 
     
     const [isLoading,setLoading] = useState(false)
-    const {user,setUser,property,setproperty} = useContext(AuthContext)
     const [ammenities,setAmenities] = useState([])
     const didMount = useRef(false);
+    const {property} = useSelector(state=>state.onboarding)
+    const {user} = useSelector(state=>state.auth)
+
+    const dispatch = useDispatch()
     
 
 
@@ -282,7 +287,7 @@ export default function UniqueScreen({navigation}){
                 let temp = {...property}
                 temp["uniqueFeatures"] = ammenities
                 console.log(temp)
-                setproperty(temp)
+                dispatch((RepliersLookupSuccessful(temp)));
                 // handlePropertyAdding()
                 }} style={styles.continueButton}><Text style={{color:"#fff",fontSize:18,fontFamily:"Poppins-Bold"}}>Finish</Text></TouchableOpacity> 
          

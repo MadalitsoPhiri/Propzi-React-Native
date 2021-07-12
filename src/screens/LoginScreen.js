@@ -22,8 +22,11 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Google from "expo-google-app-auth";
 import Loader from "../components/Loader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import {loginUser} from "../state/Authentication"
+import { useDispatch, useSelector } from "react-redux";
+ 
 const { width, height } = Dimensions.get("window");
+
 
 
 
@@ -32,8 +35,8 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isLoading, setLoading] = useState(false);
-  const [Error, setError] = useState(null);
+  const dispatch = useDispatch()
+  const {loading,error} = useSelector(state=>state.auth.login)
   const [isHidden, setHidden] = useState(true);
 
   const handleOnEmailChange = (e) => {
@@ -52,21 +55,10 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleLogin = () => {
-    setLoading(true);
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(
-        (user) => {},
-        (err) => {
-          console.log(err);
-          setError(err);
-          setLoading(false);
-        }
-      );
+    dispatch(loginUser(email,password))
   };
 
-  if (isLoading) {
+  if (loading) {
     return <Loader text="" />;
   }
   return (
@@ -152,8 +144,8 @@ export default function LoginScreen({ navigation }) {
           </View>
         </View>
 
-        {Error ? (
-          <Text style={{ marginTop: "5%", color: "red" }}>{Error.message}</Text>
+        {error ? (
+          <Text style={{ marginTop: "5%", color: "red" }}>{error.message}</Text>
         ) : null}
         <TouchableOpacity onPress={handleLogin} style={styles.authBtn}>
           <Text

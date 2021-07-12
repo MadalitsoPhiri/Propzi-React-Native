@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,64 +13,64 @@ import HomeCard from "../components/Cards/HomeCard";
 import Button from "../components/Button";
 import SmallCard from "../components/Cards/SmallCard";
 import { colors, btnSize } from "../styles";
-import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
-import { AuthContext } from "../components/providers/AuthProvider";
-import { PropertyDataProvider } from "../components/providers/PropertyDataProvider";
 import { randomizeArray } from "../utils/helper";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import Loader from "../components/Loader";
 import HomeBankFinance from "../components/Cards/HomeBankFinance";
 import { RecentSalesContext } from "../components/providers/RecentSaleProvider";
 import { dbh } from "../../firebase";
+import {getUserProperties,fetchPropertiesSuccess,fetchProperties} from "../state/PropertySlice"
+import { useSelector,useDispatch} from "react-redux";
 
 const { width, height } = Dimensions.get("screen");
 const cardIconHeight = height * 0.1;
 const cardIconWidth = width * 0.3;
 export default function HomeScreen({ navigation }) {
-  const {
-    isPropertyDataLoaded,
-    Properties,
-    setProperties,
-    defaultProperty,
-    setdefaultHome,
-    setFocusedProperty,
-    focusedProperty,
-  } = useContext(PropertyDataContext);
-  const { recentSales } = useContext(RecentSalesContext);
 
-  const property = Properties[0];
-  const { communityData, isLoading } = useContext(CommunityDataContext);
-  const { currentHomeCardIndex, setCurrentHomeCardIndex } =
-    useContext(AuthContext);
-  const communityDevelopments = randomizeArray(communityData.slice(0, 6));
+  const { recentSales } = useContext(RecentSalesContext);
+  const dispatch = useDispatch()
+  const {all,loading,error} = useSelector(state=>state.property.Properties)
+  const {currentHomeCardIndex} = useSelector(state=>state.property)
+
+ 
+
+ 
+
+  // const { communityData, isLoading } = useContext(CommunityDataContext);
+  // const communityDevelopments = randomizeArray(communityData.slice(0, 6));
 
   // console.log("The DEFAULT is :", defaultProperty);
-  if (!isPropertyDataLoaded) {
-    return <Loader text="" />;
-  }
+  // if (all.length == 0) {
+  //   console.log("all:",all)
+  //   return <Loader text="" />;
+  // }
+  // return ( <View>
+  //   <Text>Hello World</Text>
+  // </View>)
 
-  React.useEffect(() => {
 
-    const communityList = [];
+  // React.useEffect(() => {
 
-    dbh
-      .collection("Communit")
-      .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.empty) {
-        } else {
-          querySnapshot.forEach((doc) => {
-            communityList.push(doc.data());
-          });
+  //   const communityList = [];
 
-          setCommunityDevelopments(randomizeArray(communityList.slice(0, 6)));
-        }
-      })
-      .catch((error) => {
-        // console.warn(error.message);
-      });
-  }, []);
+  //   dbh
+  //     .collection("Communit")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       if (querySnapshot.empty) {
+  //       } else {
+  //         querySnapshot.forEach((doc) => {
+  //           communityList.push(doc.data());
+  //         });
+
+  //         setCommunityDevelopments(randomizeArray(communityList.slice(0, 6)));
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // console.warn(error.message);
+  //     });
+  // }, []);
 
   const moneyFormat = (price, sign = "$") => {
     const pieces = parseFloat(price).toFixed(2).split("");
@@ -82,39 +82,41 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
+    // <View>
+    //   <Text>HelloWorld</Text>
+    //   {console.log("all:", all[currentHomeCardIndex].streetName)}
+    // </View>
     
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      {/* <View>
+      <View>
         <View style={styles.todayContainer}>
           <Text style={styles.today}>Today</Text>
           <Text style={styles.date}>
             {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
-          <TouchableOpacity
+          {all.length > 0 ?<TouchableOpacity
             onPress={() => {
-              navigation.navigate("changeDefault", { list: [...Properties] });
+              navigation.navigate("changeDefault", { list: [...all] });
             }}
             style={styles.addressContainer}
           >
             <View style={{ flex: 1 }}>
               <Text style={styles.address}>Address</Text>
               <Text style={styles.actualAddress}>
-                {Properties[currentHomeCardIndex].repliers.address.unitNumber ==
+                {all[currentHomeCardIndex].repliers.address.unitNumber ==
                 ""
-                  ? `${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`
-                  : `${Properties[currentHomeCardIndex].repliers.address.unitNumber}, ${Properties[currentHomeCardIndex].streetNumber} ${Properties[currentHomeCardIndex].streetName}, ${Properties[currentHomeCardIndex].neighbourhood}, ${Properties[currentHomeCardIndex].city}`}
+                  ? `${all[currentHomeCardIndex].streetNumber} ${all[currentHomeCardIndex].streetName}, ${all[currentHomeCardIndex].neighbourhood}, ${all[currentHomeCardIndex].city}`
+                  : `${all[currentHomeCardIndex].repliers.address.unitNumber}, ${all[currentHomeCardIndex].streetNumber} ${all[currentHomeCardIndex].streetName}, ${all[currentHomeCardIndex].neighbourhood}, ${all[currentHomeCardIndex].city}`}
               </Text>
             </View>
             <View style={{ marginRight: "2%" }}>
               <MaterialIcons name="chevron-right" size={35} color="black" />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity>:null}
         </View>
 
         <HomeCard
-          properties={Properties}
           navigation={navigation}
-          addressSetter={setCurrentHomeCardIndex}
         />
 
         <TouchableOpacity
@@ -141,8 +143,8 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.smallCardContainer}>
           <SmallCard />
         </View>
-        {isLoading && <Loader />}
-        {recentSales.lenght !== 0 && (
+        {/* {isLoading && <Loader />}
+        {recentSales.length !== 0 && (
           <FlatList
             data={randomizeArray(recentSales).slice(0, 1)}
             keyExtractor={(item) => item.mlsNumber}
@@ -164,8 +166,8 @@ export default function HomeScreen({ navigation }) {
               );
             }}
           />
-        )}
-
+        )} */}
+{/* 
         {communityDevelopments?.length > 0
           ? communityDevelopments?.map((communityDevelopment, i) => {
               if (
@@ -191,17 +193,17 @@ export default function HomeScreen({ navigation }) {
                 );
               }
             })
-          : null}
+          : null} */}
       </View>
 
       <Text style={styles.homeHeading}>Your home offers</Text>
       <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
 
-      <HomeBankFinance /> */}
+      <HomeBankFinance />
     </ScrollView>
 
-  );
-}
+
+  )}
 
 const styles = StyleSheet.create({
   container: {

@@ -4,6 +4,8 @@ import { Ionicons,AntDesign,Feather,Entypo } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PropertyDataContext } from "../providers/PropertyDataProvider";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector,useDispatch} from "react-redux";
+import {setDefaultProperty,setCurrentHomeCardIndex} from "../../state/PropertySlice"
 
 
 
@@ -13,56 +15,38 @@ const {width,height} = Dimensions.get("screen")
 
 
 
-export default function HomeCard({ properties,addressSetter, to, navigation }) {
-  const {defaultProperty, setdefaultHome,Properties ,setFocusedProperty} = useContext(PropertyDataContext);
-  const [currentScrollIndex,setCurrentScrollIndex] = React.useState(0)
+export default function HomeCard({ navigation }) {
+  const {all,loading,error,defaultHome} = useSelector(state=>state.property.Properties)
+  const dispatch = useDispatch()
 
-  async function setDefaultProperty(id){
-    try{
-        await AsyncStorage.setItem('@defaultProperty',id);
-        setdefaultHome(id)
-       
-    }catch{
-      console.log('Error @checkOnboarding:',err)
-    }
-
-    
-  }
 
  
   let CaroselData = []
-  if(properties.length > 5){
-    CaroselData = properties.slice(0,5)
+  if(all.length > 5){
+    CaroselData = all.slice(0,5)
   }else{
-    CaroselData = [1,...properties]
+    CaroselData = [1,...all]
   }
   
   const scrollX = new Animated.Value(0)
   let position = Animated.divide(scrollX, width)
-  React.useEffect(()=>{
-    setFocusedProperty(properties[position.__getValue()])
-    console.log("The Animated Value is: ",properties[position.__getValue()])
-  },[position])
+  // React.useEffect(()=>{
+  //   setFocusedProperty(properties[position.__getValue()])
+  //   console.log("The Animated Value is: ",properties[position.__getValue()])
+  // },[position])
 
-  React.useEffect(()=>{
-   
-  },[defaultProperty])
 
   function handleOnScroll(e){
     scrollX.Value = e.nativeEvent.contentOffset.x
     //calculate screenIndex by contentOffset and screen width
     console.log('currentScreenIndex', parseInt(e.nativeEvent.contentOffset.x/Dimensions.get('window').width));
-    let limit = properties.length - 1
+    let limit = all.length - 1
     let currentIndex = parseInt(e.nativeEvent.contentOffset.x/Dimensions.get('window').width)
     if(currentIndex <= limit ){
-      addressSetter(parseInt(e.nativeEvent.contentOffset.x/Dimensions.get('window').width))
+      dispatch(setCurrentHomeCardIndex(currentIndex))
     }
-    
+ }
 
-
-
-
-  }
 return (<View style={{width,marginTop:15,marginBottom:30}}>
 
 
@@ -72,7 +56,7 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
           handleOnScroll(event);
         }
       })} showsHorizontalScrollIndicator={false}>
-                      {properties.map((data,index)=>{
+                      {all.map((data,index)=>{
                        
                         if(index>3){
                          return
@@ -84,7 +68,7 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                             <Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"gray"}}>{data.repliers.address.unitNumber == "" ? `${data.streetNumber} ${data.streetName}`:`${data.repliers.address.unitNumber}, ${data.streetNumber} ${data.streetName}`}</Text>
                             </View> */}
                          
-                           {data.identity == defaultProperty ? <View style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,left:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>default</Text></View>:<Pressable onPress={()=>setDefaultProperty(data.identity)} style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>pin to default</Text></Pressable>}
+                           {data.identity == defaultHome ? <View style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,left:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>default</Text></View>:<Pressable onPress={()=>dispatch(setDefaultProperty(data.identity))} style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>pin to default</Text></Pressable>}
                            </View>
                         
                         <View style={styles.cardHeader}>
@@ -165,9 +149,9 @@ const styles = StyleSheet.create({
      borderRadius:10,
      alignSelf:"center",
      shadowColor:"#000",
-     shadowOffset:{width:5,height:10},
+     shadowOffset:{width:5,height:5},
      shadowOpacity:0.08,
-     shadowRadius:12,
+     shadowRadius:8,
      justifyContent:"center",
      padding:16,
      borderWidth:1,
@@ -190,7 +174,7 @@ const styles = StyleSheet.create({
     shadowRadius:12,
     justifyContent:"center",
     padding:16,
-    minHeight:height/2.78,
+    minHeight:height/2.9,
     borderWidth:1,
     borderColor: 'rgba(158, 150, 158, .5)',
     elevation:8
