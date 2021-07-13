@@ -37,7 +37,7 @@ const MainStackNavigator = ({route}) => {
           },
         }}
       />
-      <Stack.Screen name="detailspage" component={Detailspage} />
+     
 
       <Stack.Screen name="Intro" component={Intro} />
       <Stack.Screen name="Login" component={LoginScreen} />

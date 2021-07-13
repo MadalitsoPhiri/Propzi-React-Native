@@ -11,6 +11,8 @@ import axios from "axios"
 import CommunityDevelopmentCard from "./CommunityDevelopmentCard"
 import InvestmentProjectsCard from "./InvestmentProjectsCard"
 import {Provider,useSelector,useDispatch} from "react-redux";
+import {getRecentSales} from "../state/PropertySlice"
+
 
 
 const styles = StyleSheet.create({
@@ -39,20 +41,23 @@ categoryScrollView:{
     })
 
 export default ReportScreen = ()=>{
-    const {user} = useSelector((state)=>state.auth)
-    const {EconomicIndicators,investmentProjects} = useContext(PropertyDataContext);
-    const { recentSales } = useContext(RecentSalesContext);
-    const { communityData } = useContext(CommunityDataContext);
+    
+    
+    
+    // const { recentSales } = useContext(RecentSalesContext);
+    const RecentSales = ()=>{
 
-
-
-
-    return <SafeAreaView style={styles.mainContainer}>
-        <ScrollView>
-            <View style={styles.blockContainer}>
-                <Text style={styles.heading}>Report</Text>
-            </View>
-
+    const dispatch = useDispatch()
+    const recentSales = useSelector(state=>state.property.RecentSales.all)
+    console.log(RecentSales)
+    const {all,defaultHome} = useSelector(state=>state.property.Properties)
+    
+    const currentProperty = all.filter(item=>item.identity == defaultHome.id)[0]
+    useEffect(()=>{
+        dispatch(getRecentSales(currentProperty))
+    },[defaultHome])
+        return(recentSales.length > 0?
+            <View>
             <View style={styles.blockContainer}>
                 <Text style={styles.subHeading}>Recent sales</Text>
             </View>
@@ -66,50 +71,91 @@ export default ReportScreen = ()=>{
                     renderItem={({ item, index }) => {
                       return <RecentSalesCard data={item}/>}}/>
 
+             </View>:null         
 
-            <View style={styles.blockContainer}>
-                <Text style={styles.subHeading}>Economic Indicators</Text>
-            </View>
+        )
+    }
+    const CommunityDevelopments = ()=>{
+        const {defaultHome} = useSelector((state)=>state.property.Properties)
+        const { communityData } = useContext(CommunityDataContext);
+        const renderData = communityData.filter(item=>item.city == defaultHome.city)          
+        
+        return (renderData.length > 0?<View>
+        <View style={styles.blockContainer}>
+           <Text style={styles.subHeading}>Community Developments</Text>
+       </View>
+      
+
+       <FlatList
+           style={styles.categoryScrollView}
+           horizontal
+           showsHorizontalScrollIndicator={false}
+           data={renderData}
+               keyExtractor={(item) => item.id}
+               renderItem={({ item, index }) => {
+                 return <CommunityDevelopmentCard data={item}/>}}/>
+        </View>:null)
+    }
+
+
+
+    const InvestmentProjects = ()=>{
+        const {defaultHome} = useSelector((state)=>state.property.Properties)
+        const {investmentProjects} = useContext(PropertyDataContext);
+        const renderData = investmentProjects.filter(item=>item.area == defaultHome.area)          
+        return (renderData.length > 0?<View>
+                    <View style={styles.blockContainer}>
+                        <Text style={styles.subHeading}>Investment Projects</Text>
+                    </View>
+                    <FlatList
+                        style={styles.categoryScrollView}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={renderData}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item, index }) => {
+                            return <InvestmentProjectsCard data={item}/>}}/>
+            </View>:null
+        )
+    }
+   
+
+    const EconomicIndicator = ()=>{
+        const {defaultHome} = useSelector((state)=>state.property.Properties)
+        const {EconomicIndicators} = useContext(PropertyDataContext);
+        // const renderData = EconomicIndicators.filter(item=>item.area == defaultHome.area)         
+        return(EconomicIndicators.length > 0?
+            <View>
+                <View style={styles.blockContainer}>
+                    <Text style={styles.subHeading}>Economic Indicators</Text>
+                </View>
         
 
-            <FlatList
-                style={styles.categoryScrollView}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={EconomicIndicators}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item, index }) => {
-                      return <EconomicIndicatorCard data={item}/>}}/>
-          
+                <FlatList
+                    style={styles.categoryScrollView}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={EconomicIndicators}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item, index }) => {
+                        return <EconomicIndicatorCard data={item}/>}}/>
+            </View>:null
+        )
+    }
 
+
+    return <SafeAreaView style={styles.mainContainer}>
+        <ScrollView>
             <View style={styles.blockContainer}>
-                <Text style={styles.subHeading}>Community Developments</Text>
+                <Text style={styles.heading}>Report</Text>
             </View>
-           
-
-            <FlatList
-                style={styles.categoryScrollView}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={communityData}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item, index }) => {
-                      return <CommunityDevelopmentCard data={item}/>}}/>
+          <RecentSales/>
+          <CommunityDevelopments/>
+          <InvestmentProjects/>
+          <EconomicIndicator/>  
 
 
-<View style={styles.blockContainer}>
-                <Text style={styles.subHeading}>Investment Projects</Text>
-            </View>
-           
 
-            <FlatList
-                style={styles.categoryScrollView}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={investmentProjects}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item, index }) => {
-                      return <InvestmentProjectsCard data={item}/>}}/>
      
           </ScrollView>
     </ SafeAreaView>

@@ -50,12 +50,15 @@ export default function HomeCard({ navigation }) {
 return (<View style={{width,marginTop:15,marginBottom:30}}>
 
 
-<ScrollView horizontal pagingEnabled contentContainerStyle={{}} onScroll={Animated.event(
+<ScrollView horizontal pagingEnabled contentContainerStyle={{}} 
+onScroll={Animated.event(
       [{ nativeEvent: { contentOffset: { x: scrollX} } }],{
         listener: event => {
           handleOnScroll(event);
-        }
-      })} showsHorizontalScrollIndicator={false}>
+        },
+        useNativeDriver:false
+      },
+      )} scrollEventThrottle={20} showsHorizontalScrollIndicator={false}>
                       {all.map((data,index)=>{
                        
                         if(index>3){
@@ -68,7 +71,7 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                             <Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"gray"}}>{data.repliers.address.unitNumber == "" ? `${data.streetNumber} ${data.streetName}`:`${data.repliers.address.unitNumber}, ${data.streetNumber} ${data.streetName}`}</Text>
                             </View> */}
                          
-                           {data.identity == defaultHome ? <View style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,left:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>default</Text></View>:<Pressable onPress={()=>dispatch(setDefaultProperty(data.identity))} style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>pin to default</Text></Pressable>}
+                           {data.identity == defaultHome.id ? <View style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,left:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>default</Text></View>:<Pressable onPress={()=>dispatch(setDefaultProperty(data))} style={{paddingHorizontal:10,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1,right:"3%"}}><Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"black",color:"gray"}}>pin to default</Text></Pressable>}
                            </View>
                         
                         <View style={styles.cardHeader}>
@@ -124,8 +127,9 @@ return (<View style={{width,marginTop:15,marginBottom:30}}>
                         })
                         return (
                             <Animated.View
+                                
                                 key={i}
-                                style={{ opacity, height: 5, width: 7, backgroundColor: '#595959', margin: 8, borderRadius: 5 }}
+                                style={{ opacity, height: 5, width: 7, backgroundColor: '#595959', margin: 8, borderRadius: 5}}
                             />
                         )
                     })}

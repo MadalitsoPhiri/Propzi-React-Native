@@ -3,6 +3,7 @@ import {View,SafeAreaView,StyleSheet,Alert} from "react-native";
 import {DrawerContentScrollView,DrawerItem} from "@react-navigation/drawer";
 import {Avatar,Titile,Caption,Paragraph,Drawer,Text,TouchableRipple,Switch} from "react-native-paper";
 import {firebase} from "../../firebase";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const handleLogout = (navigation)=>{
     Alert.alert(
@@ -16,7 +17,10 @@ const handleLogout = (navigation)=>{
           },
           { text: "OK", onPress: () => {
               navigation.closeDrawer();
-              firebase.auth().signOut()
+              AsyncStorage.removeItem("@defaultProperty",()=>{
+                firebase.auth().signOut() 
+              })
+             
             } 
         }
         ],

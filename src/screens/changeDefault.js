@@ -16,6 +16,7 @@ export default function changeDefault({navigation,route}){
 
     const {all,loading,error,defaultHome} = useSelector(state=>state.property.Properties)
     const dispatch = useDispatch()
+    console.log("defaultHome:",defaultHome)
 
  
     return (<View style={{marginTop:"10%",flex:1}}>
@@ -24,13 +25,13 @@ export default function changeDefault({navigation,route}){
         <Text style={{alignSelf:'center',fontSize:20,fontFamily:"Poppins-Medium"}}>Select a default property</Text>
         <View>
             {all.map((property,index)=>{
-                return ( <TouchableOpacity onPress={()=> dispatch(setDefaultProperty(property.identity))} style={styles.addressContainer}>
+                return ( <TouchableOpacity onPress={()=> dispatch(setDefaultProperty(property))} style={styles.addressContainer} key={property.identity}>
                     <View style={{flex:1}}><Text style={styles.address}>Address</Text>
                     <Text
             style={styles.actualAddress}
           >{property.repliers.address.unitNumber == "" ?`${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`:`${property.repliers.address.unitNumber}, ${property.streetNumber} ${property.streetName}, ${property.neighbourhood}, ${property.city}`}</Text></View>
                   <View>
-                  {property.identity == defaultHome ?<MaterialIcons name="radio-button-checked" size={28} color="gray"/> :<MaterialIcons name="radio-button-unchecked" size={28} color="gray"/> }
+                  {property.identity == defaultHome.id ?<MaterialIcons name="radio-button-checked" size={28} color="gray"/> :<MaterialIcons name="radio-button-unchecked" size={28} color="gray"/> }
                  
                   </View>
           

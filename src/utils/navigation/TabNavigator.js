@@ -6,16 +6,10 @@ import {
   OffersStackNavigator,
   ReportStackNavigator,
 } from "./StackNavigator";
-import HomeScreen from "../../screens/HomeScreen";
-import ReportScreen from "../../screens/ReportScreen";
-import OffersScreen from "../../screens/OffersScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../styles";
-
-import { PropertyDataProvider } from "../../components/providers/PropertyDataProvider";
 import CommunityDataProvider from "../../components/providers/CommunityDataProvider";
 import RecentSaleProvider from "../../components/providers/RecentSaleProvider";
-import {HomeScreenProvider} from "../../components/providers/HomeScreenProvider";
 import {getDefaultProperty,fetchPropertiesSuccess,fetchProperties,fetchPropertiesFailure} from "../../state/PropertySlice"
 import { useSelector,useDispatch} from "react-redux";
 import { dbh } from "../../../firebase";
@@ -24,6 +18,8 @@ const Tabs = createBottomTabNavigator();
 const TabNavigator = ({route}) => {
   const user = useSelector(state=>state.auth.user)
   const dispatch = useDispatch()
+  
+  
 
   const getProperties =  ()=>{
         dispatch(fetchProperties())
@@ -51,8 +47,9 @@ const TabNavigator = ({route}) => {
             
               
             });
-            // setRepliers(Properties[0].repliers.address);
+            
             dispatch(fetchPropertiesSuccess(Properties))
+            dispatch(getDefaultProperty(Properties))
             console.log("Fetch properties Successful")
            
          
@@ -63,12 +60,9 @@ const TabNavigator = ({route}) => {
 
   useEffect(() => {
     getProperties()
-    dispatch(getDefaultProperty())
+    
 
-    return ()=>{
-      getProperties()
-    }
-  
+    
 
   }, [])
 

@@ -11,7 +11,12 @@ const PropertyData = createSlice({
          all:[],
          loading:false,
          error:null,
-         defaultHome:null
+         defaultHome:{
+           id:null,
+           city:null,
+           area:null,
+           neighbourhood:null,
+         }
      },
      EconomincData:{
          all:[],
@@ -49,6 +54,7 @@ const PropertyData = createSlice({
     fetchPropertiesSuccess:(state,action)=>{
         state.Properties.all = action.payload
         state.Properties.loading = false
+        
     },
     fetchEconomicData:(state)=>{
         state.EconomincData.loading = true
@@ -102,7 +108,13 @@ const PropertyData = createSlice({
       state.currentHomeCardIndex = action.payload
     },
     setdefaultHome:(state,action)=>{
-     state.Properties.defaultHome = action.payload
+      update = {
+        id:action.payload.identity,
+        city:action.payload.city,
+        area:action.payload.area,
+        neighbourhood:action.payload.neighbourhood,
+      }
+     state.Properties.defaultHome = update
     }
   
     }
@@ -177,22 +189,32 @@ export const getUserProperties = (user)=>{
 }
 
 
-export function getDefaultProperty(){
+export function getDefaultProperty(props){
 
     return async (dispatch) =>{
+ 
         try{
-            const value = await AsyncStorage.getItem('@defaultProperty',(err,result)=>dispatch(setdefaultHome(result)));
+            const value = await AsyncStorage.getItem('@defaultProperty',(err,result)=>{
+              if(result != null){
+                dispatch(setdefaultHome(props.filter(item=>item.identity==result)[0]))
+              }else{
+                dispatch(setdefaultHome(props[0]))
+              }
+            });
                   
-                 if (value !== null){
+                //  if (value !== null){
          
                      
-                 console.log("it worked")
-                 }else{
-                    dispatch(setdefaultHome(0))
-                   console.log("it did not work ")
-                 }
+                //  console.log("it worked")
+                //  }else{
+                //     // defaultProp = currentState.property.Properties.all[0].identity
+                //     // dispatch(setdefaultHome(defaultProp))
+
+                //    console.log("it di")
+                //  }
          
              }catch(err){
+              
              console.log('Error @checkOnboarding:',err)
              }
     }
@@ -201,12 +223,12 @@ export function getDefaultProperty(){
 
 
 
-  export function setDefaultProperty(id){
+  export function setDefaultProperty(property){
 
     return async(dispatch)=>{
         try{
-            await AsyncStorage.setItem('@defaultProperty',id);
-            dispatch(setdefaultHome(id))
+            await AsyncStorage.setItem('@defaultProperty',property.identity);
+            dispatch(setdefaultHome(property))
         }catch(err){
           console.log('Error @checkOnboarding:',err)
         }
@@ -216,6 +238,30 @@ export function getDefaultProperty(){
     }
 
 
+export const getRecentSales = (property)=>{
+  const RECENT_SALES_ENDPOINT = `https://api.repliers.io/listings?streetNumber=${property.streetNumber}&streetName=${property.streetName}&sortBy=createdOnDesc&type=sale&status=U&lastStatus=Sld&operator=AND&condition=EXACT`;
+  const REPLIERS_OPTIONS = {
+    method: "GET",
+    headers: { "repliers-api-key": "FHm4VSqMMQEHpN5JRQYQGB2qQ3skdk" },
+  };
+  
+  return async dispatch=>{
+    dispatch(fetchRecentSales)
+    try{
+      let request = await fetch(RECENT_SALES_ENDPOINT,REPLIERS_OPTIONS)
+      let data = await request.json()
+      dispatch(fetchRecentSalesSuccess(data.listings))
+    
+
+
+    }catch(err){
+      console.log("RecentSales",err)
+     dispatch(fetchRecentSalesFailure(err))
+    }
+
+
+  }
+}    
 
 
 export const getEconomicData = (dispatch)=>{

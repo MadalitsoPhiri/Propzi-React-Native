@@ -17,6 +17,7 @@ import PropertyType from "./PropertyType";
 import changeDefault from "./changeDefault";
 import CondoSearchScreen from "./CondoSearchScreen";
 import AmmenitiesScreen from "./AmmenitiesScreen";
+import Detailspage from "./Detailspage";
 import UpgradesScreen from "./UpgradesScreen";
 import UniqueScreen from "./UniqueScreen";
 import { Entypo,AntDesign,MaterialIcons} from "@expo/vector-icons";
@@ -120,6 +121,37 @@ export default MainAppStack = ({ navigation }) => {
           ),
         }}
       />
+
+<Stack.Screen name="detailspage" component={Detailspage}  
+       options={{
+          headerTitle: (props) => (
+            <PropziLogo
+              height={height * 0.070}
+              width={width * 0.150}
+              style={{ marginBottom: "5%" }}
+            />
+          ),
+          headerRight: (props) => (
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <MaterialIcons
+                name="menu"
+                size={height * 0.04}
+                style={{ marginRight: 15 }}
+                color={"black"}
+              />
+            </TouchableOpacity>
+          ),
+          headerLeft: ({ size }) => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <MaterialIcons
+                name="chevron-left"
+                size={32}
+                style={{ marginLeft: 20 }}
+                color="black"
+              />
+            </TouchableOpacity>
+          ),
+        }}/>
       <Stack.Screen
         name="manual"
         component={ManualAddHomeScreen}
@@ -449,7 +481,36 @@ export default MainAppStack = ({ navigation }) => {
           headerLeft: null,
         }}
       />
-
+      <Stack.Screen name="detailspage" component={Detailspage}  
+            options={{
+                headerTitle: (props) => (
+                  <PropziLogo
+                    height={height * 0.070}
+                    width={width * 0.150}
+                    style={{ marginBottom: "5%" }}
+                  />
+                ),
+                headerRight: (props) => (
+                  <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                    <MaterialIcons
+                      name="menu"
+                      size={height * 0.04}
+                      style={{ marginRight: 15 }}
+                      color={"black"}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerLeft: ({ size }) => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <MaterialIcons
+                      name="chevron-left"
+                      size={32}
+                      style={{ marginLeft: 20 }}
+                      color="black"
+                    />
+                  </TouchableOpacity>
+                ),
+              }}/>
       <Stack.Screen
         name="ammenities"
         component={AmmenitiesScreen}
