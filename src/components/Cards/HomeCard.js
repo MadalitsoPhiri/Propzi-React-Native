@@ -6,11 +6,11 @@ import { PropertyDataContext } from "../providers/PropertyDataProvider";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector,useDispatch} from "react-redux";
 import {setDefaultProperty,setCurrentHomeCardIndex} from "../../state/PropertySlice"
-
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 
 const {width,height} = Dimensions.get("screen")
-
+const skeletonCardHeight = height * 0.35
 
 
 
@@ -47,7 +47,7 @@ export default function HomeCard({ navigation }) {
     }
  }
 
-return (<View style={{width,marginTop:15,marginBottom:30}}>
+return (all.length > 0 ?<View style={{width,marginTop:15,marginBottom:30}}>
 
 
 <ScrollView horizontal pagingEnabled contentContainerStyle={{}} 
@@ -65,7 +65,7 @@ onScroll={Animated.event(
                          return
                         }
               
-                        return  <View style={styles.carouselItem} key={index}>
+                        return <View style={styles.carouselItem} key={index}>
                           <View style={{flexDirection:"row",justifyContent:"flex-end",marginVertical:10}}>
                             {/* <View  style={[{paddingHorizontal:15,paddingVertical:5,borderColor:"gray",borderWidth:2,borderRadius:30,zIndex:1}]}>
                             <Text style={{fontFamily:"Poppins-Bold",fontSize:10,color:"gray"}}>{data.repliers.address.unitNumber == "" ? `${data.streetNumber} ${data.streetName}`:`${data.repliers.address.unitNumber}, ${data.streetNumber} ${data.streetName}`}</Text>
@@ -135,7 +135,11 @@ onScroll={Animated.event(
                     })}
 
                 </View>
-</View>)
+</View>:<SkeletonPlaceholder>
+        <View style={[styles.carouselItem,{height:skeletonCardHeight}]}>
+          <View style={{flex:1,width:"100%",height:"100%"}}/>
+        </View>
+        </SkeletonPlaceholder>)
 }
 
 

@@ -115,6 +115,9 @@ const PropertyData = createSlice({
         neighbourhood:action.payload.neighbourhood,
       }
      state.Properties.defaultHome = update
+    },
+    clearRecentSales:(state)=>{
+       state.RecentSales.all = []
     }
   
     }
@@ -138,20 +141,21 @@ export const {
     fetchRecentSalesFailure,
     fetchRecentSalesSuccess,
     setCurrentHomeCardIndex,
-    setdefaultHome
+    setdefaultHome,
+    clearRecentSales
 } = PropertyData.actions
 
 
 //thunks
 export const getUserProperties = (user)=>{
-  return (dispatch)=>{
+  return async (dispatch)=>{
         dispatch(fetchProperties())
+        try{
         dbh
         .collection("UserDetails")
         .doc(user.uid)
         .collection("Property")
-        .get()
-        .then((querySnapshot) => {
+        .onSnapshot((querySnapshot) => {
           
           if(querySnapshot.empty){
     
@@ -173,16 +177,18 @@ export const getUserProperties = (user)=>{
             });
             // setRepliers(Properties[0].repliers.address);
             dispatch(fetchPropertiesSuccess(Properties))
+            dispatch(getDefaultProperty(Properties))
             console.log("Fetch properties Successful")
            
          
           }
           
-        }).catch((err) =>{ 
-              console.log(err)
-              dispatch(fetchPropertiesFailure(err))
-              console.log("Fetch properties Unsuccessful")
-          });
+        })
+      }catch(err){
+        console.log(err)
+        dispatch(fetchPropertiesFailure(err))
+        console.log("Fetch properties Unsuccessful")
+        }
     }
     
 
@@ -246,7 +252,8 @@ export const getRecentSales = (property)=>{
   };
   
   return async dispatch=>{
-    dispatch(fetchRecentSales)
+
+    dispatch(fetchRecentSales())
     try{
       let request = await fetch(RECENT_SALES_ENDPOINT,REPLIERS_OPTIONS)
       let data = await request.json()
@@ -264,49 +271,88 @@ export const getRecentSales = (property)=>{
 }    
 
 
-export const getEconomicData = (dispatch)=>{
-     dispatch(fetchEconomicData())
-    dbh
-     .collection("DailyEconomicIndicator")
-     .onSnapshot((querySnapshot) => {
-       const users = [];
-
-       querySnapshot.forEach((documentSnapshot) => {
-         users.push({
-           ...documentSnapshot.data(),
-           key: documentSnapshot.id,
-         });
-       });
-
-       dispatch(fetchEconomicDataSuccess(users))
-      
-     }).catch((err)=>{
+export const getEconomicData = () =>{
+  return async dispatch=>{
+    dispatch(fetchEconomicData())
+    try{
+     dbh
+      .collection("DailyEconomicIndicator")
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+ 
+        querySnapshot.forEach((documentSnapshot) => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+ 
+        dispatch(fetchEconomicDataSuccess(users))
+       
+      })
+     }catch(err){
     dispatch(fetchEconomicDataFailure(err))
-     });
+     }
+  }
+     
+
+ 
    }
 
 
 
-
- export const getInvestmentProjectsData = (dispatch)=>{
-    dispatch(fetchInvestmentProjects())
-     dbh
-     .collection("InvestmentProjects")
-     .onSnapshot((querySnapshot) => {
-       const users = [];
-
-       querySnapshot.forEach((documentSnapshot) => {
-         users.push({
-           ...documentSnapshot.data(),
-           key: documentSnapshot.id,
-         });
-       });
-
-       dispatch(fetchInvestmentProjectsSuccess())
-      
-     }).catch((err)=>{
-        dispatch(fetchInvestmentProjectsFailure(err))
-        console.log(err)
-     });
+   export const getCommunityData = () =>{
+    return async dispatch=>{
+      dispatch(fetchCommunityData())
+      try{
+       dbh
+        .collection("Communit")
+        .onSnapshot((querySnapshot) => {
+          const CommunitiyDataList = [];
+   
+          querySnapshot.forEach((documentSnapshot) => {
+            CommunitiyDataList.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            });
+          });
+   
+          dispatch(fetchCommunityDataSuccess(CommunitiyDataList))
+         
+        })
+       }catch(err){
+      dispatch(fetchCommunityDataFailure(err))
+       }
     }
+       
+  
+   
+     } 
+
+
+ export const getInvestmentProjectsData = () =>{
+   return async dispatch=>{
+    dispatch(fetchInvestmentProjects())
+     try{
+   dbh.collection("InvestmentProjects")
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+ 
+        querySnapshot.forEach((documentSnapshot) => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+        console.log("investments",users)
+        dispatch(fetchInvestmentProjectsSuccess(users))
+       
+      })
+     }catch(err){
+      dispatch(fetchInvestmentProjectsFailure(err))
+      console.log(err)
+     }
+   } 
+ 
+}
     export default PropertyData.reducer

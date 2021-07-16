@@ -46,7 +46,6 @@ export default MainAppStack = ({ navigation }) => {
       .get()
       .then((docSnapshot) => {
         if (docSnapshot.size != 0) {
-          //They have not property yet
           setHasProperty(true);
         }
         setLoading(false);

@@ -10,7 +10,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../styles";
 import CommunityDataProvider from "../../components/providers/CommunityDataProvider";
 import RecentSaleProvider from "../../components/providers/RecentSaleProvider";
-import {getDefaultProperty,fetchPropertiesSuccess,fetchProperties,fetchPropertiesFailure} from "../../state/PropertySlice"
+import {getUserProperties,fetchProperties,fetchPropertiesFailure} from "../../state/PropertySlice"
 import { useSelector,useDispatch} from "react-redux";
 import { dbh } from "../../../firebase";
 const Tabs = createBottomTabNavigator();
@@ -18,58 +18,12 @@ const Tabs = createBottomTabNavigator();
 const TabNavigator = ({route}) => {
   const user = useSelector(state=>state.auth.user)
   const dispatch = useDispatch()
-  
-  
-
-  const getProperties =  ()=>{
-        dispatch(fetchProperties())
-        dbh
-        .collection("UserDetails")
-        .doc(user.uid)
-        .collection("Property")
-        .onSnapshot((querySnapshot) => {
-          
-          if(querySnapshot.empty){
-    
-          }else{
-            let Properties = []
-       
-            querySnapshot.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-                let data = doc.data()
-                data["identity"] = doc.id
-               
-                Properties.push(data);
-    
-            
-              
-              
-            
-              
-            });
-            
-            dispatch(fetchPropertiesSuccess(Properties))
-            dispatch(getDefaultProperty(Properties))
-            console.log("Fetch properties Successful")
-           
-         
-          }
-          
-        })
-    }
 
   useEffect(() => {
-    getProperties()
-    
-
-    
-
+    dispatch(getUserProperties(user))
   }, [])
 
   return (
-   
-      <CommunityDataProvider>
-        <RecentSaleProvider>
           <Tabs.Navigator
             tabBarOptions={{
               activeTintColor: colors.PRIMARY_COLOR,
@@ -95,9 +49,6 @@ const TabNavigator = ({route}) => {
             <Tabs.Screen name="Report" component={ReportStackNavigator} />
             <Tabs.Screen name="Offers" component={OffersStackNavigator} />
           </Tabs.Navigator>
-          
-        </RecentSaleProvider>
-      </CommunityDataProvider>
   );
 };
 

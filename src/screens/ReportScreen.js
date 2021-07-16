@@ -1,5 +1,5 @@
 import React,{useContext,useEffect,useState} from "react";
-import {View,Text,StyleSheet, SafeAreaView, ScrollView,FlatList} from "react-native";
+import {View,Text,StyleSheet, SafeAreaView, ScrollView,FlatList,Dimensions} from "react-native";
 import EconomicIndicatorCard from "./EconomicIndicatorCard"
 import { PropertyDataContext } from "../components/providers/PropertyDataProvider";
 import { CommunityDataContext } from "../components/providers/CommunityDataProvider";
@@ -11,8 +11,13 @@ import axios from "axios"
 import CommunityDevelopmentCard from "./CommunityDevelopmentCard"
 import InvestmentProjectsCard from "./InvestmentProjectsCard"
 import {Provider,useSelector,useDispatch} from "react-redux";
-import {getRecentSales} from "../state/PropertySlice"
+import {getRecentSales,getEconomicData,getInvestmentProjectsData,getCommunityData} from "../state/PropertySlice"
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
+
+const {width,height} = Dimensions.get("window");
+const CARD_HEIGHT = height * 0.4
+const CARD_WIDTH = width * 0.6
 
 
 const styles = StyleSheet.create({
@@ -36,6 +41,29 @@ categoryScrollView:{
     paddingHorizontal:16,
     paddingBottom:30,
   
+},
+skeletonCard:{
+    borderRadius:17,
+    width:CARD_WIDTH,
+    height:CARD_HEIGHT,
+    margin:12
+
+},
+skeletonCardContainer:{
+    flexDirection:"row",
+    width:"100%",
+    height:CARD_HEIGHT,
+
+},
+skeletonContainer:{
+    flexDirection:"column",alignItems:"flex-start",width:"100%",paddingHorizontal:16,
+    paddingBottom:30,
+},
+skeletonCardTitle:{
+    width:width * 0.75,
+    height:35,
+    borderRadius:17,
+    marginVertical:16
 }
 
     })
@@ -48,7 +76,7 @@ export default ReportScreen = ()=>{
     const RecentSales = ()=>{
 
     const dispatch = useDispatch()
-    const recentSales = useSelector(state=>state.property.RecentSales.all)
+    const {all:recentSales,loading} = useSelector(state=>state.property.RecentSales)
     console.log(RecentSales)
     const {all,defaultHome} = useSelector(state=>state.property.Properties)
     
@@ -56,10 +84,11 @@ export default ReportScreen = ()=>{
     useEffect(()=>{
         dispatch(getRecentSales(currentProperty))
     },[defaultHome])
-        return(recentSales.length > 0?
+    
+        return(recentSales.length > 0 && !loading ?
             <View>
             <View style={styles.blockContainer}>
-                <Text style={styles.subHeading}>Recent sales</Text>
+            <Text style={styles.subHeading}>Recent sales</Text>
             </View>
            
             <FlatList
@@ -71,16 +100,32 @@ export default ReportScreen = ()=>{
                     renderItem={({ item, index }) => {
                       return <RecentSalesCard data={item}/>}}/>
 
-             </View>:null         
+             </View>:recentSales.length == 0 && !loading ? null:<SkeletonPlaceholder>
+                 <View style={styles.skeletonContainer}>
+
+                    <View style={styles.skeletonCardTitle}/>
+                    <View style={styles.skeletonCardContainer}>
+                        <View style={styles.skeletonCard}/>
+                        <View style={styles.skeletonCard}/>
+                    </View>    
+                    
+
+            
+                </View>
+             </SkeletonPlaceholder>   
 
         )
     }
     const CommunityDevelopments = ()=>{
         const {defaultHome} = useSelector((state)=>state.property.Properties)
-        const { communityData } = useContext(CommunityDataContext);
-        const renderData = communityData.filter(item=>item.city == defaultHome.city)          
-        
-        return (renderData.length > 0?<View>
+        const { all,loading,error } = useSelector((state)=>state.property.CommunityDevelopments)
+        const dispatch = useDispatch()
+        const renderData = all.filter(item=>item.city == defaultHome.city)          
+        useEffect(() => {
+           dispatch(getCommunityData())
+            
+        }, [defaultHome])
+        return (renderData.length > 0 && !loading?<View>
         <View style={styles.blockContainer}>
            <Text style={styles.subHeading}>Community Developments</Text>
        </View>
@@ -94,16 +139,32 @@ export default ReportScreen = ()=>{
                keyExtractor={(item) => item.id}
                renderItem={({ item, index }) => {
                  return <CommunityDevelopmentCard data={item}/>}}/>
-        </View>:null)
+        </View>:renderData.length == 0 && !loading ? null:<SkeletonPlaceholder>
+                 <View style={styles.skeletonContainer}>
+
+                    <View style={styles.skeletonCardTitle}/>
+                    <View style={styles.skeletonCardContainer}>
+                        <View style={styles.skeletonCard}/>
+                        <View style={styles.skeletonCard}/>
+                    </View>    
+                    
+
+            
+                </View>
+             </SkeletonPlaceholder>)
     }
 
 
 
     const InvestmentProjects = ()=>{
         const {defaultHome} = useSelector((state)=>state.property.Properties)
-        const {investmentProjects} = useContext(PropertyDataContext);
-        const renderData = investmentProjects.filter(item=>item.area == defaultHome.area)          
-        return (renderData.length > 0?<View>
+        const dispatch = useDispatch()
+        const {all,loading,error} = useSelector((state)=>state.property.InvestmentProjects)
+        useEffect(()=>{
+            dispatch(getInvestmentProjectsData())
+        },[defaultHome])
+        const renderData = all.filter(item=>item.area == defaultHome.area)          
+        return (renderData.length > 0 && !loading?<View>
                     <View style={styles.blockContainer}>
                         <Text style={styles.subHeading}>Investment Projects</Text>
                     </View>
@@ -115,16 +176,32 @@ export default ReportScreen = ()=>{
                             keyExtractor={(item) => item.id}
                             renderItem={({ item, index }) => {
                             return <InvestmentProjectsCard data={item}/>}}/>
-            </View>:null
+            </View>:renderData.length == 0 && !loading ? null:<SkeletonPlaceholder>
+                 <View style={styles.skeletonContainer}>
+
+                    <View style={styles.skeletonCardTitle}/>
+                    <View style={styles.skeletonCardContainer}>
+                        <View style={styles.skeletonCard}/>
+                        <View style={styles.skeletonCard}/>
+                    </View>    
+                    
+
+            
+                </View>
+             </SkeletonPlaceholder>
         )
     }
    
 
-    const EconomicIndicator = ()=>{
+    const EconomicIndicators = ()=>{
         const {defaultHome} = useSelector((state)=>state.property.Properties)
-        const {EconomicIndicators} = useContext(PropertyDataContext);
+        const {all,loading,error} = useSelector((state)=>state.property.EconomincData)
+        const dispatch = useDispatch()
+        useEffect(()=>{
+            dispatch(getEconomicData())
+        },[defaultHome])
         // const renderData = EconomicIndicators.filter(item=>item.area == defaultHome.area)         
-        return(EconomicIndicators.length > 0?
+        return(all.length > 0 && !loading?
             <View>
                 <View style={styles.blockContainer}>
                     <Text style={styles.subHeading}>Economic Indicators</Text>
@@ -135,11 +212,23 @@ export default ReportScreen = ()=>{
                     style={styles.categoryScrollView}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    data={EconomicIndicators}
+                    data={all}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item, index }) => {
                         return <EconomicIndicatorCard data={item}/>}}/>
-            </View>:null
+            </View>:all.length == 0 && !loading ? null:<SkeletonPlaceholder>
+                 <View style={styles.skeletonContainer}>
+
+                    <View style={styles.skeletonCardTitle}/>
+                    <View style={styles.skeletonCardContainer}>
+                        <View style={styles.skeletonCard}/>
+                        <View style={styles.skeletonCard}/>
+                    </View>    
+                    
+
+            
+                </View>
+             </SkeletonPlaceholder>   
         )
     }
 
@@ -152,7 +241,7 @@ export default ReportScreen = ()=>{
           <RecentSales/>
           <CommunityDevelopments/>
           <InvestmentProjects/>
-          <EconomicIndicator/>  
+          <EconomicIndicators/>  
 
 
 

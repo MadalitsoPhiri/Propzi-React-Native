@@ -12,14 +12,9 @@ const Drawer = createDrawerNavigator();
 
 const MainAppDrawerNavigator = () => {
   return (
-    <PropertyDataProvider>
     <Drawer.Navigator  drawerPosition="right" drawerContent={props => <DrawerContent {...props}></DrawerContent>}>
       <Drawer.Screen name="Home" component={MainAppStack} />
-      <Drawer.Screen name="Offers" component={OffersStackNavigator} />
     </Drawer.Navigator>
-    </PropertyDataProvider>
-
-    // <Text>Logged In</Text>
   );
 };
 

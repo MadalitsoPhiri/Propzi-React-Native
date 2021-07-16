@@ -22,6 +22,7 @@ import { RecentSalesContext } from "../components/providers/RecentSaleProvider";
 import { dbh } from "../../firebase";
 import {getUserProperties,fetchPropertiesSuccess,fetchProperties} from "../state/PropertySlice"
 import { useSelector,useDispatch} from "react-redux";
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 const { width, height } = Dimensions.get("screen");
 const cardIconHeight = height * 0.1;
@@ -32,7 +33,8 @@ export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch()
   const {all,loading,error} = useSelector(state=>state.property.Properties)
   const {currentHomeCardIndex} = useSelector(state=>state.property)
-
+  const skeletonCardHeight = height * 0.1
+  const skeletonHeaderCardHeight = height * 0.35 
  
 
  
@@ -87,14 +89,14 @@ export default function HomeScreen({ navigation }) {
     //   {console.log("all:", all[currentHomeCardIndex].streetName)}
     // </View>
     
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+  all.length > 0 ? <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View>
         <View style={styles.todayContainer}>
           <Text style={styles.today}>Today</Text>
           <Text style={styles.date}>
             {new Date().toUTCString().slice(5).slice(0, 11)}
           </Text>
-          {all.length > 0 ?<TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
               navigation.navigate("changeDefault", { list: [...all] });
             }}
@@ -112,10 +114,12 @@ export default function HomeScreen({ navigation }) {
             <View style={{ marginRight: "2%" }}>
               <MaterialIcons name="chevron-right" size={35} color="black" />
             </View>
-          </TouchableOpacity>:null}
+          </TouchableOpacity>
+            
+          
         </View>
 
-        <HomeCard
+      <HomeCard
           navigation={navigation}
         />
 
@@ -138,7 +142,7 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-        <Text style={styles.homeHeading}>From the marketplace</Text>
+       <Text style={styles.homeHeading}>From the marketplace</Text>
 
         <View style={styles.smallCardContainer}>
           <SmallCard />
@@ -195,12 +199,26 @@ export default function HomeScreen({ navigation }) {
             })
           : null} */}
       </View>
-
+    <View>   
       <Text style={styles.homeHeading}>Your home offers</Text>
       <Text style={styles.homeSubHeading}>Advertiser Disclosure</Text>
-
+      </View>
       <HomeBankFinance />
-    </ScrollView>
+    
+    </ScrollView>:<SkeletonPlaceholder>
+            <View style={{width:width * 0.3,margin:16,height:40,borderRadius:10}}/>
+            <View style={{width:width * 0.2,marginLeft:16,height:20,borderRadius:10}}/>
+            <View style={[styles.addressContainer,{height:skeletonCardHeight,margin:16}]}>
+              <View style={{flex:1,width:"100%",height:"100%"}}/>
+            </View>
+        
+        <View style={[styles.carouselItem,{height:skeletonHeaderCardHeight}]}>
+          <View style={{flex:1,width:"100%",height:"100%"}}/>
+        </View>
+          <View style={styles.continueButton}/>
+        
+           
+    </SkeletonPlaceholder>
 
 
   )}
@@ -313,4 +331,23 @@ const styles = StyleSheet.create({
     elevation: 7,
     marginVertical: "5%",
   },
+  carouselItem:{
+    width:width - 32,
+    margin:16,
+    backgroundColor:"white",
+    borderRadius:10,
+    alignSelf:"center",
+    shadowColor:"#000",
+    shadowOffset:{width:5,height:5},
+    shadowOpacity:0.08,
+    shadowRadius:8,
+    justifyContent:"center",
+    padding:16,
+    borderWidth:1,
+    borderColor: 'rgba(158, 150, 158, .5)',
+    elevation:8
+
+    
+
+ },
 });
